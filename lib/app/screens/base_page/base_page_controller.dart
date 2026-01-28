@@ -63,7 +63,7 @@ class BasePageController extends BaseController {
         if (appBarTitle.value.isEmpty) {
           //  Logs.stringLogger("App bar title is empty");
 
-          final String path = AppRoutes.onBoarding;
+          final String path = AppRoutes.home;
           final title = appNav.getTitleOfPath(path);
           final newPage = appNav.getViewForPath(path);
 

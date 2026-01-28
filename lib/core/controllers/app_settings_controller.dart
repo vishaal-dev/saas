@@ -24,8 +24,8 @@ class AppSettingsController extends GetxController with SettingsMixin {
     await appFunctions.deviceDetailsSetup(
       DeviceDetailResultType.setDeviceDetail,
     );
-    await callSupa();
-    await loadCountries();
+    //await callSupa();
+    //await loadCountries();
     //placeMark = await PermissionManager().getCurrentCountry();
     // clockController.startClock();
     //loadForexCurrencies();
@@ -54,7 +54,7 @@ class AppSettingsController extends GetxController with SettingsMixin {
       return;
     }
     _setFirstTimeInstall();
-    await initFireBaseService();
+    //await initFireBaseService();
   }
 
   /// Initializes Firebase services and push notifications.

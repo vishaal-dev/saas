@@ -16,9 +16,9 @@ class AppPages {
     GetPage(
       name: _Paths.basePage,
       page: () => BasePageView(),
-      middlewares: [AppMiddleware()],
-      children: const [],
-      binding: BasePageBinding(),
+      // middlewares: [AppMiddleware()],
+      // children: const [],
+      // binding: BasePageBinding(),
     ),
     // GetPage(
     //   name: AppRoutes.location,

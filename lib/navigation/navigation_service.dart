@@ -36,7 +36,8 @@ class NavigationService extends GetxService with NavigationMixin {
   String getTitleOfPath(String path) {
     switch (path) {
       case AppRoutes.basePage:
-        return PageTitles.basePage;
+      case AppRoutes.home:
+        return PageTitles.home;
       // case AppRoutes.home:
       //   return PageTitles.home;
       // case AppRoutes.onBoarding:
@@ -252,7 +253,7 @@ class NavigationService extends GetxService with NavigationMixin {
       appArgs = null;
     } else {
       //Logs.stringLogger("base page stack is empty!!!!!");
-      Get.offAllNamed(AppRoutes.basePage);
+      Get.offAllNamed(AppRoutes.home);
     }
     //Logs.routeLogger(pageStack);
     //notifyControllersToResume();
@@ -377,7 +378,7 @@ class NavigationService extends GetxService with NavigationMixin {
     _disposeInitializedControllers(); // Dispose the previous controllers
     resetBasePageStack();
     Get.offAllNamed(
-      AppRoutes.basePage, // Navigate to the landing page
+      AppRoutes.home, // Navigate to the landing page
       arguments: [],
     );
   }

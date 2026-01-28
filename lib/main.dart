@@ -56,9 +56,10 @@ class _MyAppState extends State<MyApp> {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             home: Scaffold(
-              backgroundColor: themeServices.isDarkMode()
-                  ? Colors.black
-                  : Colors.white,
+              backgroundColor: Colors.white,
+              // themeServices.isDarkMode()
+              //     ? Colors.black
+              //     : Colors.white,
               body: const Center(
                 child: CircularProgressIndicator(),
               ), // Loading indicator
@@ -68,9 +69,10 @@ class _MyAppState extends State<MyApp> {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             home: Scaffold(
-              backgroundColor: themeServices.isDarkMode()
-                  ? Colors.black
-                  : Colors.white,
+              backgroundColor: Colors.black,
+              // themeServices.isDarkMode()
+              //     ? Colors.black
+              //     : Colors.white,
               body: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

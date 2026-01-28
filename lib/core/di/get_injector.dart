@@ -16,9 +16,9 @@ GetIt di = GetIt.instance;
 
 Future<void> setupBaseAppServices() async {
   Get.lazyPut<BoxDb>(() => BoxDb(), fenix: true);
-  if (!di.isRegistered<ThemeService>()) {
-    di.registerLazySingleton<ThemeService>(() => ThemeService());
-  }
+  // if (!di.isRegistered<ThemeService>()) {
+  //   di.registerLazySingleton<ThemeService>(() => ThemeService());
+  // }
 }
 
 Future<void> setupGlobalServices() async {
@@ -76,13 +76,13 @@ LogX get logger => di<LogX>();
 BoxDb get boxDb => Get.find<BoxDb>();
 
 /// Provides a globally accessible instance of the Firebase.
-FirebaseServices get fbServices => di<FirebaseServices>();
+// FirebaseServices get fbServices => di<FirebaseServices>();
 
 /// Provides a globally accessible instance of the AppFunctions
 AppFunctions get appFunctions => di<AppFunctions>();
 
 /// Provides a globally accessible instance of ThemeService
-ThemeService get themeServices => di<ThemeService>();
+// ThemeService get themeServices => di<ThemeService>();
 
 ///App navigation will be available through this.
 NavigationService get appNav => Get.find<NavigationService>();

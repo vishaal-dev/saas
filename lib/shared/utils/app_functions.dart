@@ -1,5 +1,6 @@
-import 'dart:io';
+import 'dart:io' if (dart.library.html) 'dart:html' as io;
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:saas/shared/utils/platform_proxy.dart';
@@ -42,14 +43,25 @@ class AppFunctions {
 
   /// Retrieves the device ID based on the platform.
   Future<String> _getDeviceId() async {
-    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-    if (isAndroid) {
-      final AndroidDeviceInfo androidDeviceInfo =
-          await deviceInfoPlugin.androidInfo;
-      return "ANDROID${androidDeviceInfo.id}";
-    } else if (isIOS) {
-      final IosDeviceInfo iosDeviceInfo = await deviceInfoPlugin.iosInfo;
-      return "iOS${iosDeviceInfo.identifierForVendor.toString()}";
+    // Skip platform detection on web
+    if (kIsWeb) {
+      return "WEB_UNKNOWN";
+    }
+    
+    try {
+      final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+      if (isAndroid) {
+        final AndroidDeviceInfo androidDeviceInfo =
+            await deviceInfoPlugin.androidInfo;
+        return "ANDROID${androidDeviceInfo.id}";
+      } else if (isIOS) {
+        final IosDeviceInfo iosDeviceInfo = await deviceInfoPlugin.iosInfo;
+        return "iOS${iosDeviceInfo.identifierForVendor.toString()}";
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error getting device ID: $e');
+      }
     }
     return "UNKNOWN";
   }
@@ -74,22 +86,40 @@ class AppFunctions {
 
   /// Updates the device detail and stores it in the database.
   Future<String> _updateDeviceDetail(PackageInfo packageInfo) async {
-    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-    if (Platform.isAndroid) {
-      final AndroidDeviceInfo androidDeviceInfo =
-          await deviceInfoPlugin.androidInfo;
+    // Skip platform detection on web
+    if (kIsWeb) {
+      // Store a web-specific device detail
       _storeDeviceDetail(
-        deviceID: "ANDROID${androidDeviceInfo.id}",
+        deviceID: "WEB_${DateTime.now().millisecondsSinceEpoch}",
         buildNumber: packageInfo.buildNumber,
         version: packageInfo.version,
       );
-    } else if (Platform.isIOS) {
-      final IosDeviceInfo iosDeviceInfo = await deviceInfoPlugin.iosInfo;
-      _storeDeviceDetail(
-        deviceID: "iOS${iosDeviceInfo.identifierForVendor.toString()}",
-        buildNumber: packageInfo.buildNumber,
-        version: packageInfo.version,
-      );
+      return "";
+    }
+    
+    try {
+      final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+      // Use platform_proxy which handles platform detection safely
+      if (isAndroid) {
+        final AndroidDeviceInfo androidDeviceInfo =
+            await deviceInfoPlugin.androidInfo;
+        _storeDeviceDetail(
+          deviceID: "ANDROID${androidDeviceInfo.id}",
+          buildNumber: packageInfo.buildNumber,
+          version: packageInfo.version,
+        );
+      } else if (isIOS) {
+        final IosDeviceInfo iosDeviceInfo = await deviceInfoPlugin.iosInfo;
+        _storeDeviceDetail(
+          deviceID: "iOS${iosDeviceInfo.identifierForVendor.toString()}",
+          buildNumber: packageInfo.buildNumber,
+          version: packageInfo.version,
+        );
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error updating device detail: $e');
+      }
     }
     return "";
   }
@@ -110,11 +140,23 @@ class AppFunctions {
   /// [infoName] The type of device information required.
   /// Returns the requested device information.
   Future<dynamic> getDeviceInfo({required DeviceInfoName infoName}) async {
-    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-    if (Platform.isAndroid) {
-      return _getAndroidDeviceInfo(infoName, deviceInfoPlugin);
-    } else if (Platform.isIOS) {
-      return _getIOSDeviceInfo(infoName, deviceInfoPlugin);
+    // Skip platform detection on web
+    if (kIsWeb) {
+      return null;
+    }
+    
+    try {
+      final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+      // Use platform_proxy which handles platform detection safely
+      if (isAndroid) {
+        return _getAndroidDeviceInfo(infoName, deviceInfoPlugin);
+      } else if (isIOS) {
+        return _getIOSDeviceInfo(infoName, deviceInfoPlugin);
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error getting device info: $e');
+      }
     }
     return null;
   }

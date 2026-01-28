@@ -111,10 +111,10 @@ mixin NavigationMixin on GetxService {
     log("resetBasePageStack");
     pageStack.clear();
     args.clear();
-    pageStack.add(AppRoutes.basePage); // Default landing page for guest
+    pageStack.add(AppRoutes.home); // Default landing page for guest
     args.add(null);
-    currentPage.value = AppRoutes.basePage;
-    updateAppBarTitle(AppRoutes.basePage);
+    currentPage.value = AppRoutes.home;
+    updateAppBarTitle(AppRoutes.home);
   }
 }
 

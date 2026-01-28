@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:saas/core/services/push_notification_service.dart';
 import 'package:saas/core/services/remote_config_services.dart';
 import '../../shared/utils/firebase_options.dart';
+import '../../shared/utils/platform_proxy.dart';
 import 'network_checker.dart';
 
 class FirebaseServices with RemoteConfigService, PushNotificationService {
@@ -40,9 +41,13 @@ class FirebaseServices with RemoteConfigService, PushNotificationService {
         //   appLog.info("Push Notification not initialized");
         // }
         isSuccess = true;
-      } catch (e) {
+      } catch (e, stackTrace) {
         retryCount++;
         log("Retrying Firebase services initialization... ($retryCount)");
+        log("Error during initialization: $e");
+        if (kDebugMode) {
+          log("Stack trace: $stackTrace");
+        }
       }
     }
 
@@ -62,7 +67,48 @@ class FirebaseServices with RemoteConfigService, PushNotificationService {
   Future<void> _initializeFirebaseCore() async {
     // Check if Firebase is already initialized
     if (Firebase.apps.isEmpty) {
-      final FirebaseOptions options = DefaultFirebaseOptions.currentPlatform;
+      FirebaseOptions options;
+      
+      // Check for web platform first to avoid any platform detection issues
+      if (kIsWeb) {
+        options = DefaultFirebaseOptions.web;
+      } else {
+        try {
+          options = DefaultFirebaseOptions.currentPlatform;
+        } catch (e) {
+          // If platform detection fails, try to use platform_proxy as fallback
+          // This can happen when Platform._operatingSystem is unavailable
+          log("Platform detection failed, attempting fallback: $e");
+          
+          try {
+            // Try to determine platform using platform_proxy (only works on mobile/desktop, not web)
+            if (isAndroid) {
+              if (kDebugMode) {
+                log("Using Android Firebase options as fallback");
+              }
+              options = DefaultFirebaseOptions.android;
+            } else if (isIOS) {
+              if (kDebugMode) {
+                log("Using iOS Firebase options as fallback");
+              }
+              options = DefaultFirebaseOptions.ios;
+            } else {
+              // If platform_proxy also fails, default to Android
+              if (kDebugMode) {
+                log("Platform detection completely failed, defaulting to Android");
+              }
+              options = DefaultFirebaseOptions.android;
+            }
+          } catch (fallbackError) {
+            // If even the fallback fails, default to Android
+            log("Fallback platform detection also failed: $fallbackError");
+            if (kDebugMode) {
+              log("Defaulting to Android Firebase options");
+            }
+            options = DefaultFirebaseOptions.android;
+          }
+        }
+      }
       await Firebase.initializeApp(options: options);
     }
     analytics = FirebaseAnalytics.instance;
