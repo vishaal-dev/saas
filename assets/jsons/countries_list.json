@@ -1,0 +1,1946 @@
+[
+  {
+    "id": 1,
+    "nicename": "Afghanistan",
+    "iso": "AF",
+    "phonecode": "93",
+    "currency": "AFN",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/AFG.svg"
+  },
+  {
+    "id": 249,
+    "nicename": "\u00c5land Islands",
+    "iso": "AX",
+    "phonecode": "358",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ALA.svg"
+  },
+  {
+    "id": 2,
+    "nicename": "Albania",
+    "iso": "AL",
+    "phonecode": "355",
+    "currency": "ALL",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ALB.svg"
+  },
+  {
+    "id": 3,
+    "nicename": "Algeria",
+    "iso": "DZ",
+    "phonecode": "213",
+    "currency": "DZD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/DZA.svg"
+  },
+  {
+    "id": 4,
+    "nicename": "American Samoa",
+    "iso": "AS",
+    "phonecode": "1-684",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ASM.svg"
+  },
+  {
+    "id": 5,
+    "nicename": "Andorra",
+    "iso": "AD",
+    "phonecode": "376",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/AND.svg"
+  },
+  {
+    "id": 6,
+    "nicename": "Angola",
+    "iso": "AO",
+    "phonecode": "244",
+    "currency": "AOA",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/AGO.svg"
+  },
+  {
+    "id": 7,
+    "nicename": "Anguilla",
+    "iso": "AI",
+    "phonecode": "1-264",
+    "currency": "XCD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/AIA.svg"
+  },
+  {
+    "id": 8,
+    "nicename": "Antarctica",
+    "iso": "AQ",
+    "phonecode": "672",
+    "currency": "Emp",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ATA.svg"
+  },
+  {
+    "id": 9,
+    "nicename": "Antigua and Barbuda",
+    "iso": "AG",
+    "phonecode": "1-268",
+    "currency": "XCD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ATG.svg"
+  },
+  {
+    "id": 10,
+    "nicename": "Argentina",
+    "iso": "AR",
+    "phonecode": "54",
+    "currency": "ARS",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ARG.svg"
+  },
+  {
+    "id": 11,
+    "nicename": "Armenia",
+    "iso": "AM",
+    "phonecode": "374",
+    "currency": "AMD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ARM.svg"
+  },
+  {
+    "id": 12,
+    "nicename": "Aruba",
+    "iso": "AW",
+    "phonecode": "297",
+    "currency": "AWG",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ABW.svg"
+  },
+  {
+    "id": 13,
+    "nicename": "Australia",
+    "iso": "AU",
+    "phonecode": "61",
+    "currency": "AUD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/AUS.svg"
+  },
+  {
+    "id": 14,
+    "nicename": "Austria",
+    "iso": "AT",
+    "phonecode": "43",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/AUT.svg"
+  },
+  {
+    "id": 15,
+    "nicename": "Azerbaijan",
+    "iso": "AZ",
+    "phonecode": "994",
+    "currency": "AZN",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/AZE.svg"
+  },
+  {
+    "id": 16,
+    "nicename": "Bahamas",
+    "iso": "BS",
+    "phonecode": "1-242",
+    "currency": "BSD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BHS.svg"
+  },
+  {
+    "id": 17,
+    "nicename": "Bahrain",
+    "iso": "BH",
+    "phonecode": "973",
+    "currency": "BHD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BHR.svg"
+  },
+  {
+    "id": 18,
+    "nicename": "Bangladesh",
+    "iso": "BD",
+    "phonecode": "880",
+    "currency": "BDT",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BGD.svg"
+  },
+  {
+    "id": 19,
+    "nicename": "Barbados",
+    "iso": "BB",
+    "phonecode": "1-246",
+    "currency": "BBD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BRB.svg"
+  },
+  {
+    "id": 20,
+    "nicename": "Belarus",
+    "iso": "BY",
+    "phonecode": "375",
+    "currency": "BYR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BLR.svg"
+  },
+  {
+    "id": 21,
+    "nicename": "Belgium",
+    "iso": "BE",
+    "phonecode": "32",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BEL.svg"
+  },
+  {
+    "id": 22,
+    "nicename": "Belize",
+    "iso": "BZ",
+    "phonecode": "501",
+    "currency": "BZD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BLZ.svg"
+  },
+  {
+    "id": 23,
+    "nicename": "Benin",
+    "iso": "BJ",
+    "phonecode": "229",
+    "currency": "XOF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BEN.svg"
+  },
+  {
+    "id": 24,
+    "nicename": "Bermuda",
+    "iso": "BM",
+    "phonecode": "1-441",
+    "currency": "BMD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BMU.svg"
+  },
+  {
+    "id": 25,
+    "nicename": "Bhutan",
+    "iso": "BT",
+    "phonecode": "975",
+    "currency": "INB",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BTN.svg"
+  },
+  {
+    "id": 26,
+    "nicename": "Bolivia, Plurinational State of",
+    "iso": "BO",
+    "phonecode": "591",
+    "currency": "BOB",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BOL.svg"
+  },
+  {
+    "id": 27,
+    "nicename": "Bonaire, Sint Eustatius and Saba",
+    "iso": "BQ",
+    "phonecode": "599",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BES.svg"
+  },
+  {
+    "id": 28,
+    "nicename": "Bosnia and Herzegovina",
+    "iso": "BA",
+    "phonecode": "387",
+    "currency": "BAM",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BIH.svg"
+  },
+  {
+    "id": 29,
+    "nicename": "Botswana",
+    "iso": "BW",
+    "phonecode": "267",
+    "currency": "BWP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BWA.svg"
+  },
+  {
+    "id": 31,
+    "nicename": "Brazil",
+    "iso": "BR",
+    "phonecode": "55",
+    "currency": "BRL",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BRA.svg"
+  },
+  {
+    "id": 32,
+    "nicename": "British Indian Ocean Territory",
+    "iso": "IO",
+    "phonecode": "246",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/IOT.svg"
+  },
+  {
+    "id": 33,
+    "nicename": "Brunei Darussalam",
+    "iso": "BN",
+    "phonecode": "673",
+    "currency": "BND",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BRN.svg"
+  },
+  {
+    "id": 34,
+    "nicename": "Bulgaria",
+    "iso": "BG",
+    "phonecode": "359",
+    "currency": "BGN",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BGR.svg"
+  },
+  {
+    "id": 35,
+    "nicename": "Burkina Faso",
+    "iso": "BF",
+    "phonecode": "226",
+    "currency": "XOF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BFA.svg"
+  },
+  {
+    "id": 36,
+    "nicename": "Burundi",
+    "iso": "BI",
+    "phonecode": "257",
+    "currency": "BIF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BDI.svg"
+  },
+  {
+    "id": 37,
+    "nicename": "Cambodia",
+    "iso": "KH",
+    "phonecode": "855",
+    "currency": "KHR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/KHM.svg"
+  },
+  {
+    "id": 38,
+    "nicename": "Cameroon",
+    "iso": "CM",
+    "phonecode": "237",
+    "currency": "XAF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/CMR.svg"
+  },
+  {
+    "id": 39,
+    "nicename": "Canada",
+    "iso": "CA",
+    "phonecode": "1",
+    "currency": "CAD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/CAN.svg"
+  },
+  {
+    "id": 40,
+    "nicename": "Cape Verde",
+    "iso": "CV",
+    "phonecode": "238",
+    "currency": "CVE",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/CPV.svg"
+  },
+  {
+    "id": 41,
+    "nicename": "Cayman Islands",
+    "iso": "KY",
+    "phonecode": "1-345",
+    "currency": "KYD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/CYM.svg"
+  },
+  {
+    "id": 42,
+    "nicename": "Central African Republic",
+    "iso": "CF",
+    "phonecode": "236",
+    "currency": "XAF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/CAF.svg"
+  },
+  {
+    "id": 43,
+    "nicename": "Chad",
+    "iso": "TD",
+    "phonecode": "235",
+    "currency": "XAF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/TCD.svg"
+  },
+  {
+    "id": 44,
+    "nicename": "Chile",
+    "iso": "CL",
+    "phonecode": "56",
+    "currency": "CLP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/CHL.svg"
+  },
+  {
+    "id": 45,
+    "nicename": "China",
+    "iso": "CN",
+    "phonecode": "86",
+    "currency": "CNY",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/CHN.svg"
+  },
+  {
+    "id": 46,
+    "nicename": "Christmas Island",
+    "iso": "CX",
+    "phonecode": "61",
+    "currency": "AUD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/CXR.svg"
+  },
+  {
+    "id": 47,
+    "nicename": "Cocos (Keeling) Islands",
+    "iso": "CC",
+    "phonecode": "61",
+    "currency": "AUD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/CCK.svg"
+  },
+  {
+    "id": 48,
+    "nicename": "Colombia",
+    "iso": "CO",
+    "phonecode": "57",
+    "currency": "COP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/COL.svg"
+  },
+  {
+    "id": 49,
+    "nicename": "Comoros",
+    "iso": "KM",
+    "phonecode": "269",
+    "currency": "KMF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/COM.svg"
+  },
+  {
+    "id": 50,
+    "nicename": "Congo",
+    "iso": "CG",
+    "phonecode": "242",
+    "currency": "XAF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/COG.svg"
+  },
+  {
+    "id": 51,
+    "nicename": "Congo, the Democratic Republic of the Congo",
+    "iso": "CD",
+    "phonecode": "243",
+    "currency": "CD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/COD.svg"
+  },
+  {
+    "id": 52,
+    "nicename": "Cook Islands",
+    "iso": "CK",
+    "phonecode": "682",
+    "currency": "NZD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/COK.svg"
+  },
+  {
+    "id": 53,
+    "nicename": "Costa Rica",
+    "iso": "CR",
+    "phonecode": "506",
+    "currency": "CRC",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/CRI.svg"
+  },
+  {
+    "id": 54,
+    "nicename": "Croatia",
+    "iso": "HR",
+    "phonecode": "385",
+    "currency": "HRK",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/HRV.svg"
+  },
+  {
+    "id": 55,
+    "nicename": "Cuba",
+    "iso": "CU",
+    "phonecode": "53",
+    "currency": "CUP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/CUB.svg"
+  },
+  {
+    "id": 56,
+    "nicename": "Cura\u00e7ao",
+    "iso": "CW",
+    "phonecode": "599",
+    "currency": "ANG",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/CUW.svg"
+  },
+  {
+    "id": 57,
+    "nicename": "Cyprus",
+    "iso": "CY",
+    "phonecode": "357",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/CYP.svg"
+  },
+  {
+    "id": 58,
+    "nicename": "Czech Republic",
+    "iso": "CZ",
+    "phonecode": "420",
+    "currency": "CZK",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/CZE.svg"
+  },
+  {
+    "id": 60,
+    "nicename": "Denmark",
+    "iso": "DK",
+    "phonecode": "45",
+    "currency": "DKK",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/DNK.svg"
+  },
+  {
+    "id": 61,
+    "nicename": "Djibouti",
+    "iso": "DJ",
+    "phonecode": "253",
+    "currency": "DJF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/DJI.svg"
+  },
+  {
+    "id": 62,
+    "nicename": "Dominica",
+    "iso": "DM",
+    "phonecode": "1-767",
+    "currency": "XCD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/DMA.svg"
+  },
+  {
+    "id": 63,
+    "nicename": "Dominican Republic",
+    "iso": "DO",
+    "phonecode": "1-809",
+    "currency": "DOP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/DOM.svg"
+  },
+  {
+    "id": 64,
+    "nicename": "Ecuador",
+    "iso": "EC",
+    "phonecode": "593",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ECU.svg"
+  },
+  {
+    "id": 65,
+    "nicename": "Egypt",
+    "iso": "EG",
+    "phonecode": "20",
+    "currency": "EGP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/EGY.svg"
+  },
+  {
+    "id": 66,
+    "nicename": "El Salvador",
+    "iso": "SV",
+    "phonecode": "503",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SLV.svg"
+  },
+  {
+    "id": 67,
+    "nicename": "Equatorial Guinea",
+    "iso": "GQ",
+    "phonecode": "240",
+    "currency": "XAF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/GNQ.svg"
+  },
+  {
+    "id": 68,
+    "nicename": "Eritrea",
+    "iso": "ER",
+    "phonecode": "291",
+    "currency": "ERN",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ERI.svg"
+  },
+  {
+    "id": 69,
+    "nicename": "Estonia",
+    "iso": "EE",
+    "phonecode": "372",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/EST.svg"
+  },
+  {
+    "id": 70,
+    "nicename": "Ethiopia",
+    "iso": "ET",
+    "phonecode": "251",
+    "currency": "ETB",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ETH.svg"
+  },
+  {
+    "id": 71,
+    "nicename": "Falkland Islands (Malvinas)",
+    "iso": "FK",
+    "phonecode": "500",
+    "currency": "FKP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/FLK.svg"
+  },
+  {
+    "id": 72,
+    "nicename": "Faroe Islands",
+    "iso": "FO",
+    "phonecode": "298",
+    "currency": "DKK",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/FRO.svg"
+  },
+  {
+    "id": 73,
+    "nicename": "Fiji",
+    "iso": "FJ",
+    "phonecode": "679",
+    "currency": "FJD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/FJI.svg"
+  },
+  {
+    "id": 74,
+    "nicename": "Finland",
+    "iso": "FI",
+    "phonecode": "358",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/FIN.svg"
+  },
+  {
+    "id": 75,
+    "nicename": "France",
+    "iso": "FR",
+    "phonecode": "33",
+    "currency": "FRF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/FRA.svg"
+  },
+  {
+    "id": 76,
+    "nicename": "French Guiana",
+    "iso": "GF",
+    "phonecode": "594",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/GUF.svg"
+  },
+  {
+    "id": 77,
+    "nicename": "French Polynesia",
+    "iso": "PF",
+    "phonecode": "689",
+    "currency": "XPF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/PYF.svg"
+  },
+  {
+    "id": 78,
+    "nicename": "French Southern Territories",
+    "iso": "TF",
+    "phonecode": "262",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ATF.svg"
+  },
+  {
+    "id": 79,
+    "nicename": "Gabon",
+    "iso": "GA",
+    "phonecode": "241",
+    "currency": "XAF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/GAB.svg"
+  },
+  {
+    "id": 80,
+    "nicename": "Gambia",
+    "iso": "GM",
+    "phonecode": "220",
+    "currency": "GMD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/GMB.svg"
+  },
+  {
+    "id": 81,
+    "nicename": "Georgia",
+    "iso": "GE",
+    "phonecode": "995",
+    "currency": "GEL",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/GEO.svg"
+  },
+  {
+    "id": 82,
+    "nicename": "Germany",
+    "iso": "DE",
+    "phonecode": "49",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/DEU.svg"
+  },
+  {
+    "id": 83,
+    "nicename": "Ghana",
+    "iso": "GH",
+    "phonecode": "233",
+    "currency": "GHS",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/GHA.svg"
+  },
+  {
+    "id": 84,
+    "nicename": "Gibraltar",
+    "iso": "GI",
+    "phonecode": "350",
+    "currency": "GIP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/GIB.svg"
+  },
+  {
+    "id": 85,
+    "nicename": "Greece",
+    "iso": "GR",
+    "phonecode": "30",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/GRC.svg"
+  },
+  {
+    "id": 86,
+    "nicename": "Greenland",
+    "iso": "GL",
+    "phonecode": "299",
+    "currency": "DKK",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/GRL.svg"
+  },
+  {
+    "id": 87,
+    "nicename": "Grenada",
+    "iso": "GD",
+    "phonecode": "1-473",
+    "currency": "XCD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/GRD.svg"
+  },
+  {
+    "id": 88,
+    "nicename": "Guadeloupe",
+    "iso": "GP",
+    "phonecode": "590",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/GLP.svg"
+  },
+  {
+    "id": 89,
+    "nicename": "Guam",
+    "iso": "GU",
+    "phonecode": "1-671",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/GUM.svg"
+  },
+  {
+    "id": 90,
+    "nicename": "Guatemala",
+    "iso": "GT",
+    "phonecode": "502",
+    "currency": "GTQ",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/GTM.svg"
+  },
+  {
+    "id": 91,
+    "nicename": "Guernsey",
+    "iso": "GG",
+    "phonecode": "44",
+    "currency": "GBP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/GGY.svg"
+  },
+  {
+    "id": 92,
+    "nicename": "Guinea",
+    "iso": "GN",
+    "phonecode": "224",
+    "currency": "GNF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/GIN.svg"
+  },
+  {
+    "id": 93,
+    "nicename": "Guinea-Bissau",
+    "iso": "GW",
+    "phonecode": "245",
+    "currency": "XOF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/GNB.svg"
+  },
+  {
+    "id": 94,
+    "nicename": "Guyana",
+    "iso": "GY",
+    "phonecode": "592",
+    "currency": "GYD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/GUY.svg"
+  },
+  {
+    "id": 95,
+    "nicename": "Haiti",
+    "iso": "HT",
+    "phonecode": "509",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/HTI.svg"
+  },
+  {
+    "id": 97,
+    "nicename": "Holy See (Vatican City State)",
+    "iso": "VA",
+    "phonecode": "39-06",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/VAT.svg"
+  },
+  {
+    "id": 98,
+    "nicename": "Honduras",
+    "iso": "HN",
+    "phonecode": "504",
+    "currency": "HNL",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/HND.svg"
+  },
+  {
+    "id": 99,
+    "nicename": "Hong Kong",
+    "iso": "HK",
+    "phonecode": "852",
+    "currency": "HKD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/HKG.svg"
+  },
+  {
+    "id": 100,
+    "nicename": "Hungary",
+    "iso": "HU",
+    "phonecode": "36",
+    "currency": "HUF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/HUN.svg"
+  },
+  {
+    "id": 101,
+    "nicename": "Iceland",
+    "iso": "IS",
+    "phonecode": "354",
+    "currency": "ISK",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ISL.svg"
+  },
+  {
+    "id": 102,
+    "nicename": "India",
+    "iso": "IN",
+    "phonecode": "91",
+    "currency": "INR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/IND.svg"
+  },
+  {
+    "id": 103,
+    "nicename": "Indonesia",
+    "iso": "ID",
+    "phonecode": "62",
+    "currency": "IDR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/IDN.svg"
+  },
+  {
+    "id": 104,
+    "nicename": "Iran, Islamic Republic of",
+    "iso": "IR",
+    "phonecode": "98",
+    "currency": "IRR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/IRN.svg"
+  },
+  {
+    "id": 105,
+    "nicename": "Iraq",
+    "iso": "IQ",
+    "phonecode": "964",
+    "currency": "IQD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/IRQ.svg"
+  },
+  {
+    "id": 106,
+    "nicename": "Ireland",
+    "iso": "IE",
+    "phonecode": "353",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/IRL.svg"
+  },
+  {
+    "id": 107,
+    "nicename": "Isle of Man",
+    "iso": "IM",
+    "phonecode": "44",
+    "currency": "GBP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/IMN.svg"
+  },
+  {
+    "id": 108,
+    "nicename": "Israel",
+    "iso": "IL",
+    "phonecode": "972",
+    "currency": "ILS",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ISR.svg"
+  },
+  {
+    "id": 109,
+    "nicename": "Italy",
+    "iso": "IT",
+    "phonecode": "39",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ITA.svg"
+  },
+  {
+    "id": 110,
+    "nicename": "Jamaica",
+    "iso": "JM",
+    "phonecode": "1-876",
+    "currency": "JMD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/JAM.svg"
+  },
+  {
+    "id": 111,
+    "nicename": "Japan",
+    "iso": "JP",
+    "phonecode": "81",
+    "currency": "JPY",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/JPN.svg"
+  },
+  {
+    "id": 112,
+    "nicename": "Jersey",
+    "iso": "JE",
+    "phonecode": "44",
+    "currency": "GBP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/JEY.svg"
+  },
+  {
+    "id": 113,
+    "nicename": "Jordan",
+    "iso": "JO",
+    "phonecode": "962",
+    "currency": "JOD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/JOR.svg"
+  },
+  {
+    "id": 114,
+    "nicename": "Kazakhstan",
+    "iso": "KZ",
+    "phonecode": "7",
+    "currency": "KZT",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/KAZ.svg"
+  },
+  {
+    "id": 115,
+    "nicename": "Kenya",
+    "iso": "KE",
+    "phonecode": "254",
+    "currency": "KES",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/KEN.svg"
+  },
+  {
+    "id": 116,
+    "nicename": "Kiribati",
+    "iso": "KI",
+    "phonecode": "686",
+    "currency": "AUD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/KIR.svg"
+  },
+  {
+    "id": 117,
+    "nicename": "Korea, Democratic People's Republic of",
+    "iso": "KP",
+    "phonecode": "850",
+    "currency": "KPW",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/PRK.svg"
+  },
+  {
+    "id": 118,
+    "nicename": "Korea, Republic of",
+    "iso": "KR",
+    "phonecode": "82",
+    "currency": "KRW",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/KOR.svg"
+  },
+  {
+    "id": 119,
+    "nicename": "Kuwait",
+    "iso": "KW",
+    "phonecode": "965",
+    "currency": "KWD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/KWT.svg"
+  },
+  {
+    "id": 120,
+    "nicename": "Kyrgyzstan",
+    "iso": "KG",
+    "phonecode": "996",
+    "currency": "KGS",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/KGZ.svg"
+  },
+  {
+    "id": 121,
+    "nicename": "Lao People's Democratic Republic",
+    "iso": "LA",
+    "phonecode": "856",
+    "currency": "LAK",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/LAO.svg"
+  },
+  {
+    "id": 122,
+    "nicename": "Latvia",
+    "iso": "LV",
+    "phonecode": "371",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/LVA.svg"
+  },
+  {
+    "id": 123,
+    "nicename": "Lebanon",
+    "iso": "LB",
+    "phonecode": "961",
+    "currency": "LBP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/LBN.svg"
+  },
+  {
+    "id": 124,
+    "nicename": "Lesotho",
+    "iso": "LS",
+    "phonecode": "266",
+    "currency": "ZAR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/LSO.svg"
+  },
+  {
+    "id": 125,
+    "nicename": "Liberia",
+    "iso": "LR",
+    "phonecode": "231",
+    "currency": "LRD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/LBR.svg"
+  },
+  {
+    "id": 126,
+    "nicename": "Libya",
+    "iso": "LY",
+    "phonecode": "218",
+    "currency": "LYD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/LBY.svg"
+  },
+  {
+    "id": 127,
+    "nicename": "Liechtenstein",
+    "iso": "LI",
+    "phonecode": "423",
+    "currency": "CHF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/LIE.svg"
+  },
+  {
+    "id": 128,
+    "nicename": "Lithuania",
+    "iso": "LT",
+    "phonecode": "370",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/LTU.svg"
+  },
+  {
+    "id": 129,
+    "nicename": "Luxembourg",
+    "iso": "LU",
+    "phonecode": "352",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/LUX.svg"
+  },
+  {
+    "id": 130,
+    "nicename": "Macao",
+    "iso": "MO",
+    "phonecode": "853",
+    "currency": "MOP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MAC.svg"
+  },
+  {
+    "id": 131,
+    "nicename": "Macedonia, the Former Yugoslav Republic of",
+    "iso": "MK",
+    "phonecode": "389",
+    "currency": "MKD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MKD.svg"
+  },
+  {
+    "id": 132,
+    "nicename": "Madagascar",
+    "iso": "MG",
+    "phonecode": "261",
+    "currency": "MGA",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MDG.svg"
+  },
+  {
+    "id": 133,
+    "nicename": "Malawi",
+    "iso": "MW",
+    "phonecode": "265",
+    "currency": "MWK",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MWI.svg"
+  },
+  {
+    "id": 134,
+    "nicename": "Malaysia",
+    "iso": "MY",
+    "phonecode": "60",
+    "currency": "MYR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MYS.svg"
+  },
+  {
+    "id": 135,
+    "nicename": "Maldives",
+    "iso": "MV",
+    "phonecode": "960",
+    "currency": "MVR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MDV.svg"
+  },
+  {
+    "id": 136,
+    "nicename": "Mali",
+    "iso": "ML",
+    "phonecode": "223",
+    "currency": "XOF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MLI.svg"
+  },
+  {
+    "id": 137,
+    "nicename": "Malta",
+    "iso": "MT",
+    "phonecode": "356",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MLT.svg"
+  },
+  {
+    "id": 138,
+    "nicename": "Marshall Islands",
+    "iso": "MH",
+    "phonecode": "692",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MHL.svg"
+  },
+  {
+    "id": 139,
+    "nicename": "Martinique",
+    "iso": "MQ",
+    "phonecode": "596",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MTQ.svg"
+  },
+  {
+    "id": 140,
+    "nicename": "Mauritania",
+    "iso": "MR",
+    "phonecode": "222",
+    "currency": "MRO",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MRT.svg"
+  },
+  {
+    "id": 141,
+    "nicename": "Mauritius",
+    "iso": "MU",
+    "phonecode": "230",
+    "currency": "MUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MUS.svg"
+  },
+  {
+    "id": 142,
+    "nicename": "Mayotte",
+    "iso": "YT",
+    "phonecode": "262",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MYT.svg"
+  },
+  {
+    "id": 143,
+    "nicename": "Mexico",
+    "iso": "MX",
+    "phonecode": "52",
+    "currency": "MXN",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MEX.svg"
+  },
+  {
+    "id": 144,
+    "nicename": "Micronesia, Federated States of",
+    "iso": "FM",
+    "phonecode": "691",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/FSM.svg"
+  },
+  {
+    "id": 145,
+    "nicename": "Moldova, Republic of",
+    "iso": "MD",
+    "phonecode": "373",
+    "currency": "MDL",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MDA.svg"
+  },
+  {
+    "id": 146,
+    "nicename": "Monaco",
+    "iso": "MC",
+    "phonecode": "377",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MCO.svg"
+  },
+  {
+    "id": 147,
+    "nicename": "Mongolia",
+    "iso": "MN",
+    "phonecode": "976",
+    "currency": "MNT",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MNG.svg"
+  },
+  {
+    "id": 148,
+    "nicename": "Montenegro",
+    "iso": "ME",
+    "phonecode": "382",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MNE.svg"
+  },
+  {
+    "id": 149,
+    "nicename": "Montserrat",
+    "iso": "MS",
+    "phonecode": "1-664",
+    "currency": "XCD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MSR.svg"
+  },
+  {
+    "id": 150,
+    "nicename": "Morocco",
+    "iso": "MA",
+    "phonecode": "212",
+    "currency": "MAD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MAR.svg"
+  },
+  {
+    "id": 151,
+    "nicename": "Mozambique",
+    "iso": "MZ",
+    "phonecode": "258",
+    "currency": "MZN",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MOZ.svg"
+  },
+  {
+    "id": 152,
+    "nicename": "Myanmar",
+    "iso": "MM",
+    "phonecode": "95",
+    "currency": "MMK",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MMR.svg"
+  },
+  {
+    "id": 153,
+    "nicename": "Namibia",
+    "iso": "NA",
+    "phonecode": "264",
+    "currency": "ZAR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/NAM.svg"
+  },
+  {
+    "id": 154,
+    "nicename": "Nauru",
+    "iso": "NR",
+    "phonecode": "674",
+    "currency": "AUD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/NRU.svg"
+  },
+  {
+    "id": 155,
+    "nicename": "Nepal",
+    "iso": "NP",
+    "phonecode": "977",
+    "currency": "NPR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/NPL.svg"
+  },
+  {
+    "id": 156,
+    "nicename": "Netherlands",
+    "iso": "NL",
+    "phonecode": "31",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/NLD.svg"
+  },
+  {
+    "id": 157,
+    "nicename": "New Caledonia",
+    "iso": "NC",
+    "phonecode": "687",
+    "currency": "XPF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/NCL.svg"
+  },
+  {
+    "id": 158,
+    "nicename": "New Zealand",
+    "iso": "NZ",
+    "phonecode": "64",
+    "currency": "NZD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/NZL.svg"
+  },
+  {
+    "id": 159,
+    "nicename": "Nicaragua",
+    "iso": "NI",
+    "phonecode": "505",
+    "currency": "NIO",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/NIC.svg"
+  },
+  {
+    "id": 160,
+    "nicename": "Niger",
+    "iso": "NE",
+    "phonecode": "227",
+    "currency": "XOF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/NER.svg"
+  },
+  {
+    "id": 161,
+    "nicename": "Nigeria",
+    "iso": "NG",
+    "phonecode": "234",
+    "currency": "NGN",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/NGA.svg"
+  },
+  {
+    "id": 162,
+    "nicename": "Niue",
+    "iso": "NU",
+    "phonecode": "683",
+    "currency": "NZD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/NIU.svg"
+  },
+  {
+    "id": 163,
+    "nicename": "Norfolk Island",
+    "iso": "NF",
+    "phonecode": "672",
+    "currency": "AUD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/NFK.svg"
+  },
+  {
+    "id": 164,
+    "nicename": "Northern Mariana Islands",
+    "iso": "MP",
+    "phonecode": "1-670",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MNP.svg"
+  },
+  {
+    "id": 165,
+    "nicename": "Norway",
+    "iso": "NO",
+    "phonecode": "47",
+    "currency": "NOK",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/NOR.svg"
+  },
+  {
+    "id": 166,
+    "nicename": "Oman",
+    "iso": "OM",
+    "phonecode": "968",
+    "currency": "OMR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/OMN.svg"
+  },
+  {
+    "id": 168,
+    "nicename": "Palau",
+    "iso": "PW",
+    "phonecode": "680",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/PLW.svg"
+  },
+  {
+    "id": 169,
+    "nicename": "Palestine, State of Palestine",
+    "iso": "PS",
+    "phonecode": "970",
+    "currency": "PS",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/PSE.svg"
+  },
+  {
+    "id": 170,
+    "nicename": "Panama",
+    "iso": "PA",
+    "phonecode": "507",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/PAN.svg"
+  },
+  {
+    "id": 172,
+    "nicename": "Paraguay",
+    "iso": "PY",
+    "phonecode": "595",
+    "currency": "PYG",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/PRY.svg"
+  },
+  {
+    "id": 173,
+    "nicename": "Peru",
+    "iso": "PE",
+    "phonecode": "51",
+    "currency": "PEN",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/PER.svg"
+  },
+  {
+    "id": 174,
+    "nicename": "Philippines",
+    "iso": "PH",
+    "phonecode": "63",
+    "currency": "PHP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/PHL.svg"
+  },
+  {
+    "id": 175,
+    "nicename": "Pitcairn",
+    "iso": "PN",
+    "phonecode": "870",
+    "currency": "NZD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/PCN.svg"
+  },
+  {
+    "id": 176,
+    "nicename": "Poland",
+    "iso": "PL",
+    "phonecode": "48",
+    "currency": "PLN",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/POL.svg"
+  },
+  {
+    "id": 177,
+    "nicename": "Portugal",
+    "iso": "PT",
+    "phonecode": "351",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/PRT.svg"
+  },
+  {
+    "id": 178,
+    "nicename": "Puerto Rico",
+    "iso": "PR",
+    "phonecode": "1",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/PRI.svg"
+  },
+  {
+    "id": 179,
+    "nicename": "Qatar",
+    "iso": "QA",
+    "phonecode": "974",
+    "currency": "QAR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/QAT.svg"
+  },
+  {
+    "id": 180,
+    "nicename": "Romania",
+    "iso": "RO",
+    "phonecode": "40",
+    "currency": "RON",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ROU.svg"
+  },
+  {
+    "id": 181,
+    "nicename": "Russian Federation",
+    "iso": "RU",
+    "phonecode": "7",
+    "currency": "RUB",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/RUS.svg"
+  },
+  {
+    "id": 182,
+    "nicename": "Rwanda",
+    "iso": "RW",
+    "phonecode": "250",
+    "currency": "RWF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/RWA.svg"
+  },
+  {
+    "id": 183,
+    "nicename": "R\u00e9union",
+    "iso": "RE",
+    "phonecode": "262",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/REU.svg"
+  },
+  {
+    "id": 184,
+    "nicename": "Saint Barth\u00e9lemy",
+    "iso": "BL",
+    "phonecode": "590",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/BLM.svg"
+  },
+  {
+    "id": 185,
+    "nicename": "Saint Helena, Ascension and Tristan da Cunha",
+    "iso": "SH",
+    "phonecode": "290",
+    "currency": "SHP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SHN.svg"
+  },
+  {
+    "id": 186,
+    "nicename": "Saint Kitts and Nevis",
+    "iso": "KN",
+    "phonecode": "1-869",
+    "currency": "XCD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/KNA.svg"
+  },
+  {
+    "id": 187,
+    "nicename": "Saint Lucia",
+    "iso": "LC",
+    "phonecode": "1-758",
+    "currency": "XCD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/LCA.svg"
+  },
+  {
+    "id": 188,
+    "nicename": "Saint Martin (French part)",
+    "iso": "MF",
+    "phonecode": "590",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/MAF.svg"
+  },
+  {
+    "id": 189,
+    "nicename": "Saint Pierre and Miquelon",
+    "iso": "PM",
+    "phonecode": "508",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SPM.svg"
+  },
+  {
+    "id": 190,
+    "nicename": "Saint Vincent and the Grenadines",
+    "iso": "VC",
+    "phonecode": "1-784",
+    "currency": "XCD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/VCT.svg"
+  },
+  {
+    "id": 191,
+    "nicename": "Samoa",
+    "iso": "WS",
+    "phonecode": "685",
+    "currency": "WST",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/WSM.svg"
+  },
+  {
+    "id": 192,
+    "nicename": "San Marino",
+    "iso": "SM",
+    "phonecode": "378",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SMR.svg"
+  },
+  {
+    "id": 193,
+    "nicename": "Sao Tome and Principe",
+    "iso": "ST",
+    "phonecode": "239",
+    "currency": "STD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/STP.svg"
+  },
+  {
+    "id": 194,
+    "nicename": "Saudi Arabia",
+    "iso": "SA",
+    "phonecode": "966",
+    "currency": "SAR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SAU.svg"
+  },
+  {
+    "id": 195,
+    "nicename": "Senegal",
+    "iso": "SN",
+    "phonecode": "221",
+    "currency": "XOF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SEN.svg"
+  },
+  {
+    "id": 196,
+    "nicename": "Serbia",
+    "iso": "RS",
+    "phonecode": "381",
+    "currency": "RSD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SRB.svg"
+  },
+  {
+    "id": 197,
+    "nicename": "Seychelles",
+    "iso": "SC",
+    "phonecode": "248",
+    "currency": "SCR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SYC.svg"
+  },
+  {
+    "id": 198,
+    "nicename": "Sierra Leone",
+    "iso": "SL",
+    "phonecode": "232",
+    "currency": "SLL",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SLE.svg"
+  },
+  {
+    "id": 199,
+    "nicename": "Singapore",
+    "iso": "SG",
+    "phonecode": "65",
+    "currency": "SGD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SGP.svg"
+  },
+  {
+    "id": 200,
+    "nicename": "Sint Maarten (Dutch part)",
+    "iso": "SX",
+    "phonecode": "1-721",
+    "currency": "ANG",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SXM.svg"
+  },
+  {
+    "id": 201,
+    "nicename": "Slovakia",
+    "iso": "SK",
+    "phonecode": "421",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SVK.svg"
+  },
+  {
+    "id": 202,
+    "nicename": "Slovenia",
+    "iso": "SI",
+    "phonecode": "386",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SVN.svg"
+  },
+  {
+    "id": 203,
+    "nicename": "Solomon Islands",
+    "iso": "SB",
+    "phonecode": "677",
+    "currency": "SBD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SLB.svg"
+  },
+  {
+    "id": 204,
+    "nicename": "Somalia",
+    "iso": "SO",
+    "phonecode": "252",
+    "currency": "SOS",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SOM.svg"
+  },
+  {
+    "id": 205,
+    "nicename": "South Africa",
+    "iso": "ZA",
+    "phonecode": "27",
+    "currency": "ZAR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ZAF.svg"
+  },
+  {
+    "id": 206,
+    "nicename": "South Georgia and the South Sandwich Islands",
+    "iso": "GS",
+    "phonecode": "500",
+    "currency": "SGP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SGS.svg"
+  },
+  {
+    "id": 207,
+    "nicename": "South Sudan",
+    "iso": "SS",
+    "phonecode": "211",
+    "currency": "SSP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SSD.svg"
+  },
+  {
+    "id": 208,
+    "nicename": "Spain",
+    "iso": "ES",
+    "phonecode": "34",
+    "currency": "EUR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ESP.svg"
+  },
+  {
+    "id": 209,
+    "nicename": "Sri Lanka",
+    "iso": "LK",
+    "phonecode": "94",
+    "currency": "LKR",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/LKA.svg"
+  },
+  {
+    "id": 210,
+    "nicename": "Sudan",
+    "iso": "SD",
+    "phonecode": "249",
+    "currency": "SDG",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SDN.svg"
+  },
+  {
+    "id": 211,
+    "nicename": "Suriname",
+    "iso": "SR",
+    "phonecode": "597",
+    "currency": "SRD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SUR.svg"
+  },
+  {
+    "id": 212,
+    "nicename": "Svalbard and Jan Mayen",
+    "iso": "SJ",
+    "phonecode": "47",
+    "currency": "NOK",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SJM.svg"
+  },
+  {
+    "id": 213,
+    "nicename": "Swaziland",
+    "iso": "SZ",
+    "phonecode": "268",
+    "currency": "SZL",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SWZ.svg"
+  },
+  {
+    "id": 214,
+    "nicename": "Sweden",
+    "iso": "SE",
+    "phonecode": "46",
+    "currency": "SEK",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SWE.svg"
+  },
+  {
+    "id": 215,
+    "nicename": "Switzerland",
+    "iso": "CH",
+    "phonecode": "41",
+    "currency": "CHF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/CHE.svg"
+  },
+  {
+    "id": 216,
+    "nicename": "Syrian Arab Republic",
+    "iso": "SY",
+    "phonecode": "963",
+    "currency": "SYP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/SYR.svg"
+  },
+  {
+    "id": 217,
+    "nicename": "Taiwan, Province of China",
+    "iso": "TW",
+    "phonecode": "886",
+    "currency": "TWD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/TWN.svg"
+  },
+  {
+    "id": 218,
+    "nicename": "Tajikistan",
+    "iso": "TJ",
+    "phonecode": "992",
+    "currency": "TJS",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/TJK.svg"
+  },
+  {
+    "id": 219,
+    "nicename": "Tanzania",
+    "iso": "TZ",
+    "phonecode": "255",
+    "currency": "TZS",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/TZA.svg"
+  },
+  {
+    "id": 220,
+    "nicename": "Thailand",
+    "iso": "TH",
+    "phonecode": "66",
+    "currency": "THB",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/THA.svg"
+  },
+  {
+    "id": 221,
+    "nicename": "Timor-Leste",
+    "iso": "TL",
+    "phonecode": "670",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/TLS.svg"
+  },
+  {
+    "id": 222,
+    "nicename": "Togo",
+    "iso": "TG",
+    "phonecode": "228",
+    "currency": "XOF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/TGO.svg"
+  },
+  {
+    "id": 223,
+    "nicename": "Tokelau",
+    "iso": "TK",
+    "phonecode": "690",
+    "currency": "NZD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/TKL.svg"
+  },
+  {
+    "id": 224,
+    "nicename": "Tonga",
+    "iso": "TO",
+    "phonecode": "676",
+    "currency": "TOP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/TON.svg"
+  },
+  {
+    "id": 225,
+    "nicename": "Trinidad and Tobago",
+    "iso": "TT",
+    "phonecode": "1-868",
+    "currency": "TTD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/TTO.svg"
+  },
+  {
+    "id": 226,
+    "nicename": "Tunisia",
+    "iso": "TN",
+    "phonecode": "216",
+    "currency": "TND",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/TUN.svg"
+  },
+  {
+    "id": 227,
+    "nicename": "Turkey",
+    "iso": "TR",
+    "phonecode": "90",
+    "currency": "TRY",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/TUR.svg"
+  },
+  {
+    "id": 228,
+    "nicename": "Turkmenistan",
+    "iso": "TM",
+    "phonecode": "993",
+    "currency": "TMT",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/TKM.svg"
+  },
+  {
+    "id": 229,
+    "nicename": "Turks and Caicos Islands",
+    "iso": "TC",
+    "phonecode": "1-649",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/TCA.svg"
+  },
+  {
+    "id": 230,
+    "nicename": "Tuvalu",
+    "iso": "TV",
+    "phonecode": "688",
+    "currency": "AUD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/TUV.svg"
+  },
+  {
+    "id": 231,
+    "nicename": "Uganda",
+    "iso": "UG",
+    "phonecode": "256",
+    "currency": "UGX",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/UGA.svg"
+  },
+  {
+    "id": 232,
+    "nicename": "Ukraine",
+    "iso": "UA",
+    "phonecode": "380",
+    "currency": "UAH",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/UKR.svg"
+  },
+  {
+    "id": 233,
+    "nicename": "United Arab Emirates",
+    "iso": "AE",
+    "phonecode": "971",
+    "currency": "AED",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ARE.svg"
+  },
+  {
+    "id": 234,
+    "nicename": "United Kingdom",
+    "iso": "GB",
+    "phonecode": "44",
+    "currency": "GBP",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/GBR.svg"
+  },
+  {
+    "id": 235,
+    "nicename": "United States",
+    "iso": "US",
+    "phonecode": "1",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/USA.svg"
+  },
+  {
+    "id": 236,
+    "nicename": "United States Minor Outlying Islands",
+    "iso": "UM",
+    "phonecode": "1",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/UMI.svg"
+  },
+  {
+    "id": 237,
+    "nicename": "Uruguay",
+    "iso": "UY",
+    "phonecode": "598",
+    "currency": "UYU",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/URY.svg"
+  },
+  {
+    "id": 238,
+    "nicename": "Uzbekistan",
+    "iso": "UZ",
+    "phonecode": "998",
+    "currency": "UZS",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/UZB.svg"
+  },
+  {
+    "id": 239,
+    "nicename": "Vanuatu",
+    "iso": "VU",
+    "phonecode": "678",
+    "currency": "VUV",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/VUT.svg"
+  },
+  {
+    "id": 240,
+    "nicename": "Venezuela, Bolivarian Republic of",
+    "iso": "VE",
+    "phonecode": "58",
+    "currency": "VEF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/VEN.svg"
+  },
+  {
+    "id": 241,
+    "nicename": "Vietnam",
+    "iso": "VN",
+    "phonecode": "84",
+    "currency": "VND",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/VNM.svg"
+  },
+  {
+    "id": 242,
+    "nicename": "Virgin Islands, British",
+    "iso": "VG",
+    "phonecode": "1-284",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/VGB.svg"
+  },
+  {
+    "id": 243,
+    "nicename": "Virgin Islands, U.S.",
+    "iso": "VI",
+    "phonecode": "1-340",
+    "currency": "USD",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/VIR.svg"
+  },
+  {
+    "id": 244,
+    "nicename": "Wallis and Futuna",
+    "iso": "WF",
+    "phonecode": "681",
+    "currency": "XPF",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/WLF.svg"
+  },
+  {
+    "id": 246,
+    "nicename": "Yemen",
+    "iso": "YE",
+    "phonecode": "967",
+    "currency": "YER",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/YEM.svg"
+  },
+  {
+    "id": 247,
+    "nicename": "Zambia",
+    "iso": "ZM",
+    "phonecode": "260",
+    "currency": "ZMW",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ZMB.svg"
+  },
+  {
+    "id": 248,
+    "nicename": "Zimbabwe",
+    "iso": "ZW",
+    "phonecode": "263",
+    "currency": "ZWL",
+    "flagsUrl": "https://coffeeweb.s3.ap-south-1.amazonaws.com/Masters/Flags/ZWE.svg"
+  }
+]
