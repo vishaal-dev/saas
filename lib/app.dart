@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:saas/app/screens/base_page/base_page_view.dart';
+import 'package:saas/app/screens/home.dart';
 import 'package:saas/shared/themes/app_theme.dart';
 import 'core/di/get_injector.dart';
 import 'core/locale/localization_services.dart';
@@ -23,6 +25,7 @@ class Saas extends StatelessWidget {
       unknownRoute: AppPages.unknownPage,
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,
+      routes: {'/': (context) => BasePageView()},
       //themeMode: themeServices.getThemeMode(),
       locale: LocalizationServices.locale,
       fallbackLocale: const Locale("en", "US"),

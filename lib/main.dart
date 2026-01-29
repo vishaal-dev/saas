@@ -127,7 +127,7 @@ class _MyAppState extends State<MyApp> {
               //   MiniSwaggerProtocolGestures.longPress,
               // );
             },
-            child: Saas(title: "Split App"),
+            child: Saas(title: "Saas"),
           );
         }
       },

@@ -21,7 +21,7 @@ abstract class AppRoutes {
 }
 
 abstract class _Paths {
-  static const basePage = '/base_page';
+  static const basePage = '/';
   static const home = '/home';
   static const onBoarding = '/onBoarding';
   static const login = '/login';

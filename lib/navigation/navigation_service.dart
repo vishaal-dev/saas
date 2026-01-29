@@ -35,7 +35,6 @@ class NavigationService extends GetxService with NavigationMixin {
   ///Return the title of the getPath
   String getTitleOfPath(String path) {
     switch (path) {
-      case AppRoutes.basePage:
       case AppRoutes.home:
         return PageTitles.home;
       // case AppRoutes.home:

@@ -5,6 +5,6 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [Center(child: Text("heelo"))]);
+    return Column(children: [Center(child: Text("First Screen"))]);
   }
 }
