@@ -47,17 +47,8 @@ class _HomeState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            'assets/images/logo.png',
+                            'assets/images/saas-logo.png',
                             height: 40,
-                          ),
-                          const SizedBox(width: 10),
-                          const Text(
-                            'SaaS',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
-                            ),
                           ),
                         ],
                       ),
