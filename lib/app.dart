@@ -25,7 +25,6 @@ class Saas extends StatelessWidget {
       unknownRoute: AppPages.unknownPage,
       darkTheme: AppTheme.darkTheme,
       theme: AppTheme.lightTheme,
-      routes: {'/': (context) => BasePageView()},
       //themeMode: themeServices.getThemeMode(),
       locale: LocalizationServices.locale,
       fallbackLocale: const Locale("en", "US"),

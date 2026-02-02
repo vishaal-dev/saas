@@ -14,14 +14,8 @@ class AppPages {
   static GetPage get unknownPage => routes.first;
 
   static final routes = [
-    GetPage(
-      name: _Paths.basePage,
-      page: () => BasePageView(),
-    ),
-    GetPage(
-      name: _Paths.forgotPassword,
-      page: () => const ForgotPassword(),
-    ),
+    GetPage(name: _Paths.basePage, page: () => BasePageView()),
+    GetPage(name: _Paths.forgotPassword, page: () => const ForgotPassword()),
     // GetPage(
     //   name: AppRoutes.location,
     //   page: () => LocationScreen(),

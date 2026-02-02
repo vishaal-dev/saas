@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/web_url_helper.dart';
 import '../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
@@ -60,6 +61,7 @@ class LoginController extends GetxController {
 
   void onForgotPassword() {
     Get.toNamed(AppRoutes.forgotPassword);
+    updateBrowserUrl(AppRoutes.forgotPassword);
   }
 
   void onReachOutTap() {
