@@ -26,7 +26,7 @@ class AppTextStyles {
 
   static const TextStyle b16 = TextStyle(
     fontSize: 16,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w400,
     letterSpacing: 0.24,
     color: Colors.grey,
   );
@@ -39,7 +39,7 @@ class AppTextStyles {
 
   static const TextStyle b12 = TextStyle(
     fontSize: 12,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w500,
     color: AppColors.appPrimaryColorLight,
   );
 

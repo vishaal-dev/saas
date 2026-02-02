@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -11,13 +12,16 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool _isPasswordVisible = false;
 
+  bool _isHovered = false;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
           Image.asset(
-            'assets/images/banner.png',
+            'assets/images/login-background.png',
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
@@ -53,32 +57,29 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      const Text(
+                      Text(
                         'Login',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF6C63FF),
+                        style: Get.theme.textTheme.bodyLarge?.copyWith(
+                          color: Color(0xFF4F46E5),
                         ),
                       ),
                       const SizedBox(height: 30),
-                      const Text(
+                      Text(
                         'User Name',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
+                        style: Get.theme.textTheme.labelMedium?.copyWith(
+                          color: Color(0xFF0F172A),
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       const SizedBox(height: 8),
                       _buildTextField(hint: 'Enter username'),
                       const SizedBox(height: 20),
-                      const Text(
+                      Text(
                         'Password',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
+                        style: Get.theme.textTheme.labelMedium?.copyWith(
+                          color: Color(0xFF0F172A),
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -88,11 +89,12 @@ class _HomeState extends State<Home> {
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {},
-                          child: const Text(
+                          child: Text(
                             'Forgot Password?',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Colors.black54,
+
+                            style: Get.theme.textTheme.labelMedium!.copyWith(
+                              color: Color(0xFF94A3B8),
+                              decoration: TextDecoration.underline,
                             ),
                           ),
                         ),
@@ -107,14 +109,9 @@ class _HomeState extends State<Home> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Login',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
+                          style: Get.theme.textTheme.bodyMedium?.copyWith(),
                         ),
                       ),
                       const SizedBox(height: 30),
@@ -126,11 +123,16 @@ class _HomeState extends State<Home> {
                               color: Colors.black54,
                             ),
                             children: [
-                              const TextSpan(text: 'Any support required? '),
+                              TextSpan(
+                                text: 'Any support required? ',
+                                style: Get.theme.textTheme.bodySmall?.copyWith(
+                                  color: Color(0xFF475569),
+                                ),
+                              ),
                               TextSpan(
                                 text: 'Reach out to us',
-                                style: const TextStyle(
-                                  color: Color(0xFF6C63FF),
+                                style:  Get.theme.textTheme.bodySmall?.copyWith(
+                                  color: Color(0xFF475569),
                                   decoration: TextDecoration.underline,
                                 ),
                                 recognizer: TapGestureRecognizer()
@@ -154,62 +156,87 @@ class _HomeState extends State<Home> {
   }
 
   Widget _buildTextField({required String hint}) {
-    return TextField(
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: const TextStyle(fontFamily: 'Poppins', color: Colors.grey),
-        filled: true,
-        fillColor: Colors.white,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Color(0xFF6C63FF)),
+    return MouseRegion(
+      onEnter: (_) {
+        setState(() => _isHovered = true);
+      },
+      onExit: (_) {
+        setState(() => _isHovered = false);
+      },
+      child: TextField(
+        cursorColor: Color(0xFF0F172A),
+        decoration: InputDecoration(
+          hintText: hint,
+          hintStyle: Get.theme.textTheme.labelMedium!.copyWith(
+            color: const Color(0xFF94A3B8),
+          ),
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Colors.grey.shade300),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(
+              color: _isHovered
+                  ? const Color(0xFF6C63FF) // hover color
+                  : Colors.grey.shade300,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: Color(0xFF6C63FF)),
+          ),
         ),
       ),
     );
+
   }
 
   Widget _buildPasswordField() {
-    return TextField(
-      obscureText: !_isPasswordVisible,
-      decoration: InputDecoration(
-        hintText: 'Enter Password',
-        hintStyle: const TextStyle(fontFamily: 'Poppins', color: Colors.grey),
-        filled: true,
-        fillColor: Colors.white,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Color(0xFF6C63FF)),
-        ),
-        suffixIcon: IconButton(
-          icon: Icon(
-            _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-            color: Colors.grey,
+    return MouseRegion(
+      child: TextField(
+        obscureText: !_isPasswordVisible,
+        cursorColor: Color(0xFF0F172A),
+        decoration: InputDecoration(
+          hintText: 'Enter Password',
+          hintStyle: Get.theme.textTheme.labelMedium!.copyWith(
+            color: Color(0xFF94A3B8),
           ),
-          onPressed: () {
-            setState(() {
-              _isPasswordVisible = !_isPasswordVisible;
-            });
-          },
+          filled: true,
+          fillColor: Colors.white,
+          // contentPadding: const EdgeInsets.symmetric(
+          //   horizontal: 20,
+          //   vertical: 14,
+          // ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.grey.shade300),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.grey.shade300),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(color: Color(0xFF6C63FF)),
+          ),
+          suffixIcon: IconButton(
+            onPressed: () {
+              setState(() {
+                _isPasswordVisible = !_isPasswordVisible;
+              });
+            },
+            icon: Image.asset(
+              _isPasswordVisible
+                  ? 'assets/icons/eye-open.png'
+                  : 'assets/icons/eye-close.png',
+              width: 22,
+              height: 22,
+              color:
+                  Colors.grey, // works only if PNG is monochrome / supports tint
+            ),
+          ),
         ),
       ),
     );

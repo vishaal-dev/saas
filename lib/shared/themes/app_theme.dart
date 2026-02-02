@@ -5,7 +5,7 @@ import 'design.dart';
 class AppTheme {
   static final lightTheme = ThemeData(
     useMaterial3: true,
-    fontFamily: 'Poppins',
+    fontFamily: 'Inter',
     primaryColor: Colors.white,
     primaryColorLight: Colors.white,
     scaffoldBackgroundColor: Colors.white,
@@ -17,8 +17,8 @@ class AppTheme {
     ),
     textTheme: TextTheme(
       headlineMedium: AppTextStyles.w50018.copyWith(color: Colors.black),
-      bodyLarge: AppTextStyles.b24.copyWith(color: Colors.black),
-      bodyMedium: AppTextStyles.b16.copyWith(color: Colors.black),
+      bodyLarge: AppTextStyles.b24.copyWith(color: Color(0xFFFFFFFF),),
+      bodyMedium: AppTextStyles.b16.copyWith(color:  Color(0xFFFFFFFF),),
       bodySmall: AppTextStyles.b14.copyWith(color: Colors.black),
       labelLarge: AppTextStyles.w14.copyWith(color: Colors.black),
       labelMedium: AppTextStyles.b12.copyWith(color: Colors.black),
@@ -31,7 +31,7 @@ class AppTheme {
 
   static final darkTheme = ThemeData(
     useMaterial3: true,
-    fontFamily: 'Poppins',
+    fontFamily: 'Inter',
     primaryColor: Colors.black,
     primaryColorDark: Colors.black,
     scaffoldBackgroundColor: Colors.black,
