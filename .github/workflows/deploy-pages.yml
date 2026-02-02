@@ -1,16 +1,17 @@
-# Build Flutter web and deploy to gh-pages so GitHub Pages serves your app (not README).
+# Deploy Flutter web to GitHub Pages so the app (not README) is shown.
 #
-# How Flutter web deploy works:
-# - web/index.html is a template (keeps <base href="$FLUTTER_BASE_HREF">). Never change it for deploy.
+# How it works:
+# - web/index.html is a template (keeps <base href="$FLUTTER_BASE_HREF">). Never change it.
 # - flutter build web --base-href /repo/ replaces $FLUTTER_BASE_HREF only in build/web/index.html.
-# - We must upload ONLY the contents of build/web (the generated files), NOT the project root, NOT web/, NOT lib/.
+# - We push ONLY the contents of build/web to the gh-pages branch. GitHub Pages must serve that branch.
 #
-# After this runs: Settings → Pages → Source: "Deploy from a branch" → branch: gh-pages → Save.
+# IMPORTANT: In repo Settings → Pages → Source choose "Deploy from a branch" → Branch: gh-pages → Save.
+# First time: you may need to select the gh-pages branch in Settings → Pages first, then run this workflow.
 name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   workflow_dispatch:
 
 jobs:
@@ -18,6 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    concurrency:
+      group: deploy-pages-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,13 +36,17 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Replaces $FLUTTER_BASE_HREF in build/web/index.html with /<repo>/ (e.g. /saas/). Source web/index.html is unchanged.
       - name: Build web
         run: flutter build web --release --base-href /${{ github.event.repository.name }}/
 
-      # Upload ONLY build/web (generated index.html, main.dart.js, assets). Not root, not web/, not lib/.
+      - name: Verify build output
+        run: |
+          test -f build/web/index.html || (echo "ERROR: build/web/index.html not found" && exit 1)
+          grep -q 'base href=' build/web/index.html || (echo "ERROR: base href not set in build/web/index.html" && exit 1)
+          echo "Build output OK"
+
       - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: build/web
