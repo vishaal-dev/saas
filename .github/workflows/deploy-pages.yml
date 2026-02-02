@@ -1,12 +1,8 @@
-# Deploy Flutter web to GitHub Pages so the app (not README) is shown.
+# Deploy Flutter web to GitHub Pages using the OFFICIAL GitHub Actions deployment.
+# Your app (not README) is shown because we deploy ONLY build/web — no branch, no repo root.
 #
-# How it works:
-# - web/index.html is a template (keeps <base href="$FLUTTER_BASE_HREF">). Never change it.
-# - flutter build web --base-href /repo/ replaces $FLUTTER_BASE_HREF only in build/web/index.html.
-# - We push ONLY the contents of build/web to the gh-pages branch. GitHub Pages must serve that branch.
-#
-# IMPORTANT: In repo Settings → Pages → Source choose "Deploy from a branch" → Branch: gh-pages → Save.
-# First time: you may need to select the gh-pages branch in Settings → Pages first, then run this workflow.
+# SETUP (one time): Repo Settings → Pages → Build and deployment → Source: choose "GitHub Actions".
+# Then push to main/master or run this workflow. Your app: https://<username>.github.io/<repo-name>/
 name: Deploy to GitHub Pages
 
 on:
@@ -14,14 +10,18 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    concurrency:
-      group: deploy-pages-${{ github.ref }}
-      cancel-in-progress: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,15 +39,21 @@ jobs:
       - name: Build web
         run: flutter build web --release --base-href /${{ github.event.repository.name }}/
 
-      - name: Verify build output
-        run: |
-          test -f build/web/index.html || (echo "ERROR: build/web/index.html not found" && exit 1)
-          grep -q 'base href=' build/web/index.html || (echo "ERROR: base href not set in build/web/index.html" && exit 1)
-          echo "Build output OK"
+      - name: Verify build
+        run: test -f build/web/index.html && grep -q 'base href=' build/web/index.html
 
-      - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload artifact for Pages
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build/web
-          force_orphan: true
+          path: build/web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
