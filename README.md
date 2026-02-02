@@ -12,7 +12,11 @@ This project is a starting point for a Flutter application.
 
 ## Deploying the web app to GitHub Pages (show Login app, not README)
 
-The site will show your Flutter app (e.g. login screen) only if GitHub Pages serves the **built** app from the `gh-pages` branch. Do this once:
+The site will show your Flutter app (e.g. login screen) only if GitHub Pages serves the **built** app from the `gh-pages` branch.
+
+**How it works:** `web/index.html` is a template (keeps `<base href="$FLUTTER_BASE_HREF">`). At build time Flutter replaces that only in **`build/web/index.html`** (e.g. `<base href="/saas/">`). We deploy **only the contents of `build/web`** (the generated files), not the project root, not `web/`, not `lib/`. That’s what GitHub Pages serves.
+
+Do this once:
 
 ### Step 1: Run the deploy workflow
 

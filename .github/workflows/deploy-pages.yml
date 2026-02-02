@@ -1,4 +1,10 @@
-# Build Flutter web and deploy to gh-pages branch so GitHub Pages serves your app (not README).
+# Build Flutter web and deploy to gh-pages so GitHub Pages serves your app (not README).
+#
+# How Flutter web deploy works:
+# - web/index.html is a template (keeps <base href="$FLUTTER_BASE_HREF">). Never change it for deploy.
+# - flutter build web --base-href /repo/ replaces $FLUTTER_BASE_HREF only in build/web/index.html.
+# - We must upload ONLY the contents of build/web (the generated files), NOT the project root, NOT web/, NOT lib/.
+#
 # After this runs: Settings → Pages → Source: "Deploy from a branch" → branch: gh-pages → Save.
 name: Deploy to GitHub Pages
 
@@ -26,10 +32,11 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Your app will be at https://<user>.github.io/<repo>/ so assets need base path /<repo>/
+      # Replaces $FLUTTER_BASE_HREF in build/web/index.html with /<repo>/ (e.g. /saas/). Source web/index.html is unchanged.
       - name: Build web
         run: flutter build web --release --base-href /${{ github.event.repository.name }}/
 
+      # Upload ONLY build/web (generated index.html, main.dart.js, assets). Not root, not web/, not lib/.
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
