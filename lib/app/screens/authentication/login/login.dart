@@ -20,7 +20,7 @@ class Login extends GetView<LoginController> {
           ),
           Positioned.fill(
             child: Opacity(
-              opacity: 0.75,
+              opacity: 0.80,
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(

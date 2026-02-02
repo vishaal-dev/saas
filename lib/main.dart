@@ -6,8 +6,11 @@ import 'app.dart';
 import 'core/controllers/app_settings_controller.dart';
 import 'core/di/get_injector.dart';
 import 'core/services/network_checker.dart';
+import 'core/url_strategy_stub.dart'
+    if (dart.library.html) 'core/url_strategy_web.dart' as url_strategy;
 
 Future<void> main() async {
+  url_strategy.setUpUrlStrategy();
   setupBaseAppServices();
   runApp(const MyApp());
 }

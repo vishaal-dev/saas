@@ -25,10 +25,7 @@ class ForgotPassword extends GetView<ForgotPasswordController> {
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [
-                      const Color(0xFF0F172A),
-                      const Color(0xFF334F90),
-                    ],
+                    colors: [const Color(0xFF0F172A), const Color(0xFF334F90)],
                   ),
                 ),
               ),
@@ -132,7 +129,9 @@ class ForgotPassword extends GetView<ForgotPasswordController> {
       child: Obx(
         () => TextField(
           controller: c.emailOrPhoneController,
-          style: const TextStyle(color: Colors.black),
+          style: Get.theme.textTheme.bodySmall?.copyWith(
+            color: Color(0xFF0F172A),
+          ),
           cursorColor: Color(0xFF0F172A),
           decoration: InputDecoration(
             hintText: 'Enter Email Address /Phone Number',
@@ -140,7 +139,8 @@ class ForgotPassword extends GetView<ForgotPasswordController> {
               color: const Color(0xFF94A3B8),
             ),
             filled: true,
-            fillColor: Colors.white,
+            fillColor: Color(0xFFFFFFFF),
+            hoverColor: Color(0xFFFFFFFF),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide(color: Color(0xFFE2E8F0)),
