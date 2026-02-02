@@ -10,19 +10,30 @@ This project is a starting point for a Flutter application.
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 - [Flutter documentation](https://docs.flutter.dev/)
 
-## Deploying the web app to GitHub Pages
+## Deploying the web app to GitHub Pages (show Login app, not README)
 
-The **built** Flutter web app (in `build/web/`) must be deployed for the site to load the app instead of this README.
+The site will show your Flutter app (e.g. login screen) only if GitHub Pages serves the **built** app from the `gh-pages` branch. Do this once:
 
-1. **Enable GitHub Pages from Actions**  
-   In your repo: **Settings → Pages → Build and deployment → Source** → choose **GitHub Actions**.
+### Step 1: Run the deploy workflow
 
-2. **Deploy**  
-   Push to `main` (or run the workflow manually from the **Actions** tab). The workflow builds the web app and deploys it to GitHub Pages.
+- Push this repo to `main`, **or**
+- In the repo open **Actions** → **Deploy to GitHub Pages** → **Run workflow**.
 
-3. **Open the app**  
-   After the first successful deploy, the app is at:  
-   **`https://<your-username>.github.io/<repo-name>/`**  
-   (e.g. `https://vishal.github.io/saas/`). The root URL of the repo may still show README until you open the above link.
+Wait until the workflow run finishes (green check).
 
-If you use a **user/org site** (repo named `username.github.io`) and want the app at the root URL, change the workflow’s build step to run `flutter build web --release` (no `--base-href`).
+### Step 2: Tell GitHub Pages to use the built app
+
+1. In the repo go to **Settings** → **Pages**.
+2. Under **Build and deployment** → **Source**, choose **Deploy from a branch**.
+3. Under **Branch**, select **gh-pages** and **/ (root)**.
+4. Click **Save**.
+
+### Step 3: Open your app
+
+Your app (same as when you run it locally) will be at:
+
+**`https://<your-github-username>.github.io/<repo-name>/`**
+
+Example: if the repo is `vishal/saas`, open **https://vishal.github.io/saas/** (with the trailing slash).
+
+Until Step 2 is done, or if you open the repo root URL without the path above, you may still see README; use the exact URL above to see the login screen.

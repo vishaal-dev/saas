@@ -1,5 +1,5 @@
-# Build Flutter web and deploy to GitHub Pages.
-# In repo Settings → Pages → Source: choose "GitHub Actions".
+# Build Flutter web and deploy to gh-pages branch so GitHub Pages serves your app (not README).
+# After this runs: Settings → Pages → Source: "Deploy from a branch" → branch: gh-pages → Save.
 name: Deploy to GitHub Pages
 
 on:
@@ -7,18 +7,11 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,29 +19,20 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.24.0"
+          flutter-version: "3.22.0"
           channel: stable
           cache: true
 
       - name: Install dependencies
         run: flutter pub get
 
-      # Project Pages URL is https://<user>.github.io/<repo>/ so base-href must be /<repo>/
+      # Your app will be at https://<user>.github.io/<repo>/ so assets need base path /<repo>/
       - name: Build web
         run: flutter build web --release --base-href /${{ github.event.repository.name }}/
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          path: build/web
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deploy
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build/web
+          force_orphan: true
