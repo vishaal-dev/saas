@@ -6,7 +6,7 @@ import '../../../core/di/get_injector.dart';
 import '../../../navigation/navigation_mixins.dart';
 import '../../../routes/app_pages.dart';
 import '../../../shared/utils/base_controller.dart';
-import '../home.dart';
+import '../authentication/login/login.dart';
 
 class BasePageController extends BaseController {
   GlobalKey<ScaffoldState>? _scaffoldKey;
@@ -14,9 +14,9 @@ class BasePageController extends BaseController {
       ? PageTitles.home.obs
       : ''.obs; // Reactive appBarTitle for Obx
   Widget currentPage = Get.find<AppSettingsController>().isUserLoggedIn.value
-      ? Home()
+      ? Login()
       //  : OnboardingScreen();
-      : Home();
+      : Login();
 
   @override
   Future<void> onInit() async {
@@ -85,7 +85,7 @@ class BasePageController extends BaseController {
             print("logout happening, but values not updated");
             // appNav.changePage('/quotes');
             appBarTitle.value = PageTitles.home;
-            currentPage = Home();
+            currentPage = Login();
             updatePage(appBarTitle.value, currentPage, null);
           }
         }

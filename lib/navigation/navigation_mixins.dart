@@ -121,6 +121,7 @@ mixin NavigationMixin on GetxService {
 class PageTitles {
   static const String basePage = 'Base Page';
   static const String home = 'Home';
+  static const String forgotPassword = 'Forgot Password';
   static const String onboarding = 'Onboarding';
   static const String login = 'login';
   static const String otp = 'otp';

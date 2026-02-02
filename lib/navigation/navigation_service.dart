@@ -2,7 +2,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import '../app/screens/home.dart';
+import 'package:saas/app/screens/authentication/forgot_password/forgot_password.dart';
+import '../app/screens/authentication/login/login.dart';
 import '../core/di/get_injector.dart';
 import '../routes/app_pages.dart';
 import '../shared/constants/app.dart';
@@ -37,6 +38,8 @@ class NavigationService extends GetxService with NavigationMixin {
     switch (path) {
       case AppRoutes.home:
         return PageTitles.home;
+      case AppRoutes.forgotPassword:
+        return PageTitles.forgotPassword;
       // case AppRoutes.home:
       //   return PageTitles.home;
       // case AppRoutes.onBoarding:
@@ -76,7 +79,9 @@ class NavigationService extends GetxService with NavigationMixin {
   Widget getViewForPath(String path) {
     switch (path) {
       case AppRoutes.home:
-        return Home();
+        return Login();
+      case AppRoutes.forgotPassword:
+        return ForgotPassword();
       // case AppRoutes.onBoarding:
       //   return OnboardingScreen();
       // case AppRoutes.login:

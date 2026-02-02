@@ -17,6 +17,7 @@ abstract class AppRoutes {
   static const themeSettings = _Paths.themeSettings;
   static const location = _Paths.location;
   static const personalInfo = _Paths.personalInfo;
+  static const forgotPassword = _Paths.forgotPassword;
   AppRoutes._();
 }
 
@@ -37,5 +38,6 @@ abstract class _Paths {
   static const themeSettings = '/themeSettings';
   static const location = '/location';
   static const personalInfo = '/personal-info';
+  static const forgotPassword = '/forgot-password';
   _Paths._();
 }
