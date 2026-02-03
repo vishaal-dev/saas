@@ -4,6 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:saas/app/screens/authentication/forgot_password/forgot_password.dart';
 import '../app/screens/authentication/login/login.dart';
+import '../app/screens/authentication/otp_authentication/otp_authentication.dart';
+import '../app/screens/authentication/reset_password/reset_password.dart';
+import '../app/screens/dashboard/dashboard.dart';
 import '../core/di/get_injector.dart';
 import '../routes/app_pages.dart';
 import '../shared/constants/app.dart';
@@ -40,6 +43,12 @@ class NavigationService extends GetxService with NavigationMixin {
         return PageTitles.home;
       case AppRoutes.forgotPassword:
         return PageTitles.forgotPassword;
+      case AppRoutes.otp:
+        return PageTitles.otp;
+      case AppRoutes.resetPassword:
+        return PageTitles.resetPassword;
+      case AppRoutes.dashboard:
+        return PageTitles.dashboard;
       // case AppRoutes.home:
       //   return PageTitles.home;
       // case AppRoutes.onBoarding:
@@ -82,6 +91,12 @@ class NavigationService extends GetxService with NavigationMixin {
         return Login();
       case AppRoutes.forgotPassword:
         return ForgotPassword();
+      case AppRoutes.otp:
+        return OtpAuthentication();
+      case AppRoutes.resetPassword:
+        return ResetPassword();
+      case AppRoutes.dashboard:
+        return Dashboard();
       // case AppRoutes.onBoarding:
       //   return OnboardingScreen();
       // case AppRoutes.login:

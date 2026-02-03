@@ -122,6 +122,8 @@ class PageTitles {
   static const String basePage = 'Base Page';
   static const String home = 'Home';
   static const String forgotPassword = 'Forgot Password';
+  static const String resetPassword = 'Reset Password';
+  static const String dashboard = 'Dashboard';
   static const String onboarding = 'Onboarding';
   static const String login = 'login';
   static const String otp = 'otp';

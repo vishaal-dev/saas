@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:saas/core/di/get_injector.dart';
+import '../../../../routes/app_pages.dart';
 
 class ForgotPasswordController extends GetxController {
   final emailOrPhoneController = TextEditingController();
@@ -30,7 +32,7 @@ class ForgotPasswordController extends GetxController {
   void onGetOtp() {
     final value = emailOrPhoneController.text.trim();
     if (value.isEmpty) return;
-    // TODO: call API to send OTP, then navigate to OTP screen
-    // Get.toNamed(AppRoutes.otp, arguments: {'emailOrPhone': value});
+    // TODO: call API to send OTP
+    appNav.changePage(AppRoutes.otp, arguments: {'emailOrPhone': value});
   }
 }
