@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:saas/app/screens/authentication/forgot_password/forgot_password.dart';
+import 'package:saas/core/web_url_helper.dart';
 import '../app/screens/authentication/login/login.dart';
 import '../app/screens/authentication/otp_authentication/otp_authentication.dart';
 import '../app/screens/authentication/reset_password/reset_password.dart';
@@ -14,6 +15,12 @@ import '../shared/constants/box_constants.dart';
 import 'navigation_mixins.dart';
 
 class NavigationService extends GetxService with NavigationMixin {
+  @override
+  void onInit() {
+    super.onInit();
+    setupBrowserBackListener(popPage);
+  }
+
   /// Returns the current widget based on the current page path.
   Widget getCurrentPage() {
     final redirectRule = navigationRules.firstWhereOrNull(
@@ -172,6 +179,8 @@ class NavigationService extends GetxService with NavigationMixin {
     if (onPageChangeCallback != null) {
       onPageChangeCallback!(appBarTitle.value, newPage, arguments);
     }
+
+    updateBrowserUrl(path);
 
     ///for access the subscriptions dynamically
     // if (menuResult != null && appSettings.isUserLoggedIn.value) {

@@ -10,30 +10,51 @@ class Dashboard extends GetView<DashboardController> {
   static const _purpleLight = Color(0xFFE0E7FF);
   static const _textDark = Color(0xFF1F2937);
   static const _textMuted = Color(0xFF6B7280);
-  static const _sidebarBg = Color(0xFFF3F4F6);
-  static const _cardBg = Colors.white;
+  static const _sidebarBg = Color(0xFFF9FAFB);
+  static const _cardBg = Color(0xFFF9FAFB);
+  static const _tableHeaderBg = Color(0xFF374151);
   static const _border = Color(0xFFE5E7EB);
-  static const _expiredBadge = Color(0xFFFEE2E2);
-  static const _expiredText = Color(0xFFDC2626);
-  static const _expiringBadge = Color(0xFFFEF3C7);
-  static const _expiringText = Color(0xFFD97706);
+  static const _expiredBadge = Color(0xFFDC2626);
+  static const _expiringBadge = Color(0xFFFCD34D);
+  static const _expiringText = Color(0xFF92400E);
 
   @override
   Widget build(BuildContext context) {
     Get.put(DashboardController());
     return Scaffold(
-      body: Row(
+      backgroundColor: Colors.white,
+      body: Column(
         children: [
-          _buildSidebar(context),
-          Expanded(child: _buildMainContent(context)),
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildSidebar(context),
+                Expanded(child: _buildMainContent(context)),
+              ],
+            ),
+          ),
+          _buildFooter(),
         ],
+      ),
+    );
+  }
+
+  Widget _buildFooter() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      alignment: Alignment.center,
+      child: Text(
+        '© 2026 All rights reserved',
+        style: Get.textTheme.bodySmall?.copyWith(color: _textMuted, fontSize: 12),
       ),
     );
   }
 
   Widget _buildSidebar(BuildContext context) {
     final navItems = [
-      _NavItem(icon: Icons.dashboard_outlined, label: 'Dashboard', isActive: true),
+      _NavItem(icon: Icons.grid_view, label: 'Dashboard', isActive: true),
       _NavItem(icon: Icons.people_outline, label: 'Members'),
       _NavItem(icon: Icons.calendar_today_outlined, label: 'Subscriptions'),
       _NavItem(icon: Icons.refresh_outlined, label: 'Renewals'),
@@ -50,10 +71,14 @@ class Dashboard extends GetView<DashboardController> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/images/saas-logo.png',
+              Container(
+                width: 32,
                 height: 32,
-                errorBuilder: (_, __, ___) => Icon(Icons.grid_view, color: _purple, size: 28),
+                decoration: BoxDecoration(
+                  color: Colors.orange.shade300,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Icon(Icons.grid_view, size: 18, color: Colors.orange.shade800),
               ),
               const SizedBox(width: 8),
               Text(
@@ -68,13 +93,25 @@ class Dashboard extends GetView<DashboardController> {
           const SizedBox(height: 32),
           ...navItems.map((e) => _buildNavTile(e)),
           const Spacer(),
-          ListTile(
-            leading: Icon(Icons.logout, color: _textMuted, size: 22),
-            title: Text(
-              'Logout',
-              style: Get.textTheme.bodyMedium?.copyWith(color: _textMuted),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: InkWell(
+              onTap: controller.onLogout,
+              borderRadius: BorderRadius.circular(8),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                child: Row(
+                  children: [
+                    Icon(Icons.logout, color: _textMuted, size: 22),
+                    const SizedBox(width: 12),
+                    Text(
+                      'Logout',
+                      style: Get.textTheme.bodyMedium?.copyWith(color: _textMuted),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            onTap: controller.onLogout,
           ),
           const SizedBox(height: 16),
         ],
@@ -129,12 +166,13 @@ class Dashboard extends GetView<DashboardController> {
             style: Get.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: _textDark,
+              fontSize: 24,
             ),
           ),
           const SizedBox(height: 4),
           Text(
             'Manage everything here',
-            style: Get.textTheme.bodyMedium?.copyWith(color: _textMuted),
+            style: Get.textTheme.bodyMedium?.copyWith(color: _textMuted, fontSize: 14),
           ),
           const SizedBox(height: 24),
           _buildSummaryCards(),
@@ -156,13 +194,6 @@ class Dashboard extends GetView<DashboardController> {
               ),
             ],
           ),
-          const SizedBox(height: 40),
-          Center(
-            child: Text(
-              '© 2026 All rights reserved',
-              style: Get.textTheme.bodySmall?.copyWith(color: _textMuted),
-            ),
-          ),
         ],
       ),
     );
@@ -172,30 +203,27 @@ class Dashboard extends GetView<DashboardController> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        TextButton(
-          onPressed: controller.onAddMember,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            decoration: BoxDecoration(
-              color: _purple,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: const Text(
-              'Add Member',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
-            ),
-          ),
-        ),
-        const SizedBox(width: 12),
         IconButton(
           onPressed: () {},
-          icon: const Icon(Icons.notifications_outlined, color: _textMuted),
+          icon: Icon(Icons.notifications_outlined, color: _textMuted, size: 24),
         ),
         const SizedBox(width: 8),
         CircleAvatar(
-          radius: 20,
+          radius: 18,
           backgroundColor: const Color(0xFFDBEAFE),
-          child: Icon(Icons.person, color: _purple),
+          child: Icon(Icons.person, color: _purple, size: 22),
+        ),
+        const SizedBox(width: 16),
+        ElevatedButton(
+          onPressed: controller.onAddMember,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: _purple,
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            elevation: 0,
+          ),
+          child: const Text('Add Member'),
         ),
       ],
     );
@@ -205,8 +233,8 @@ class Dashboard extends GetView<DashboardController> {
     final cards = [
       _SummaryCard(icon: Icons.people, iconColor: _purple, value: '284', label: 'Active Members'),
       _SummaryCard(icon: Icons.schedule, iconColor: Colors.orange, value: '18', label: 'Expiring (7 Days)'),
-      _SummaryCard(icon: Icons.cancel_outlined, iconColor: Colors.red, value: '7', label: 'Expired'),
-      _SummaryCard(icon: Icons.check_circle_outline, iconColor: Colors.green, value: '96', label: 'Renewed (This Month)'),
+      _SummaryCard(icon: Icons.shield_outlined, iconColor: Colors.red, value: '7', label: 'Expired'),
+      _SummaryCard(icon: Icons.check_box_outlined, iconColor: Colors.green, value: '96', label: 'Renewed (This Month)'),
     ];
     return Row(
       children: [
@@ -227,24 +255,38 @@ class Dashboard extends GetView<DashboardController> {
       decoration: BoxDecoration(
         color: _cardBg,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: _border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(c.icon, color: c.iconColor, size: 28),
-          const SizedBox(height: 12),
-          Text(
-            c.value,
-            style: Get.textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: _textDark,
-            ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
-          const SizedBox(height: 4),
-          Text(
-            c.label,
-            style: Get.textTheme.bodySmall?.copyWith(color: _textMuted),
+        ],
+        border: Border.all(color: _border, width: 0.5),
+      ),
+      child: Row(
+        children: [
+          Icon(c.icon, color: c.iconColor, size: 40),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  c.value,
+                  style: Get.textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: _textDark,
+                    fontSize: 24,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  c.label,
+                  style: Get.textTheme.bodySmall?.copyWith(color: _textMuted, fontSize: 13),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -261,15 +303,22 @@ class Dashboard extends GetView<DashboardController> {
     ];
     return Container(
       decoration: BoxDecoration(
-        color: _cardBg,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: _border),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+        border: Border.all(color: _border, width: 0.5),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -278,6 +327,7 @@ class Dashboard extends GetView<DashboardController> {
                   style: Get.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: _textDark,
+                    fontSize: 16,
                   ),
                 ),
                 GestureDetector(
@@ -287,6 +337,8 @@ class Dashboard extends GetView<DashboardController> {
                     style: Get.textTheme.bodyMedium?.copyWith(
                       color: _purple,
                       fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline,
+                      decorationColor: _purple,
                     ),
                   ),
                 ),
@@ -303,7 +355,7 @@ class Dashboard extends GetView<DashboardController> {
             },
             children: [
               TableRow(
-                decoration: BoxDecoration(color: _sidebarBg),
+                decoration: const BoxDecoration(color: _tableHeaderBg),
                 children: [
                   _tableCell('Name', isHeader: true),
                   _tableCell('Plan', isHeader: true),
@@ -314,6 +366,7 @@ class Dashboard extends GetView<DashboardController> {
               ),
               ...rows.map(
                 (r) => TableRow(
+                  decoration: const BoxDecoration(color: Colors.white),
                   children: [
                     _tableCell(r.name),
                     _tableCell(r.plan),
@@ -332,21 +385,21 @@ class Dashboard extends GetView<DashboardController> {
 
   Widget _tableCell(String text, {bool isHeader = false, bool isBadge = false, bool isExpired = false, bool isActions = false}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       child: isActions
           ? Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.notifications_none, size: 20, color: _textMuted),
+                _actionIcon(Icons.notifications_none),
                 const SizedBox(width: 8),
-                Icon(Icons.refresh, size: 20, color: _textMuted),
+                _actionIcon(Icons.refresh),
                 const SizedBox(width: 8),
-                Icon(Icons.visibility_outlined, size: 20, color: _textMuted),
+                _actionIcon(Icons.visibility_outlined),
               ],
             )
           : isBadge
               ? Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
                     color: isExpired ? _expiredBadge : _expiringBadge,
                     borderRadius: BorderRadius.circular(20),
@@ -354,18 +407,32 @@ class Dashboard extends GetView<DashboardController> {
                   child: Text(
                     text,
                     style: Get.textTheme.labelSmall?.copyWith(
-                      color: isExpired ? _expiredText : _expiringText,
+                      color: isExpired ? Colors.white : _expiringText,
                       fontWeight: FontWeight.w500,
+                      fontSize: 12,
                     ),
                   ),
                 )
               : Text(
                   text,
                   style: Get.textTheme.bodySmall?.copyWith(
-                    color: isHeader ? _textMuted : _textDark,
-                    fontWeight: isHeader ? FontWeight.w600 : null,
+                    color: isHeader ? Colors.white : _textDark,
+                    fontWeight: isHeader ? FontWeight.w600 : FontWeight.w400,
+                    fontSize: 13,
                   ),
                 ),
+    );
+  }
+
+  Widget _actionIcon(IconData icon) {
+    return Container(
+      padding: const EdgeInsets.all(6),
+      decoration: BoxDecoration(
+        color: _sidebarBg,
+        shape: BoxShape.circle,
+        border: Border.all(color: _border),
+      ),
+      child: Icon(icon, size: 18, color: _textMuted),
     );
   }
 
@@ -373,9 +440,16 @@ class Dashboard extends GetView<DashboardController> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: _cardBg,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: _border),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+        border: Border.all(color: _border, width: 0.5),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -385,23 +459,25 @@ class Dashboard extends GetView<DashboardController> {
             style: Get.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: _textDark,
+              fontSize: 16,
             ),
           ),
           const SizedBox(height: 12),
           Text(
             'You may lose ₹18,000 this week due to 6 memberships expiring. Sending reminders today could recover ₹12,500.',
-            style: Get.textTheme.bodyMedium?.copyWith(color: _textDark, height: 1.4),
+            style: Get.textTheme.bodyMedium?.copyWith(color: _textDark, height: 1.5, fontSize: 14),
           ),
           const SizedBox(height: 16),
-          Align(
-            alignment: Alignment.centerRight,
-            child: TextButton(
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
               onPressed: controller.onSendRemindersNow,
-              style: TextButton.styleFrom(
+              style: ElevatedButton.styleFrom(
                 backgroundColor: _purple,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                elevation: 0,
               ),
               child: const Text('Send Reminders Now'),
             ),
@@ -415,9 +491,16 @@ class Dashboard extends GetView<DashboardController> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: _cardBg,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: _border),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+        border: Border.all(color: _border, width: 0.5),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -427,6 +510,7 @@ class Dashboard extends GetView<DashboardController> {
             style: Get.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: _textDark,
+              fontSize: 16,
             ),
           ),
           const SizedBox(height: 16),
@@ -434,7 +518,7 @@ class Dashboard extends GetView<DashboardController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('John Doe', style: Get.textTheme.bodyMedium?.copyWith(color: _textDark)),
-              Text('WhatsApp. 18:20:36', style: Get.textTheme.bodySmall?.copyWith(color: _textMuted)),
+              Text('WhatsApp . 18:20:36', style: Get.textTheme.bodySmall?.copyWith(color: _textMuted)),
             ],
           ),
         ],
