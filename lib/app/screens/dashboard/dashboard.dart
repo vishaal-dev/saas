@@ -15,8 +15,8 @@ class Dashboard extends GetView<DashboardController> {
   static const _textDark = Color(0xFF333333);
   static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
-  static const _expiredBadge = Color(0xFFF87A7A);
-  static const _expiringBadge = Color(0xFFFFB020);
+  static const _expiredBadge = Color(0xFFFEE2E2);
+  static const _expiringBadge = Color(0xFFFEF3C7);
   static const _renewedGreen = Color(0xFF5AC464);
   static const _iconCirclePurple = Color(0xFF4F46E5);
   static const _iconCircleOrange = Color(0xFFF59E0B);
@@ -217,26 +217,30 @@ class Dashboard extends GetView<DashboardController> {
               color: Color(0xFFF8FAFC),
               borderRadius: BorderRadius.only(topLeft: Radius.circular(30)),
             ),
-            child: Column(children: [_buildSummaryCards()]),
+            child: Column(
+              children: [
+                _buildSummaryCards(),
+                const SizedBox(height: 33),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(flex: 2, child: _buildRenewalsSection()),
+                    const SizedBox(width: 24),
+                    SizedBox(
+                      width: 340,
+                      child: Column(
+                        children: [
+                          _buildAiInsightsCard(),
+                          const SizedBox(height: 20),
+                          _buildUpcomingRemindersCard(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-          const SizedBox(height: 24),
-          // Row(
-          //   crossAxisAlignment: CrossAxisAlignment.start,
-          //   children: [
-          //     Expanded(flex: 2, child: _buildRenewalsSection()),
-          //     const SizedBox(width: 24),
-          //     SizedBox(
-          //       width: 340,
-          //       child: Column(
-          //         children: [
-          //           _buildAiInsightsCard(),
-          //           const SizedBox(height: 20),
-          //           _buildUpcomingRemindersCard(),
-          //         ],
-          //       ),
-          //     ),
-          //   ],
-          // ),
         ],
       ),
     );
@@ -303,9 +307,11 @@ class Dashboard extends GetView<DashboardController> {
     return Row(
       children: [
         for (int i = 0; i < cards.length; i++)
-          Padding(
-            padding: EdgeInsets.only(right: i < cards.length - 1 ? 25 : 0),
-            child: _summaryCard(cards[i]),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(right: i < cards.length - 1 ? 25 : 0),
+              child: _summaryCard(cards[i]),
+            ),
           ),
       ],
     );
@@ -313,9 +319,8 @@ class Dashboard extends GetView<DashboardController> {
 
   Widget _summaryCard(_SummaryCard c) {
     return Container(
-      height: 120,
-      width: 264,
-      padding: const EdgeInsets.all(20),
+      constraints: const BoxConstraints(minWidth: 264, minHeight: 120),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
       decoration: BoxDecoration(
         color: Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(12),
@@ -358,7 +363,7 @@ class Dashboard extends GetView<DashboardController> {
                   fontSize: 24,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 8),
               Text(
                 c.label,
                 style: Get.textTheme.bodySmall?.copyWith(
@@ -412,9 +417,11 @@ class Dashboard extends GetView<DashboardController> {
       ),
     ];
     return Container(
+      constraints: const BoxConstraints(minWidth: 696, minHeight: 501),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(width: 1, color: _border),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.06),
@@ -433,22 +440,18 @@ class Dashboard extends GetView<DashboardController> {
               children: [
                 Text(
                   'Action Required - Renewals',
-                  style: Get.textTheme.titleMedium?.copyWith(
+                  style: Get.textTheme.bodyMedium?.copyWith(
+                    color: Color(0xFF0F172A),
                     fontWeight: FontWeight.w600,
-                    color: _textDark,
-                    fontSize: 18,
-                    fontFamily: 'Poppins',
                   ),
                 ),
                 GestureDetector(
                   onTap: controller.onViewAllRenewals,
                   child: Text(
                     'View All Renewals',
-                    style: Get.textTheme.bodyMedium?.copyWith(
-                      color: _purple,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      fontFamily: 'Poppins',
+                    style: Get.textTheme.labelMedium?.copyWith(
+                      color: Color(0xFF4F46E5),
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
@@ -465,13 +468,13 @@ class Dashboard extends GetView<DashboardController> {
             },
             children: [
               TableRow(
-                decoration: const BoxDecoration(color: Colors.white),
+                decoration: const BoxDecoration(color: Color(0xFFEEF2FF)),
                 children: [
-                  _tableCell('Name', isHeader: true),
-                  _tableCell('Plan', isHeader: true),
-                  _tableCell('Expiry', isHeader: true),
-                  _tableCell('Status', isHeader: true),
-                  _tableCell('Action', isHeader: true),
+                  _tableCell('Name', isHeader: true, horizontalPadding: 24),
+                  _tableCell('Plan', isHeader: true, horizontalPadding: 24),
+                  _tableCell('Expiry', isHeader: true, horizontalPadding: 24),
+                  _tableCell('Status', isHeader: true, horizontalPadding: 24),
+                  _tableCell('Action', isHeader: true, horizontalPadding: 24),
                 ],
               ),
               ...rows.asMap().entries.map(
@@ -482,15 +485,16 @@ class Dashboard extends GetView<DashboardController> {
                         : const Color(0xFFFAFAFA),
                   ),
                   children: [
-                    _tableCell(e.value.name),
-                    _tableCell(e.value.plan),
-                    _tableCell(e.value.expiry),
+                    _tableCell(e.value.name, horizontalPadding: 24),
+                    _tableCell(e.value.plan, horizontalPadding: 24),
+                    _tableCell(e.value.expiry, horizontalPadding: 24),
                     _tableCell(
                       e.value.status,
                       isBadge: true,
                       isExpired: e.value.isExpired,
+                      horizontalPadding: 24,
                     ),
-                    _tableCell('', isActions: true),
+                    _tableCell('', isActions: true, horizontalPadding: 24),
                   ],
                 ),
               ),
@@ -507,58 +511,78 @@ class Dashboard extends GetView<DashboardController> {
     bool isBadge = false,
     bool isExpired = false,
     bool isActions = false,
+    double horizontalPadding = 16,
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      padding: EdgeInsets.symmetric(
+        horizontal: horizontalPadding,
+        vertical: 14,
+      ),
       child: isActions
           ? Row(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.max,
               children: [
-                _actionIcon(Icons.notifications_none),
+                _actionImage('assets/icons/bell-ring.png'),
                 const SizedBox(width: 8),
-                _actionIcon(Icons.refresh),
-                const SizedBox(width: 8),
-                _actionIcon(Icons.visibility_outlined),
+                _actionImage('assets/icons/renew.png'),
               ],
             )
           : isBadge
           ? Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              width: 91,
+              height: 32,
+              // padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: isExpired ? _expiredBadge : _expiringBadge,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(16),
               ),
-              child: Text(
-                text,
-                style: Get.textTheme.labelSmall?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 12,
-                  fontFamily: 'Poppins',
+              child: Center(
+                child: Text(
+                  text,
+                  style: Get.textTheme.labelSmall?.copyWith(
+                    color: isExpired ? Color(0xFF991B1B) : Color(0xFF92400E),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 12,
+                  ),
                 ),
               ),
             )
           : Text(
               text,
-              style: Get.textTheme.bodySmall?.copyWith(
-                color: isHeader ? _textDark : _textDark,
-                fontWeight: isHeader ? FontWeight.w500 : FontWeight.w400,
-                fontSize: 14,
-                fontFamily: 'Poppins',
+              style: Get.textTheme.labelMedium?.copyWith(
+                color: isHeader ? Color(0xFF475569) : Color(0xFF0F172A),
+                fontWeight: isHeader ? FontWeight.w600 : FontWeight.w400,
               ),
             ),
     );
   }
 
-  Widget _actionIcon(IconData icon) {
-    return Container(
-      padding: const EdgeInsets.all(6),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF9FAFB),
-        shape: BoxShape.circle,
-        border: Border.all(color: _border),
+  Widget _actionImage(String assetPath) {
+    // return Container(
+    //   padding: const EdgeInsets.all(6),
+    //   decoration: BoxDecoration(
+    //     color: const Color(0xFFF9FAFB),
+    //     shape: BoxShape.circle,
+    //     border: Border.all(color: _border),
+    //   ),
+    //   child: Image.asset(
+    //     assetPath,
+    //     width: 18,
+    //     height: 18,
+    //     color: _textMuted,
+    //     colorBlendMode: BlendMode.srcIn,
+    //   ),
+    // );
+    return CircleAvatar(
+      backgroundColor: const Color(0xFFEEF2FF),
+      child: Image.asset(
+        assetPath,
+        width: 18,
+        height: 18,
+        color: _textMuted,
+        colorBlendMode: BlendMode.srcIn,
       ),
-      child: Icon(icon, size: 18, color: _textMuted),
     );
   }
 
