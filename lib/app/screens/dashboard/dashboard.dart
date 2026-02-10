@@ -225,7 +225,6 @@ class Dashboard extends GetView<DashboardController> {
             decoration: BoxDecoration(
               color: Color(0xFFF8FAFC),
               borderRadius: BorderRadius.only(topLeft: Radius.circular(30)),
-              border: Border.all(color: Color(0xFFE2E8F0)),
             ),
             child: SingleChildScrollView(
               child: Column(
@@ -479,7 +478,7 @@ class Dashboard extends GetView<DashboardController> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(width: 1, color: _border),
+        border: Border.all(width: 1, color: Color(0xFFE2E8F0)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.06),
@@ -526,7 +525,10 @@ class Dashboard extends GetView<DashboardController> {
             },
             children: [
               TableRow(
-                decoration: const BoxDecoration(color: Color(0xFFEEF2FF)),
+                decoration: BoxDecoration(
+                  color: Color(0xFFEEF2FF),
+                  border: Border.all(color: Color(0xFFE2E8F0)),
+                ),
                 children: [
                   _tableCell('Name', isHeader: true, horizontalPadding: 24),
                   _tableCell('Plan', isHeader: true, horizontalPadding: 24),
@@ -541,6 +543,7 @@ class Dashboard extends GetView<DashboardController> {
                     color: e.key.isEven
                         ? Colors.white
                         : const Color(0xFFFAFAFA),
+                    border: Border.all(color: Color(0xFFE2E8F0)),
                   ),
                   children: [
                     _tableCell(e.value.name, horizontalPadding: 24),
