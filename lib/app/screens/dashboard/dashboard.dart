@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dashboard_controller.dart';
@@ -30,15 +31,16 @@ class Dashboard extends GetView<DashboardController> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              _buildSidebar(context),
-              Expanded(child: _buildMainContent(context)),
-            ],
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                _buildSidebar(context),
+                Expanded(child: _buildMainContent(context)),
+              ],
+            ),
           ),
-          // _buildFooter(),
         ],
       ),
     );
@@ -47,6 +49,7 @@ class Dashboard extends GetView<DashboardController> {
   Widget _buildFooter() {
     return Container(
       width: double.infinity,
+      color: Color(0xFFF8FAFC),
       padding: const EdgeInsets.symmetric(vertical: 16),
       alignment: Alignment.center,
       child: Text(
@@ -117,45 +120,15 @@ class Dashboard extends GetView<DashboardController> {
                     const SizedBox(height: 32),
                     ...navItems.map((e) => _buildNavTile(e)),
                     const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
-                      ),
-                      child: InkWell(
-                        onTap: controller.onLogout,
-                        borderRadius: BorderRadius.circular(28),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 12,
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'Logout',
-                                style: Get.textTheme.bodyMedium?.copyWith(
-                                  color: _textMuted,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                color: _textMuted,
-                                size: 14,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
             ),
+          ),
+          const Divider(thickness: 1, color: Color(0xFFCBD5E1)),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 22),
+            child: _buildLogoutTile(),
           ),
           const SizedBox(height: 16),
         ],
@@ -199,71 +172,156 @@ class Dashboard extends GetView<DashboardController> {
     );
   }
 
-  Widget _buildMainContent(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [_buildTopBar()],
-          ),
-          const SizedBox(height: 24),
-          Container(
-            padding: EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Color(0xFFF8FAFC),
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(30)),
-            ),
-            child: Column(
+  Widget _buildLogoutTile() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(28),
+        child: InkWell(
+          onTap: controller.onLogout,
+          borderRadius: BorderRadius.circular(28),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 17),
+            child: Row(
               children: [
-                _buildSummaryCards(),
-                const SizedBox(height: 33),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(flex: 2, child: _buildRenewalsSection()),
-                    const SizedBox(width: 24),
-                    SizedBox(
-                      width: 340,
-                      child: Column(
-                        children: [
-                          _buildAiInsightsCard(),
-                          const SizedBox(height: 20),
-                          _buildUpcomingRemindersCard(),
-                        ],
-                      ),
-                    ),
-                  ],
+                Image.asset(
+                  'assets/icons/log-out.png',
+                  width: 24,
+                  height: 24,
+                  color: _textMuted,
+                  colorBlendMode: BlendMode.srcIn,
+                ),
+                const SizedBox(width: 16),
+                Text(
+                  'Logout',
+                  style: Get.textTheme.bodySmall?.copyWith(
+                    fontSize: 18,
+                    color: _textMuted,
+                  ),
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMainContent(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [_buildTopBar()],
+        ),
+        const SizedBox(height: 24),
+        Expanded(
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: Color(0xFFF8FAFC),
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(30)),
+              border: Border.all(color: Color(0xFFE2E8F0)),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildDashboardHeader(),
+                  const SizedBox(height: 24),
+                  _buildSummaryCards(),
+                  const SizedBox(height: 33),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(flex: 2, child: _buildRenewalsSection()),
+                      const SizedBox(width: 24),
+                      SizedBox(
+                        width: 340,
+                        child: Column(
+                          children: [
+                            _buildAiInsightsCard(),
+                            const SizedBox(height: 20),
+                            _buildUpcomingRemindersCard(),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        _buildFooter(),
+      ],
+    );
+  }
+
+  Widget _buildTopBar() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 24, top: 12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          CircleAvatar(
+            backgroundColor: const Color(0xFFEEF2FF),
+            child: Image.asset(
+              'assets/icons/headset.png',
+              width: 24,
+              height: 24,
+              color: _textMuted,
+              colorBlendMode: BlendMode.srcIn,
+            ),
+          ),
+          const SizedBox(width: 32),
+          CircleAvatar(
+            backgroundColor: const Color(0xFFEEF2FF),
+            child: Image.asset('assets/images/profile-icon.png'),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildTopBar() {
+  Widget _buildDashboardHeader() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CircleAvatar(
-          backgroundColor: const Color(0xFFEEF2FF),
-          child: Image.asset(
-            'assets/icons/headset.png',
-            width: 24,
-            height: 24,
-            color: _textMuted,
-            colorBlendMode: BlendMode.srcIn,
-          ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Dashboard',
+              style: Get.textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Manage everything here',
+              style: Get.textTheme.bodyMedium?.copyWith(color: _textMuted),
+            ),
+          ],
         ),
-        const SizedBox(width: 32),
-        CircleAvatar(
-          backgroundColor: const Color(0xFFEEF2FF),
-          child: Image.asset('assets/images/profile-icon.png'),
+        FilledButton(
+          onPressed: () {},
+          style: FilledButton.styleFrom(
+            backgroundColor: _purple,
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+          child: const Text('Add Member'),
         ),
       ],
     );
@@ -559,21 +617,6 @@ class Dashboard extends GetView<DashboardController> {
   }
 
   Widget _actionImage(String assetPath) {
-    // return Container(
-    //   padding: const EdgeInsets.all(6),
-    //   decoration: BoxDecoration(
-    //     color: const Color(0xFFF9FAFB),
-    //     shape: BoxShape.circle,
-    //     border: Border.all(color: _border),
-    //   ),
-    //   child: Image.asset(
-    //     assetPath,
-    //     width: 18,
-    //     height: 18,
-    //     color: _textMuted,
-    //     colorBlendMode: BlendMode.srcIn,
-    //   ),
-    // );
     return CircleAvatar(
       backgroundColor: const Color(0xFFEEF2FF),
       child: Image.asset(
@@ -588,10 +631,13 @@ class Dashboard extends GetView<DashboardController> {
 
   Widget _buildAiInsightsCard() {
     return Container(
-      padding: const EdgeInsets.all(20),
+      width: 408,
+      height: 194,
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Color(0xFFC7D2FE), width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.06),
@@ -605,58 +651,63 @@ class Dashboard extends GetView<DashboardController> {
         children: [
           Text(
             'AI Insights',
-            style: Get.textTheme.titleMedium?.copyWith(
+            style: Get.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w600,
               color: _textDark,
-              fontSize: 18,
-              fontFamily: 'Poppins',
             ),
           ),
           const SizedBox(height: 12),
           Text(
             'You may lose ₹18,000 this week due to 6 memberships expiring. Sending reminders today could recover ₹12,500.',
-            style: Get.textTheme.bodyMedium?.copyWith(
+            style: Get.textTheme.bodySmall?.copyWith(
               color: _textMuted,
-              height: 1.5,
-              fontSize: 14,
-              fontFamily: 'Poppins',
+              // height: 1.5,
+              fontWeight: FontWeight.w400,
             ),
           ),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton(
-              onPressed: controller.onSendRemindersNow,
-              style: OutlinedButton.styleFrom(
-                foregroundColor: _purple,
-                side: const BorderSide(color: _purple),
-                backgroundColor: Colors.transparent,
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+          const SizedBox(height: 24),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              OutlinedButton(
+                onPressed: controller.onSendRemindersNow,
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: _purple,
+                  side: const BorderSide(color: _purple),
+                  backgroundColor: Color(0xFFEEF2FF),
+                  //  padding: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  'Send Reminders Now',
+                  style: Get.theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF4F46E5),
+                  ),
                 ),
               ),
-              child: const Text(
-                'Send Reminders Now',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'Poppins',
-                ),
-              ),
-            ),
+            ],
           ),
         ],
       ),
     );
   }
 
+  static const _donutGreen = Color(0xFF9CAF88);
+  static const _donutSalmon = Color(0xFFE8A598);
+  static const _labelBlue = Color(0xFF4F46E5);
+
   Widget _buildUpcomingRemindersCard() {
+    const chartSize = 140.0;
     return Container(
+      height: 284,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: const Color(0xFFC7D2FE), width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.06),
@@ -667,41 +718,82 @@ class Dashboard extends GetView<DashboardController> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'Upcoming Reminders',
-            style: Get.textTheme.titleMedium?.copyWith(
+            'Revenue Insights',
+            style: Get.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.w600,
               color: _textDark,
-              fontSize: 18,
-              fontFamily: 'Poppins',
+            ),
+          ),
+          const SizedBox(height: 20),
+          Center(
+            child: SizedBox(
+              width: chartSize,
+              height: chartSize,
+              child: CustomPaint(
+                painter: _DonutChartPainter(
+                  segments: [(_donutGreen, 0.72), (_donutSalmon, 0.28)],
+                  strokeWidth: 24,
+                ),
+              ),
             ),
           ),
           const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'John Doe',
-                style: Get.textTheme.bodyMedium?.copyWith(
-                  color: _textDark,
-                  fontSize: 14,
-                  fontFamily: 'Poppins',
-                ),
-              ),
-              Text(
-                'WhatsApp . 18:20:36',
-                style: Get.textTheme.bodySmall?.copyWith(
-                  color: _textMuted,
-                  fontSize: 14,
-                  fontFamily: 'Poppins',
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );
+  }
+
+  Widget _buildChartLabel(String value, IconData icon) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          value,
+          style: Get.textTheme.bodyMedium?.copyWith(
+            color: _labelBlue,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(width: 6),
+        Icon(icon, color: _labelBlue, size: 18),
+      ],
+    );
+  }
+}
+
+class _DonutChartPainter extends CustomPainter {
+  final List<(Color, double)> segments;
+  final double strokeWidth;
+
+  _DonutChartPainter({required this.segments, this.strokeWidth = 20});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = (size.shortestSide / 2) - strokeWidth / 2;
+    var startAngle = -math.pi / 2;
+
+    for (final (color, fraction) in segments) {
+      final sweepAngle = 2 * math.pi * fraction;
+      final rect = Rect.fromCircle(center: center, radius: radius);
+      final paint = Paint()
+        ..color = color
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = strokeWidth
+        ..strokeCap = StrokeCap.round;
+      canvas.drawArc(rect, startAngle, sweepAngle, false, paint);
+      startAngle += sweepAngle;
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _DonutChartPainter oldDelegate) {
+    return oldDelegate.segments != segments ||
+        oldDelegate.strokeWidth != strokeWidth;
   }
 }
 
