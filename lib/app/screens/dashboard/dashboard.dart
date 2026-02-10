@@ -1,7 +1,9 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'add_member_modal.dart';
 import 'dashboard_controller.dart';
+import 'help_support_modal.dart';
 
 class Dashboard extends GetView<DashboardController> {
   const Dashboard({super.key});
@@ -267,14 +269,18 @@ class Dashboard extends GetView<DashboardController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          CircleAvatar(
-            backgroundColor: const Color(0xFFEEF2FF),
-            child: Image.asset(
-              'assets/icons/headset.png',
-              width: 24,
-              height: 24,
-              color: _textMuted,
-              colorBlendMode: BlendMode.srcIn,
+          InkWell(
+            onTap: () => Get.dialog(const HelpSupportModal()),
+            borderRadius: BorderRadius.circular(24),
+            child: CircleAvatar(
+              backgroundColor: const Color(0xFFEEF2FF),
+              child: Image.asset(
+                'assets/icons/headset.png',
+                width: 24,
+                height: 24,
+                color: _textMuted,
+                colorBlendMode: BlendMode.srcIn,
+              ),
             ),
           ),
           const SizedBox(width: 32),
@@ -311,7 +317,7 @@ class Dashboard extends GetView<DashboardController> {
           ],
         ),
         FilledButton(
-          onPressed: () {},
+          onPressed: () => Get.dialog(const AddMemberModal()),
           style: FilledButton.styleFrom(
             backgroundColor: _purple,
             foregroundColor: Colors.white,
