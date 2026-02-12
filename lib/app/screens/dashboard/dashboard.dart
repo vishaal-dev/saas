@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'add_member_modal.dart';
 import 'dashboard_controller.dart';
+import 'dashboard_mobile_view.dart';
+import 'dashboard_tablet_view.dart';
 import 'help_support_modal.dart';
 import 'members_view.dart';
 import 'reminders_view.dart';
@@ -32,9 +34,21 @@ class Dashboard extends GetView<DashboardController> {
   static const _iconCircleRed = Color(0xFFDC2626);
   static const _iconCircleGreen = Color(0xFF16A34A);
 
+  /// Breakpoint below which tablet layout (app bar + drawer) is used instead of web (sidebar).
+  static const _tabletBreakpoint = 1024.0;
+  /// Breakpoint below which mobile layout (compact app bar + single column) is used.
+  static const _mobileBreakpoint = 600.0;
+
   @override
   Widget build(BuildContext context) {
     Get.put(DashboardController());
+    final width = MediaQuery.sizeOf(context).width;
+    if (width < _mobileBreakpoint) {
+      return const DashboardMobileView();
+    }
+    if (width < _tabletBreakpoint) {
+      return const DashboardTabletView();
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
