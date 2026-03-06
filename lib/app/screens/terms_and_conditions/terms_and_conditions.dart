@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'terms_and_conditions_mobile_view.dart';
-import 'terms_and_conditions_tablet_view.dart';
+import 'views/terms_and_conditions_mobile_view.dart';
+import 'views/terms_and_conditions_tablet_view.dart';
 
 class TermsAndConditions extends StatelessWidget {
   const TermsAndConditions({super.key});

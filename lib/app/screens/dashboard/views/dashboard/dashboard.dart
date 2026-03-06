@@ -1,17 +1,17 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'views/dashboard/dashboard_controller.dart';
-import 'modals/add_member_modal.dart';
-import 'modals/help_support_modal.dart';
-import 'views/dashboard/dashboard_mobile_view.dart';
-import 'views/dashboard/dashboard_tablet_view.dart';
-import 'views/members/members_view.dart';
-import 'views/reminders/reminders_view.dart';
-import 'views/renewals/renewals_view.dart';
-import 'views/reports/reports_view.dart';
-import 'views/settings/settings_view.dart';
-import 'views/subscriptions/subscriptions_view.dart';
+import 'dashboard_controller.dart';
+import '../../modals/add_member_modal.dart';
+import '../../modals/help_support_modal.dart';
+import 'dashboard_mobile_view.dart';
+import 'dashboard_tablet_view.dart';
+import '../members/members_view.dart';
+import '../reminders/reminders_view.dart';
+import '../renewals/renewals_view.dart';
+import '../reports/reports_view.dart';
+import '../settings/settings_view.dart';
+import '../subscriptions/subscriptions_view.dart';
 
 class Dashboard extends GetView<DashboardController> {
   const Dashboard({super.key});
@@ -35,6 +35,7 @@ class Dashboard extends GetView<DashboardController> {
 
   /// Breakpoint below which tablet layout (app bar + drawer) is used instead of web (sidebar).
   static const _tabletBreakpoint = 1024.0;
+
   /// Breakpoint below which mobile layout (compact app bar + single column) is used.
   static const _mobileBreakpoint = 600.0;
 
@@ -42,13 +43,10 @@ class Dashboard extends GetView<DashboardController> {
   Widget build(BuildContext context) {
     Get.put(DashboardController());
     final width = MediaQuery.sizeOf(context).width;
-    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
-
     if (width < _mobileBreakpoint) {
       return const DashboardMobileView();
     }
-    // In landscape: always use drawer (tap to open/close) like mobile, never persistent sidebar
-    if (isLandscape || width < _tabletBreakpoint) {
+    if (width < _tabletBreakpoint) {
       return const DashboardTabletView();
     }
     return Scaffold(
@@ -135,9 +133,7 @@ class Dashboard extends GetView<DashboardController> {
       ];
       return Container(
         width: _sidebarWidth,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-        ),
+        decoration: const BoxDecoration(color: Colors.white),
         child: Column(
           children: [
             const SizedBox(height: 24),
@@ -298,7 +294,7 @@ class Dashboard extends GetView<DashboardController> {
           const SizedBox(height: 24),
           _buildSummaryCards(),
           const SizedBox(height: 33),
-          Row(
+            Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(flex: 2, child: _buildRenewalsSection()),
@@ -601,7 +597,7 @@ class Dashboard extends GetView<DashboardController> {
                   1: FlexColumnWidth(1),
                   2: FlexColumnWidth(1.2),
                   3: FlexColumnWidth(1),
-                  4: FixedColumnWidth(96),
+                  4: FixedColumnWidth(96), // Action column: min width for two icons + padding (avoids overflow in landscape)
                 },
                 children: [
               TableRow(
@@ -610,11 +606,36 @@ class Dashboard extends GetView<DashboardController> {
                   border: Border.all(color: Color(0xFFE2E8F0)),
                 ),
                 children: [
-                  _tableCell('Name', isHeader: true, horizontalPadding: 24, align: Alignment.centerLeft),
-                  _tableCell('Plan', isHeader: true, horizontalPadding: 24, align: Alignment.center),
-                  _tableCell('Expiry', isHeader: true, horizontalPadding: 24, align: Alignment.center),
-                  _tableCell('Status', isHeader: true, horizontalPadding: 24, align: Alignment.center),
-                  _tableCell('Action', isHeader: true, horizontalPadding: 24, align: Alignment.center),
+                  _tableCell(
+                    'Name',
+                    isHeader: true,
+                    horizontalPadding: 24,
+                    align: Alignment.centerLeft,
+                  ),
+                  _tableCell(
+                    'Plan',
+                    isHeader: true,
+                    horizontalPadding: 24,
+                    align: Alignment.center,
+                  ),
+                  _tableCell(
+                    'Expiry',
+                    isHeader: true,
+                    horizontalPadding: 24,
+                    align: Alignment.center,
+                  ),
+                  _tableCell(
+                    'Status',
+                    isHeader: true,
+                    horizontalPadding: 24,
+                    align: Alignment.center,
+                  ),
+                  _tableCell(
+                    'Action',
+                    isHeader: true,
+                    horizontalPadding: 24,
+                    align: Alignment.center,
+                  ),
                 ],
               ),
               ...rows.asMap().entries.map(
@@ -626,9 +647,21 @@ class Dashboard extends GetView<DashboardController> {
                     border: Border.all(color: Color(0xFFE2E8F0)),
                   ),
                   children: [
-                    _tableCell(e.value.name, horizontalPadding: 24, align: Alignment.centerLeft),
-                    _tableCell(e.value.plan, horizontalPadding: 24, align: Alignment.center),
-                    _tableCell(e.value.expiry, horizontalPadding: 24, align: Alignment.center),
+                    _tableCell(
+                      e.value.name,
+                      horizontalPadding: 24,
+                      align: Alignment.centerLeft,
+                    ),
+                    _tableCell(
+                      e.value.plan,
+                      horizontalPadding: 24,
+                      align: Alignment.center,
+                    ),
+                    _tableCell(
+                      e.value.expiry,
+                      horizontalPadding: 24,
+                      align: Alignment.center,
+                    ),
                     _tableCell(
                       e.value.status,
                       isBadge: true,
@@ -636,7 +669,12 @@ class Dashboard extends GetView<DashboardController> {
                       horizontalPadding: 24,
                       align: Alignment.center,
                     ),
-                    _tableCell('', isActions: true, horizontalPadding: 24, align: Alignment.center),
+                    _tableCell(
+                      '',
+                      isActions: true,
+                      horizontalPadding: 24,
+                      align: Alignment.center,
+                    ),
                   ],
                 ),
               ),
@@ -672,44 +710,41 @@ class Dashboard extends GetView<DashboardController> {
             ),
           )
         : isBadge
-            ? Container(
-                width: 91,
-                height: 32,
-                decoration: BoxDecoration(
-                  color: isExpired ? _expiredBadge : _expiringBadge,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Center(
-                  child: Text(
-                    text,
-                    style: Get.textTheme.labelSmall?.copyWith(
-                      color: isExpired ? Color(0xFF991B1B) : Color(0xFF92400E),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                ),
-              )
-            : Text(
+        ? Container(
+            width: 91,
+            height: 32,
+            decoration: BoxDecoration(
+              color: isExpired ? _expiredBadge : _expiringBadge,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Center(
+              child: Text(
                 text,
-                style: Get.textTheme.labelMedium?.copyWith(
-                  color: isHeader ? Color(0xFF475569) : Color(0xFF0F172A),
-                  fontWeight: isHeader ? FontWeight.w600 : FontWeight.w400,
+                style: Get.textTheme.labelSmall?.copyWith(
+                  color: isExpired ? Color(0xFF991B1B) : Color(0xFF92400E),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
                 ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
-              );
+              ),
+            ),
+          )
+        : Text(
+            text,
+            style: Get.textTheme.labelMedium?.copyWith(
+              color: isHeader ? Color(0xFF475569) : Color(0xFF0F172A),
+              fontWeight: isHeader ? FontWeight.w600 : FontWeight.w400,
+            ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          );
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: horizontalPadding,
         vertical: 14,
       ),
-      child: Align(
-        alignment: align,
-        child: content,
-      ),
+      child: Align(alignment: align, child: content),
     );
   }
 
@@ -940,4 +975,3 @@ class _RenewalRow {
     required this.isExpired,
   });
 }
-

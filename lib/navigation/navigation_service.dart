@@ -7,7 +7,7 @@ import 'package:saas/core/web_url_helper.dart';
 import '../app/screens/authentication/login/login.dart';
 import '../app/screens/authentication/otp_authentication/otp_authentication.dart';
 import '../app/screens/authentication/reset_password/reset_password.dart';
-import '../app/screens/dashboard/dashboard.dart';
+import '../app/screens/dashboard/views/dashboard/dashboard.dart';
 import '../core/di/get_injector.dart';
 import '../routes/app_pages.dart';
 import '../shared/constants/app.dart';
