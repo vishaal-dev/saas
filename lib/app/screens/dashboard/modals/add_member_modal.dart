@@ -319,7 +319,7 @@ class _AddMemberModalState extends State<AddMemberModal> {
                 'Add Member',
                 style: Get.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Color(0xFF0F172A),
                   fontSize: 20,
                 ),
               ),

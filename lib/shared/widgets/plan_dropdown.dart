@@ -41,6 +41,10 @@ class PlanDropdown extends StatelessWidget {
         pos.dx + size.width,
         pos.dy + size.height + 8,
       ),
+      constraints: BoxConstraints(
+        minWidth: size.width,
+        maxWidth: size.width,
+      ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(_menuBorderRadius),
       ),

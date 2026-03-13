@@ -392,7 +392,7 @@ class Dashboard extends GetView<DashboardController> {
   Widget _buildSummaryCards() {
     final cards = [
       _SummaryCard(
-        iconPath: 'assets/icons/users.png',
+        iconPath: 'assets/icons/users_tab.svg',
         iconColor: Colors.white,
         circleBg: _iconCirclePurple,
         value: '284',
@@ -400,7 +400,7 @@ class Dashboard extends GetView<DashboardController> {
         label: 'Active Members',
       ),
       _SummaryCard(
-        iconPath: 'assets/icons/alarm-clock.png',
+        iconPath: 'assets/icons/alarm-clock_tab.svg',
         iconColor: Colors.white,
         circleBg: _iconCircleOrange,
         value: '18',
@@ -408,7 +408,7 @@ class Dashboard extends GetView<DashboardController> {
         label: 'Expiring (7 Days)',
       ),
       _SummaryCard(
-        iconPath: 'assets/icons/shield-x.png',
+        iconPath: 'assets/icons/shield-x_tab.svg',
         iconColor: Colors.white,
         circleBg: _iconCircleRed,
         value: '7',
@@ -416,7 +416,7 @@ class Dashboard extends GetView<DashboardController> {
         label: 'Expired',
       ),
       _SummaryCard(
-        iconPath: 'assets/icons/book-check.png',
+        iconPath: 'assets/icons/book-check_tab.svg',
         iconColor: Colors.white,
         circleBg: _iconCircleGreen,
         value: '96',
@@ -463,7 +463,7 @@ class Dashboard extends GetView<DashboardController> {
               borderRadius: BorderRadius.circular(24),
             ),
             alignment: Alignment.center,
-            child: Image.asset(
+            child: SvgPicture.asset(
               c.iconPath,
               width: 24,
               height: 24,
