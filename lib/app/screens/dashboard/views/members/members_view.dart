@@ -488,7 +488,12 @@ class _MembersViewState extends State<MembersView> {
               ),
             ),
             children: [
-              _tableCell('Name', isHeader: true, align: Alignment.centerLeft),
+              _tableCell(
+                'Name',
+                isHeader: true,
+                align: Alignment.centerLeft,
+                isNameColumn: true,
+              ),
               _tableCell(
                 'Phone Number',
                 isHeader: true,
@@ -523,6 +528,7 @@ class _MembersViewState extends State<MembersView> {
                   entry.value,
                   entry.value.name,
                   align: Alignment.centerLeft,
+                  isNameColumn: true,
                 ),
                 _tapableCell(
                   entry.value,
@@ -582,6 +588,7 @@ class _MembersViewState extends State<MembersView> {
     MemberRow row,
     dynamic content, {
     Alignment align = Alignment.centerLeft,
+    bool isNameColumn = false,
   }) {
     return Material(
       color: Colors.transparent,
@@ -590,18 +597,30 @@ class _MembersViewState extends State<MembersView> {
         hoverColor: Colors.transparent,
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
-        child: _tableCell(content, align: align),
+        child: _tableCell(content, align: align, isNameColumn: isNameColumn),
       ),
     );
   }
+
+  static const _nameColumnLeftPadding = 40.0;
+  static const _cellPadding = EdgeInsets.symmetric(horizontal: 16, vertical: 14);
 
   Widget _tableCell(
     dynamic content, {
     bool isHeader = false,
     Alignment align = Alignment.centerLeft,
+    bool isNameColumn = false,
   }) {
+    final padding = isNameColumn
+        ? EdgeInsets.fromLTRB(
+            _cellPadding.left + _nameColumnLeftPadding,
+            _cellPadding.top,
+            _cellPadding.right,
+            _cellPadding.bottom,
+          )
+        : _cellPadding;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      padding: padding,
       child: Align(
         alignment: align,
         child: content is String
@@ -659,6 +678,8 @@ class _MembersViewState extends State<MembersView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        _paginationButton(Icons.chevron_left, false),
+        const SizedBox(width: 24),
         Text(
           'Showing 1-10 of 248 members',
           style: Get.textTheme.bodySmall?.copyWith(
@@ -667,8 +688,6 @@ class _MembersViewState extends State<MembersView> {
           ),
         ),
         const SizedBox(width: 24),
-        _paginationButton(Icons.chevron_left, false),
-        const SizedBox(width: 8),
         _paginationButton(Icons.chevron_right, true),
       ],
     );

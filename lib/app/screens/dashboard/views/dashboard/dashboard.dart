@@ -619,11 +619,17 @@ class Dashboard extends GetView<DashboardController> {
                     'Name',
                     isHeader: true,
                     align: Alignment.centerLeft,
+                    isNameColumn: true,
                   ),
                   _tableCell('Plan', isHeader: true, align: Alignment.center),
                   _tableCell('Expiry', isHeader: true, align: Alignment.center),
                   _tableCell('Status', isHeader: true, align: Alignment.center),
-                  _tableCell('Action', isHeader: true, align: Alignment.center),
+                  _tableCell(
+                    'Action',
+                    isHeader: true,
+                    align: Alignment.center,
+                    isActionColumn: true,
+                  ),
                 ],
               ),
             ],
@@ -658,7 +664,11 @@ class Dashboard extends GetView<DashboardController> {
                             ),
                           ),
                           children: [
-                            _tableCell(row.name, align: Alignment.centerLeft),
+                            _tableCell(
+                              row.name,
+                              align: Alignment.centerLeft,
+                              isNameColumn: true,
+                            ),
                             _tableCell(row.plan, align: Alignment.center),
                             _tableCell(row.expiry, align: Alignment.center),
                             _tableCell(
@@ -672,6 +682,7 @@ class Dashboard extends GetView<DashboardController> {
                               isActions: true,
                               align: Alignment.center,
                               context: context,
+                              isActionColumn: true,
                             ),
                           ],
                         ),
@@ -686,12 +697,17 @@ class Dashboard extends GetView<DashboardController> {
     );
   }
 
+  static const _nameColumnLeftPadding = 15.0;
+  static const _actionColumnRightPadding = 15.0;
+
   Widget _tableCell(
     String text, {
     bool isHeader = false,
     bool isBadge = false,
     bool isExpired = false,
     bool isActions = false,
+    bool isNameColumn = false,
+    bool isActionColumn = false,
     Alignment align = Alignment.centerLeft,
     BuildContext? context,
   }) {
@@ -758,11 +774,26 @@ class Dashboard extends GetView<DashboardController> {
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
           );
+    final padding = isNameColumn
+        ? EdgeInsets.fromLTRB(
+            horizontalPadding + _nameColumnLeftPadding,
+            verticalPadding,
+            horizontalPadding,
+            verticalPadding,
+          )
+        : isActionColumn
+        ? EdgeInsets.fromLTRB(
+            horizontalPadding,
+            verticalPadding,
+            horizontalPadding + _actionColumnRightPadding,
+            verticalPadding,
+          )
+        : const EdgeInsets.symmetric(
+            horizontal: horizontalPadding,
+            vertical: verticalPadding,
+          );
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: horizontalPadding,
-        vertical: verticalPadding,
-      ),
+      padding: padding,
       child: SizedBox(
         width: double.infinity,
         child: Align(alignment: align, child: content),

@@ -158,8 +158,12 @@ class SubscriptionsView extends StatelessWidget {
           TableRow(
             decoration: const BoxDecoration(color: Color(0xFFF1F5F9)),
             children: [
-              _tableCell('Plan Name',
-                  isHeader: true, align: Alignment.centerLeft),
+              _tableCell(
+                'Plan Name',
+                isHeader: true,
+                align: Alignment.centerLeft,
+                isPlanNameColumn: true,
+              ),
               _tableCell('Duration', isHeader: true, align: Alignment.center),
               _tableCell('Price', isHeader: true, align: Alignment.center),
               _tableCell('Active Members',
@@ -183,6 +187,7 @@ class SubscriptionsView extends StatelessWidget {
                 _tableCell(
                   row.planName,
                   align: Alignment.centerLeft,
+                  isPlanNameColumn: true,
                 ),
                 _tableCell(
                   row.duration,
@@ -212,15 +217,27 @@ class SubscriptionsView extends StatelessWidget {
     );
   }
 
+  static const _planNameColumnLeftPadding = 40.0;
+
   Widget _tableCell(
     dynamic content, {
     bool isHeader = false,
+    bool isPlanNameColumn = false,
     Alignment align = Alignment.centerLeft,
   }) {
+    const horizontalPadding = 12.0;
+    final padding = isPlanNameColumn
+        ? EdgeInsets.fromLTRB(
+            horizontalPadding + _planNameColumnLeftPadding,
+            0,
+            horizontalPadding,
+            0,
+          )
+        : const EdgeInsets.symmetric(horizontal: 12);
     return SizedBox(
       height: 50,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
+        padding: padding,
         child: Align(
           alignment: align,
           child: content is String
