@@ -26,22 +26,24 @@ class SubscriptionsMobileView extends StatelessWidget {
   });
 
   final List<SubscriptionPlanRow> tableData;
-  final Function(SubscriptionPlanRow) onEdit;
-  final Function(SubscriptionPlanRow) onDelete;
+  final void Function(SubscriptionPlanRow plan, int index) onEdit;
+  final void Function(SubscriptionPlanRow plan, int index) onDelete;
 
   static const _textDark = Color(0xFF333333);
   static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
   static const _iconCircleGreen = Color(0xFF16A34A);
+  static const _inactivePillBg = Color(0xFFFEE2E2);
+  static const _inactivePillText = Color(0xFF991B1B);
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: tableData.map((plan) => _buildPlanCard(plan)).toList(),
+      children: tableData.asMap().entries.map((e) => _buildPlanCard(e.value, e.key)).toList(),
     );
   }
 
-  Widget _buildPlanCard(SubscriptionPlanRow plan) {
+  Widget _buildPlanCard(SubscriptionPlanRow plan, int index) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
@@ -82,9 +84,9 @@ class SubscriptionsMobileView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              _actionButton(Icons.edit_outlined, () => onEdit(plan)),
+              _actionButton(Icons.edit_outlined, () => onEdit(plan, index)),
               const SizedBox(width: 12),
-              _actionButton(Icons.delete_outline, () => onDelete(plan)),
+              _actionButton(Icons.delete_outline, () => onDelete(plan, index)),
             ],
           ),
         ],
@@ -114,13 +116,13 @@ class SubscriptionsMobileView extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: _iconCircleGreen,
+        color: isActive ? _iconCircleGreen : _inactivePillBg,
         borderRadius: BorderRadius.circular(20),
       ),
-      child: const Text(
-        'Active',
+      child: Text(
+        isActive ? 'Active' : 'Inactive',
         style: TextStyle(
-          color: Colors.white,
+          color: isActive ? Colors.white : _inactivePillText,
           fontWeight: FontWeight.w500,
           fontSize: 11,
         ),

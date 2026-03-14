@@ -136,7 +136,7 @@ class DashboardMobileView extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.close_rounded, color: _textMuted),
+                    icon: const Icon(Icons.close_rounded, color: Color(0xFF64748B)),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   const Spacer(),

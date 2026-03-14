@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../shared/widgets/success_toast.dart';
@@ -24,9 +25,10 @@ class EditPlanData {
 }
 
 class EditPlanModal extends StatefulWidget {
-  const EditPlanModal({super.key, required this.plan});
+  const EditPlanModal({super.key, required this.plan, this.onSave});
 
   final EditPlanData plan;
+  final void Function(EditPlanData)? onSave;
 
   @override
   State<EditPlanModal> createState() => _EditPlanModalState();
@@ -77,24 +79,173 @@ class _EditPlanModalState extends State<EditPlanModal> {
     super.dispose();
   }
 
-  Future<void> _pickCustomDates() async {
-    final range = await showDateRangePicker(
+  Future<void> _pickCustomDate() async {
+    final date = await showDatePicker(
       context: context,
+      initialDate: _customStartDate ?? DateTime.now(),
       firstDate: DateTime(2020),
       lastDate: DateTime(2030),
-      initialDateRange: _customStartDate != null && _customEndDate != null
-          ? DateTimeRange(start: _customStartDate!, end: _customEndDate!)
-          : null,
+      helpText: 'Select custom date',
+      initialEntryMode: DatePickerEntryMode.calendar,
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: AuthConstants.buttonEnabledColor,
+              onPrimary: Colors.white,
+              surface: Colors.white,
+              onSurface: AuthConstants.labelColor,
+              surfaceContainerHighest: AuthConstants.cardBackground,
+            ),
+            dialogTheme: DialogThemeData(
+              elevation: 16,
+              shadowColor: Colors.black.withValues(alpha: 0.2),
+              surfaceTintColor: Colors.transparent,
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+            ),
+            datePickerTheme: DatePickerThemeData(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              surfaceTintColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              headerBackgroundColor: AuthConstants.buttonEnabledColor,
+              headerForegroundColor: Colors.white,
+              headerHeadlineStyle: Get.textTheme.headlineMedium?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Inter',
+              ),
+              headerHelpStyle: Get.textTheme.bodySmall?.copyWith(
+                color: Colors.white.withValues(alpha: 0.9),
+                fontFamily: 'Inter',
+              ),
+              weekdayStyle: Get.textTheme.bodySmall?.copyWith(
+                color: AuthConstants.supportTextColor,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'Inter',
+              ),
+              dayStyle: Get.textTheme.bodyMedium?.copyWith(
+                color: AuthConstants.labelColor,
+                fontFamily: 'Inter',
+              ),
+              dayForegroundColor: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.selected)) return Colors.white;
+                if (states.contains(WidgetState.disabled)) {
+                  return AuthConstants.hintColor;
+                }
+                return AuthConstants.labelColor;
+              }),
+              dayBackgroundColor: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.selected)) {
+                  return AuthConstants.buttonEnabledColor;
+                }
+                return null;
+              }),
+              dayShape: WidgetStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              todayBorder: BorderSide(
+                color: AuthConstants.buttonEnabledColor,
+                width: 1.5,
+              ),
+              yearStyle: Get.textTheme.bodyLarge?.copyWith(
+                color: AuthConstants.labelColor,
+                fontFamily: 'Inter',
+              ),
+              yearForegroundColor: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.selected)) return Colors.white;
+                return AuthConstants.labelColor;
+              }),
+              yearBackgroundColor: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.selected)) {
+                  return AuthConstants.buttonEnabledColor;
+                }
+                return null;
+              }),
+              yearShape: WidgetStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              dividerColor: AuthConstants.borderColor,
+              cancelButtonStyle: TextButton.styleFrom(
+                foregroundColor: AuthConstants.supportTextColor,
+                textStyle: Get.textTheme.labelLarge?.copyWith(
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w600,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              confirmButtonStyle: FilledButton.styleFrom(
+                backgroundColor: AuthConstants.buttonEnabledColor,
+                foregroundColor: Colors.white,
+                textStyle: Get.textTheme.labelLarge?.copyWith(
+                  color: Colors.white,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w600,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
-    if (range != null) {
+    if (date != null) {
       setState(() {
-        _customStartDate = range.start;
-        _customEndDate = range.end;
+        _customStartDate = date;
+        _customEndDate = date;
       });
     }
   }
 
+  String _getDurationString() {
+    if (_selectedDuration != null) {
+      switch (_selectedDuration!) {
+        case PlanDuration.days30:
+          return '30 Days';
+        case PlanDuration.months3:
+          return '3 Months';
+        case PlanDuration.months6:
+          return '6 Months';
+        case PlanDuration.months12:
+          return '12 Months';
+      }
+    }
+    if (_customStartDate != null && _customEndDate != null) {
+      return '${_formatDate(_customStartDate!)} - ${_formatDate(_customEndDate!)}';
+    }
+    return widget.plan.duration;
+  }
+
   void _onSave() {
+    final updated = EditPlanData(
+      planName: _planNameController.text.trim(),
+      duration: _getDurationString(),
+      price: _priceController.text.trim(),
+      isActive: _selectedStatus == 'Active',
+    );
+    widget.onSave?.call(updated);
     SuccessToast.show(
       context,
       title: 'Changes Saved Successfully!',
@@ -114,7 +265,7 @@ class _EditPlanModalState extends State<EditPlanModal> {
         customStartDate: _customStartDate,
         customEndDate: _customEndDate,
         selectedStatus: _selectedStatus,
-        onPickCustomDates: _pickCustomDates,
+        onPickCustomDates: _pickCustomDate,
         onDurationChanged: (v) => setState(() => _selectedDuration = v),
         onStatusTap: () {
           setState(() => _selectedStatus = _selectedStatus == 'Active' ? 'Inactive' : 'Active');
@@ -132,7 +283,7 @@ class _EditPlanModalState extends State<EditPlanModal> {
         customStartDate: _customStartDate,
         customEndDate: _customEndDate,
         selectedStatus: _selectedStatus,
-        onPickCustomDates: _pickCustomDates,
+        onPickCustomDates: _pickCustomDate,
         onDurationChanged: (v) => setState(() => _selectedDuration = v),
         onStatusTap: () {
           setState(() => _selectedStatus = _selectedStatus == 'Active' ? 'Inactive' : 'Active');
@@ -411,7 +562,7 @@ class _EditPlanModalState extends State<EditPlanModal> {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: _pickCustomDates,
+            onTap: _pickCustomDate,
             borderRadius: BorderRadius.circular(_inputBorderRadius),
             child: Container(
               height: 44,
@@ -433,10 +584,14 @@ class _EditPlanModalState extends State<EditPlanModal> {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  const Icon(
-                    Icons.calendar_today_outlined,
-                    size: 20,
-                    color: Color(0xFF64748B),
+                  SvgPicture.asset(
+                    'assets/icons/calendar-days.svg',
+                    width: 20,
+                    height: 20,
+                    colorFilter: const ColorFilter.mode(
+                      Color(0xFF64748B),
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ],
               ),

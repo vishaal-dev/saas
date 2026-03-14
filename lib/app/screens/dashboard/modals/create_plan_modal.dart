@@ -9,8 +9,24 @@ import 'create_plan_modal_tablet_view.dart';
 
 enum PlanDuration { days30, months3, months6, months12 }
 
+/// Result passed to [CreatePlanModal.onCreate] when user taps Create Plan.
+class CreatePlanResult {
+  const CreatePlanResult({
+    required this.planName,
+    required this.duration,
+    required this.price,
+    required this.isActive,
+  });
+  final String planName;
+  final String duration;
+  final String price;
+  final bool isActive;
+}
+
 class CreatePlanModal extends StatefulWidget {
-  const CreatePlanModal({super.key});
+  const CreatePlanModal({super.key, this.onCreate});
+
+  final void Function(CreatePlanResult)? onCreate;
 
   @override
   State<CreatePlanModal> createState() => _CreatePlanModalState();
@@ -231,13 +247,41 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
     if (date != null) setState(() => _customStartDate = date);
   }
 
+  String _getDurationString() {
+    if (_selectedDuration != null) {
+      switch (_selectedDuration!) {
+        case PlanDuration.days30:
+          return '30 Days';
+        case PlanDuration.months3:
+          return '3 Months';
+        case PlanDuration.months6:
+          return '6 Months';
+        case PlanDuration.months12:
+          return '12 Months';
+      }
+    }
+    if (_customStartDate != null) {
+      return _formatDate(_customStartDate!);
+    }
+    return 'Custom';
+  }
+
   void _onCreate() {
-    // TODO: create plan
-    SuccessToast.show(
-      context,
-      title: 'Plan Created Successfully!',
-      popRoute: true,
+    final result = CreatePlanResult(
+      planName: _planNameController.text.trim(),
+      duration: _getDurationString(),
+      price: _priceController.text.trim(),
+      isActive: _selectedStatus == 'Active',
     );
+    if (widget.onCreate != null) {
+      widget.onCreate!(result);
+    } else {
+      SuccessToast.show(
+        context,
+        title: 'Plan Created Successfully!',
+        popRoute: true,
+      );
+    }
   }
 
   @override

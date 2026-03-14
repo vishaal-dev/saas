@@ -12,41 +12,55 @@ import 'subscriptions_tablet_view.dart';
 
 /// Subscriptions page content: header, plans table.
 /// Used inside the dashboard main content area when Subscriptions nav is selected.
-class SubscriptionsView extends StatelessWidget {
+class SubscriptionsView extends StatefulWidget {
   const SubscriptionsView({super.key});
 
+  @override
+  State<SubscriptionsView> createState() => _SubscriptionsViewState();
+}
+
+class _SubscriptionsViewState extends State<SubscriptionsView> {
   static const _purple = Color(0xFF4F46E5);
-  static const _textDark = Color(0xFF333333);
+  static const _textDark = Color(0xFF475569);
   static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
-  static const _iconCircleGreen = Color(0xFF16A34A);
+  static const _iconCircleGreen = Color(0xFFDCFCE7);
+  static const _inactivePillBg = Color(0xFFFEE2E2);
+  static const _inactivePillText = Color(0xFF991B1B);
 
-  static final _tableData = [
-    SubscriptionPlanRow(
-      planName: 'Monthly',
-      duration: '30 Days',
-      price: '₹1,499',
-      activeMembers: '48',
-    ),
-    SubscriptionPlanRow(
-      planName: 'Quarterly',
-      duration: '3 Months',
-      price: '₹3,999',
-      activeMembers: '12',
-    ),
-    SubscriptionPlanRow(
-      planName: 'Half Yearly',
-      duration: '6 Months',
-      price: '₹7,499',
-      activeMembers: '06',
-    ),
-    SubscriptionPlanRow(
-      planName: 'Yearly',
-      duration: '12 Months',
-      price: '₹14,499',
-      activeMembers: '33',
-    ),
-  ];
+  late List<SubscriptionPlanRow> _tableData;
+
+  @override
+  void initState() {
+    super.initState();
+    _tableData = [
+      SubscriptionPlanRow(
+        planName: 'Monthly',
+        duration: '30 Days',
+        price: '₹1,499',
+        activeMembers: '48',
+      ),
+      SubscriptionPlanRow(
+        planName: 'Quarterly',
+        duration: '3 Months',
+        price: '₹3,999',
+        activeMembers: '12',
+      ),
+      SubscriptionPlanRow(
+        planName: 'Half Yearly',
+        duration: '6 Months',
+        price: '₹7,499',
+        activeMembers: '06',
+      ),
+      SubscriptionPlanRow(
+        planName: 'Yearly',
+        duration: '12 Months',
+        price: '₹14,499',
+        activeMembers: '33',
+        isActive: false,
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,14 +80,18 @@ class SubscriptionsView extends StatelessWidget {
           if (isMobile)
             SubscriptionsMobileView(
               tableData: _tableData,
-              onEdit: (plan) => _showEditPlanDialog(context, plan),
-              onDelete: (plan) => _showDeletePlanDialog(context),
+              onEdit: (plan, index) =>
+                  _showEditPlanDialog(context, plan, index),
+              onDelete: (plan, index) =>
+                  _showDeletePlanDialog(context, plan, index),
             )
           else if (isTablet)
             SubscriptionsTabletView(
               tableData: _tableData,
-              onEdit: (plan) => _showEditPlanDialog(context, plan),
-              onDelete: (plan) => _showDeletePlanDialog(context),
+              onEdit: (plan, index) =>
+                  _showEditPlanDialog(context, plan, index),
+              onDelete: (plan, index) =>
+                  _showDeletePlanDialog(context, plan, index),
             )
           else
             _buildDesktopTable(context),
@@ -119,7 +137,7 @@ class SubscriptionsView extends StatelessWidget {
             if (!isMobile)
               PrimaryActionButton(
                 label: 'Create Plan',
-                onPressed: () => Get.dialog(const CreatePlanModal()),
+                onPressed: () => _showCreatePlanDialog(context),
               ),
           ],
         ),
@@ -129,7 +147,7 @@ class SubscriptionsView extends StatelessWidget {
             width: double.infinity,
             child: PrimaryActionButton(
               label: 'Create Plan',
-              onPressed: () => Get.dialog(const CreatePlanModal()),
+              onPressed: () => _showCreatePlanDialog(context),
               useFixedSize: false,
             ),
           ),
@@ -140,6 +158,7 @@ class SubscriptionsView extends StatelessWidget {
 
   Widget _buildDesktopTable(BuildContext context) {
     return Container(
+      clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -156,7 +175,7 @@ class SubscriptionsView extends StatelessWidget {
         },
         children: [
           TableRow(
-            decoration: const BoxDecoration(color: Color(0xFFF1F5F9)),
+            decoration: const BoxDecoration(color: Color(0xFFEEF2FF)),
             children: [
               _tableCell(
                 'Plan Name',
@@ -166,47 +185,38 @@ class SubscriptionsView extends StatelessWidget {
               ),
               _tableCell('Duration', isHeader: true, align: Alignment.center),
               _tableCell('Price', isHeader: true, align: Alignment.center),
-              _tableCell('Active Members',
-                  isHeader: true, align: Alignment.center),
+              _tableCell(
+                'Active Members',
+                isHeader: true,
+                align: Alignment.center,
+              ),
               _tableCell('Status', isHeader: true, align: Alignment.center),
               _tableCell('Action', isHeader: true, align: Alignment.center),
             ],
           ),
-          ..._tableData.map(
-            (row) => TableRow(
+          ..._tableData.asMap().entries.map(
+            (entry) => TableRow(
               decoration: const BoxDecoration(
                 color: Colors.white,
                 border: Border(
-                  bottom: BorderSide(
-                    color: Color(0xFFE2E8F0),
-                    width: 1,
-                  ),
+                  bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1),
                 ),
               ),
               children: [
                 _tableCell(
-                  row.planName,
+                  entry.value.planName,
                   align: Alignment.centerLeft,
                   isPlanNameColumn: true,
                 ),
+                _tableCell(entry.value.duration, align: Alignment.center),
+                _tableCell(entry.value.price, align: Alignment.center),
+                _tableCell(entry.value.activeMembers, align: Alignment.center),
                 _tableCell(
-                  row.duration,
+                  _statusPill(entry.value.isActive),
                   align: Alignment.center,
                 ),
                 _tableCell(
-                  row.price,
-                  align: Alignment.center,
-                ),
-                _tableCell(
-                  row.activeMembers,
-                  align: Alignment.center,
-                ),
-                _tableCell(
-                  _statusPill(row.isActive),
-                  align: Alignment.center,
-                ),
-                _tableCell(
-                  _actionIcons(context, row),
+                  _actionIcons(context, entry.value, entry.key),
                   align: Alignment.center,
                 ),
               ],
@@ -244,9 +254,8 @@ class SubscriptionsView extends StatelessWidget {
               ? Text(
                   content as String,
                   style: Get.textTheme.bodySmall?.copyWith(
-                    fontWeight: isHeader ? FontWeight.w600 : FontWeight.normal,
+                    fontWeight: isHeader ? FontWeight.w500 : FontWeight.normal,
                     color: _textDark,
-                    fontSize: 14,
                   ),
                 )
               : content as Widget,
@@ -261,13 +270,13 @@ class SubscriptionsView extends StatelessWidget {
       height: 32,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: _iconCircleGreen,
+        color: isActive ? _iconCircleGreen : _inactivePillBg,
         borderRadius: BorderRadius.circular(32),
       ),
       child: Text(
-        'Active',
+        isActive ? 'Active' : 'Inactive',
         style: Get.textTheme.bodySmall?.copyWith(
-          color: Colors.white,
+          color: isActive ? const Color(0xFF166534) : _inactivePillText,
           fontWeight: FontWeight.w500,
           fontSize: 12,
         ),
@@ -275,23 +284,31 @@ class SubscriptionsView extends StatelessWidget {
     );
   }
 
-  Widget _actionIcons(BuildContext context, SubscriptionPlanRow row) {
+  Widget _actionIcons(
+    BuildContext context,
+    SubscriptionPlanRow row,
+    int index,
+  ) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         _actionIcon(
           'assets/icons/edit.svg',
-          onTap: () => _showEditPlanDialog(context, row),
+          onTap: () => _showEditPlanDialog(context, row, index),
         ),
         _actionIcon(
           'assets/icons/trash.svg',
-          onTap: () => _showDeletePlanDialog(context),
+          onTap: () => _showDeletePlanDialog(context, row, index),
         ),
       ],
     );
   }
 
-  void _showEditPlanDialog(BuildContext context, SubscriptionPlanRow row) {
+  void _showEditPlanDialog(
+    BuildContext context,
+    SubscriptionPlanRow row,
+    int index,
+  ) {
     Get.dialog(
       EditPlanModal(
         plan: EditPlanData(
@@ -300,11 +317,26 @@ class SubscriptionsView extends StatelessWidget {
           price: row.price,
           isActive: row.isActive,
         ),
+        onSave: (updated) {
+          setState(() {
+            _tableData[index] = SubscriptionPlanRow(
+              planName: updated.planName,
+              duration: updated.duration,
+              price: updated.price,
+              activeMembers: row.activeMembers,
+              isActive: updated.isActive,
+            );
+          });
+        },
       ),
     );
   }
 
-  void _showDeletePlanDialog(BuildContext context) {
+  void _showDeletePlanDialog(
+    BuildContext context,
+    SubscriptionPlanRow row,
+    int index,
+  ) {
     showDialog<void>(
       context: context,
       builder: (ctx) => DeletePlanConfirmDialog(
@@ -312,11 +344,35 @@ class SubscriptionsView extends StatelessWidget {
         onDelete: () {
           final overlayState = Overlay.of(ctx);
           Navigator.of(ctx).pop();
+          setState(() => _tableData.removeAt(index));
           SuccessToast.showWithOverlay(
             overlayState,
             title: 'Plan Deleted',
             iconColor: SuccessToast.iconColorRed,
           );
+        },
+      ),
+    );
+  }
+
+  void _showCreatePlanDialog(BuildContext context) {
+    Get.dialog(
+      CreatePlanModal(
+        onCreate: (result) {
+          setState(() {
+            _tableData = [
+              ..._tableData,
+              SubscriptionPlanRow(
+                planName: result.planName,
+                duration: result.duration,
+                price: result.price,
+                activeMembers: '0',
+                isActive: result.isActive,
+              ),
+            ];
+          });
+          Navigator.of(context).pop();
+          SuccessToast.show(context, title: 'Plan Created Successfully!');
         },
       ),
     );
@@ -342,7 +398,10 @@ class SubscriptionsView extends StatelessWidget {
               assetPath,
               width: 18,
               height: 18,
-              colorFilter: const ColorFilter.mode(_textMuted, BlendMode.srcIn),
+              colorFilter: const ColorFilter.mode(
+                Color(0xFF64748B),
+                BlendMode.srcIn,
+              ),
             ),
           ),
         ),

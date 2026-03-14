@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../authentication/widgets/auth_constants.dart';
@@ -273,7 +274,15 @@ class EditPlanModalMobileView extends StatelessWidget {
                   ),
                 ),
               ),
-              const Icon(Icons.calendar_today_outlined, size: 18, color: Color(0xFF64748B)),
+              SvgPicture.asset(
+                'assets/icons/calendar-days.svg',
+                width: 18,
+                height: 18,
+                colorFilter: const ColorFilter.mode(
+                  Color(0xFF64748B),
+                  BlendMode.srcIn,
+                ),
+              ),
             ],
           ),
         ),

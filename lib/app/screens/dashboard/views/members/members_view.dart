@@ -19,7 +19,7 @@ class MembersView extends StatefulWidget {
 
 class _MembersViewState extends State<MembersView> {
   static const _purple = Color(0xFF4F46E5);
-  static const _textDark = Color(0xFF333333);
+  static const _textDark = Color(0xFF475569);
   static const _textMuted = Color(0xFF666666);
   static const _iconCircleOrange = Color(0xFFFEF3C7);
   static const _iconCircleRed = Color(0xFFFEE2E2);
@@ -80,7 +80,7 @@ class _MembersViewState extends State<MembersView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildHeader(isMobile),
-          const SizedBox(height: 20),
+          const SizedBox(height: 32),
           _buildSearchRow(isMobile),
           const SizedBox(height: 16),
           if (isMobile)
@@ -120,13 +120,10 @@ class _MembersViewState extends State<MembersView> {
                     style:
                         (isMobile
                                 ? Get.textTheme.headlineSmall
-                                : Get.textTheme.headlineMedium)
-                            ?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: _textDark,
-                            ),
+                                : Get.textTheme.bodyLarge)
+                            ?.copyWith(color: Color(0xFF0F172A)),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 16),
                   Text(
                     'Manage all your members and their subscriptions',
                     style: Get.textTheme.bodySmall?.copyWith(
@@ -212,15 +209,17 @@ class _MembersViewState extends State<MembersView> {
                   label: 'Status',
                   selected: _selectedStatus,
                   onTap: _showStatusMenu,
+                  width: 169,
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 16),
               Expanded(
                 child: _buildFilterDropdown(
                   key: _planDropdownKey,
                   label: 'Plan',
                   selected: _selectedPlan,
                   onTap: _showPlanMenu,
+                  width: 169,
                 ),
               ),
             ],
@@ -287,27 +286,35 @@ class _MembersViewState extends State<MembersView> {
           label: 'Status',
           selected: _selectedStatus,
           onTap: _showStatusMenu,
+          width: 169,
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: 16),
         _buildFilterDropdown(
           key: _planDropdownKey,
           label: 'Plan',
           selected: _selectedPlan,
           onTap: _showPlanMenu,
+          width: 169,
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: 16),
         TextButton(
           onPressed: () {},
           child: Text(
             'Clear Filters',
-            style: Get.textTheme.bodyMedium?.copyWith(
-              color: const Color(0xFF64748B),
-              fontWeight: FontWeight.w500,
+            style: Get.textTheme.labelMedium?.copyWith(
+              color: const Color(0xFF94A3B8),
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
       ],
     );
+  }
+
+  double _dropdownTriggerWidth(GlobalKey key) {
+    final box = key.currentContext?.findRenderObject() as RenderBox?;
+    if (box != null && box.hasSize) return box.size.width;
+    return 169;
   }
 
   RelativeRect _dropdownPosition(GlobalKey key) {
@@ -332,9 +339,11 @@ class _MembersViewState extends State<MembersView> {
   }
 
   Future<void> _showPlanMenu() async {
+    final menuWidth = _dropdownTriggerWidth(_planDropdownKey);
     final result = await showMenu<String>(
       context: context,
       position: _dropdownPosition(_planDropdownKey),
+      constraints: BoxConstraints.tightFor(width: menuWidth),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       color: Colors.white,
       elevation: 8,
@@ -344,6 +353,7 @@ class _MembersViewState extends State<MembersView> {
         return PopupMenuItem<String>(
           value: value,
           child: Container(
+            width: menuWidth,
             padding: const EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
               border: isLast
@@ -367,9 +377,11 @@ class _MembersViewState extends State<MembersView> {
   }
 
   Future<void> _showStatusMenu() async {
+    final menuWidth = _dropdownTriggerWidth(_statusDropdownKey);
     final result = await showMenu<String>(
       context: context,
       position: _dropdownPosition(_statusDropdownKey),
+      constraints: BoxConstraints.tightFor(width: menuWidth),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       color: Colors.white,
       elevation: 8,
@@ -380,6 +392,7 @@ class _MembersViewState extends State<MembersView> {
         return PopupMenuItem<String>(
           value: value,
           child: Container(
+            width: menuWidth,
             padding: const EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
               border: isLast
@@ -408,6 +421,7 @@ class _MembersViewState extends State<MembersView> {
     required String label,
     required String? selected,
     required VoidCallback onTap,
+    double? width,
   }) {
     final display = selected ?? label;
     return Material(
@@ -417,6 +431,7 @@ class _MembersViewState extends State<MembersView> {
         borderRadius: BorderRadius.circular(12),
         child: Container(
           key: key,
+          width: width,
           height: 44,
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
@@ -432,22 +447,23 @@ class _MembersViewState extends State<MembersView> {
             ],
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 display,
-                style: Get.textTheme.bodyMedium?.copyWith(
+                style: Get.textTheme.labelMedium?.copyWith(
                   color: selected != null
                       ? const Color(0xFF0F172A)
-                      : const Color(0xFF334155),
+                      : const Color(0xFF94A3B8),
                   fontWeight: FontWeight.w500,
                 ),
               ),
               const SizedBox(width: 8),
-              const Icon(
-                Icons.keyboard_arrow_down,
-                size: 20,
-                color: Color(0xFF64748B),
+              SvgPicture.asset(
+                'assets/icons/dropdown_down.svg',
+                width: 24,
+                height: 24,
               ),
             ],
           ),
@@ -456,12 +472,14 @@ class _MembersViewState extends State<MembersView> {
     );
   }
 
+  static const _tableBorderRadius = 12.0;
+
   Widget _buildDesktopTable() {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        borderRadius: BorderRadius.all(Radius.circular(_tableBorderRadius)),
+        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -470,95 +488,91 @@ class _MembersViewState extends State<MembersView> {
           ),
         ],
       ),
-      child: Table(
-        columnWidths: const {
-          0: FlexColumnWidth(1.5),
-          1: FlexColumnWidth(1.4),
-          2: FlexColumnWidth(1.8),
-          3: FlexColumnWidth(0.9),
-          4: FlexColumnWidth(1.1),
-          5: FlexColumnWidth(1),
-        },
-        children: [
-          TableRow(
-            decoration: const BoxDecoration(
-              color: Color(0xFFEEF2FF),
-              border: Border(
-                bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1),
-              ),
-            ),
-            children: [
-              _tableCell(
-                'Name',
-                isHeader: true,
-                align: Alignment.centerLeft,
-                isNameColumn: true,
-              ),
-              _tableCell(
-                'Phone Number',
-                isHeader: true,
-                align: Alignment.center,
-              ),
-              _tableCell(
-                'Email Address',
-                isHeader: true,
-                align: Alignment.center,
-              ),
-              _tableCell('Plan', isHeader: true, align: Alignment.center),
-              _tableCell(
-                'Expiry Date',
-                isHeader: true,
-                align: Alignment.center,
-              ),
-              _tableCell('Status', isHeader: true, align: Alignment.center),
-            ],
-          ),
-          ..._tableData.asMap().entries.map(
-            (entry) => TableRow(
-              decoration: BoxDecoration(
-                color: entry.key.isEven
-                    ? Colors.white
-                    : const Color(0xFFFAFAFA),
-                border: const Border(
-                  bottom: BorderSide(color: Color(0xFFE5E7EB), width: 1),
-                ),
-              ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(_tableBorderRadius),
+        child: Table(
+          columnWidths: const {
+            0: FlexColumnWidth(1.5),
+            1: FlexColumnWidth(1.4),
+            2: FlexColumnWidth(1.8),
+            3: FlexColumnWidth(0.9),
+            4: FlexColumnWidth(1.1),
+            5: FlexColumnWidth(1),
+          },
+          children: [
+            TableRow(
+              decoration: const BoxDecoration(color: Color(0xFFEEF2FF)),
               children: [
-                _tapableCell(
-                  entry.value,
-                  entry.value.name,
+                _tableCell(
+                  'Name',
+                  isHeader: true,
                   align: Alignment.centerLeft,
                   isNameColumn: true,
                 ),
-                _tapableCell(
-                  entry.value,
-                  entry.value.phone,
+                _tableCell(
+                  'Phone Number',
+                  isHeader: true,
                   align: Alignment.center,
                 ),
-                _tapableCell(
-                  entry.value,
-                  entry.value.email,
+                _tableCell(
+                  'Email Address',
+                  isHeader: true,
                   align: Alignment.center,
                 ),
-                _tapableCell(
-                  entry.value,
-                  entry.value.plan,
+                _tableCell('Plan', isHeader: true, align: Alignment.center),
+                _tableCell(
+                  'Expiry Date',
+                  isHeader: true,
                   align: Alignment.center,
                 ),
-                _tapableCell(
-                  entry.value,
-                  entry.value.expiry,
-                  align: Alignment.center,
-                ),
-                _tapableCell(
-                  entry.value,
-                  _statusPill(entry.value.status),
-                  align: Alignment.center,
-                ),
+                _tableCell('Status', isHeader: true, align: Alignment.center),
               ],
             ),
-          ),
-        ],
+            ..._tableData.asMap().entries.map(
+              (entry) => TableRow(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  border: Border(
+                    bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1),
+                  ),
+                ),
+                children: [
+                  _tapableCell(
+                    entry.value,
+                    entry.value.name,
+                    align: Alignment.centerLeft,
+                    isNameColumn: true,
+                  ),
+                  _tapableCell(
+                    entry.value,
+                    entry.value.phone,
+                    align: Alignment.center,
+                  ),
+                  _tapableCell(
+                    entry.value,
+                    entry.value.email,
+                    align: Alignment.center,
+                  ),
+                  _tapableCell(
+                    entry.value,
+                    entry.value.plan,
+                    align: Alignment.center,
+                  ),
+                  _tapableCell(
+                    entry.value,
+                    entry.value.expiry,
+                    align: Alignment.center,
+                  ),
+                  _tapableCell(
+                    entry.value,
+                    _statusPill(entry.value.status),
+                    align: Alignment.center,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -603,7 +617,10 @@ class _MembersViewState extends State<MembersView> {
   }
 
   static const _nameColumnLeftPadding = 40.0;
-  static const _cellPadding = EdgeInsets.symmetric(horizontal: 16, vertical: 14);
+  static const _cellPadding = EdgeInsets.symmetric(
+    horizontal: 16,
+    vertical: 14,
+  );
 
   Widget _tableCell(
     dynamic content, {
@@ -627,8 +644,8 @@ class _MembersViewState extends State<MembersView> {
             ? Text(
                 content as String,
                 style: Get.textTheme.bodySmall?.copyWith(
-                  fontWeight: isHeader ? FontWeight.w600 : FontWeight.normal,
-                  color: isHeader ? const Color(0xFF475569) : _textDark,
+                  fontWeight: isHeader ? FontWeight.w500 : FontWeight.normal,
+                  color: _textDark,
                   fontSize: 14,
                 ),
               )

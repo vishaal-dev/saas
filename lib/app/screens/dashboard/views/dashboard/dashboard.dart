@@ -25,6 +25,8 @@ class Dashboard extends GetView<DashboardController> {
   // Design colors (exact from image)
   static const _purple = Color(0xFF4F46E5);
   static const _purpleLight = Color(0xFFEEEDFB); // Active nav background
+  static const _sidebarIconColor = Color(0xFF64748B); // Inactive nav/drawer icons
+  static const _sidebarTextColor = Color(0xFF475569);
   static const _textDark = Color(0xFF0F172A);
   static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
@@ -198,7 +200,7 @@ class Dashboard extends GetView<DashboardController> {
                   item.iconPath,
                   width: 24,
                   height: 24,
-                  color: item.isActive ? _purple : _textMuted,
+                  color: item.isActive ? _purple : _sidebarIconColor,
                   colorBlendMode: BlendMode.srcIn,
                 ),
                 const SizedBox(width: 16),
@@ -206,7 +208,7 @@ class Dashboard extends GetView<DashboardController> {
                   item.label,
                   style: Get.textTheme.bodySmall?.copyWith(
                     fontSize: 18,
-                    color: item.isActive ? _purple : _textMuted,
+                    color: item.isActive ? _purple : _sidebarTextColor,
                   ),
                 ),
               ],
@@ -234,7 +236,7 @@ class Dashboard extends GetView<DashboardController> {
                   'assets/icons/log-out.svg',
                   width: 24,
                   height: 24,
-                  color: _textMuted,
+                  color: _sidebarIconColor,
                   colorBlendMode: BlendMode.srcIn,
                 ),
                 const SizedBox(width: 16),
@@ -242,7 +244,7 @@ class Dashboard extends GetView<DashboardController> {
                   'Logout',
                   style: Get.textTheme.bodySmall?.copyWith(
                     fontSize: 18,
-                    color: _textMuted,
+                    color: _sidebarTextColor,
                   ),
                 ),
               ],
