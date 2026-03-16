@@ -1,9 +1,13 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../../../shared/widgets/primary_action_button.dart';
+import '../../../../../shared/widgets/success_toast.dart';
 import 'dashboard_controller.dart';
 import '../../modals/add_member_modal.dart';
+import '../../modals/help_support_modal.dart';
 import '../members/members_view.dart';
 import '../reminders/reminders_view.dart';
 import '../renewals/renewals_view.dart';
@@ -17,7 +21,10 @@ class DashboardMobileView extends StatelessWidget {
   const DashboardMobileView({super.key});
 
   static const _purple = Color(0xFF4F46E5);
-  static const _textDark = Color(0xFF333333);
+  static const _purpleLight = Color(0xFFEEEDFB);
+  static const _sidebarIconColor = Color(0xFF64748B);
+  static const _sidebarTextColor = Color(0xFF475569);
+  static const _textDark = Color(0xFF0F172A);
   static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
   static const _expiredBadge = Color(0xFFFEE2E2);
@@ -28,13 +35,13 @@ class DashboardMobileView extends StatelessWidget {
   static const _iconCircleGreen = Color(0xFF16A34A);
 
   static const _menuIcons = (
-    dashboard: 'assets/icons/dashboard.png',
-    members: 'assets/icons/users-round.png',
-    subscriptions: 'assets/icons/calendar-days.png',
-    renewals: 'assets/icons/calendar-sync.png',
-    reminders: 'assets/icons/bell-ring.png',
-    reports: 'assets/icons/chart-column-big.png',
-    settings: 'assets/icons/settings.png',
+    dashboard: 'assets/icons/dashboard.svg',
+    members: 'assets/icons/users-round.svg',
+    subscriptions: 'assets/icons/calendar-days.svg',
+    renewals: 'assets/icons/calendar-sync.svg',
+    reminders: 'assets/icons/bell-ring.svg',
+    reports: 'assets/icons/chart-column-big.svg',
+    settings: 'assets/icons/settings.svg',
   );
 
   static final _renewalRows = [
@@ -67,22 +74,35 @@ class DashboardMobileView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/images/saas-logo.png', height: 28),
+              Image.asset('assets/images/saas-logo.png', height: 36),
             ],
           ),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined, size: 22),
-            onPressed: () {},
-            color: _textMuted,
+          InkWell(
+            onTap: () => Get.dialog(const HelpSupportModal()),
+            borderRadius: BorderRadius.circular(24),
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: CircleAvatar(
+                radius: 18,
+                backgroundColor: const Color(0xFFEEF2FF),
+                child: SvgPicture.asset(
+                  'assets/icons/headset.svg',
+                  width: 24,
+                  height: 24,
+                  color: _textMuted,
+                  colorBlendMode: BlendMode.srcIn,
+                ),
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: CircleAvatar(
-              radius: 16,
+              radius: 18,
               backgroundColor: const Color(0xFFEEF2FF),
-              child: Image.asset('assets/images/profile-icon.png', width: 20, height: 20),
+              child: Image.asset('assets/images/profile-icon.png'),
             ),
           ),
         ],
@@ -96,12 +116,12 @@ class DashboardMobileView extends StatelessWidget {
         if (index == 4) return const RemindersView();
         if (index == 5) return const ReportsView();
         if (index == 6) return const SettingsView();
-        return _buildDashboardContent(controller);
+        return _buildDashboardContent(context, controller);
       }),
     );
   }
 
-  Widget _buildDashboardContent(DashboardController controller) {
+  Widget _buildDashboardContent(BuildContext context, DashboardController controller) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -115,7 +135,7 @@ class DashboardMobileView extends StatelessWidget {
           const SizedBox(height: 16),
           _buildRevenueInsightsCard(),
           const SizedBox(height: 20),
-          _buildRenewalsSection(controller),
+          _buildRenewalsSection(context, controller),
           const SizedBox(height: 24),
           _buildFooter(),
         ],
@@ -140,12 +160,12 @@ class DashboardMobileView extends StatelessWidget {
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   const Spacer(),
-                  Image.asset('assets/images/saas-logo.png', height: 28),
+                  Image.asset('assets/images/saas-logo.png', height: 36),
                   const Spacer(),
                   CircleAvatar(
                     radius: 18,
                     backgroundColor: const Color(0xFFEEF2FF),
-                    child: Image.asset('assets/images/profile-icon.png', width: 24, height: 24),
+                    child: Image.asset('assets/images/profile-icon.png'),
                   ),
                 ],
               ),
@@ -163,27 +183,27 @@ class DashboardMobileView extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 8),
                         child: Material(
-                          color: isActive ? const Color(0xFFEEF2FF) : Colors.transparent,
-                          borderRadius: BorderRadius.circular(32),
+                          color: isActive ? _purpleLight : Colors.transparent,
+                          borderRadius: BorderRadius.circular(28),
                           child: ListTile(
                             onTap: () {
                               controller.onNavTap(e.key);
                               Navigator.of(context).pop();
                             },
                             dense: true,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-                            leading: Image.asset(
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+                            leading: SvgPicture.asset(
                               _getIconForIndex(e.key),
-                              width: 22,
-                              height: 22,
-                              color: isActive ? _purple : const Color(0xFF64748B),
+                              width: 24,
+                              height: 24,
+                              color: isActive ? _purple : _sidebarIconColor,
                               colorBlendMode: BlendMode.srcIn,
                             ),
                             title: Text(
                               e.value,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: isActive ? _purple : const Color(0xFF475569),
+                              style: Get.textTheme.bodySmall?.copyWith(
+                                fontSize: 18,
+                                color: isActive ? _purple : _sidebarTextColor,
                                 fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
                               ),
                             ),
@@ -194,26 +214,25 @@ class DashboardMobileView extends StatelessWidget {
                   )),
             ),
             // Logout and Footer
-            const Divider(height: 1, color: Color(0xFFF1F5F9)),
+            const Divider(thickness: 1, color: Color(0xFFCBD5E1)),
             ListTile(
               onTap: () {
                 Navigator.of(context).pop();
                 controller.onLogout();
               },
               contentPadding: const EdgeInsets.symmetric(horizontal: 28, vertical: 4),
-              leading: Image.asset(
-                'assets/icons/log-out.png',
-                width: 22,
-                height: 22,
-                color: const Color(0xFF64748B),
+              leading: SvgPicture.asset(
+                'assets/icons/log-out.svg',
+                width: 24,
+                height: 24,
+                color: _sidebarIconColor,
                 colorBlendMode: BlendMode.srcIn,
               ),
-              title: const Text(
+              title: Text(
                 'Logout',
-                style: TextStyle(
-                  color: Color(0xFF475569),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+                style: Get.textTheme.bodySmall?.copyWith(
+                  fontSize: 18,
+                  color: _sidebarTextColor,
                 ),
               ),
             ),
@@ -223,7 +242,8 @@ class DashboardMobileView extends StatelessWidget {
                 '© 2026 All rights reserved',
                 style: Get.textTheme.bodySmall?.copyWith(
                   color: _textMuted,
-                  fontSize: 11,
+                  fontSize: 12,
+                  fontFamily: 'Poppins',
                 ),
               ),
             ),
@@ -262,15 +282,9 @@ class DashboardMobileView extends StatelessWidget {
         const SizedBox(height: 12),
         SizedBox(
           width: double.infinity,
-          child: FilledButton(
+          child: PrimaryActionButton(
+            label: 'Add Member',
             onPressed: () => Get.dialog(const AddMemberModal()),
-            style: FilledButton.styleFrom(
-              backgroundColor: _purple,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            ),
-            child: const Text('Add Member'),
           ),
         ),
       ],
@@ -279,10 +293,10 @@ class DashboardMobileView extends StatelessWidget {
 
   Widget _buildSummaryGrid() {
     final cards = [
-      _SummaryItem('assets/icons/users.png', _iconCirclePurple, '284', 'Active Members'),
-      _SummaryItem('assets/icons/book-check.png', _iconCircleGreen, '96', 'Renewed (This Month)'),
-      _SummaryItem('assets/icons/alarm-clock.png', _iconCircleOrange, '18', 'Expiring (7 Days)'),
-      _SummaryItem('assets/icons/shield-x.png', _iconCircleRed, '7', 'Expired'),
+      _SummaryItem('assets/icons/users_tab.svg', _iconCirclePurple, '284', 'Active Members'),
+      _SummaryItem('assets/icons/alarm-clock_tab.svg', _iconCircleOrange, '18', 'Expiring (7 Days)'),
+      _SummaryItem('assets/icons/shield-x_tab.svg', _iconCircleRed, '7', 'Expired'),
+      _SummaryItem('assets/icons/book-check_tab.svg', _iconCircleGreen, '96', 'Renewed (This Month)'),
     ];
     return GridView.count(
       crossAxisCount: 2,
@@ -313,7 +327,7 @@ class DashboardMobileView extends StatelessWidget {
             height: 36,
             decoration: BoxDecoration(color: c.bgColor, borderRadius: BorderRadius.circular(18)),
             alignment: Alignment.center,
-            child: Image.asset(c.iconPath, width: 20, height: 20, color: Colors.white, colorBlendMode: BlendMode.srcIn),
+            child: SvgPicture.asset(c.iconPath, width: 24, height: 24, color: Colors.white, colorBlendMode: BlendMode.srcIn),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -339,40 +353,54 @@ class DashboardMobileView extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: const Color(0xFFC7D2FE)),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFC7D2FE), width: 1),
         boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 8, offset: const Offset(0, 2)),
+          BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 12, offset: const Offset(0, 2)),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('AI Insights', style: Get.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600, color: _textDark)),
-          const SizedBox(height: 10),
+          Text('AI Insights', style: Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: Colors.black)),
+          const SizedBox(height: 12),
           RichText(
             text: TextSpan(
-              style: Get.textTheme.bodySmall?.copyWith(color: _textMuted, fontSize: 13),
+              style: Get.textTheme.bodySmall?.copyWith(color: _textMuted, fontWeight: FontWeight.w400),
               children: [
                 const TextSpan(text: 'You may lose '),
-                TextSpan(text: '₹18,000', style: Get.textTheme.bodySmall?.copyWith(color: _textDark, fontWeight: FontWeight.w600, fontSize: 13)),
+                TextSpan(text: '₹18,000', style: Get.textTheme.bodySmall?.copyWith(color: _textDark, fontWeight: FontWeight.w600)),
                 const TextSpan(text: ' this week due to 6 memberships expiring. Sending reminders today could recover '),
-                TextSpan(text: '₹12,500', style: Get.textTheme.bodySmall?.copyWith(color: _textDark, fontWeight: FontWeight.w600, fontSize: 13)),
+                TextSpan(text: '₹12,500', style: Get.textTheme.bodySmall?.copyWith(color: _textDark, fontWeight: FontWeight.w600)),
                 const TextSpan(text: '.'),
               ],
             ),
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 14),
-          SizedBox(
-            width: double.infinity,
-            child: FilledButton(
-              onPressed: () => Get.find<DashboardController>().onSendRemindersNow(),
-              style: FilledButton.styleFrom(
-                backgroundColor: _purple,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          const SizedBox(height: 20),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () => Get.find<DashboardController>().onSendRemindersNow(),
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: _purpleLight,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 4, offset: const Offset(0, 1)),
+                    ],
+                  ),
+                  child: Text(
+                    'Send Reminders Now',
+                    style: Get.theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600, color: _purple),
+                  ),
+                ),
               ),
-              child: const Text('Send Reminders Now'),
             ),
           ),
         ],
@@ -380,8 +408,8 @@ class DashboardMobileView extends StatelessWidget {
     );
   }
 
-  static const _revenueRecoveredBlue = Color(0xFF4F46E5);
-  static const _revenueLostRed = Color(0xFFDC2626);
+  static const _revenueRecoveredBlue = Color(0xFF4DA5F2);
+  static const _revenueLostRed = Color(0xFFFF7373);
 
   Widget _buildRevenueInsightsCard() {
     const chartSize = 100.0;
@@ -401,8 +429,8 @@ class DashboardMobileView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Revenue Insights', style: Get.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600, color: _textDark)),
-          const SizedBox(height: 16),
+          Text('Revenue Insights', style: Get.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600, color: _textDark)),
+          const SizedBox(height: 30),
           Center(
             child: SizedBox(
               width: chartSize,
@@ -415,12 +443,12 @@ class DashboardMobileView extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               _revenueLegendItem(color: _revenueRecoveredBlue, label: 'Revenue Recovered', value: '₹18,624'),
-              const SizedBox(width: 12),
+              const SizedBox(width: 34),
               _revenueLegendItem(color: _revenueLostRed, label: 'Revenue Lost', value: '₹2,540'),
             ],
           ),
@@ -439,15 +467,16 @@ class DashboardMobileView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(value, style: Get.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w600, color: _textDark, fontSize: 12)),
-            Text(label, style: Get.textTheme.bodySmall?.copyWith(color: _textMuted, fontSize: 11)),
+            Text(label, style: Get.textTheme.bodySmall?.copyWith(color: _textMuted, fontSize: 11, fontWeight: FontWeight.w400)),
+            const SizedBox(height: 2),
+            Text(value, style: Get.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 13)),
           ],
         ),
       ],
     );
   }
 
-  Widget _buildRenewalsSection(DashboardController controller) {
+  Widget _buildRenewalsSection(BuildContext context, DashboardController controller) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -477,9 +506,8 @@ class DashboardMobileView extends StatelessWidget {
                     'View All Renewals',
                     style: Get.textTheme.labelMedium?.copyWith(
                       color: _purple,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                       fontSize: 13,
-                      decoration: TextDecoration.underline,
                       decorationColor: _purple,
                     ),
                   ),
@@ -487,13 +515,13 @@ class DashboardMobileView extends StatelessWidget {
               ],
             ),
           ),
-          ..._renewalRows.map((row) => _renewalCard(row)),
+          ..._renewalRows.map((row) => _renewalCard(context, row)),
         ],
       ),
     );
   }
 
-  Widget _renewalCard(_RenewalRow row) {
+  Widget _renewalCard(BuildContext context, _RenewalRow row) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
@@ -510,18 +538,20 @@ class DashboardMobileView extends StatelessWidget {
                 Text('${row.plan} · ${row.expiry}', style: Get.textTheme.bodySmall?.copyWith(color: _textMuted, fontSize: 12)),
                 const SizedBox(height: 6),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: row.isExpired ? const Color(0xFFDC2626) : const Color(0xFFF59E0B),
+                    color: row.isExpired ? _expiredBadge : _expiringBadge,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(
                     row.status,
-                    style: Get.textTheme.labelSmall?.copyWith(
-                      color: Colors.white,
+                    style: Get.textTheme.labelMedium?.copyWith(
+                      color: row.isExpired ? const Color(0xFF991B1B) : const Color(0xFF92400E),
                       fontWeight: FontWeight.w500,
-                      fontSize: 11,
+                      fontSize: 12,
                     ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                 ),
               ],
@@ -530,9 +560,9 @@ class DashboardMobileView extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _actionIcon(Icons.notifications_outlined),
+              _actionButton(iconPath: 'assets/icons/bell-ring.svg', onTap: () => SuccessToast.show(context, title: 'Reminders Sent')),
               const SizedBox(width: 8),
-              _actionIcon(Icons.refresh),
+              _actionButton(iconPath: 'assets/icons/renew.svg'),
             ],
           ),
         ],
@@ -540,28 +570,39 @@ class DashboardMobileView extends StatelessWidget {
     );
   }
 
-  Widget _actionIcon(IconData icon) {
+  Widget _actionButton({required String iconPath, VoidCallback? onTap}) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () {},
+        onTap: onTap,
         borderRadius: BorderRadius.circular(20),
         child: CircleAvatar(
-          radius: 16,
+          radius: 18,
           backgroundColor: const Color(0xFFE0E7FF),
-          child: Icon(icon, size: 16, color: _textDark),
+          child: SvgPicture.asset(
+            iconPath,
+            width: 18,
+            height: 18,
+            colorFilter: ColorFilter.mode(_textDark, BlendMode.srcIn),
+          ),
         ),
       ),
     );
   }
 
   Widget _buildFooter() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
+    return Container(
+      width: double.infinity,
+      color: const Color(0xFFF8FAFC),
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: Center(
         child: Text(
           '© 2026 All rights reserved',
-          style: Get.textTheme.bodySmall?.copyWith(color: _textMuted, fontSize: 11),
+          style: Get.textTheme.bodySmall?.copyWith(
+            color: _textMuted,
+            fontSize: 12,
+            fontFamily: 'Poppins',
+          ),
         ),
       ),
     );

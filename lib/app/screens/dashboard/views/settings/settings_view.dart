@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../authentication/widgets/auth_constants.dart';
+import '../../../authentication/widgets/auth_form_field_section.dart';
+import '../../../authentication/widgets/auth_password_field.dart';
+import '../../../authentication/widgets/auth_text_field.dart';
 import 'settings_mobile_view.dart';
 import 'settings_tablet_view.dart';
 
@@ -9,7 +13,7 @@ import 'settings_tablet_view.dart';
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
 
-  static const _textDark = Color(0xFF333333);
+  static const _textDark = Color(0xFF0F172A);
   static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
   static const _purple = Color(0xFF4F46E5);
@@ -105,6 +109,24 @@ class _SettingsContentState extends State<_SettingsContent> {
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
+  bool _currentPasswordVisible = false;
+  bool _newPasswordVisible = false;
+  bool _confirmPasswordVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    void listen() => setState(() {});
+    _currentPasswordController.addListener(listen);
+    _newPasswordController.addListener(listen);
+    _confirmPasswordController.addListener(listen);
+  }
+
+  bool get _isPasswordFormValid =>
+      _currentPasswordController.text.trim().isNotEmpty &&
+      _newPasswordController.text.trim().isNotEmpty &&
+      _confirmPasswordController.text.trim().isNotEmpty;
+
   @override
   void dispose() {
     _businessNameController.dispose();
@@ -130,56 +152,70 @@ class _SettingsContentState extends State<_SettingsContent> {
           ),
         ],
       ),
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _buildSidebar(),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: _selectedTabIndex == 0
+                    ? _buildProfileContent()
+                    : _buildLoginSecurityContent(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Left sidebar: Profile | Login & Security (vertical tabs)
+  Widget _buildSidebar() {
+    return Container(
+      width: 200,
+      decoration: BoxDecoration(
+        color: const Color(0xFFFAFAFA),
+        borderRadius: const BorderRadius.horizontal(left: Radius.circular(12)),
+        border: Border(
+          right: BorderSide(color: widget.border),
+        ),
+      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildTabBar(),
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: _selectedTabIndex == 0
-                ? _buildProfileContent()
-                : _buildLoginSecurityContent(),
+          _buildSidebarTab(
+            'Profile',
+            isSelected: _selectedTabIndex == 0,
+            onTap: () => setState(() => _selectedTabIndex = 0),
+          ),
+          _buildSidebarTab(
+            'Login & Security',
+            isSelected: _selectedTabIndex == 1,
+            onTap: () => setState(() => _selectedTabIndex = 1),
           ),
         ],
       ),
     );
   }
 
-  /// Horizontal tabs inside the card: Profile | Login & Security (Settings.png & Settings1.png)
-  Widget _buildTabBar() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        _buildTab(
-          'Profile',
-          isSelected: _selectedTabIndex == 0,
-          onTap: () => setState(() => _selectedTabIndex = 0),
-        ),
-        _buildTab(
-          'Login & Security',
-          isSelected: _selectedTabIndex == 1,
-          onTap: () => setState(() => _selectedTabIndex = 1),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildTab(String label, {required bool isSelected, required VoidCallback onTap}) {
+  Widget _buildSidebarTab(String label,
+      {required bool isSelected, required VoidCallback onTap}) {
     return Material(
-      color: isSelected ? widget.tabActiveBg : Colors.white,
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+      color: isSelected ? widget.tabActiveBg : Colors.transparent,
+      borderRadius: BorderRadius.zero,
       child: InkWell(
         onTap: onTap,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+          width: double.infinity,
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
             border: Border(
-              bottom: BorderSide(
-                color: isSelected ? widget.border : Colors.transparent,
-                width: 1,
+              left: BorderSide(
+                color: isSelected ? widget.purple : Colors.transparent,
+                width: 3,
               ),
             ),
           ),
@@ -195,12 +231,66 @@ class _SettingsContentState extends State<_SettingsContent> {
     );
   }
 
-  /// Profile tab content: Business Logo + Business Name (Settings.png)
+  /// Profile tab content: Business Logo row (title + Cancel/Save) + logo + Business Name (Settings.png)
   Widget _buildProfileContent() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Business Logo',
+              style: Get.textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: widget.textDark,
+              ),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 94,
+                  height: 44,
+                  child: TextButton(
+                    onPressed: _onCancelProfile,
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: widget.textDark,
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      minimumSize: const Size(94, 44),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(width: 1, color: widget.border),
+                      ),
+                    ),
+                    child: const Text('Cancel'),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                SizedBox(
+                  height: 44,
+                  child: FilledButton(
+                    onPressed: _onSaveProfile,
+                    style: FilledButton.styleFrom(
+                      backgroundColor: widget.purple,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      minimumSize: const Size(88, 44),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: const Text('Save'),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
         _buildBusinessLogoSection(),
         const SizedBox(height: 28),
         _buildBusinessNameSection(),
@@ -209,155 +299,153 @@ class _SettingsContentState extends State<_SettingsContent> {
   }
 
   Widget _buildBusinessLogoSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
       children: [
-        Text(
-          'Business Logo',
-          style: Get.textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: widget.textDark,
+        Container(
+          width: 80,
+          height: 80,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            border: Border.all(color: widget.border),
+          ),
+          padding: const EdgeInsets.all(12),
+          child: Center(
+            child: Image.asset(
+              'assets/images/saas-logo.png',
+              height: 40,
+              fit: BoxFit.contain,
+            ),
           ),
         ),
-        const SizedBox(height: 12),
-        Row(
-          children: [
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                border: Border.all(color: widget.border),
-              ),
-              padding: const EdgeInsets.all(12),
-              child: Center(
-                child: Image.asset(
-                  'assets/images/saas-logo.png',
-                  height: 40,
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-            const SizedBox(width: 16),
-            _editButton(onPressed: () {}),
-          ],
-        ),
+        const SizedBox(width: 16),
+        _editButton(onPressed: () {}),
       ],
     );
   }
 
   Widget _buildBusinessNameSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Business Name',
-          style: Get.textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: widget.textDark,
-          ),
+    return SizedBox(
+      width: 280,
+      child: AuthFormFieldSection(
+        label: 'Business Name',
+        spacingAfterLabel: 8,
+        child: AuthTextField(
+          controller: _businessNameController,
+          hint: 'SaaS',
         ),
-        const SizedBox(height: 12),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: TextField(
-                controller: _businessNameController,
-                style: Get.textTheme.bodyMedium?.copyWith(color: widget.textDark),
-                decoration: InputDecoration(
-                  hintText: 'SaaS',
-                  hintStyle: Get.textTheme.bodyMedium?.copyWith(color: widget.textMuted),
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: widget.border),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: widget.border),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: widget.purple, width: 1.5),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 16),
-            _editButton(onPressed: () {}),
-          ],
-        ),
-      ],
+      ),
     );
   }
 
-  /// Login & Security tab content: Change Password form (Settings1.png)
+  /// Login & Security tab content: Change Password form (Settings.png)
   Widget _buildLoginSecurityContent() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          'Change Password',
-          style: Get.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: widget.textDark,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Change Password',
+              style: Get.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: widget.textDark,
+              ),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 94,
+                  height: 44,
+                  child: TextButton(
+                    onPressed: _onCancel,
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: widget.textDark,
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      minimumSize: const Size(94, 44),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(width: 1, color: widget.border),
+                      ),
+                    ),
+                    child: const Text('Cancel'),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                SizedBox(
+                  height: 44,
+                  child: FilledButton(
+                    onPressed: _isPasswordFormValid ? _onSavePassword : null,
+                    style: FilledButton.styleFrom(
+                      backgroundColor: widget.purple,
+                      foregroundColor: Colors.white,
+                      disabledBackgroundColor: const Color(0xFFA5B4FC),
+                      disabledForegroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      minimumSize: const Size(88, 44),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: const Text('Save'),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
         const SizedBox(height: 24),
-        _buildPasswordField(
-          label: 'Current Password',
-          hint: 'Enter Current Password',
-          controller: _currentPasswordController,
-        ),
-        const SizedBox(height: 20),
-        _buildPasswordField(
-          label: 'New Password',
-          hint: 'Enter New Password',
-          controller: _newPasswordController,
-        ),
-        const SizedBox(height: 20),
-        _buildPasswordField(
-          label: 'Confirm New Password',
-          hint: 'Confirm New Password',
-          controller: _confirmPasswordController,
-        ),
-        const SizedBox(height: 28),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            OutlinedButton(
-              onPressed: () => setState(() {
-                _currentPasswordController.clear();
-                _newPasswordController.clear();
-                _confirmPasswordController.clear();
-              }),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: widget.textDark,
-                side: BorderSide(color: widget.border),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: const Text('Cancel'),
+        SizedBox(
+          width: 280,
+          child: AuthFormFieldSection(
+            label: 'Current Password',
+            spacingAfterLabel: 8,
+            child: AuthPasswordField(
+              controller: _currentPasswordController,
+              obscureText: !_currentPasswordVisible,
+              onToggleVisibility: () =>
+                  setState(() => _currentPasswordVisible = !_currentPasswordVisible),
+              hint: 'Enter Current Password',
             ),
-            const SizedBox(width: 12),
-            FilledButton(
-              onPressed: _onSavePassword,
-              style: FilledButton.styleFrom(
-                backgroundColor: widget.purple,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        const SizedBox(height: 20),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 280,
+              child: AuthFormFieldSection(
+                label: 'New Password',
+                spacingAfterLabel: 8,
+                child: AuthPasswordField(
+                  controller: _newPasswordController,
+                  obscureText: !_newPasswordVisible,
+                  onToggleVisibility: () =>
+                      setState(() => _newPasswordVisible = !_newPasswordVisible),
+                  hint: 'Enter New Password',
                 ),
               ),
-              child: const Text('Save'),
+            ),
+            const SizedBox(width: 16),
+            SizedBox(
+              width: 280,
+              child: AuthFormFieldSection(
+                label: 'Confirm New Password',
+                spacingAfterLabel: 8,
+                child: AuthPasswordField(
+                  controller: _confirmPasswordController,
+                  obscureText: !_confirmPasswordVisible,
+                  onToggleVisibility: () => setState(
+                      () => _confirmPasswordVisible = !_confirmPasswordVisible),
+                  hint: 'Confirm New Password',
+                ),
+              ),
             ),
           ],
         ),
@@ -365,48 +453,18 @@ class _SettingsContentState extends State<_SettingsContent> {
     );
   }
 
-  Widget _buildPasswordField({
-    required String label,
-    required String hint,
-    required TextEditingController controller,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: Get.textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w500,
-            color: widget.textDark,
-          ),
-        ),
-        const SizedBox(height: 8),
-        TextField(
-          controller: controller,
-          obscureText: true,
-          style: Get.textTheme.bodyMedium?.copyWith(color: widget.textDark),
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: Get.textTheme.bodyMedium?.copyWith(color: widget.textMuted),
-            filled: true,
-            fillColor: Colors.white,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: widget.border),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: widget.border),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: widget.purple, width: 1.5),
-            ),
-          ),
-        ),
-      ],
-    );
+  void _onCancel() {
+    _currentPasswordController.clear();
+    _newPasswordController.clear();
+    _confirmPasswordController.clear();
+  }
+
+  void _onCancelProfile() {
+    _businessNameController.text = 'SaaS'; // reset to initial
+  }
+
+  void _onSaveProfile() {
+    // TODO: validate and call API to save business name
   }
 
   void _onSavePassword() {

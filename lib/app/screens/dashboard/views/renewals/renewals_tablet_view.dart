@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'renewals_mobile_view.dart';
 
@@ -7,7 +8,7 @@ class RenewalsTabletView extends StatelessWidget {
 
   final List<RenewalRow> tableData;
 
-  static const _textDark = Color(0xFF333333);
+  static const _textDark = Color(0xFF0F172A);
   static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
   static const _headerBg = Color(0xFFF1F5F9);
@@ -122,22 +123,33 @@ class RenewalsTabletView extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        _actionIcon(Icons.refresh),
+        _actionIcon('assets/icons/renew.svg'),
         const SizedBox(width: 4),
-        _actionIcon(Icons.notifications_outlined),
+        _actionIcon('assets/icons/bell-ring.svg'),
       ],
     );
   }
 
-  Widget _actionIcon(IconData icon) {
+  Widget _actionIcon(String assetPath) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: () {},
         borderRadius: BorderRadius.circular(20),
         child: Container(
+          width: 32,
+          height: 32,
+          decoration: const BoxDecoration(
+            color: Color(0xFFEEF2FF),
+            shape: BoxShape.circle,
+          ),
           padding: const EdgeInsets.all(6),
-          child: Icon(icon, size: 18, color: _textMuted),
+          child: SvgPicture.asset(
+            assetPath,
+            width: 18,
+            height: 18,
+            colorFilter: ColorFilter.mode(_textMuted, BlendMode.srcIn),
+          ),
         ),
       ),
     );

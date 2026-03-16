@@ -413,10 +413,22 @@ class AddMemberModalTabletView extends StatelessWidget {
             child: Checkbox(
               value: value,
               onChanged: (v) => onChanged(v ?? false),
-              activeColor: AuthConstants.buttonEnabledColor,
+              fillColor: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.selected)) {
+                  return Colors.transparent;
+                }
+                return null;
+              }),
+              checkColor: AuthConstants.labelColor,
+              side: WidgetStateBorderSide.resolveWith((states) =>
+                  const BorderSide(
+                    color: AuthConstants.borderColor,
+                    width: 1,
+                  )),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
               ),
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
           ),
           const SizedBox(width: 10),

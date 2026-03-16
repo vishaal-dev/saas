@@ -9,7 +9,7 @@ class SettingsTabletView extends StatefulWidget {
 }
 
 class _SettingsTabletViewState extends State<SettingsTabletView> {
-  static const _textDark = Color(0xFF333333);
+  static const _textDark = Color(0xFF0F172A);
   static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
   static const _purple = Color(0xFF4F46E5);
@@ -43,45 +43,55 @@ class _SettingsTabletViewState extends State<SettingsTabletView> {
           BoxShadow(color: _cardShadow, blurRadius: 12, offset: const Offset(0, 2)),
         ],
       ),
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _buildSidebar(),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: _selectedTabIndex == 0 ? _buildProfileContent() : _buildLoginSecurityContent(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSidebar() {
+    return Container(
+      width: 180,
+      decoration: BoxDecoration(
+        color: const Color(0xFFFAFAFA),
+        borderRadius: const BorderRadius.horizontal(left: Radius.circular(12)),
+        border: Border(right: BorderSide(color: _border)),
+      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildTabBar(),
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: _selectedTabIndex == 0 ? _buildProfileContent() : _buildLoginSecurityContent(),
-          ),
+          _buildSidebarTab('Profile', _selectedTabIndex == 0, () => setState(() => _selectedTabIndex = 0)),
+          _buildSidebarTab('Login & Security', _selectedTabIndex == 1, () => setState(() => _selectedTabIndex = 1)),
         ],
       ),
     );
   }
 
-  Widget _buildTabBar() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        _buildTab('Profile', _selectedTabIndex == 0, () => setState(() => _selectedTabIndex = 0)),
-        _buildTab('Login & Security', _selectedTabIndex == 1, () => setState(() => _selectedTabIndex = 1)),
-      ],
-    );
-  }
-
-  Widget _buildTab(String label, bool isSelected, VoidCallback onTap) {
+  Widget _buildSidebarTab(String label, bool isSelected, VoidCallback onTap) {
     return Material(
-      color: isSelected ? _tabActiveBg : Colors.white,
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+      color: isSelected ? _tabActiveBg : Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+          width: double.infinity,
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
             border: Border(
-              bottom: BorderSide(
-                color: isSelected ? _border : Colors.transparent,
-                width: 1,
+              left: BorderSide(
+                color: isSelected ? _purple : Colors.transparent,
+                width: 3,
               ),
             ),
           ),

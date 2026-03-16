@@ -12,8 +12,12 @@ class MembersTabletView extends StatelessWidget {
   final List<MemberRow> tableData;
   final Function(MemberRow) onOpenViewMember;
 
-  static const _textDark = Color(0xFF333333);
+  static const _textDark = Color(0xFF0F172A);
+  static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
+  static const _expiredBadge = Color(0xFFFEE2E2);
+  static const _expiringBadge = Color(0xFFFEF3C7);
+  static const _activeBadge = Color(0xFFDCFCE7);
   static const _iconCircleOrange = Color(0xFFF59E0B);
   static const _iconCircleRed = Color(0xFFDC2626);
   static const _iconCircleGreen = Color(0xFF16A34A);
@@ -113,24 +117,26 @@ class MembersTabletView extends StatelessWidget {
   }
 
   Widget _statusPill(MemberStatus status) {
-    final (String label, Color bg) = switch (status) {
-      MemberStatus.active => ('Active', _iconCircleGreen),
-      MemberStatus.expired => ('Expired', _iconCircleRed),
-      MemberStatus.expiring => ('Expiring', _iconCircleOrange),
+    final (String label, Color bg, Color textColor) = switch (status) {
+      MemberStatus.active => ('Active', _activeBadge, const Color(0xFF166534)),
+      MemberStatus.expired => ('Expired', _expiredBadge, const Color(0xFF991B1B)),
+      MemberStatus.expiring => ('Expiring', _expiringBadge, const Color(0xFF92400E)),
     };
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Text(
         label,
-        style: Get.textTheme.bodySmall?.copyWith(
-          color: Colors.white,
+        style: Get.textTheme.labelMedium?.copyWith(
+          color: textColor,
           fontWeight: FontWeight.w500,
           fontSize: 12,
         ),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
       ),
     );
   }

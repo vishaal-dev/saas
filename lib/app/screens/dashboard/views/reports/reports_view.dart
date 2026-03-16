@@ -33,7 +33,7 @@ class ReportsView extends StatelessWidget {
   const ReportsView({super.key});
 
   static const _textDark = Color(0xFF0F172A);
-  static const _textMuted = Color(0xFF475569);
+  static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
   static const _valueBlue = Color(0xFF4F46E5);
   static const _valueRed = Color(0xFFDC2626);
@@ -130,6 +130,7 @@ class ReportsView extends StatelessWidget {
                   description: 'From renewed subscriptions',
                 ),
               ],
+              onExport: _exportRevenueTableToPdf,
             )
           else if (isTablet)
             ReportsTabletView(
@@ -171,6 +172,7 @@ class ReportsView extends StatelessWidget {
                   description: 'From renewed subscriptions',
                 ),
               ],
+              onExport: _exportRevenueTableToPdf,
             )
           else ...[
             _buildKpiCards(),

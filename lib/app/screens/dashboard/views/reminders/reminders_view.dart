@@ -15,7 +15,7 @@ class RemindersView extends StatelessWidget {
   const RemindersView({super.key});
 
   static const _textDark = Color(0xFF0F172A);
-  static const _textMuted = Color(0xFF475569);
+  static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
   static const _iconCircleGreen = Color(0xFF16A34A);
   static const _whatsAppGreen = Color(0xFF25D366);
@@ -86,11 +86,7 @@ class RemindersView extends StatelessWidget {
                 children: [
                   Text(
                     'Reminders',
-                    style:
-                        (isMobile
-                                ? Get.textTheme.headlineSmall
-                                : Get.textTheme.bodyLarge)
-                            ?.copyWith(color: _textDark),
+                    style: Get.textTheme.bodyLarge?.copyWith(color: _textDark),
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -225,23 +221,26 @@ class RemindersView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  OutlinedButton(
-                    onPressed: () => Get.dialog(const CreateTemplateModal()),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: _textDarkTable,
-                      backgroundColor: Colors.white,
-                      minimumSize: const Size(168, 44),
-                      maximumSize: const Size(168, 44),
-                      padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
-                      side: const BorderSide(
-                        color: Color(0xFFE2E8F0),
-                        width: 1,
+                  SizedBox(
+                    width: 168,
+                    height: 44,
+                    child: OutlinedButton(
+                      onPressed: () => Get.dialog(const CreateTemplateModal()),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: _textDarkTable,
+                        backgroundColor: Colors.white,
+                        padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+                        minimumSize: const Size(168, 44),
+                        side: const BorderSide(
+                          color: Color(0xFFE2E8F0),
+                          width: 1,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      child: const Text('Create Template'),
                     ),
-                    child: const Text('Create Template'),
                   ),
                 ],
               ),
@@ -254,8 +253,10 @@ class RemindersView extends StatelessWidget {
     );
   }
 
-  Widget _buildRulesTable(List<ReminderRuleRow> rows,
-      {bool isMessageTemplates = false}) {
+  Widget _buildRulesTable(
+    List<ReminderRuleRow> rows, {
+    bool isMessageTemplates = false,
+  }) {
     return Table(
       columnWidths: const {
         0: FlexColumnWidth(1.2),

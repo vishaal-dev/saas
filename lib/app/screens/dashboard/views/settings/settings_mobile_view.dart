@@ -9,7 +9,7 @@ class SettingsMobileView extends StatefulWidget {
 }
 
 class _SettingsMobileViewState extends State<SettingsMobileView> {
-  static const _textDark = Color(0xFF333333);
+  static const _textDark = Color(0xFF0F172A);
   static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
   static const _purple = Color(0xFF4F46E5);

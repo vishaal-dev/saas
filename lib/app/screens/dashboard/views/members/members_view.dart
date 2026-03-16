@@ -19,8 +19,11 @@ class MembersView extends StatefulWidget {
 
 class _MembersViewState extends State<MembersView> {
   static const _purple = Color(0xFF4F46E5);
-  static const _textDark = Color(0xFF475569);
+  static const _textDark = Color(0xFF0F172A);
   static const _textMuted = Color(0xFF666666);
+  static const _border = Color(0xFFE5E7EB);
+  static const _expiredBadge = Color(0xFFFEE2E2);
+  static const _expiringBadge = Color(0xFFFEF3C7);
   static const _iconCircleOrange = Color(0xFFFEF3C7);
   static const _iconCircleRed = Color(0xFFFEE2E2);
   static const _iconCircleGreen = Color(0xFFDCFCE7);
@@ -117,11 +120,7 @@ class _MembersViewState extends State<MembersView> {
                 children: [
                   Text(
                     'Members',
-                    style:
-                        (isMobile
-                                ? Get.textTheme.headlineSmall
-                                : Get.textTheme.bodyLarge)
-                            ?.copyWith(color: Color(0xFF0F172A)),
+                    style: Get.textTheme.bodyLarge?.copyWith(color: _textDark),
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -659,34 +658,37 @@ class _MembersViewState extends State<MembersView> {
       MemberStatus.active => (
         'Active',
         _iconCircleGreen,
-        const Color(0xFF166534), // #166534
+        const Color(0xFF166534),
       ),
       MemberStatus.expired => (
         'Expired',
-        _iconCircleRed,
-        const Color(0xFF991B1B), // #991B1B
+        _expiredBadge,
+        const Color(0xFF991B1B),
       ),
       MemberStatus.expiring => (
         'Expiring',
-        _iconCircleOrange,
-        const Color(0xFF92400E), // #92400E
+        _expiringBadge,
+        const Color(0xFF92400E),
       ),
     };
     return Container(
       width: 92,
       height: 32,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(32),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Text(
         label,
-        style: Get.textTheme.bodySmall?.copyWith(
+        style: Get.textTheme.labelMedium?.copyWith(
           color: textColor,
           fontWeight: FontWeight.w500,
           fontSize: 12,
         ),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
       ),
     );
   }

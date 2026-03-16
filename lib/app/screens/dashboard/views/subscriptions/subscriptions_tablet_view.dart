@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'subscriptions_mobile_view.dart';
 
@@ -14,7 +15,7 @@ class SubscriptionsTabletView extends StatelessWidget {
   final void Function(SubscriptionPlanRow plan, int index) onEdit;
   final void Function(SubscriptionPlanRow plan, int index) onDelete;
 
-  static const _textDark = Color(0xFF333333);
+  static const _textDark = Color(0xFF0F172A);
   static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
   static const _iconCircleGreen = Color(0xFF16A34A);
@@ -109,22 +110,33 @@ class SubscriptionsTabletView extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        _actionIcon(Icons.edit_outlined, () => onEdit(row, index)),
+        _actionIcon('assets/icons/edit.svg', () => onEdit(row, index)),
         const SizedBox(width: 4),
-        _actionIcon(Icons.delete_outline, () => onDelete(row, index)),
+        _actionIcon('assets/icons/trash.svg', () => onDelete(row, index)),
       ],
     );
   }
 
-  Widget _actionIcon(IconData icon, VoidCallback onTap) {
+  Widget _actionIcon(String assetPath, VoidCallback onTap) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(20),
         child: Container(
+          width: 32,
+          height: 32,
           padding: const EdgeInsets.all(6),
-          child: Icon(icon, size: 18, color: _textMuted),
+          decoration: const BoxDecoration(
+            color: Color(0xFFF1F5F9),
+            shape: BoxShape.circle,
+          ),
+          child: SvgPicture.asset(
+            assetPath,
+            width: 18,
+            height: 18,
+            colorFilter: ColorFilter.mode(_textMuted, BlendMode.srcIn),
+          ),
         ),
       ),
     );

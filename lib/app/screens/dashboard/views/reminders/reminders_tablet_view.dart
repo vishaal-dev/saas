@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import '../../modals/create_template_modal.dart';
 import 'reminders_mobile_view.dart';
 
 class RemindersTabletView extends StatelessWidget {
@@ -12,7 +14,7 @@ class RemindersTabletView extends StatelessWidget {
   final List<ReminderRuleRow> rulesData;
   final List<ReminderRuleRow> templatesData;
 
-  static const _textDark = Color(0xFF333333);
+  static const _textDark = Color(0xFF0F172A);
   static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
   static const _iconCircleGreen = Color(0xFF16A34A);
@@ -24,13 +26,9 @@ class RemindersTabletView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionTitle('Reminder Rules'),
-        const SizedBox(height: 12),
-        _buildRulesTable(rulesData),
+        _buildReminderRulesSection(),
         const SizedBox(height: 28),
-        _buildSectionTitle('Message Templates'),
-        const SizedBox(height: 12),
-        _buildRulesTable(templatesData),
+        _buildMessageTemplatesSection(context),
       ],
     );
   }
@@ -46,49 +44,181 @@ class RemindersTabletView extends StatelessWidget {
     );
   }
 
-  Widget _buildRulesTable(List<ReminderRuleRow> rows) {
+  Widget _buildReminderRulesSection() {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: _border),
-      ),
-      child: Table(
-        columnWidths: const {
-          0: FlexColumnWidth(1.2),
-          1: FlexColumnWidth(1.2),
-          2: FlexColumnWidth(1),
-          3: FlexColumnWidth(1.2),
-          4: FlexColumnWidth(0.9),
-          5: FlexColumnWidth(0.9),
-        },
-        children: [
-          TableRow(
-            decoration: const BoxDecoration(color: Color(0xFFF1F5F9)),
-            children: [
-              _tableCell('Trigger', isHeader: true),
-              _tableCell('Timing', isHeader: true),
-              _tableCell('Channel', isHeader: true),
-              _tableCell('Audience', isHeader: true),
-              _tableCell('Status', isHeader: true),
-              _tableCell('Action', isHeader: true),
-            ],
-          ),
-          ...rows.map(
-            (row) => TableRow(
-              decoration: const BoxDecoration(color: Colors.white),
-              children: [
-                _tableCell(row.trigger),
-                _tableCell(row.timing),
-                _tableCell(_channelIcons()),
-                _tableCell(row.audience),
-                _tableCell(_statusPill(row.isActive)),
-                _tableCell(_actionIcons()),
-              ],
-            ),
+        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Reminder Rules',
+                    style: Get.textTheme.bodyMedium?.copyWith(
+                      color: _textDark,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Define when and how reminders are sent automatically',
+                    style: Get.textTheme.bodySmall?.copyWith(
+                      color: _textMuted,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            _buildRulesTable(rulesData),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMessageTemplatesSection(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Message Templates',
+                        style: Get.textTheme.bodyMedium?.copyWith(
+                          color: _textDark,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Customize the message sent to members.',
+                        style: Get.textTheme.bodySmall?.copyWith(
+                          color: _textMuted,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 168,
+                    height: 44,
+                    child: OutlinedButton(
+                      onPressed: () => Get.dialog(const CreateTemplateModal()),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: _textDark,
+                        backgroundColor: Colors.white,
+                        padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+                        side: const BorderSide(
+                          color: Color(0xFFE2E8F0),
+                          width: 1,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Text('Create Template'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            _buildRulesTable(templatesData),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRulesTable(List<ReminderRuleRow> rows) {
+    return Table(
+      columnWidths: const {
+        0: FlexColumnWidth(1.2),
+        1: FlexColumnWidth(1.2),
+        2: FlexColumnWidth(1),
+        3: FlexColumnWidth(1.2),
+        4: FlexColumnWidth(0.9),
+        5: FlexColumnWidth(0.9),
+      },
+      children: [
+        TableRow(
+          decoration: const BoxDecoration(
+            color: Color(0xFFEEF2FF),
+            border: Border(
+              bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1),
+            ),
+          ),
+          children: [
+            _tableCell('Trigger', isHeader: true),
+            _tableCell('Timing', isHeader: true),
+            _tableCell('Channel', isHeader: true),
+            _tableCell('Audience', isHeader: true),
+            _tableCell('Status', isHeader: true),
+            _tableCell('Action', isHeader: true),
+          ],
+        ),
+        ...rows.map(
+          (row) => TableRow(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              border: Border(
+                bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1),
+              ),
+            ),
+            children: [
+              _tableCell(row.trigger),
+              _tableCell(row.timing),
+              _tableCell(_channelIcons()),
+              _tableCell(row.audience),
+              _tableCell(_statusPill(row.isActive)),
+              _tableCell(_actionIcons()),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -96,9 +226,19 @@ class RemindersTabletView extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(Icons.chat_bubble_outline, size: 20, color: _whatsAppGreen),
+        SvgPicture.asset(
+          'assets/icons/WhatsappLogo.svg',
+          width: 20,
+          height: 20,
+          colorFilter: ColorFilter.mode(_whatsAppGreen, BlendMode.srcIn),
+        ),
         const SizedBox(width: 8),
-        Icon(Icons.email_outlined, size: 20, color: _emailBlue),
+        SvgPicture.asset(
+          'assets/icons/email.svg',
+          width: 20,
+          height: 20,
+          colorFilter: ColorFilter.mode(_emailBlue, BlendMode.srcIn),
+        ),
       ],
     );
   }
@@ -141,25 +281,40 @@ class RemindersTabletView extends StatelessWidget {
   }
 
   Widget _actionIcons() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _actionIcon(Icons.edit_outlined),
-        const SizedBox(width: 4),
-        _actionIcon(Icons.delete_outline),
-      ],
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      alignment: Alignment.centerRight,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _actionIcon('assets/icons/edit.svg'),
+          const SizedBox(width: 4),
+          _actionIcon('assets/icons/trash.svg'),
+        ],
+      ),
     );
   }
 
-  Widget _actionIcon(IconData icon) {
+  Widget _actionIcon(String assetPath) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: () {},
         borderRadius: BorderRadius.circular(20),
         child: Container(
+          width: 32,
+          height: 32,
           padding: const EdgeInsets.all(6),
-          child: Icon(icon, size: 18, color: _textMuted),
+          decoration: const BoxDecoration(
+            color: Color(0xFFF1F5F9),
+            shape: BoxShape.circle,
+          ),
+          child: SvgPicture.asset(
+            assetPath,
+            width: 18,
+            height: 18,
+            colorFilter: ColorFilter.mode(_textMuted, BlendMode.srcIn),
+          ),
         ),
       ),
     );

@@ -34,9 +34,12 @@ class MembersMobileView extends StatelessWidget {
   final Function(MemberRow) onOpenViewMember;
 
   static const _purple = Color(0xFF4F46E5);
-  static const _textDark = Color(0xFF333333);
+  static const _textDark = Color(0xFF0F172A);
   static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
+  static const _expiredBadge = Color(0xFFFEE2E2);
+  static const _expiringBadge = Color(0xFFFEF3C7);
+  static const _activeBadge = Color(0xFFDCFCE7);
   static const _iconCircleOrange = Color(0xFFF59E0B);
   static const _iconCircleRed = Color(0xFFDC2626);
   static const _iconCircleGreen = Color(0xFF16A34A);
@@ -49,116 +52,130 @@ class MembersMobileView extends StatelessWidget {
   }
 
   Widget _buildMemberCard(MemberRow member) {
-    final (String label, Color bg) = switch (member.status) {
-      MemberStatus.active => ('Active', _iconCircleGreen),
-      MemberStatus.expired => ('Expired', _iconCircleRed),
-      MemberStatus.expiring => ('Expiring', _iconCircleOrange),
+    final (String label, Color bg, Color textColor) = switch (member.status) {
+      MemberStatus.active => ('Active', _activeBadge, const Color(0xFF166534)),
+      MemberStatus.expired => (
+        'Expired',
+        _expiredBadge,
+        const Color(0xFF991B1B),
+      ),
+      MemberStatus.expiring => (
+        'Expiring',
+        _expiringBadge,
+        const Color(0xFF92400E),
+      ),
     };
 
     return Container(
-      width: 92,
-      height: 32,
+      width: double.infinity,
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: _border),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 8,
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 12,
             offset: const Offset(0, 2),
           ),
         ],
       ),
       child: InkWell(
         onTap: () => onOpenViewMember(member),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  member.name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: _textDark,
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: bg,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    label,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 11,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    member.name,
+                    style: Get.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: _textDark,
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              member.phone,
-              style: const TextStyle(color: _textMuted, fontSize: 13),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              member.email,
-              style: const TextStyle(color: _textMuted, fontSize: 13),
-            ),
-            const SizedBox(height: 12),
-            const Divider(height: 1, thickness: 0.5),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Plan',
-                      style: TextStyle(color: _textMuted, fontSize: 11),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
                     ),
-                    Text(
-                      member.plan,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 13,
+                    decoration: BoxDecoration(
+                      color: bg,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Text(
+                      label,
+                      style: Get.textTheme.labelMedium?.copyWith(
+                        color: textColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
                       ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    const Text(
-                      'Expiry Date',
-                      style: TextStyle(color: _textMuted, fontSize: 11),
-                    ),
-                    Text(
-                      member.expiry,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 13,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(
+                member.phone,
+                style: const TextStyle(color: _textMuted, fontSize: 13),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                member.email,
+                style: const TextStyle(color: _textMuted, fontSize: 13),
+              ),
+              const SizedBox(height: 12),
+              const Divider(height: 1, thickness: 0.5),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Plan',
+                        style: TextStyle(color: _textMuted, fontSize: 11),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+                      Text(
+                        member.plan,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                      color: _textDark,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      const Text(
+                        'Expiry Date',
+                        style: TextStyle(color: _textMuted, fontSize: 11),
+                      ),
+                      Text(
+                        member.expiry,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
+                          color: _textDark,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

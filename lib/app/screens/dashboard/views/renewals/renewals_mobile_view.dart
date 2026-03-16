@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 enum RenewalStatus { expiring, expired, renewed }
 
@@ -26,7 +26,7 @@ class RenewalsMobileView extends StatelessWidget {
 
   final List<RenewalRow> tableData;
 
-  static const _textDark = Color(0xFF333333);
+  static const _textDark = Color(0xFF0F172A);
   static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
   static const _expiringBadge = Color(0xFFFEF3C7);
@@ -69,13 +69,21 @@ class RenewalsMobileView extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          Text(row.phone, style: const TextStyle(color: _textMuted, fontSize: 13)),
+          Text(
+            row.phone,
+            style: const TextStyle(color: _textMuted, fontSize: 13),
+          ),
           const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _infoColumn('Expiry Date', row.expiryDate),
-              _infoColumn('Days Left', row.daysLeft == 0 ? '0' : row.daysLeft.toString().padLeft(2, '0')),
+              _infoColumn(
+                'Days Left',
+                row.daysLeft == 0
+                    ? '0'
+                    : row.daysLeft.toString().padLeft(2, '0'),
+              ),
               _infoColumn('Plan', row.plan),
             ],
           ),
@@ -85,9 +93,9 @@ class RenewalsMobileView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              _actionIcon(Icons.refresh),
+              _actionIcon('assets/icons/renew.svg'),
               const SizedBox(width: 12),
-              _actionIcon(Icons.notifications_outlined),
+              _actionIcon('assets/icons/bell-ring.svg'),
             ],
           ),
         ],
@@ -115,7 +123,11 @@ class RenewalsMobileView extends StatelessWidget {
 
   Widget _statusPill(RenewalStatus status) {
     final (String label, Color bg, Color textColor) = switch (status) {
-      RenewalStatus.expiring => ('Expiring', _expiringBadge, const Color(0xFFB45309)),
+      RenewalStatus.expiring => (
+        'Expiring',
+        _expiringBadge,
+        const Color(0xFFB45309),
+      ),
       RenewalStatus.expired => ('Expired', _expiredBadge, _expiredTextRed),
       RenewalStatus.renewed => ('Renewed', _renewedBadge, _renewedText),
     };
@@ -136,14 +148,21 @@ class RenewalsMobileView extends StatelessWidget {
     );
   }
 
-  Widget _actionIcon(IconData icon) {
+  Widget _actionIcon(String assetPath) {
     return Container(
-      padding: const EdgeInsets.all(8),
+      width: 32,
+      height: 32,
       decoration: const BoxDecoration(
         color: Color(0xFFEEF2FF),
         shape: BoxShape.circle,
       ),
-      child: Icon(icon, size: 18, color: _textMuted),
+      padding: const EdgeInsets.all(6),
+      child: SvgPicture.asset(
+        assetPath,
+        width: 18,
+        height: 18,
+        colorFilter: ColorFilter.mode(_textMuted, BlendMode.srcIn),
+      ),
     );
   }
 }

@@ -21,7 +21,7 @@ class SubscriptionsView extends StatefulWidget {
 
 class _SubscriptionsViewState extends State<SubscriptionsView> {
   static const _purple = Color(0xFF4F46E5);
-  static const _textDark = Color(0xFF475569);
+  static const _textDark = Color(0xFF0F172A);
   static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
   static const _iconCircleGreen = Color(0xFFDCFCE7);

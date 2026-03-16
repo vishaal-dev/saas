@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class RevenueRow {
   final String planName;
@@ -23,12 +24,14 @@ class ReportsMobileView extends StatelessWidget {
     super.key,
     required this.revenueData,
     required this.kpiCards,
+    required this.onExport,
   });
 
   final List<RevenueRow> revenueData;
   final List<Widget> kpiCards;
+  final VoidCallback onExport;
 
-  static const _textDark = Color(0xFF333333);
+  static const _textDark = Color(0xFF0F172A);
   static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
 
@@ -71,7 +74,14 @@ class ReportsMobileView extends StatelessWidget {
                 fontSize: 16,
               ),
             ),
-            _buildMonthlyFilter(),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _ExportButton(onPressed: onExport),
+                const SizedBox(width: 8),
+                _buildMonthlyFilter(),
+              ],
+            ),
           ],
         ),
         const SizedBox(height: 12),
@@ -89,12 +99,17 @@ class ReportsMobileView extends StatelessWidget {
         borderRadius: BorderRadius.circular(6),
         border: Border.all(color: _border),
       ),
-      child: const Row(
+      child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Monthly', style: TextStyle(color: _textDark, fontSize: 12)),
-          SizedBox(width: 4),
-          Icon(Icons.keyboard_arrow_down, size: 16, color: _textMuted),
+          const Text('Monthly', style: TextStyle(color: _textDark, fontSize: 12)),
+          const SizedBox(width: 4),
+          SvgPicture.asset(
+            'assets/icons/dropdown_down.svg',
+            width: 16,
+            height: 16,
+            colorFilter: ColorFilter.mode(_textMuted, BlendMode.srcIn),
+          ),
         ],
       ),
     );
@@ -163,6 +178,59 @@ class ReportsMobileView extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _ExportButton extends StatelessWidget {
+  const _ExportButton({required this.onPressed});
+
+  final VoidCallback? onPressed;
+
+  static const double _width = 122;
+  static const double _height = 40;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: _width,
+      height: _height,
+      child: Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(10),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(width: 1, color: const Color(0xFFE2E8F0)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/download.svg',
+                  width: 18,
+                  height: 18,
+                  colorFilter: ColorFilter.mode(Color(0xFF0F172A), BlendMode.srcIn),
+                ),
+                const SizedBox(width: 8),
+                const Text(
+                  'Export',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF0F172A),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

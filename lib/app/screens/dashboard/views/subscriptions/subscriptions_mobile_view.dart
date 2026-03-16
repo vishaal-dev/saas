@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class SubscriptionPlanRow {
@@ -29,7 +30,7 @@ class SubscriptionsMobileView extends StatelessWidget {
   final void Function(SubscriptionPlanRow plan, int index) onEdit;
   final void Function(SubscriptionPlanRow plan, int index) onDelete;
 
-  static const _textDark = Color(0xFF333333);
+  static const _textDark = Color(0xFF0F172A);
   static const _textMuted = Color(0xFF666666);
   static const _border = Color(0xFFE5E7EB);
   static const _iconCircleGreen = Color(0xFF16A34A);
@@ -84,9 +85,9 @@ class SubscriptionsMobileView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              _actionButton(Icons.edit_outlined, () => onEdit(plan, index)),
+              _actionButton('assets/icons/edit.svg', () => onEdit(plan, index)),
               const SizedBox(width: 12),
-              _actionButton(Icons.delete_outline, () => onDelete(plan, index)),
+              _actionButton('assets/icons/trash.svg', () => onDelete(plan, index)),
             ],
           ),
         ],
@@ -130,17 +131,24 @@ class SubscriptionsMobileView extends StatelessWidget {
     );
   }
 
-  Widget _actionButton(IconData icon, VoidCallback onTap) {
+  Widget _actionButton(String assetPath, VoidCallback onTap) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(20),
       child: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: const Color(0xFFF1F5F9),
+        width: 32,
+        height: 32,
+        padding: const EdgeInsets.all(6),
+        decoration: const BoxDecoration(
+          color: Color(0xFFF1F5F9),
           shape: BoxShape.circle,
         ),
-        child: Icon(icon, size: 18, color: _textMuted),
+        child: SvgPicture.asset(
+          assetPath,
+          width: 18,
+          height: 18,
+          colorFilter: ColorFilter.mode(_textMuted, BlendMode.srcIn),
+        ),
       ),
     );
   }
