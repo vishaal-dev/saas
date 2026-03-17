@@ -7,6 +7,7 @@ import '../../../../../shared/widgets/success_toast.dart';
 import '../../dialogs/delete_plan_confirm_dialog.dart';
 import '../../modals/create_plan_modal.dart';
 import '../../modals/edit_plan_modal.dart';
+import '../../modals/modal_route_helper.dart';
 import 'subscriptions_mobile_view.dart';
 import 'subscriptions_tablet_view.dart';
 
@@ -309,7 +310,8 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
     SubscriptionPlanRow row,
     int index,
   ) {
-    Get.dialog(
+    openModalWithTransition(
+      context,
       EditPlanModal(
         plan: EditPlanData(
           planName: row.planName,
@@ -356,7 +358,8 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
   }
 
   void _showCreatePlanDialog(BuildContext context) {
-    Get.dialog(
+    openModalWithTransition(
+      context,
       CreatePlanModal(
         onCreate: (result) {
           setState(() {

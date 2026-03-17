@@ -8,6 +8,8 @@ import '../../../../../shared/widgets/success_toast.dart';
 import 'dashboard_controller.dart';
 import '../../modals/add_member_modal.dart';
 import '../../modals/help_support_modal.dart';
+import '../../modals/modal_route_helper.dart';
+import '../../modals/modal_route_helper.dart';
 import '../members/members_view.dart';
 import '../reminders/reminders_view.dart';
 import '../renewals/renewals_view.dart';
@@ -80,7 +82,7 @@ class DashboardMobileView extends StatelessWidget {
         ),
         actions: [
           InkWell(
-            onTap: () => Get.dialog(const HelpSupportModal()),
+            onTap: () => openModalWithTransition(context, const HelpSupportModal()),
             borderRadius: BorderRadius.circular(24),
             child: Padding(
               padding: const EdgeInsets.all(8),
@@ -127,7 +129,7 @@ class DashboardMobileView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildHeader(),
+          _buildHeader(context),
           const SizedBox(height: 20),
           _buildSummaryGrid(),
           const SizedBox(height: 20),
@@ -266,7 +268,7 @@ class DashboardMobileView extends StatelessWidget {
     }
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -284,7 +286,7 @@ class DashboardMobileView extends StatelessWidget {
           width: double.infinity,
           child: PrimaryActionButton(
             label: 'Add Member',
-            onPressed: () => Get.dialog(const AddMemberModal()),
+            onPressed: () => openModalWithTransition(context, const AddMemberModal()),
           ),
         ),
       ],

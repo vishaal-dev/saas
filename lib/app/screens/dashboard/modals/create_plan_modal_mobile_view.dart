@@ -46,7 +46,16 @@ class CreatePlanModalMobileView extends StatelessWidget {
         scrolledUnderElevation: 0,
         leading: IconButton(
           onPressed: onCancel,
-          icon: const Icon(Icons.arrow_back, color: AuthConstants.labelColor),
+          icon: SvgPicture.asset(
+            'assets/icons/back-button.svg',
+            width: 20,
+            height: 20,
+          ),
+          style: IconButton.styleFrom(
+            minimumSize: Size.zero,
+            padding: const EdgeInsets.all(12),
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
         ),
         title: Text(
           'Create Plan',

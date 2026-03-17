@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../authentication/widgets/auth_constants.dart';
@@ -125,16 +126,17 @@ class HelpSupportModalMobileView extends StatelessWidget {
             ),
           ),
           Positioned(
-            right: 0,
+            left: 0,
             child: InkWell(
               onTap: onCancel,
-              child: Container(
-                padding: const EdgeInsets.all(4),
-                decoration: const BoxDecoration(
-                  color: Color(0xFFF1F5F9),
-                  shape: BoxShape.circle,
+              borderRadius: BorderRadius.circular(20),
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: SvgPicture.asset(
+                  'assets/icons/back-button.svg',
+                  width: 20,
+                  height: 20,
                 ),
-                child: const Icon(Icons.close, size: 18, color: Color(0xFF64748B)),
               ),
             ),
           ),

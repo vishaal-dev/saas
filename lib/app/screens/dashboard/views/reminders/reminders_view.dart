@@ -6,6 +6,7 @@ import 'package:saas/shared/widgets/primary_action_button.dart';
 
 import '../../modals/create_rule_modal.dart';
 import '../../modals/create_template_modal.dart';
+import '../../modals/modal_route_helper.dart';
 import 'reminders_mobile_view.dart';
 import 'reminders_tablet_view.dart';
 
@@ -50,7 +51,7 @@ class RemindersView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildHeader(isMobile),
+          _buildHeader(context, isMobile),
           const SizedBox(height: 32),
           if (isMobile)
             RemindersMobileView(
@@ -63,16 +64,16 @@ class RemindersView extends StatelessWidget {
               templatesData: _messageTemplatesData,
             )
           else ...[
-            _buildReminderRulesSection(),
+            _buildReminderRulesSection(context),
             const SizedBox(height: 28),
-            _buildMessageTemplatesSection(),
+            _buildMessageTemplatesSection(context),
           ],
         ],
       ),
     );
   }
 
-  Widget _buildHeader(bool isMobile) {
+  Widget _buildHeader(BuildContext context, bool isMobile) {
     return Column(
       children: [
         Row(
@@ -99,7 +100,7 @@ class RemindersView extends StatelessWidget {
             if (!isMobile)
               PrimaryActionButton(
                 label: 'Create Reminder Rule',
-                onPressed: () => Get.dialog(const CreateRuleModal()),
+                onPressed: () => openModalWithTransition(context, const CreateRuleModal()),
               ),
           ],
         ),
@@ -109,7 +110,7 @@ class RemindersView extends StatelessWidget {
             width: double.infinity,
             child: PrimaryActionButton(
               label: 'Create Reminder Rule',
-              onPressed: () => Get.dialog(const CreateRuleModal()),
+              onPressed: () => openModalWithTransition(context, const CreateRuleModal()),
               useFixedSize: false,
             ),
           ),
@@ -124,7 +125,7 @@ class RemindersView extends StatelessWidget {
   static const _textDarkTable = Color(0xFF475569);
   static const _tableValueTextColor = Color(0xFF0F172A);
 
-  Widget _buildReminderRulesSection() {
+  Widget _buildReminderRulesSection(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -168,14 +169,14 @@ class RemindersView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            _buildRulesTable(_reminderRulesData),
+            _buildRulesTable(context, _reminderRulesData),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildMessageTemplatesSection() {
+  Widget _buildMessageTemplatesSection(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -225,7 +226,7 @@ class RemindersView extends StatelessWidget {
                     width: 168,
                     height: 44,
                     child: OutlinedButton(
-                      onPressed: () => Get.dialog(const CreateTemplateModal()),
+                      onPressed: () => openModalWithTransition(context, const CreateTemplateModal()),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: _textDarkTable,
                         backgroundColor: Colors.white,
@@ -246,7 +247,7 @@ class RemindersView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            _buildRulesTable(_messageTemplatesData, isMessageTemplates: true),
+            _buildRulesTable(context, _messageTemplatesData, isMessageTemplates: true),
           ],
         ),
       ),
@@ -254,6 +255,7 @@ class RemindersView extends StatelessWidget {
   }
 
   Widget _buildRulesTable(
+    BuildContext context,
     List<ReminderRuleRow> rows, {
     bool isMessageTemplates = false,
   }) {
@@ -293,7 +295,7 @@ class RemindersView extends StatelessWidget {
               _tableCell(row.audience, align: Alignment.center),
               _tableCell(_statusPill(row.isActive), align: Alignment.center),
               _tableCell(
-                _actionIcons(row, isMessageTemplates),
+                _actionIcons(context, row, isMessageTemplates),
                 align: Alignment.center,
               ),
             ],
@@ -405,7 +407,7 @@ class RemindersView extends StatelessWidget {
   static const _actionIconColor = Color(0xFF64748B);
   static const _actionIconBgColor = Color(0xFFEEF2FF);
 
-  Widget _actionIcons(ReminderRuleRow row, bool isMessageTemplates) {
+  Widget _actionIcons(BuildContext context, ReminderRuleRow row, bool isMessageTemplates) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -413,7 +415,8 @@ class RemindersView extends StatelessWidget {
         _actionIcon(
           'assets/icons/edit.svg',
           onTap: () {
-            Get.dialog(
+            openModalWithTransition(
+              context,
               CreateTemplateModal(
                 title: 'Edit Template',
                 initialTrigger: row.trigger,

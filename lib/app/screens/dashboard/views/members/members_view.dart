@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:saas/shared/widgets/primary_action_button.dart';
 
 import '../../modals/add_member_modal.dart';
+import '../../modals/modal_route_helper.dart';
 import '../../modals/view_member_modal.dart';
 import 'members_mobile_view.dart';
 import 'members_tablet_view.dart';
@@ -137,7 +138,7 @@ class _MembersViewState extends State<MembersView> {
             if (!isMobile)
               PrimaryActionButton(
                 label: 'Add Member',
-                onPressed: () => Get.dialog(const AddMemberModal()),
+                onPressed: () => openModalWithTransition(context, const AddMemberModal()),
               ),
           ],
         ),
@@ -147,7 +148,7 @@ class _MembersViewState extends State<MembersView> {
             width: double.infinity,
             child: PrimaryActionButton(
               label: 'Add Member',
-              onPressed: () => Get.dialog(const AddMemberModal()),
+              onPressed: () => openModalWithTransition(context, const AddMemberModal()),
               useFixedSize: false,
             ),
           ),
@@ -587,7 +588,8 @@ class _MembersViewState extends State<MembersView> {
       MemberStatus.expired => ('Expired', _iconCircleRed),
       MemberStatus.expiring => ('Expiring', _iconCircleOrange),
     };
-    Get.dialog(
+    openModalWithTransition(
+      context,
       ViewMemberModal(
         member: ViewMemberData(
           name: row.name,

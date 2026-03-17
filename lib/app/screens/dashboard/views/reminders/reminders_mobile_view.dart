@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../modals/create_template_modal.dart';
+import '../../modals/modal_route_helper.dart';
 
 class ReminderRuleRow {
   final String trigger;
@@ -39,14 +40,14 @@ class RemindersMobileView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildReminderRulesCard(),
+        _buildReminderRulesCard(context),
         const SizedBox(height: 24),
         _buildMessageTemplatesCard(context),
       ],
     );
   }
 
-  Widget _buildReminderRulesCard() {
+  Widget _buildReminderRulesCard(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -92,7 +93,7 @@ class RemindersMobileView extends StatelessWidget {
             const SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-              child: _buildRulesTable(rulesData),
+              child: _buildRulesTable(context, rulesData),
             ),
           ],
         ),
@@ -152,7 +153,7 @@ class RemindersMobileView extends StatelessWidget {
                     width: 168,
                     height: 44,
                     child: OutlinedButton(
-                      onPressed: () => Get.dialog(const CreateTemplateModal()),
+                      onPressed: () => openModalWithTransition(context, const CreateTemplateModal()),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: _textDark,
                         backgroundColor: Colors.white,
@@ -180,7 +181,11 @@ class RemindersMobileView extends StatelessWidget {
             const SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-              child: _buildRulesTable(templatesData, isMessageTemplates: true),
+              child: _buildRulesTable(
+                context,
+                templatesData,
+                isMessageTemplates: true,
+              ),
             ),
           ],
         ),
@@ -189,6 +194,7 @@ class RemindersMobileView extends StatelessWidget {
   }
 
   Widget _buildRulesTable(
+    BuildContext context,
     List<ReminderRuleRow> rows, {
     bool isMessageTemplates = false,
   }) {
@@ -198,6 +204,7 @@ class RemindersMobileView extends StatelessWidget {
           .entries
           .map(
             (entry) => _buildRuleCard(
+              context,
               entry.value,
               entry.key,
               isMessageTemplates: isMessageTemplates,
@@ -208,6 +215,7 @@ class RemindersMobileView extends StatelessWidget {
   }
 
   Widget _buildRuleCard(
+    BuildContext context,
     ReminderRuleRow row,
     int index, {
     bool isMessageTemplates = false,
@@ -246,14 +254,8 @@ class RemindersMobileView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _infoColumn(
-                'Timing',
-                row.timing,
-              ),
-              _infoColumn(
-                'Audience',
-                row.audience,
-              ),
+              _infoColumn('Timing', row.timing),
+              _infoColumn('Audience', row.audience),
               if (!isMessageTemplates)
                 Padding(
                   padding: const EdgeInsets.only(left: 8),
@@ -262,10 +264,7 @@ class RemindersMobileView extends StatelessWidget {
                     children: [
                       const Text(
                         'Channel',
-                        style: TextStyle(
-                          color: _textMuted,
-                          fontSize: 11,
-                        ),
+                        style: TextStyle(color: _textMuted, fontSize: 11),
                       ),
                       const SizedBox(height: 4),
                       _channelIcons(),
@@ -277,11 +276,13 @@ class RemindersMobileView extends StatelessWidget {
           const SizedBox(height: 16),
           const Divider(height: 1, thickness: 0.5),
           const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              _actionIcons(),
-            ],
+          ClipRect(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                _actionIcons(context, row, isMessageTemplates),
+              ],
+            ),
           ),
         ],
       ),
@@ -294,13 +295,7 @@ class RemindersMobileView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            label,
-            style: const TextStyle(
-              color: _textMuted,
-              fontSize: 11,
-            ),
-          ),
+          Text(label, style: const TextStyle(color: _textMuted, fontSize: 11)),
           const SizedBox(height: 4),
           Text(
             value,
@@ -354,19 +349,37 @@ class RemindersMobileView extends StatelessWidget {
     );
   }
 
-  Widget _actionIcons() {
+  Widget _actionIcons(
+    BuildContext context,
+    ReminderRuleRow row,
+    bool isMessageTemplates,
+  ) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        _actionIcon('assets/icons/edit.svg'),
+        _actionIcon(
+          'assets/icons/edit.svg',
+          onTap: () {
+            openModalWithTransition(
+              context,
+              CreateTemplateModal(
+                title: 'Edit Template',
+                initialTrigger: row.trigger,
+                initialTiming: row.timing,
+                initialAudience: row.audience,
+                initialStatus: row.isActive ? 'Active' : 'Inactive',
+              ),
+            );
+          },
+        ),
         const SizedBox(width: 12),
         _actionIcon('assets/icons/trash.svg'),
       ],
     );
   }
 
-  Widget _actionIcon(String assetPath) {
-    return Container(
+  Widget _actionIcon(String assetPath, {VoidCallback? onTap}) {
+    final child = Container(
       width: 28,
       height: 28,
       decoration: const BoxDecoration(
@@ -381,6 +394,14 @@ class RemindersMobileView extends StatelessWidget {
         colorFilter: ColorFilter.mode(_textMuted, BlendMode.srcIn),
       ),
     );
+    if (onTap != null) {
+      return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: child,
+      );
+    }
+    return child;
   }
 
   Widget _tableCell(dynamic content, {bool isHeader = false}) {

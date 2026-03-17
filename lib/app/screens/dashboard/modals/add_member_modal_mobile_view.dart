@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../shared/widgets/plan_dropdown.dart';
@@ -55,7 +56,16 @@ class AddMemberModalMobileView extends StatelessWidget {
         scrolledUnderElevation: 0,
         leading: IconButton(
           onPressed: onCancel,
-          icon: const Icon(Icons.arrow_back, color: AuthConstants.labelColor),
+          icon: SvgPicture.asset(
+            'assets/icons/back-button.svg',
+            width: 20,
+            height: 20,
+          ),
+          style: IconButton.styleFrom(
+            minimumSize: Size.zero,
+            padding: const EdgeInsets.all(12),
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
         ),
         title: Text(
           title,
@@ -103,10 +113,7 @@ class AddMemberModalMobileView extends StatelessWidget {
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
                           prefixIcon: Padding(
-                            padding: const EdgeInsets.only(
-                              left: 12,
-                              right: 4,
-                            ),
+                            padding: const EdgeInsets.only(left: 12, right: 4),
                             child: Align(
                               widthFactor: 1.0,
                               alignment: Alignment.centerLeft,
@@ -125,11 +132,10 @@ class AddMemberModalMobileView extends StatelessWidget {
                             minHeight: 0,
                           ),
                           hintText: '00000 00000',
-                          hintStyle: Get.theme.textTheme.labelMedium
-                              ?.copyWith(
-                                color: AuthConstants.hintColor,
-                                fontWeight: FontWeight.w400,
-                              ),
+                          hintStyle: Get.theme.textTheme.labelMedium?.copyWith(
+                            color: AuthConstants.hintColor,
+                            fontWeight: FontWeight.w400,
+                          ),
                           filled: true,
                           fillColor: AuthConstants.fieldFillColor,
                           border: OutlineInputBorder(
@@ -348,11 +354,12 @@ class AddMemberModalMobileView extends StatelessWidget {
                 return null;
               }),
               checkColor: AuthConstants.labelColor,
-              side: WidgetStateBorderSide.resolveWith((states) =>
-                  const BorderSide(
-                    color: AuthConstants.borderColor,
-                    width: 1,
-                  )),
+              side: WidgetStateBorderSide.resolveWith(
+                (states) => const BorderSide(
+                  color: AuthConstants.borderColor,
+                  width: 1,
+                ),
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
               ),

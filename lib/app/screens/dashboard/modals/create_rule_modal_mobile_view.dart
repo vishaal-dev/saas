@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../authentication/widgets/auth_constants.dart';
 
@@ -48,7 +49,16 @@ class CreateRuleModalMobileView extends StatelessWidget {
         scrolledUnderElevation: 0,
         leading: IconButton(
           onPressed: onCancel,
-          icon: const Icon(Icons.arrow_back, color: AuthConstants.labelColor),
+          icon: SvgPicture.asset(
+            'assets/icons/back-button.svg',
+            width: 20,
+            height: 20,
+          ),
+          style: IconButton.styleFrom(
+            minimumSize: Size.zero,
+            padding: const EdgeInsets.all(12),
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
         ),
         title: Text(
           'Create Rule',
