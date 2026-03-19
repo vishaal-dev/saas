@@ -51,8 +51,25 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
     vertical: 16,
   );
 
+  bool get _isCreateEnabled =>
+      _planNameController.text.trim().isNotEmpty &&
+      _priceController.text.trim().isNotEmpty &&
+      _selectedStatus != null &&
+      (_selectedDuration != null || _customStartDate != null);
+
+  @override
+  void initState() {
+    super.initState();
+    _planNameController.addListener(_onFormChanged);
+    _priceController.addListener(_onFormChanged);
+  }
+
+  void _onFormChanged() => setState(() {});
+
   @override
   void dispose() {
+    _planNameController.removeListener(_onFormChanged);
+    _priceController.removeListener(_onFormChanged);
     _planNameController.dispose();
     _priceController.dispose();
     super.dispose();
@@ -267,6 +284,7 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
   }
 
   void _onCreate() {
+    if (!_isCreateEnabled) return;
     final result = CreatePlanResult(
       planName: _planNameController.text.trim(),
       duration: _getDurationString(),
@@ -303,6 +321,7 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
         },
         onCancel: () => Navigator.of(context).pop(),
         onCreate: _onCreate,
+        isCreateEnabled: _isCreateEnabled,
       );
     }
 
@@ -320,6 +339,7 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
         },
         onCancel: () => Navigator.of(context).pop(),
         onCreate: _onCreate,
+        isCreateEnabled: _isCreateEnabled,
       );
     }
 
@@ -690,10 +710,14 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
           width: 146,
           height: 44,
           child: FilledButton(
-            onPressed: _onCreate,
+            onPressed: _isCreateEnabled ? _onCreate : null,
             style: FilledButton.styleFrom(
-              backgroundColor: AuthConstants.buttonEnabledColor,
+              backgroundColor: _isCreateEnabled
+                  ? AuthConstants.buttonEnabledColor
+                  : AuthConstants.buttonDisabledColor,
+              disabledBackgroundColor: AuthConstants.buttonDisabledColor,
               foregroundColor: Colors.white,
+              disabledForegroundColor: Colors.white,
               padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
               minimumSize: const Size(146, 44),
               shape: RoundedRectangleBorder(

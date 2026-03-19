@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../../authentication/widgets/auth_constants.dart';
+import '../../modals/add_member_modal.dart';
+import '../../../../../shared/widgets/success_toast.dart';
 import 'renewals_mobile_view.dart';
 
 class RenewalsTabletView extends StatelessWidget {
@@ -33,11 +35,12 @@ class RenewalsTabletView extends StatelessWidget {
         crossAxisSpacing: 20,
         mainAxisExtent: 280, // Consistent height for grid items
       ),
-      itemBuilder: (context, index) => _buildRenewalCard(tableData[index]),
+      itemBuilder: (context, index) =>
+          _buildRenewalCard(context, tableData[index]),
     );
   }
 
-  Widget _buildRenewalCard(RenewalRow row) {
+  Widget _buildRenewalCard(BuildContext context, RenewalRow row) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -100,9 +103,25 @@ class RenewalsTabletView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                _actionIcon('assets/icons/renew.svg'),
+                _actionIcon(
+                  'assets/icons/renew.svg',
+                  onTap: () => Get.dialog(
+                    AddMemberModal(
+                      initialFullName: row.name,
+                      initialPhone: row.phone,
+                      initialPlan: row.plan,
+                    ),
+                  ),
+                ),
                 const SizedBox(width: 12),
-                _actionIcon('assets/icons/bell-ring.svg'),
+                _actionIcon(
+                  'assets/icons/bell-ring.svg',
+                  onTap: () => SuccessToast.show(
+                    context,
+                    title: 'Reminder sent to ${row.name}',
+                    popRoute: false,
+                  ),
+                ),
               ],
             ),
           ],
@@ -159,11 +178,11 @@ class RenewalsTabletView extends StatelessWidget {
     );
   }
 
-  Widget _actionIcon(String assetPath) {
+  Widget _actionIcon(String assetPath, {VoidCallback? onTap}) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () {},
+        onTap: onTap,
         borderRadius: BorderRadius.circular(20),
         child: Container(
           width: 36,

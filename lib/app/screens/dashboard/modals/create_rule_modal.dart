@@ -8,9 +8,27 @@ import 'create_rule_modal_mobile_view.dart';
 import 'create_rule_modal_tablet_view.dart';
 
 class CreateRuleModal extends StatefulWidget {
-  const CreateRuleModal({super.key, this.onCreate});
+  const CreateRuleModal({
+    super.key,
+    this.onCreate,
+    this.title = 'Create Rule',
+    this.initialTrigger,
+    this.initialTiming,
+    this.initialAudience,
+    this.initialStatus,
+    this.initialWhatsApp,
+    this.initialEmail,
+  });
 
   final VoidCallback? onCreate;
+  /// App bar / header title (use `Edit Rule` when editing).
+  final String title;
+  final String? initialTrigger;
+  final String? initialTiming;
+  final String? initialAudience;
+  final String? initialStatus;
+  final bool? initialWhatsApp;
+  final bool? initialEmail;
 
   @override
   State<CreateRuleModal> createState() => _CreateRuleModalState();
@@ -23,6 +41,21 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
   String? _selectedStatus;
   bool _whatsApp = true;
   bool _email = false;
+
+  bool get _isEditMode => widget.title.contains('Edit');
+
+  String get _primaryButtonLabel => _isEditMode ? 'Update Rule' : 'Create Rule';
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedTrigger = widget.initialTrigger;
+    _selectedTiming = widget.initialTiming;
+    _selectedAudience = widget.initialAudience;
+    _selectedStatus = widget.initialStatus;
+    if (widget.initialWhatsApp != null) _whatsApp = widget.initialWhatsApp!;
+    if (widget.initialEmail != null) _email = widget.initialEmail!;
+  }
 
   static const _triggerOptions = ['Before Expiry', 'On Expiry', 'After Expiry'];
   static const _timingOptions = [
@@ -53,9 +86,26 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
     required ValueChanged<String?> onSelected,
   }) async {
     final box = context.findRenderObject() as RenderBox?;
-    if (box == null) return;
-    final pos = box.localToGlobal(Offset.zero);
+    if (box == null || !box.hasSize) return;
+
+    final overlayState = Overlay.of(context);
+    final overlayRender =
+        overlayState.context.findRenderObject() as RenderBox?;
+    if (overlayRender == null) return;
+
+    final topLeft = box.localToGlobal(Offset.zero, ancestor: overlayRender);
     final size = box.size;
+    final oSize = overlayRender.size;
+    const gap = 4.0;
+
+    final overlayRect = Offset.zero & oSize;
+    final anchorLeft = topLeft.dx.clamp(0.0, oSize.width);
+    final anchorTop =
+        (topLeft.dy + size.height + gap).clamp(0.0, oSize.height);
+    final anchorWidth =
+        size.width.clamp(1.0, (oSize.width - anchorLeft).clamp(1.0, oSize.width));
+    final anchorBelow = Rect.fromLTWH(anchorLeft, anchorTop, anchorWidth, 1);
+    final position = RelativeRect.fromRect(anchorBelow, overlayRect);
 
     final items = <PopupMenuEntry<String>>[];
     for (var i = 0; i < options.length; i++) {
@@ -77,12 +127,7 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
 
     final selected = await showMenu<String>(
       context: context,
-      position: RelativeRect.fromLTRB(
-        pos.dx,
-        pos.dy + size.height + 4,
-        pos.dx + size.width,
-        pos.dy + size.height + 8,
-      ),
+      position: position,
       constraints: BoxConstraints(minWidth: size.width, maxWidth: size.width),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(_menuBorderRadius),
@@ -100,7 +145,9 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
     } else {
       SuccessToast.show(
         context,
-        title: 'Rule created successfully',
+        title: _isEditMode
+            ? 'Rule updated successfully'
+            : 'Rule created successfully',
         popRoute: true,
       );
     }
@@ -112,29 +159,31 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
 
     if (width < 600) {
       return CreateRuleModalMobileView(
+        modalTitle: widget.title,
+        primaryButtonLabel: _primaryButtonLabel,
         selectedTrigger: _selectedTrigger,
         selectedTiming: _selectedTiming,
         selectedAudience: _selectedAudience,
         selectedStatus: _selectedStatus,
         whatsApp: _whatsApp,
         email: _email,
-        onTriggerTap: () => _showSelectMenu(
-          context: context,
+        onTriggerTap: (anchor) => _showSelectMenu(
+          context: anchor,
           options: _triggerOptions,
           onSelected: (v) => setState(() => _selectedTrigger = v),
         ),
-        onTimingTap: () => _showSelectMenu(
-          context: context,
+        onTimingTap: (anchor) => _showSelectMenu(
+          context: anchor,
           options: _timingOptions,
           onSelected: (v) => setState(() => _selectedTiming = v),
         ),
-        onAudienceTap: () => _showSelectMenu(
-          context: context,
+        onAudienceTap: (anchor) => _showSelectMenu(
+          context: anchor,
           options: _audienceOptions,
           onSelected: (v) => setState(() => _selectedAudience = v),
         ),
-        onStatusTap: () => _showSelectMenu(
-          context: context,
+        onStatusTap: (anchor) => _showSelectMenu(
+          context: anchor,
           options: _statusOptions,
           onSelected: (v) => setState(() => _selectedStatus = v),
         ),
@@ -148,29 +197,31 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
 
     if (width < 1024) {
       return CreateRuleModalTabletView(
+        modalTitle: widget.title,
+        primaryButtonLabel: _primaryButtonLabel,
         selectedTrigger: _selectedTrigger,
         selectedTiming: _selectedTiming,
         selectedAudience: _selectedAudience,
         selectedStatus: _selectedStatus,
         whatsApp: _whatsApp,
         email: _email,
-        onTriggerTap: () => _showSelectMenu(
-          context: context,
+        onTriggerTap: (anchor) => _showSelectMenu(
+          context: anchor,
           options: _triggerOptions,
           onSelected: (v) => setState(() => _selectedTrigger = v),
         ),
-        onTimingTap: () => _showSelectMenu(
-          context: context,
+        onTimingTap: (anchor) => _showSelectMenu(
+          context: anchor,
           options: _timingOptions,
           onSelected: (v) => setState(() => _selectedTiming = v),
         ),
-        onAudienceTap: () => _showSelectMenu(
-          context: context,
+        onAudienceTap: (anchor) => _showSelectMenu(
+          context: anchor,
           options: _audienceOptions,
           onSelected: (v) => setState(() => _selectedAudience = v),
         ),
-        onStatusTap: () => _showSelectMenu(
-          context: context,
+        onStatusTap: (anchor) => _showSelectMenu(
+          context: anchor,
           options: _statusOptions,
           onSelected: (v) => setState(() => _selectedStatus = v),
         ),
@@ -356,7 +407,7 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
           Expanded(
             child: Center(
               child: Text(
-                'Create Rule',
+                widget.title,
                 style: Get.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF0F172A),
@@ -425,7 +476,7 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
               ),
             ),
             child: Text(
-              'Create Rule',
+              _primaryButtonLabel,
               style: const TextStyle(color: Colors.white),
             ),
           ),

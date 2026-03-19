@@ -18,6 +18,7 @@ class CreatePlanModalTabletView extends StatelessWidget {
     required this.onStatusTap,
     required this.onCancel,
     required this.onCreate,
+    required this.isCreateEnabled,
   });
 
   final TextEditingController planNameController;
@@ -30,6 +31,7 @@ class CreatePlanModalTabletView extends StatelessWidget {
   final VoidCallback onStatusTap;
   final VoidCallback onCancel;
   final VoidCallback onCreate;
+  final bool isCreateEnabled;
 
   static const _inputBorderRadius = 10.0;
   static const _inputBorderColor = Color(0xFFE2E8F0);
@@ -97,12 +99,16 @@ class CreatePlanModalTabletView extends StatelessWidget {
           ),
           Positioned(
             right: 0,
-            child: InkWell(
-              onTap: onCancel,
-              child: Container(
-                padding: const EdgeInsets.all(6),
-                decoration: const BoxDecoration(color: Color(0xFFF1F5F9), shape: BoxShape.circle),
-                child: const Icon(Icons.close, size: 20, color: Color(0xFF475569)),
+            child: IconButton(
+              onPressed: onCancel,
+              icon: SvgPicture.asset(
+                'assets/icons/close-button.svg',
+                width: 24,
+                height: 24,
+                colorFilter: const ColorFilter.mode(
+                  AuthConstants.hintColor,
+                  BlendMode.srcIn,
+                ),
               ),
             ),
           ),
@@ -321,9 +327,14 @@ class CreatePlanModalTabletView extends StatelessWidget {
         ),
         const SizedBox(width: 16),
         FilledButton(
-          onPressed: onCreate,
+          onPressed: isCreateEnabled ? onCreate : null,
           style: FilledButton.styleFrom(
-            backgroundColor: AuthConstants.buttonEnabledColor,
+            backgroundColor: isCreateEnabled
+                ? AuthConstants.buttonEnabledColor
+                : AuthConstants.buttonDisabledColor,
+            disabledBackgroundColor: AuthConstants.buttonDisabledColor,
+            foregroundColor: Colors.white,
+            disabledForegroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           ),

@@ -107,7 +107,7 @@ class AddMemberModalTabletView extends StatelessWidget {
                 title,
                 style: Get.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: AuthConstants.labelColor,
                   fontSize: 20,
                 ),
               ),

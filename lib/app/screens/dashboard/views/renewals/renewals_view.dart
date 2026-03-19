@@ -137,7 +137,7 @@ class _RenewalsViewState extends State<RenewalsView> {
 
   Widget _buildStatusTabs(bool isMobile) {
     return Container(
-      width: _statusTabsWidth,
+      width: isMobile ? double.infinity : _statusTabsWidth,
       height: _statusTabsHeight,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(_segmentBorderRadius)),
@@ -164,23 +164,27 @@ class _RenewalsViewState extends State<RenewalsView> {
                       child: Container(
                         height: _statusTabsHeight,
                         alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        padding: EdgeInsets.symmetric(horizontal: isMobile ? 8 : 12),
                         decoration: BoxDecoration(
                           color: _selectedTabIndex == i
                               ? _purple
                               : Colors.white,
                         ),
-                        child: Text(
-                          _statusTabs[i],
-                          softWrap: false,
-                          overflow: TextOverflow.clip,
-                          style: Get.textTheme.bodySmall?.copyWith(
-                            color: _selectedTabIndex == i
-                                ? Colors.white
-                                : _textDark,
-                            fontWeight: _selectedTabIndex == i
-                                ? FontWeight.w600
-                                : FontWeight.w500,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            _statusTabs[i],
+                            maxLines: 1,
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
+                            style: Get.textTheme.bodySmall?.copyWith(
+                              color: _selectedTabIndex == i
+                                  ? Colors.white
+                                  : _textDark,
+                              fontWeight: _selectedTabIndex == i
+                                  ? FontWeight.w600
+                                  : FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),
@@ -196,35 +200,27 @@ class _RenewalsViewState extends State<RenewalsView> {
                       child: Container(
                         height: _statusTabsHeight,
                         alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        padding: EdgeInsets.symmetric(horizontal: isMobile ? 8 : 12),
                         decoration: BoxDecoration(
                           color: _selectedTabIndex == i
                               ? _purple
                               : Colors.white,
                         ),
-                        child: Text(
-                          _statusTabs[i],
-                          softWrap: false,
-                          overflow: TextOverflow.clip,
-                          // style: TextStyle(
-                          //   fontFamily: 'Inter',
-                          //   fontSize: 14,
-                          //   height: 1.0,
-                          //   letterSpacing: 0,
-                          //   color: _selectedTabIndex == i
-                          //       ? Colors.white
-                          //       : _textDark,
-                          //   fontWeight: _selectedTabIndex == i
-                          //       ? FontWeight.w600
-                          //       : FontWeight.w500,
-                          // ),
-                          style: Get.textTheme.bodySmall?.copyWith(
-                            color: _selectedTabIndex == i
-                                ? Colors.white
-                                : _textDark,
-                            fontWeight: _selectedTabIndex == i
-                                ? FontWeight.w600
-                                : FontWeight.w500,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            _statusTabs[i],
+                            maxLines: 1,
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
+                            style: Get.textTheme.bodySmall?.copyWith(
+                              color: _selectedTabIndex == i
+                                  ? Colors.white
+                                  : _textDark,
+                              fontWeight: _selectedTabIndex == i
+                                  ? FontWeight.w600
+                                  : FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),

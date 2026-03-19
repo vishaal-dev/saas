@@ -34,10 +34,10 @@ class CreateTemplateModalMobileView extends StatelessWidget {
   final TextEditingController messageController;
   final bool whatsApp;
   final bool email;
-  final VoidCallback onTriggerTap;
-  final VoidCallback onTimingTap;
-  final VoidCallback onAudienceTap;
-  final VoidCallback onStatusTap;
+  final void Function(BuildContext anchorContext) onTriggerTap;
+  final void Function(BuildContext anchorContext) onTimingTap;
+  final void Function(BuildContext anchorContext) onAudienceTap;
+  final void Function(BuildContext anchorContext) onStatusTap;
   final VoidCallback onUploadAttachment;
   final ValueChanged<bool> onWhatsAppChanged;
   final ValueChanged<bool> onEmailChanged;
@@ -80,55 +80,72 @@ class CreateTemplateModalMobileView extends StatelessWidget {
           child: Divider(thickness: 1, color: Color(0xFFCBD5E1), height: 1),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildSectionTitle('Message Rule Details'),
-                  const SizedBox(height: 16),
-                  _buildLabel('Trigger'),
-                  const SizedBox(height: 8),
-                  _buildSelectField(selectedTrigger ?? 'Select Trigger', onTriggerTap),
-                  const SizedBox(height: 16),
-                  _buildLabel('Timing'),
-                  const SizedBox(height: 8),
-                  _buildSelectField(selectedTiming ?? 'Select Timing', onTimingTap),
-                  const SizedBox(height: 16),
-                  _buildLabel('Audience'),
-                  const SizedBox(height: 8),
-                  _buildSelectField(selectedAudience ?? 'Select Audience', onAudienceTap),
-                  const SizedBox(height: 16),
-                  _buildLabel('Status'),
-                  const SizedBox(height: 8),
-                  _buildSelectField(selectedStatus ?? 'Select Status', onStatusTap),
-                  const SizedBox(height: 24),
-                  _buildSectionTitle('Attachment'),
-                  const SizedBox(height: 12),
-                  _buildUploadArea(),
-                  const SizedBox(height: 24),
-                  _buildSectionTitle('Message Content'),
-                  const SizedBox(height: 12),
-                  _buildMessageContentField(),
-                  const SizedBox(height: 24),
-                  _buildSectionTitle('Reminder Channels'),
-                  const SizedBox(height: 16),
-                  _buildCheckbox('WhatsApp', whatsApp, onWhatsAppChanged),
-                  const SizedBox(height: 12),
-                  _buildCheckbox('Email', email, onEmailChanged),
-                ],
-              ),
+      body: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildSectionTitle('Message Rule Details'),
+            const SizedBox(height: 16),
+            _buildLabel('Trigger'),
+            const SizedBox(height: 8),
+            _buildSelectField(
+              selectedTrigger ?? 'Select Trigger',
+              onTriggerTap,
             ),
+            const SizedBox(height: 16),
+            _buildLabel('Timing'),
+            const SizedBox(height: 8),
+            _buildSelectField(selectedTiming ?? 'Select Timing', onTimingTap),
+            const SizedBox(height: 16),
+            _buildLabel('Audience'),
+            const SizedBox(height: 8),
+            _buildSelectField(
+              selectedAudience ?? 'Select Audience',
+              onAudienceTap,
+            ),
+            const SizedBox(height: 16),
+            _buildLabel('Status'),
+            const SizedBox(height: 8),
+            _buildSelectField(selectedStatus ?? 'Select Status', onStatusTap),
+            const SizedBox(height: 24),
+            _buildSectionTitle('Attachment'),
+            const SizedBox(height: 12),
+            _buildUploadArea(),
+            const SizedBox(height: 24),
+            _buildSectionTitle('Message Content'),
+            const SizedBox(height: 12),
+            _buildMessageContentField(),
+            const SizedBox(height: 24),
+            _buildSectionTitle('Reminder Channels'),
+            const SizedBox(height: 16),
+            _buildCheckbox('WhatsApp', whatsApp, onWhatsAppChanged),
+            const SizedBox(height: 12),
+            _buildCheckbox('Email', email, onEmailChanged),
+            const SizedBox(height: 140),
+          ],
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: AnimatedPadding(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.viewInsetsOf(context).bottom,
           ),
-          const Divider(thickness: 1, height: 1, color: Color(0xFFCBD5E1)),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
-            child: _buildActions(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Divider(thickness: 1, height: 1, color: Color(0xFFCBD5E1)),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+                child: _buildActions(),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -162,33 +179,50 @@ class CreateTemplateModalMobileView extends StatelessWidget {
     );
   }
 
-  Widget _buildSelectField(String text, VoidCallback onTap) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(AuthConstants.fieldBorderRadius),
-      child: Container(
-        height: AuthConstants.fieldHeight,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(
-          color: AuthConstants.fieldFillColor,
+  Widget _buildSelectField(
+    String text,
+    void Function(BuildContext anchorContext) onTap,
+  ) {
+    return Builder(
+      builder: (anchorContext) {
+        return InkWell(
+          onTap: () => onTap(anchorContext),
           borderRadius: BorderRadius.circular(AuthConstants.fieldBorderRadius),
-          border: Border.all(color: AuthConstants.borderColor),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                text,
-                style: Get.theme.textTheme.bodySmall?.copyWith(
-                  color: text.contains('Select') ? AuthConstants.hintColor : AuthConstants.labelColor,
-                  fontWeight: text.contains('Select') ? FontWeight.w500 : FontWeight.w600,
-                ),
+          child: Container(
+            height: AuthConstants.fieldHeight,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            decoration: BoxDecoration(
+              color: AuthConstants.fieldFillColor,
+              borderRadius: BorderRadius.circular(
+                AuthConstants.fieldBorderRadius,
               ),
+              border: Border.all(color: AuthConstants.borderColor),
             ),
-            const Icon(Icons.keyboard_arrow_down_rounded, size: 20, color: AuthConstants.hintColor),
-          ],
-        ),
-      ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    text,
+                    style: Get.theme.textTheme.bodySmall?.copyWith(
+                      color: text.contains('Select')
+                          ? AuthConstants.hintColor
+                          : AuthConstants.labelColor,
+                      fontWeight: text.contains('Select')
+                          ? FontWeight.w500
+                          : FontWeight.w600,
+                    ),
+                  ),
+                ),
+                const Icon(
+                  Icons.keyboard_arrow_down_rounded,
+                  size: 20,
+                  color: AuthConstants.hintColor,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -204,7 +238,10 @@ class CreateTemplateModalMobileView extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: CustomPaint(
-          painter: _DashedBorderPainter(color: AuthConstants.borderColor, borderRadius: 10),
+          painter: _DashedBorderPainter(
+            color: AuthConstants.borderColor,
+            borderRadius: 10,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -212,7 +249,10 @@ class CreateTemplateModalMobileView extends StatelessWidget {
                 'assets/icons/upload.svg',
                 width: 24,
                 height: 24,
-                colorFilter: const ColorFilter.mode(AuthConstants.hintColor, BlendMode.srcIn),
+                colorFilter: const ColorFilter.mode(
+                  AuthConstants.hintColor,
+                  BlendMode.srcIn,
+                ),
               ),
               const SizedBox(height: 8),
               Text(
@@ -239,10 +279,13 @@ class CreateTemplateModalMobileView extends StatelessWidget {
       ),
       child: TextField(
         controller: messageController,
+        onTapOutside: (_) {},
         maxLines: null,
         expands: true,
         textAlignVertical: TextAlignVertical.top,
-        style: Get.textTheme.bodyMedium?.copyWith(color: AuthConstants.textColor),
+        style: Get.textTheme.bodyMedium?.copyWith(
+          color: AuthConstants.textColor,
+        ),
         decoration: InputDecoration(
           hintText: 'Type your message here....',
           hintStyle: Get.theme.textTheme.labelMedium?.copyWith(
@@ -256,7 +299,11 @@ class CreateTemplateModalMobileView extends StatelessWidget {
     );
   }
 
-  Widget _buildCheckbox(String label, bool value, ValueChanged<bool> onChanged) {
+  Widget _buildCheckbox(
+    String label,
+    bool value,
+    ValueChanged<bool> onChanged,
+  ) {
     return InkWell(
       onTap: () => onChanged(!value),
       child: Row(
@@ -268,17 +315,28 @@ class CreateTemplateModalMobileView extends StatelessWidget {
               value: value,
               onChanged: (v) => onChanged(v ?? false),
               fillColor: WidgetStateProperty.resolveWith((states) {
-                if (states.contains(WidgetState.selected)) return Colors.transparent;
+                if (states.contains(WidgetState.selected))
+                  return Colors.transparent;
                 return null;
               }),
               checkColor: AuthConstants.labelColor,
-              side: const BorderSide(color: AuthConstants.borderColor, width: 1),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+              side: const BorderSide(
+                color: AuthConstants.borderColor,
+                width: 1,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
           ),
           const SizedBox(width: 12),
-          Text(label, style: Get.textTheme.bodyMedium?.copyWith(color: AuthConstants.labelColor)),
+          Text(
+            label,
+            style: Get.textTheme.bodyMedium?.copyWith(
+              color: AuthConstants.labelColor,
+            ),
+          ),
         ],
       ),
     );
@@ -293,7 +351,11 @@ class CreateTemplateModalMobileView extends StatelessWidget {
             style: OutlinedButton.styleFrom(
               foregroundColor: AuthConstants.supportTextColor,
               padding: const EdgeInsets.symmetric(vertical: 12),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AuthConstants.fieldBorderRadius)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                  AuthConstants.fieldBorderRadius,
+                ),
+              ),
               side: const BorderSide(color: AuthConstants.borderColor),
             ),
             child: const Text('Cancel'),
@@ -304,13 +366,20 @@ class CreateTemplateModalMobileView extends StatelessWidget {
           child: FilledButton(
             onPressed: isCreateEnabled ? onCreate : null,
             style: FilledButton.styleFrom(
-              backgroundColor: isCreateEnabled ? AuthConstants.buttonEnabledColor : AuthConstants.buttonDisabledColor,
+              backgroundColor: isCreateEnabled
+                  ? AuthConstants.buttonEnabledColor
+                  : AuthConstants.buttonDisabledColor,
               disabledBackgroundColor: AuthConstants.buttonDisabledColor,
+              disabledForegroundColor: Colors.white,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 12),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
-            child: Text(title.contains('Edit') ? 'Update Template' : 'Create Template'),
+            child: Text(
+              title.contains('Edit') ? 'Update Template' : 'Create Template',
+            ),
           ),
         ),
       ],
@@ -324,10 +393,16 @@ class _DashedBorderPainter extends CustomPainter {
   final double borderRadius;
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = color..style = PaintingStyle.stroke..strokeWidth = 1.5;
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
     const dashWidth = 6.0;
     const dashSpace = 4.0;
-    final rrect = RRect.fromRectAndRadius(Rect.fromLTWH(1, 1, size.width - 2, size.height - 2), Radius.circular(borderRadius - 1));
+    final rrect = RRect.fromRectAndRadius(
+      Rect.fromLTWH(1, 1, size.width - 2, size.height - 2),
+      Radius.circular(borderRadius - 1),
+    );
     final path = Path()..addRRect(rrect);
     double distance = 0;
     for (final metric in path.computeMetrics()) {
@@ -339,6 +414,7 @@ class _DashedBorderPainter extends CustomPainter {
       distance = 0;
     }
   }
+
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

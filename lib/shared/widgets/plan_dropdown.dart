@@ -29,18 +29,30 @@ class PlanDropdown extends StatelessWidget {
 
   Future<void> _showPlanMenu(BuildContext context) async {
     final box = context.findRenderObject() as RenderBox?;
-    if (box == null) return;
-    final pos = box.localToGlobal(Offset.zero);
+    if (box == null || !box.hasSize) return;
+
+    final overlayState = Overlay.of(context);
+    final overlayRender =
+        overlayState.context.findRenderObject() as RenderBox?;
+    if (overlayRender == null) return;
+
+    final topLeft = box.localToGlobal(Offset.zero, ancestor: overlayRender);
     final size = box.size;
+    final oSize = overlayRender.size;
+    const gap = 4.0;
+
+    final overlayRect = Offset.zero & oSize;
+    final anchorLeft = topLeft.dx.clamp(0.0, oSize.width);
+    final anchorTop =
+        (topLeft.dy + size.height + gap).clamp(0.0, oSize.height);
+    final anchorWidth =
+        size.width.clamp(1.0, (oSize.width - anchorLeft).clamp(1.0, oSize.width));
+    final anchorBelow = Rect.fromLTWH(anchorLeft, anchorTop, anchorWidth, 1);
+    final position = RelativeRect.fromRect(anchorBelow, overlayRect);
 
     final selected = await showMenu<String>(
       context: context,
-      position: RelativeRect.fromLTRB(
-        pos.dx,
-        pos.dy + size.height + 4,
-        pos.dx + size.width,
-        pos.dy + size.height + 8,
-      ),
+      position: position,
       constraints: BoxConstraints(
         minWidth: size.width,
         maxWidth: size.width,

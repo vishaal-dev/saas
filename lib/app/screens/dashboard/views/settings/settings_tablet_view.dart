@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class SettingsTabletView extends StatefulWidget {
@@ -18,12 +19,40 @@ class _SettingsTabletViewState extends State<SettingsTabletView> {
 
   int _selectedTabIndex = 0;
   final _businessNameController = TextEditingController(text: 'SaaS');
+  late final String _initialBusinessName;
   final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  bool _currentPasswordVisible = false;
+  bool _newPasswordVisible = false;
+  bool _confirmPasswordVisible = false;
+
+  bool get _isPasswordFormFilled =>
+      _currentPasswordController.text.trim().isNotEmpty &&
+      _newPasswordController.text.trim().isNotEmpty &&
+      _confirmPasswordController.text.trim().isNotEmpty;
+
+  bool get _isProfileDirty =>
+      _businessNameController.text.trim() != _initialBusinessName.trim();
+
+  void _onFieldsChanged() => setState(() {});
+
+  @override
+  void initState() {
+    super.initState();
+    _initialBusinessName = _businessNameController.text;
+    _businessNameController.addListener(_onFieldsChanged);
+    _currentPasswordController.addListener(_onFieldsChanged);
+    _newPasswordController.addListener(_onFieldsChanged);
+    _confirmPasswordController.addListener(_onFieldsChanged);
+  }
 
   @override
   void dispose() {
+    _businessNameController.removeListener(_onFieldsChanged);
+    _currentPasswordController.removeListener(_onFieldsChanged);
+    _newPasswordController.removeListener(_onFieldsChanged);
+    _confirmPasswordController.removeListener(_onFieldsChanged);
     _businessNameController.dispose();
     _currentPasswordController.dispose();
     _newPasswordController.dispose();
@@ -115,6 +144,41 @@ class _SettingsTabletViewState extends State<SettingsTabletView> {
         _buildBusinessLogoSection(),
         const SizedBox(height: 28),
         _buildBusinessNameSection(),
+        const SizedBox(height: 28),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            OutlinedButton(
+              onPressed: () => setState(() {
+                _businessNameController.text = _initialBusinessName;
+              }),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: _textDark,
+                side: BorderSide(color: _border),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+              child: const Text('Cancel'),
+            ),
+            const SizedBox(width: 12),
+            FilledButton(
+              onPressed: _isProfileDirty
+                  ? () {
+                      FocusScope.of(context).unfocus();
+                    }
+                  : null,
+              style: FilledButton.styleFrom(
+                backgroundColor: _purple,
+                disabledBackgroundColor: const Color(0xFFA5B4FC),
+                foregroundColor: Colors.white,
+                disabledForegroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+              child: const Text('Save'),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -129,11 +193,29 @@ class _SettingsTabletViewState extends State<SettingsTabletView> {
           style: Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: _textDark),
         ),
         const SizedBox(height: 24),
-        _buildPasswordField('Current Password', 'Enter Current Password', _currentPasswordController),
+        _buildPasswordField(
+          'Current Password',
+          'Enter Current Password',
+          _currentPasswordController,
+          isObscure: !_currentPasswordVisible,
+          onToggleVisibility: () => setState(() => _currentPasswordVisible = !_currentPasswordVisible),
+        ),
         const SizedBox(height: 20),
-        _buildPasswordField('New Password', 'Enter New Password', _newPasswordController),
+        _buildPasswordField(
+          'New Password',
+          'Enter New Password',
+          _newPasswordController,
+          isObscure: !_newPasswordVisible,
+          onToggleVisibility: () => setState(() => _newPasswordVisible = !_newPasswordVisible),
+        ),
         const SizedBox(height: 20),
-        _buildPasswordField('Confirm New Password', 'Confirm New Password', _confirmPasswordController),
+        _buildPasswordField(
+          'Confirm New Password',
+          'Confirm New Password',
+          _confirmPasswordController,
+          isObscure: !_confirmPasswordVisible,
+          onToggleVisibility: () => setState(() => _confirmPasswordVisible = !_confirmPasswordVisible),
+        ),
         const SizedBox(height: 28),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -154,10 +236,16 @@ class _SettingsTabletViewState extends State<SettingsTabletView> {
             ),
             const SizedBox(width: 12),
             FilledButton(
-              onPressed: () {},
+              onPressed: _isPasswordFormFilled
+                  ? () {
+                      FocusScope.of(context).unfocus();
+                    }
+                  : null,
               style: FilledButton.styleFrom(
                 backgroundColor: _purple,
+                disabledBackgroundColor: const Color(0xFFA5B4FC),
                 foregroundColor: Colors.white,
+                disabledForegroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
@@ -169,7 +257,13 @@ class _SettingsTabletViewState extends State<SettingsTabletView> {
     );
   }
 
-  Widget _buildPasswordField(String label, String hint, TextEditingController controller) {
+  Widget _buildPasswordField(
+    String label,
+    String hint,
+    TextEditingController controller, {
+    required bool isObscure,
+    required VoidCallback onToggleVisibility,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -180,7 +274,7 @@ class _SettingsTabletViewState extends State<SettingsTabletView> {
         const SizedBox(height: 8),
         TextField(
           controller: controller,
-          obscureText: true,
+          obscureText: isObscure,
           style: Get.textTheme.bodyMedium?.copyWith(color: _textDark),
           decoration: InputDecoration(
             hintText: hint,
@@ -188,6 +282,15 @@ class _SettingsTabletViewState extends State<SettingsTabletView> {
             filled: true,
             fillColor: Colors.white,
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            suffixIcon: IconButton(
+              onPressed: onToggleVisibility,
+              icon: SvgPicture.asset(
+                isObscure ? 'assets/icons/eye-close.svg' : 'assets/icons/eye-open.svg',
+                width: 20,
+                height: 20,
+                colorFilter: ColorFilter.mode(_textMuted, BlendMode.srcIn),
+              ),
+            ),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: _border)),
             enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: _border)),
             focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: _purple, width: 1.5)),

@@ -100,12 +100,16 @@ class EditPlanModalTabletView extends StatelessWidget {
           ),
           Positioned(
             right: 0,
-            child: InkWell(
-              onTap: onCancel,
-              child: Container(
-                padding: const EdgeInsets.all(6),
-                decoration: const BoxDecoration(color: Color(0xFFF1F5F9), shape: BoxShape.circle),
-                child: const Icon(Icons.close, size: 20, color: Color(0xFF475569)),
+            child: IconButton(
+              onPressed: onCancel,
+              icon: SvgPicture.asset(
+                'assets/icons/close-button.svg',
+                width: 24,
+                height: 24,
+                colorFilter: const ColorFilter.mode(
+                  AuthConstants.hintColor,
+                  BlendMode.srcIn,
+                ),
               ),
             ),
           ),

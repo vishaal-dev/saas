@@ -25,7 +25,8 @@ abstract final class AuthConstants {
   // Dimensions
   static const double logoHeight = 48;
   static const double fieldHeight = 44;
-  static const double buttonHeight = 44;
+  /// Minimum tap height; must fit label + vertical padding (avoid clipped text).
+  static const double buttonHeight = 48;
   static const double cardBorderRadius = 12;
   static const double cardMinWidth = 495;
   static const double cardMinHeight = 671;

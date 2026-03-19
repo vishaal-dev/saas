@@ -16,9 +16,19 @@ class HelpSupportModal extends StatefulWidget {
 
 class _HelpSupportModalState extends State<HelpSupportModal> {
   final _messageController = TextEditingController();
+  bool get _isSendEnabled => _messageController.text.trim().isNotEmpty;
+
+  void _onMessageChanged() => setState(() {});
+
+  @override
+  void initState() {
+    super.initState();
+    _messageController.addListener(_onMessageChanged);
+  }
 
   @override
   void dispose() {
+    _messageController.removeListener(_onMessageChanged);
     _messageController.dispose();
     super.dispose();
   }
@@ -39,6 +49,7 @@ class _HelpSupportModalState extends State<HelpSupportModal> {
     if (width < 600) {
       return HelpSupportModalMobileView(
         messageController: _messageController,
+        isSendEnabled: _isSendEnabled,
         onCancel: () => Navigator.of(context).pop(),
         onSend: () => _onSendPressed(context),
       );
@@ -47,6 +58,7 @@ class _HelpSupportModalState extends State<HelpSupportModal> {
     if (width < 1024) {
       return HelpSupportModalTabletView(
         messageController: _messageController,
+        isSendEnabled: _isSendEnabled,
         onCancel: () => Navigator.of(context).pop(),
         onSend: () => _onSendPressed(context),
       );
@@ -149,10 +161,15 @@ class _HelpSupportModalState extends State<HelpSupportModal> {
                       ),
                       const SizedBox(width: 12),
                       FilledButton(
-                        onPressed: () => _onSendPressed(context),
+                        onPressed: _isSendEnabled
+                            ? () => _onSendPressed(context)
+                            : null,
                         style: FilledButton.styleFrom(
                           backgroundColor: AuthConstants.buttonEnabledColor,
+                          disabledBackgroundColor:
+                              AuthConstants.buttonDisabledColor,
                           foregroundColor: Colors.white,
+                          disabledForegroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(
                             horizontal: 28,
                             vertical: 12,

@@ -34,6 +34,9 @@ class DashboardTabletView extends StatelessWidget {
   static const _iconCircleRed = Color(0xFFDC2626);
   static const _iconCircleGreen = Color(0xFF16A34A);
 
+  /// Matches the natural height of [Revenue Insights] (padding + title + chart + legend).
+  static const _insightsRowHeight = 260.0;
+
   static const _menuIcons = (
     dashboard: 'assets/icons/dashboard.svg',
     members: 'assets/icons/users-round.svg',
@@ -45,13 +48,55 @@ class DashboardTabletView extends StatelessWidget {
   );
 
   static final _renewalRows = [
-    _RenewalRow(name: 'Rahul Kamath', plan: 'Quarterly', expiry: '01/01/2026', status: 'Expired', isExpired: true),
-    _RenewalRow(name: 'Lina Benny Thomas', plan: 'Monthly', expiry: '15/01/2026', status: 'Expiring', isExpired: false),
-    _RenewalRow(name: 'Ankith Rawat', plan: 'Yearly', expiry: '15/01/2026', status: 'Expiring', isExpired: false),
-    _RenewalRow(name: 'Alex George', plan: 'Monthly', expiry: '15/01/2026', status: 'Expiring', isExpired: false),
-    _RenewalRow(name: 'Mary Steenberg', plan: 'Yearly', expiry: '15/01/2026', status: 'Expiring', isExpired: false),
-    _RenewalRow(name: 'Mary Steenberg', plan: 'Monthly', expiry: '15/01/2026', status: 'Expiring', isExpired: false),
-    _RenewalRow(name: 'Mary Steenberg', plan: 'Quarterly', expiry: '15/01/2026', status: 'Expiring', isExpired: false),
+    _RenewalRow(
+      name: 'Rahul Kamath',
+      plan: 'Quarterly',
+      expiry: '01/01/2026',
+      status: 'Expired',
+      isExpired: true,
+    ),
+    _RenewalRow(
+      name: 'Lina Benny Thomas',
+      plan: 'Monthly',
+      expiry: '15/01/2026',
+      status: 'Expiring',
+      isExpired: false,
+    ),
+    _RenewalRow(
+      name: 'Ankith Rawat',
+      plan: 'Yearly',
+      expiry: '15/01/2026',
+      status: 'Expiring',
+      isExpired: false,
+    ),
+    _RenewalRow(
+      name: 'Alex George',
+      plan: 'Monthly',
+      expiry: '15/01/2026',
+      status: 'Expiring',
+      isExpired: false,
+    ),
+    _RenewalRow(
+      name: 'Mary Steenberg',
+      plan: 'Yearly',
+      expiry: '15/01/2026',
+      status: 'Expiring',
+      isExpired: false,
+    ),
+    _RenewalRow(
+      name: 'Mary Steenberg',
+      plan: 'Monthly',
+      expiry: '15/01/2026',
+      status: 'Expiring',
+      isExpired: false,
+    ),
+    _RenewalRow(
+      name: 'Mary Steenberg',
+      plan: 'Quarterly',
+      expiry: '15/01/2026',
+      status: 'Expiring',
+      isExpired: false,
+    ),
   ];
 
   @override
@@ -72,9 +117,7 @@ class DashboardTabletView extends StatelessWidget {
         title: Center(
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset('assets/images/saas-logo.png', height: 36),
-            ],
+            children: [Image.asset('assets/images/saas-logo.png', height: 36)],
           ),
         ),
         actions: [
@@ -120,7 +163,10 @@ class DashboardTabletView extends StatelessWidget {
     );
   }
 
-  Widget _buildDashboardContent(BuildContext context, DashboardController controller) {
+  Widget _buildDashboardContent(
+    BuildContext context,
+    DashboardController controller,
+  ) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Column(
@@ -152,7 +198,11 @@ class DashboardTabletView extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: IconButton(
-                  icon: const Icon(Icons.close_rounded, color: Color(0xFF64748B), size: 28),
+                  icon: const Icon(
+                    Icons.close_rounded,
+                    color: Color(0xFF64748B),
+                    size: 28,
+                  ),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ),
@@ -160,46 +210,62 @@ class DashboardTabletView extends StatelessWidget {
             const SizedBox(height: 8),
             // Navigation Items
             Expanded(
-              child: Obx(() => ListView(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    children: ['Dashboard', 'Members', 'Subscriptions', 'Renewals', 'Reminders', 'Reports', 'Settings']
-                        .asMap()
-                        .entries
-                        .map((e) {
-                      final isActive = controller.selectedNavIndex.value == e.key;
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: Material(
-                          color: isActive ? _purpleLight : Colors.transparent,
-                          borderRadius: BorderRadius.circular(28),
-                          child: ListTile(
-                            onTap: () {
-                              controller.onNavTap(e.key);
-                              Navigator.of(context).pop();
-                            },
-                            dense: true,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-                            leading: SvgPicture.asset(
-                              _getIconForIndex(e.key),
-                              width: 24,
-                              height: 24,
-                              color: isActive ? _purple : _sidebarIconColor,
-                              colorBlendMode: BlendMode.srcIn,
-                            ),
-                            title: Text(
-                              e.value,
-                              style: Get.textTheme.bodySmall?.copyWith(
-                                fontSize: 18,
-                                color: isActive ? _purple : _sidebarTextColor,
-                                fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
+              child: Obx(
+                () => ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  children:
+                      [
+                        'Dashboard',
+                        'Members',
+                        'Subscriptions',
+                        'Renewals',
+                        'Reminders',
+                        'Reports',
+                        'Settings',
+                      ].asMap().entries.map((e) {
+                        final isActive =
+                            controller.selectedNavIndex.value == e.key;
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: Material(
+                            color: isActive ? _purpleLight : Colors.transparent,
+                            borderRadius: BorderRadius.circular(28),
+                            child: ListTile(
+                              onTap: () {
+                                controller.onNavTap(e.key);
+                                Navigator.of(context).pop();
+                              },
+                              dense: true,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(28),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 4,
+                              ),
+                              leading: SvgPicture.asset(
+                                _getIconForIndex(e.key),
+                                width: 24,
+                                height: 24,
+                                color: isActive ? _purple : _sidebarIconColor,
+                                colorBlendMode: BlendMode.srcIn,
+                              ),
+                              title: Text(
+                                e.value,
+                                style: Get.textTheme.bodySmall?.copyWith(
+                                  fontSize: 18,
+                                  color: isActive ? _purple : _sidebarTextColor,
+                                  fontWeight: isActive
+                                      ? FontWeight.w600
+                                      : FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    }).toList(),
-                  )),
+                        );
+                      }).toList(),
+                ),
+              ),
             ),
             // Logout
             const Divider(thickness: 1, color: Color(0xFFCBD5E1)),
@@ -210,7 +276,10 @@ class DashboardTabletView extends StatelessWidget {
                   Navigator.of(context).pop();
                   controller.onLogout();
                 },
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 4,
+                ),
                 leading: SvgPicture.asset(
                   'assets/icons/log-out.svg',
                   width: 24,
@@ -236,14 +305,22 @@ class DashboardTabletView extends StatelessWidget {
 
   String _getIconForIndex(int i) {
     switch (i) {
-      case 0: return _menuIcons.dashboard;
-      case 1: return _menuIcons.members;
-      case 2: return _menuIcons.subscriptions;
-      case 3: return _menuIcons.renewals;
-      case 4: return _menuIcons.reminders;
-      case 5: return _menuIcons.reports;
-      case 6: return _menuIcons.settings;
-      default: return _menuIcons.dashboard;
+      case 0:
+        return _menuIcons.dashboard;
+      case 1:
+        return _menuIcons.members;
+      case 2:
+        return _menuIcons.subscriptions;
+      case 3:
+        return _menuIcons.renewals;
+      case 4:
+        return _menuIcons.reminders;
+      case 5:
+        return _menuIcons.reports;
+      case 6:
+        return _menuIcons.settings;
+      default:
+        return _menuIcons.dashboard;
     }
   }
 
@@ -258,7 +335,10 @@ class DashboardTabletView extends StatelessWidget {
           children: [
             Text(
               'Dashboard',
-              style: Get.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold, color: _textDark),
+              style: Get.textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+              ),
             ),
             const SizedBox(height: 4),
             Text(
@@ -277,10 +357,30 @@ class DashboardTabletView extends StatelessWidget {
 
   Widget _buildSummaryGrid() {
     final cards = [
-      _SummaryItem('assets/icons/users_tab.svg', _iconCirclePurple, '284', 'Active Members'),
-      _SummaryItem('assets/icons/alarm-clock_tab.svg', _iconCircleOrange, '18', 'Expiring (7 Days)'),
-      _SummaryItem('assets/icons/shield-x_tab.svg', _iconCircleRed, '7', 'Expired'),
-      _SummaryItem('assets/icons/book-check_tab.svg', _iconCircleGreen, '96', 'Renewed (This Month)'),
+      _SummaryItem(
+        'assets/icons/users_tab.svg',
+        _iconCirclePurple,
+        '284',
+        'Active Members',
+      ),
+      _SummaryItem(
+        'assets/icons/alarm-clock_tab.svg',
+        _iconCircleOrange,
+        '18',
+        'Expiring (7 Days)',
+      ),
+      _SummaryItem(
+        'assets/icons/shield-x_tab.svg',
+        _iconCircleRed,
+        '7',
+        'Expired',
+      ),
+      _SummaryItem(
+        'assets/icons/book-check_tab.svg',
+        _iconCircleGreen,
+        '96',
+        'Renewed (This Month)',
+      ),
     ];
     return GridView.count(
       crossAxisCount: 2,
@@ -300,7 +400,11 @@ class DashboardTabletView extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 12, offset: const Offset(0, 2)),
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 12,
+            offset: const Offset(0, 2),
+          ),
         ],
       ),
       child: Row(
@@ -309,9 +413,18 @@ class DashboardTabletView extends StatelessWidget {
           Container(
             width: 40,
             height: 40,
-            decoration: BoxDecoration(color: c.bgColor, borderRadius: BorderRadius.circular(24)),
+            decoration: BoxDecoration(
+              color: c.bgColor,
+              borderRadius: BorderRadius.circular(24),
+            ),
             alignment: Alignment.center,
-            child: SvgPicture.asset(c.iconPath, width: 24, height: 24, color: Colors.white, colorBlendMode: BlendMode.srcIn),
+            child: SvgPicture.asset(
+              c.iconPath,
+              width: 24,
+              height: 24,
+              color: Colors.white,
+              colorBlendMode: BlendMode.srcIn,
+            ),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -320,9 +433,25 @@ class DashboardTabletView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(c.value, style: Get.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold, color: _textDark), overflow: TextOverflow.ellipsis, maxLines: 1),
+                Text(
+                  c.value,
+                  style: Get.textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: _textDark,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
                 const SizedBox(height: 4),
-                Text(c.label, style: Get.textTheme.bodySmall?.copyWith(color: _textMuted, fontWeight: FontWeight.w600), overflow: TextOverflow.ellipsis, maxLines: 2),
+                Text(
+                  c.label,
+                  style: Get.textTheme.bodySmall?.copyWith(
+                    color: _textMuted,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
               ],
             ),
           ),
@@ -332,84 +461,133 @@ class DashboardTabletView extends StatelessWidget {
   }
 
   Widget _buildInsightsRow() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: const Color(0xFFC7D2FE), width: 1),
-              boxShadow: [
-                BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 12, offset: const Offset(0, 2)),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('AI Insights', style: Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: Colors.black)),
-                const SizedBox(height: 12),
-                RichText(
-                  text: TextSpan(
-                    style: Get.textTheme.bodySmall?.copyWith(color: _textMuted, fontWeight: FontWeight.w400),
-                    children: [
-                      const TextSpan(text: 'You may lose '),
-                      TextSpan(text: '₹18,000', style: Get.textTheme.bodySmall?.copyWith(color: _textDark, fontWeight: FontWeight.w600)),
-                      const TextSpan(text: ' this week due to 6 memberships expiring. Sending reminders today could recover '),
-                      TextSpan(text: '₹12,500', style: Get.textTheme.bodySmall?.copyWith(color: _textDark, fontWeight: FontWeight.w600)),
-                      const TextSpan(text: '.'),
-                    ],
+    return SizedBox(
+      height: _insightsRowHeight,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: const Color(0xFFC7D2FE), width: 1),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.06),
+                    blurRadius: 12,
+                    offset: const Offset(0, 2),
                   ),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 20),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () => Get.find<DashboardController>().onSendRemindersNow(),
-                      borderRadius: BorderRadius.circular(10),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        decoration: BoxDecoration(
-                          color: _purpleLight,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 4, offset: const Offset(0, 1)),
-                          ],
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(
+                    'AI Insights',
+                    style: Get.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  RichText(
+                    text: TextSpan(
+                      style: Get.textTheme.bodySmall?.copyWith(
+                        color: _textMuted,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      children: [
+                        const TextSpan(text: 'You may lose '),
+                        TextSpan(
+                          text: '₹18,000',
+                          style: Get.textTheme.bodySmall?.copyWith(
+                            color: _textDark,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                        child: Text(
-                          'Send Reminders Now',
-                          style: Get.theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600, color: _purple),
+                        const TextSpan(
+                          text:
+                              ' this week due to 6 memberships expiring. Sending reminders today could recover ',
+                        ),
+                        TextSpan(
+                          text: '₹12,500',
+                          style: Get.textTheme.bodySmall?.copyWith(
+                            color: _textDark,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const TextSpan(text: '.'),
+                      ],
+                    ),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const Expanded(child: SizedBox.shrink()),
+                  const SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () => Get.find<DashboardController>()
+                            .onSendRemindersNow(),
+                        borderRadius: BorderRadius.circular(10),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: _purpleLight,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.06),
+                                blurRadius: 4,
+                                offset: const Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                          child: Text(
+                            'Send Reminders Now',
+                            style: Get.theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: _purple,
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-        const SizedBox(width: 20),
-        Expanded(
-          child: _buildRevenueInsightsCard(),
-        ),
-      ],
+          const SizedBox(width: 20),
+          Expanded(child: _buildRevenueInsightsCard()),
+        ],
+      ),
     );
   }
 
-  Widget _buildRenewalsSection(BuildContext context, DashboardController controller) {
+  Widget _buildRenewalsSection(
+    BuildContext context,
+    DashboardController controller,
+  ) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: const Color(0xFFE2E8F0)),
         boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 12, offset: const Offset(0, 2)),
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 12,
+            offset: const Offset(0, 2),
+          ),
         ],
       ),
       child: Column(
@@ -423,7 +601,10 @@ class DashboardTabletView extends StatelessWidget {
                 Expanded(
                   child: Text(
                     'Action Required - Renewals',
-                    style: Get.textTheme.titleMedium?.copyWith(color: const Color(0xFF0F172A), fontWeight: FontWeight.w600),
+                    style: Get.textTheme.titleMedium?.copyWith(
+                      color: const Color(0xFF0F172A),
+                      fontWeight: FontWeight.w600,
+                    ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
@@ -457,7 +638,9 @@ class DashboardTabletView extends StatelessWidget {
                   TableRow(
                     decoration: const BoxDecoration(
                       color: Color(0xFFF8FAFC),
-                      border: Border(bottom: BorderSide(color: Color(0xFFE5E7EB))),
+                      border: Border(
+                        bottom: BorderSide(color: Color(0xFFE5E7EB)),
+                      ),
                     ),
                     children: [
                       _tableCell('Name', isHeader: true),
@@ -468,17 +651,19 @@ class DashboardTabletView extends StatelessWidget {
                     ],
                   ),
                   ..._renewalRows.asMap().entries.map(
-                    (e) =>                   TableRow(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      border: Border(bottom: BorderSide(color: Color(0xFFE5E7EB))),
-                    ),
+                    (e) => TableRow(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                          bottom: BorderSide(color: Color(0xFFE5E7EB)),
+                        ),
+                      ),
                       children: [
                         _tableCell(e.value.name),
                         _tableCell(e.value.plan),
                         _tableCell(e.value.expiry),
                         _tableCellBadge(e.value.status, e.value.isExpired),
-                        _tableCellActions(context),
+                        _tableCellActions(context, e.value),
                       ],
                     ),
                   ),
@@ -524,7 +709,9 @@ class DashboardTabletView extends StatelessWidget {
         child: Text(
           text,
           style: Get.textTheme.labelMedium?.copyWith(
-            color: isExpired ? const Color(0xFF991B1B) : const Color(0xFF92400E),
+            color: isExpired
+                ? const Color(0xFF991B1B)
+                : const Color(0xFF92400E),
             fontWeight: FontWeight.w500,
             fontSize: 12,
           ),
@@ -535,7 +722,7 @@ class DashboardTabletView extends StatelessWidget {
     );
   }
 
-  Widget _tableCellActions(BuildContext context) {
+  Widget _tableCellActions(BuildContext context, _RenewalRow row) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       child: FittedBox(
@@ -545,9 +732,20 @@ class DashboardTabletView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
-            _actionButton(iconPath: 'assets/icons/bell-ring.svg', onTap: () => SuccessToast.show(context, title: 'Reminders Sent')),
+            _actionButton(
+              iconPath: 'assets/icons/bell-ring.svg',
+              onTap: () => SuccessToast.show(context, title: 'Reminders Sent'),
+            ),
             const SizedBox(width: 8),
-            _actionButton(iconPath: 'assets/icons/renew.svg'),
+            _actionButton(
+              iconPath: 'assets/icons/renew.svg',
+              onTap: () => Get.dialog(
+                AddMemberModal(
+                  initialFullName: row.name,
+                  initialPlan: row.plan,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -568,14 +766,24 @@ class DashboardTabletView extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: const Color(0xFFE2E8F0)),
         boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 12, offset: const Offset(0, 2)),
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 12,
+            offset: const Offset(0, 2),
+          ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.max,
         children: [
-          Text('Revenue Insights', style: Get.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600, color: _textDark)),
+          Text(
+            'Revenue Insights',
+            style: Get.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+              color: _textDark,
+            ),
+          ),
           const SizedBox(height: 30),
           Center(
             child: SizedBox(
@@ -583,7 +791,10 @@ class DashboardTabletView extends StatelessWidget {
               height: chartSize,
               child: CustomPaint(
                 painter: _DonutChartPainter(
-                  segments: [(_revenueRecoveredBlue, recoveredFraction), (_revenueLostRed, lostFraction)],
+                  segments: [
+                    (_revenueRecoveredBlue, recoveredFraction),
+                    (_revenueLostRed, lostFraction),
+                  ],
                   strokeWidth: 24,
                 ),
               ),
@@ -593,29 +804,60 @@ class DashboardTabletView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              _revenueLegendItem(color: _revenueRecoveredBlue, label: 'Revenue Recovered', value: '₹18,624'),
+              _revenueLegendItem(
+                color: _revenueRecoveredBlue,
+                label: 'Revenue Recovered',
+                value: '₹18,624',
+              ),
               const SizedBox(width: 34),
-              _revenueLegendItem(color: _revenueLostRed, label: 'Revenue Lost', value: '₹2,540'),
+              _revenueLegendItem(
+                color: _revenueLostRed,
+                label: 'Revenue Lost',
+                value: '₹2,540',
+              ),
             ],
           ),
+          const Spacer(),
         ],
       ),
     );
   }
 
-  Widget _revenueLegendItem({required Color color, required String label, required String value}) {
+  Widget _revenueLegendItem({
+    required Color color,
+    required String label,
+    required String value,
+  }) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(width: 10, height: 10, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
         const SizedBox(width: 8),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(label, style: Get.textTheme.bodySmall?.copyWith(color: _textMuted, fontSize: 11, fontWeight: FontWeight.w400)),
+            Text(
+              label,
+              style: Get.textTheme.bodySmall?.copyWith(
+                color: _textMuted,
+                fontSize: 11,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
             const SizedBox(height: 2),
-            Text(value, style: Get.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 13)),
+            Text(
+              value,
+              style: Get.textTheme.labelMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 13,
+              ),
+            ),
           ],
         ),
       ],
@@ -675,7 +917,13 @@ class _RenewalRow {
   final String expiry;
   final String status;
   final bool isExpired;
-  _RenewalRow({required this.name, required this.plan, required this.expiry, required this.status, required this.isExpired});
+  _RenewalRow({
+    required this.name,
+    required this.plan,
+    required this.expiry,
+    required this.status,
+    required this.isExpired,
+  });
 }
 
 class _DonutChartPainter extends CustomPainter {
@@ -703,6 +951,7 @@ class _DonutChartPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _DonutChartPainter oldDelegate) {
-    return oldDelegate.segments != segments || oldDelegate.strokeWidth != strokeWidth;
+    return oldDelegate.segments != segments ||
+        oldDelegate.strokeWidth != strokeWidth;
   }
 }

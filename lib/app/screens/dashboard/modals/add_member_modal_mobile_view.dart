@@ -81,138 +81,153 @@ class AddMemberModalMobileView extends StatelessWidget {
           child: Divider(thickness: 1, color: Color(0xFFCBD5E1), height: 1),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildSectionTitle('Member Details'),
-                  const SizedBox(height: 16),
-                  AuthFormFieldSection(
-                    label: 'Full Name*',
-                    spacingAfterLabel: 8,
-                    child: AuthTextField(
-                      controller: fullNameController,
-                      hint: 'E.g. John Doe',
-                    ),
+      body: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildSectionTitle('Member Details'),
+            const SizedBox(height: 16),
+            AuthFormFieldSection(
+              label: 'Full Name*',
+              spacingAfterLabel: 8,
+              child: AuthTextField(
+                controller: fullNameController,
+                hint: 'E.g. John Doe',
+                dismissKeyboardOnTapOutside: false,
+              ),
+            ),
+            const SizedBox(height: 16),
+            AuthFormFieldSection(
+              label: 'Phone Number',
+              spacingAfterLabel: 8,
+              child: SizedBox(
+                height: AuthConstants.fieldHeight,
+                child: TextField(
+                  controller: phoneController,
+                  onTapOutside: (_) {},
+                  style: Get.theme.textTheme.bodySmall?.copyWith(
+                    color: AuthConstants.textColor,
                   ),
-                  const SizedBox(height: 16),
-                  AuthFormFieldSection(
-                    label: 'Phone Number',
-                    spacingAfterLabel: 8,
-                    child: SizedBox(
-                      height: AuthConstants.fieldHeight,
-                      child: TextField(
-                        controller: phoneController,
-                        style: Get.theme.textTheme.bodySmall?.copyWith(
-                          color: AuthConstants.textColor,
-                        ),
-                        cursorColor: Colors.black,
-                        decoration: InputDecoration(
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.only(left: 12, right: 4),
-                            child: Align(
-                              widthFactor: 1.0,
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                '+91 ',
-                                style: Get.theme.textTheme.labelMedium
-                                    ?.copyWith(
-                                      color: AuthConstants.labelColor,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                              ),
-                            ),
-                          ),
-                          prefixIconConstraints: const BoxConstraints(
-                            minWidth: 0,
-                            minHeight: 0,
-                          ),
-                          hintText: '00000 00000',
-                          hintStyle: Get.theme.textTheme.labelMedium?.copyWith(
-                            color: AuthConstants.hintColor,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          filled: true,
-                          fillColor: AuthConstants.fieldFillColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              AuthConstants.fieldBorderRadius,
-                            ),
-                            borderSide: const BorderSide(
-                              color: AuthConstants.borderColor,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              AuthConstants.fieldBorderRadius,
-                            ),
-                            borderSide: const BorderSide(
-                              color: AuthConstants.borderColor,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              AuthConstants.fieldBorderRadius,
-                            ),
-                            borderSide: const BorderSide(
-                              color: AuthConstants.focusedBorderColor,
-                            ),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 10,
+                  cursorColor: Colors.black,
+                  decoration: InputDecoration(
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.only(left: 12, right: 4),
+                      child: Align(
+                        widthFactor: 1.0,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '+91 ',
+                          style: Get.theme.textTheme.labelMedium?.copyWith(
+                            color: AuthConstants.labelColor,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  AuthFormFieldSection(
-                    label: 'Email Address*',
-                    spacingAfterLabel: 8,
-                    child: AuthTextField(
-                      controller: emailController,
-                      hint: 'E.g. John.doe@gmail.com',
+                    prefixIconConstraints: const BoxConstraints(
+                      minWidth: 0,
+                      minHeight: 0,
+                    ),
+                    hintText: '00000 00000',
+                    hintStyle: Get.theme.textTheme.labelMedium?.copyWith(
+                      color: AuthConstants.hintColor,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    filled: true,
+                    fillColor: AuthConstants.fieldFillColor,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        AuthConstants.fieldBorderRadius,
+                      ),
+                      borderSide: const BorderSide(
+                        color: AuthConstants.borderColor,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        AuthConstants.fieldBorderRadius,
+                      ),
+                      borderSide: const BorderSide(
+                        color: AuthConstants.borderColor,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        AuthConstants.fieldBorderRadius,
+                      ),
+                      borderSide: const BorderSide(
+                        color: AuthConstants.focusedBorderColor,
+                      ),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 10,
                     ),
                   ),
-                  const SizedBox(height: 24),
-                  _buildSectionTitle('Subscription Details'),
-                  const SizedBox(height: 16),
-                  _requiredLabel('Plan'),
-                  const SizedBox(height: 8),
-                  _buildPlanDropdown(),
-                  const SizedBox(height: 16),
-                  _requiredLabel('Start Date'),
-                  const SizedBox(height: 8),
-                  _buildStartDatePicker(),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Expiry Date',
-                    style: Get.theme.textTheme.labelMedium?.copyWith(
-                      color: AuthConstants.labelColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  _buildExpiryDisplay(),
-                  const SizedBox(height: 24),
-                  _buildSectionTitle('Reminder Channels'),
-                  const SizedBox(height: 16),
-                  _buildReminderChannels(),
-                ],
+                ),
               ),
             ),
+            const SizedBox(height: 16),
+            AuthFormFieldSection(
+              label: 'Email Address*',
+              spacingAfterLabel: 8,
+              child: AuthTextField(
+                controller: emailController,
+                hint: 'E.g. John.doe@gmail.com',
+                dismissKeyboardOnTapOutside: false,
+              ),
+            ),
+            const SizedBox(height: 24),
+            _buildSectionTitle('Subscription Details'),
+            const SizedBox(height: 16),
+            _requiredLabel('Plan'),
+            const SizedBox(height: 8),
+            _buildPlanDropdown(),
+            const SizedBox(height: 16),
+            _requiredLabel('Start Date'),
+            const SizedBox(height: 8),
+            _buildStartDatePicker(),
+            const SizedBox(height: 16),
+            Text(
+              'Expiry Date',
+              style: Get.theme.textTheme.labelMedium?.copyWith(
+                color: AuthConstants.labelColor,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 8),
+            _buildExpiryDisplay(),
+            const SizedBox(height: 24),
+            _buildSectionTitle('Reminder Channels'),
+            const SizedBox(height: 16),
+            _buildReminderChannels(),
+            const SizedBox(height: 140),
+          ],
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: AnimatedPadding(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+          padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Divider(
+                thickness: 1,
+                height: 1,
+                color: Color(0xFFCBD5E1),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+                child: _buildActions(),
+              ),
+            ],
           ),
-          const Divider(thickness: 1, height: 1, color: Color(0xFFCBD5E1)),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
-            child: _buildActions(),
-          ),
-        ],
+        ),
       ),
     );
   }

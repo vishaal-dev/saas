@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../shared/widgets/success_toast.dart';
+import '../../authentication/widgets/auth_constants.dart';
 
 /// Data for the View Member modal.
 class ViewMemberData {
@@ -108,21 +110,15 @@ class ViewMemberModal extends StatelessWidget {
   }
 
   Widget _buildCloseButton(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () => Navigator.of(context).pop(),
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          width: 36,
-          height: 36,
-          decoration: BoxDecoration(
-            color: _actionCircleBg,
-            shape: BoxShape.circle,
-            border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
-          ),
-          alignment: Alignment.center,
-          child: const Icon(Icons.close, size: 18, color: Color(0xFF64748B)),
+    return IconButton(
+      onPressed: () => Navigator.of(context).pop(),
+      icon: SvgPicture.asset(
+        'assets/icons/close-button.svg',
+        width: 24,
+        height: 24,
+        colorFilter: const ColorFilter.mode(
+          AuthConstants.hintColor,
+          BlendMode.srcIn,
         ),
       ),
     );
@@ -130,7 +126,9 @@ class ViewMemberModal extends StatelessWidget {
 
   Widget _statusPill() {
     final isActive = member.statusLabel == 'Active';
-    final bg = isActive ? _activeGreenBg : member.statusColor.withValues(alpha: 0.18);
+    final bg = isActive
+        ? _activeGreenBg
+        : member.statusColor.withValues(alpha: 0.18);
     final fg = isActive ? _activeGreenText : member.statusColor;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
@@ -213,7 +211,8 @@ class ViewMemberModal extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        for (final a in actions) Expanded(child: _actionButton(context, a.icon, a.label)),
+        for (final a in actions)
+          Expanded(child: _actionButton(context, a.icon, a.label)),
       ],
     );
   }
@@ -337,21 +336,15 @@ class RemoveUserConfirmDialog extends StatelessWidget {
                   ),
                   Positioned(
                     right: 0,
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: onCancel,
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          width: 36,
-                          height: 36,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF1F5F9),
-                            shape: BoxShape.circle,
-                            border: Border.all(color: _dividerColor, width: 1),
-                          ),
-                          alignment: Alignment.center,
-                          child: const Icon(Icons.close, size: 18, color: Color(0xFF64748B)),
+                    child: IconButton(
+                      onPressed: onCancel,
+                      icon: SvgPicture.asset(
+                        'assets/icons/close-button.svg',
+                        width: 24,
+                        height: 24,
+                        colorFilter: const ColorFilter.mode(
+                          AuthConstants.hintColor,
+                          BlendMode.srcIn,
                         ),
                       ),
                     ),
@@ -363,7 +356,7 @@ class RemoveUserConfirmDialog extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     'Are you sure?',
@@ -381,7 +374,7 @@ class RemoveUserConfirmDialog extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       OutlinedButton(
                         onPressed: onCancel,
@@ -389,7 +382,10 @@ class RemoveUserConfirmDialog extends StatelessWidget {
                           foregroundColor: const Color(0xFF334155),
                           side: const BorderSide(color: _dividerColor),
                           backgroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 12,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -402,7 +398,10 @@ class RemoveUserConfirmDialog extends StatelessWidget {
                         style: FilledButton.styleFrom(
                           backgroundColor: const Color(0xFFDC2626),
                           foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 12,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),

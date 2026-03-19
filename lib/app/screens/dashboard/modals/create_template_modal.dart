@@ -93,9 +93,28 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
     required ValueChanged<String?> onSelected,
   }) async {
     final box = context.findRenderObject() as RenderBox?;
-    if (box == null) return;
-    final pos = box.localToGlobal(Offset.zero);
+    if (box == null || !box.hasSize) return;
+
+    final overlayState = Overlay.of(context);
+    final overlayRender =
+        overlayState.context.findRenderObject() as RenderBox?;
+    if (overlayRender == null) return;
+
+    final topLeft = box.localToGlobal(Offset.zero, ancestor: overlayRender);
     final size = box.size;
+    final oSize = overlayRender.size;
+    const gap = 4.0;
+
+    // Anchor a thin rect *just below* the field (same idea as PlanDropdown) so the
+    // menu opens under the dropdown, not on top of it.
+    final overlayRect = Offset.zero & oSize;
+    final anchorLeft = topLeft.dx.clamp(0.0, oSize.width);
+    final anchorTop =
+        (topLeft.dy + size.height + gap).clamp(0.0, oSize.height);
+    final anchorWidth =
+        size.width.clamp(1.0, (oSize.width - anchorLeft).clamp(1.0, oSize.width));
+    final anchorBelow = Rect.fromLTWH(anchorLeft, anchorTop, anchorWidth, 1);
+    final position = RelativeRect.fromRect(anchorBelow, overlayRect);
 
     final items = <PopupMenuEntry<String>>[];
     for (var i = 0; i < options.length; i++) {
@@ -117,12 +136,7 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
 
     final selected = await showMenu<String>(
       context: context,
-      position: RelativeRect.fromLTRB(
-        pos.dx,
-        pos.dy + size.height + 4,
-        pos.dx + size.width,
-        pos.dy + size.height + 8,
-      ),
+      position: position,
       constraints: BoxConstraints(minWidth: size.width, maxWidth: size.width),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(_menuBorderRadius),
@@ -166,23 +180,23 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
         messageController: _messageController,
         whatsApp: _whatsApp,
         email: _email,
-        onTriggerTap: () => _showSelectMenu(
-          context: context,
+        onTriggerTap: (anchor) => _showSelectMenu(
+          context: anchor,
           options: _triggerOptions,
           onSelected: (v) => setState(() => _selectedTrigger = v),
         ),
-        onTimingTap: () => _showSelectMenu(
-          context: context,
+        onTimingTap: (anchor) => _showSelectMenu(
+          context: anchor,
           options: _timingOptions,
           onSelected: (v) => setState(() => _selectedTiming = v),
         ),
-        onAudienceTap: () => _showSelectMenu(
-          context: context,
+        onAudienceTap: (anchor) => _showSelectMenu(
+          context: anchor,
           options: _audienceOptions,
           onSelected: (v) => setState(() => _selectedAudience = v),
         ),
-        onStatusTap: () => _showSelectMenu(
-          context: context,
+        onStatusTap: (anchor) => _showSelectMenu(
+          context: anchor,
           options: _statusOptions,
           onSelected: (v) => setState(() => _selectedStatus = v),
         ),
@@ -205,23 +219,23 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
         messageController: _messageController,
         whatsApp: _whatsApp,
         email: _email,
-        onTriggerTap: () => _showSelectMenu(
-          context: context,
+        onTriggerTap: (anchor) => _showSelectMenu(
+          context: anchor,
           options: _triggerOptions,
           onSelected: (v) => setState(() => _selectedTrigger = v),
         ),
-        onTimingTap: () => _showSelectMenu(
-          context: context,
+        onTimingTap: (anchor) => _showSelectMenu(
+          context: anchor,
           options: _timingOptions,
           onSelected: (v) => setState(() => _selectedTiming = v),
         ),
-        onAudienceTap: () => _showSelectMenu(
-          context: context,
+        onAudienceTap: (anchor) => _showSelectMenu(
+          context: anchor,
           options: _audienceOptions,
           onSelected: (v) => setState(() => _selectedAudience = v),
         ),
-        onStatusTap: () => _showSelectMenu(
-          context: context,
+        onStatusTap: (anchor) => _showSelectMenu(
+          context: anchor,
           options: _statusOptions,
           onSelected: (v) => setState(() => _selectedStatus = v),
         ),

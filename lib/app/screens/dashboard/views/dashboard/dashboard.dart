@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:saas/shared/widgets/hover_elevated_card.dart';
 import 'package:saas/shared/widgets/primary_action_button.dart';
 import '../../../../../shared/widgets/success_toast.dart';
 import 'dashboard_controller.dart';
@@ -437,69 +438,61 @@ class Dashboard extends GetView<DashboardController> {
   }
 
   Widget _summaryCard(_SummaryCard c) {
-    return Container(
-      constraints: const BoxConstraints(minHeight: 120),
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-      decoration: BoxDecoration(
-        color: Color(0xFFFFFFFF),
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 12,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: c.circleBg,
-              borderRadius: BorderRadius.circular(24),
+    return HoverElevatedCard(
+      accentColor: c.circleBg,
+      child: Container(
+        constraints: const BoxConstraints(minHeight: 120),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: c.circleBg,
+                borderRadius: BorderRadius.circular(24),
+              ),
+              alignment: Alignment.center,
+              child: SvgPicture.asset(
+                c.iconPath,
+                width: 24,
+                height: 24,
+                color: c.iconColor,
+                colorBlendMode: BlendMode.srcIn,
+              ),
             ),
-            alignment: Alignment.center,
-            child: SvgPicture.asset(
-              c.iconPath,
-              width: 24,
-              height: 24,
-              color: c.iconColor,
-              colorBlendMode: BlendMode.srcIn,
-            ),
-          ),
-          const SizedBox(width: 24),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(height: 20),
-                Text(
-                  c.value,
-                  style: Get.textTheme.bodyLarge?.copyWith(
-                    color: c.valueColor,
-                    fontSize: 24,
+            const SizedBox(width: 24),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 20),
+                  Text(
+                    c.value,
+                    style: Get.textTheme.bodyLarge?.copyWith(
+                      color: c.valueColor,
+                      fontSize: 24,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  c.label,
-                  style: Get.textTheme.bodySmall?.copyWith(
-                    color: _textMuted,
-                    fontWeight: FontWeight.w600,
+                  const SizedBox(height: 8),
+                  Text(
+                    c.label,
+                    style: Get.textTheme.bodySmall?.copyWith(
+                      color: _textMuted,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   ),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -556,18 +549,9 @@ class Dashboard extends GetView<DashboardController> {
         isExpired: false,
       ),
     ];
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 12,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
+    return HoverElevatedCard(
+      accentColor: _purple,
+      borderRadius: 12,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -686,6 +670,7 @@ class Dashboard extends GetView<DashboardController> {
                               isActions: true,
                               align: Alignment.center,
                               context: context,
+                              renewalRow: row,
                               isActionColumn: true,
                             ),
                           ],
@@ -714,6 +699,7 @@ class Dashboard extends GetView<DashboardController> {
     bool isActionColumn = false,
     Alignment align = Alignment.centerLeft,
     BuildContext? context,
+    _RenewalRow? renewalRow,
   }) {
     const horizontalPadding = 20.0;
     const verticalPadding = 12.0;
@@ -734,7 +720,17 @@ class Dashboard extends GetView<DashboardController> {
                       : null,
                 ),
                 const SizedBox(width: 8),
-                _actionButton(iconPath: 'assets/icons/renew.svg'),
+                _actionButton(
+                  iconPath: 'assets/icons/renew.svg',
+                  onTap: renewalRow != null
+                      ? () => Get.dialog(
+                            AddMemberModal(
+                              initialFullName: renewalRow.name,
+                              initialPlan: renewalRow.plan,
+                            ),
+                          )
+                      : null,
+                ),
               ],
             ),
           )
@@ -826,32 +822,22 @@ class Dashboard extends GetView<DashboardController> {
   }
 
   Widget _buildAiInsightsCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFC7D2FE), width: 1),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 12,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'AI Insights',
-            style: Get.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+    return HoverElevatedCard(
+      accentColor: _purple,
+      borderRadius: 16,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'AI Insights',
+              style: Get.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
-          ),
           const SizedBox(height: 12),
           RichText(
             text: TextSpan(
@@ -920,7 +906,8 @@ class Dashboard extends GetView<DashboardController> {
               ),
             ),
           ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -933,33 +920,24 @@ class Dashboard extends GetView<DashboardController> {
     // ₹18,624 recovered, ₹2,540 lost → blue ~88%, red ~12%
     final recoveredFraction = 18624 / (18624 + 2540);
     final lostFraction = 2540 / (18624 + 2540);
-    return Container(
-      width: double.infinity,
-      constraints: const BoxConstraints(minHeight: 300),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 12,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Revenue Insights',
-            style: Get.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-              color: _textDark,
-            ),
-          ),
+    return HoverElevatedCard(
+      accentColor: _purple,
+      borderRadius: 14,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 300),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Revenue Insights',
+                style: Get.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: _textDark,
+                ),
+              ),
           const SizedBox(height: 30),
           Center(
             child: SizedBox(
@@ -993,7 +971,9 @@ class Dashboard extends GetView<DashboardController> {
               ),
             ],
           ),
-        ],
+            ],
+          ),
+        ),
       ),
     );
   }

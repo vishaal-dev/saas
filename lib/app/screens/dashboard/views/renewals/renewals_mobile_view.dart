@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import '../../modals/add_member_modal.dart';
+import '../../../../../shared/widgets/success_toast.dart';
 
 enum RenewalStatus { expiring, expired, renewed }
 
@@ -38,11 +41,11 @@ class RenewalsMobileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: tableData.map((row) => _buildRenewalCard(row)).toList(),
+      children: tableData.map((row) => _buildRenewalCard(context, row)).toList(),
     );
   }
 
-  Widget _buildRenewalCard(RenewalRow row) {
+  Widget _buildRenewalCard(BuildContext context, RenewalRow row) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
@@ -93,9 +96,25 @@ class RenewalsMobileView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              _actionIcon('assets/icons/renew.svg'),
+              _actionIcon(
+                'assets/icons/renew.svg',
+                onTap: () => Get.dialog(
+                  AddMemberModal(
+                    initialFullName: row.name,
+                    initialPhone: row.phone,
+                    initialPlan: row.plan,
+                  ),
+                ),
+              ),
               const SizedBox(width: 12),
-              _actionIcon('assets/icons/bell-ring.svg'),
+              _actionIcon(
+                'assets/icons/bell-ring.svg',
+                onTap: () => SuccessToast.show(
+                  context,
+                  title: 'Reminder sent to ${row.name}',
+                  popRoute: false,
+                ),
+              ),
             ],
           ),
         ],
@@ -148,8 +167,8 @@ class RenewalsMobileView extends StatelessWidget {
     );
   }
 
-  Widget _actionIcon(String assetPath) {
-    return Container(
+  Widget _actionIcon(String assetPath, {VoidCallback? onTap}) {
+    final child = Container(
       width: 32,
       height: 32,
       decoration: const BoxDecoration(
@@ -162,6 +181,15 @@ class RenewalsMobileView extends StatelessWidget {
         width: 18,
         height: 18,
         colorFilter: ColorFilter.mode(_textMuted, BlendMode.srcIn),
+      ),
+    );
+    if (onTap == null) return child;
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(20),
+        child: child,
       ),
     );
   }

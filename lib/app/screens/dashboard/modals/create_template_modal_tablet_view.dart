@@ -34,10 +34,10 @@ class CreateTemplateModalTabletView extends StatelessWidget {
   final TextEditingController messageController;
   final bool whatsApp;
   final bool email;
-  final VoidCallback onTriggerTap;
-  final VoidCallback onTimingTap;
-  final VoidCallback onAudienceTap;
-  final VoidCallback onStatusTap;
+  final void Function(BuildContext anchorContext) onTriggerTap;
+  final void Function(BuildContext anchorContext) onTimingTap;
+  final void Function(BuildContext anchorContext) onAudienceTap;
+  final void Function(BuildContext anchorContext) onStatusTap;
   final VoidCallback onUploadAttachment;
   final ValueChanged<bool> onWhatsAppChanged;
   final ValueChanged<bool> onEmailChanged;
@@ -141,7 +141,10 @@ class CreateTemplateModalTabletView extends StatelessWidget {
               'assets/icons/close-button.svg',
               width: 24,
               height: 24,
-              colorFilter: const ColorFilter.mode(AuthConstants.hintColor, BlendMode.srcIn),
+              colorFilter: const ColorFilter.mode(
+                AuthConstants.hintColor,
+                BlendMode.srcIn,
+              ),
             ),
           ),
         ],
@@ -165,17 +168,41 @@ class CreateTemplateModalTabletView extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(child: _buildLabeledSelect('Trigger', selectedTrigger ?? 'Select Trigger', onTriggerTap)),
+            Expanded(
+              child: _buildLabeledSelect(
+                'Trigger',
+                selectedTrigger ?? 'Select Trigger',
+                onTriggerTap,
+              ),
+            ),
             const SizedBox(width: 16),
-            Expanded(child: _buildLabeledSelect('Timing', selectedTiming ?? 'Select Timing', onTimingTap)),
+            Expanded(
+              child: _buildLabeledSelect(
+                'Timing',
+                selectedTiming ?? 'Select Timing',
+                onTimingTap,
+              ),
+            ),
             const SizedBox(width: 16),
-            Expanded(child: _buildLabeledSelect('Audience', selectedAudience ?? 'Select Audience', onAudienceTap)),
+            Expanded(
+              child: _buildLabeledSelect(
+                'Audience',
+                selectedAudience ?? 'Select Audience',
+                onAudienceTap,
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 16),
         Row(
           children: [
-            Expanded(child: _buildLabeledSelect('Status', selectedStatus ?? 'Select Status', onStatusTap)),
+            Expanded(
+              child: _buildLabeledSelect(
+                'Status',
+                selectedStatus ?? 'Select Status',
+                onStatusTap,
+              ),
+            ),
             const SizedBox(width: 16),
             const Spacer(flex: 2),
           ],
@@ -184,38 +211,58 @@ class CreateTemplateModalTabletView extends StatelessWidget {
     );
   }
 
-  Widget _buildLabeledSelect(String label, String value, VoidCallback onTap) {
+  Widget _buildLabeledSelect(
+    String label,
+    String value,
+    void Function(BuildContext anchorContext) onTap,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _requiredLabel(label),
         const SizedBox(height: 8),
-        InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(AuthConstants.fieldBorderRadius),
-          child: Container(
-            height: AuthConstants.fieldHeight,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: BoxDecoration(
-              color: AuthConstants.fieldFillColor,
-              borderRadius: BorderRadius.circular(AuthConstants.fieldBorderRadius),
-              border: Border.all(color: AuthConstants.borderColor),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    value,
-                    style: Get.theme.textTheme.bodySmall?.copyWith(
-                      color: value.contains('Select') ? AuthConstants.hintColor : AuthConstants.labelColor,
-                      fontWeight: value.contains('Select') ? FontWeight.w500 : FontWeight.w600,
-                    ),
+        Builder(
+          builder: (anchorContext) {
+            return InkWell(
+              onTap: () => onTap(anchorContext),
+              borderRadius: BorderRadius.circular(
+                AuthConstants.fieldBorderRadius,
+              ),
+              child: Container(
+                height: AuthConstants.fieldHeight,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  color: AuthConstants.fieldFillColor,
+                  borderRadius: BorderRadius.circular(
+                    AuthConstants.fieldBorderRadius,
                   ),
+                  border: Border.all(color: AuthConstants.borderColor),
                 ),
-                const Icon(Icons.keyboard_arrow_down_rounded, size: 20, color: AuthConstants.hintColor),
-              ],
-            ),
-          ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        value,
+                        style: Get.theme.textTheme.bodySmall?.copyWith(
+                          color: value.contains('Select')
+                              ? AuthConstants.hintColor
+                              : AuthConstants.labelColor,
+                          fontWeight: value.contains('Select')
+                              ? FontWeight.w500
+                              : FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    const Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      size: 20,
+                      color: AuthConstants.hintColor,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ],
     );
@@ -251,7 +298,10 @@ class CreateTemplateModalTabletView extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: CustomPaint(
-          painter: _DashedBorderPainter(color: AuthConstants.borderColor, borderRadius: 10),
+          painter: _DashedBorderPainter(
+            color: AuthConstants.borderColor,
+            borderRadius: 10,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -259,7 +309,10 @@ class CreateTemplateModalTabletView extends StatelessWidget {
                 'assets/icons/upload.svg',
                 width: 32,
                 height: 32,
-                colorFilter: const ColorFilter.mode(AuthConstants.hintColor, BlendMode.srcIn),
+                colorFilter: const ColorFilter.mode(
+                  AuthConstants.hintColor,
+                  BlendMode.srcIn,
+                ),
               ),
               const SizedBox(height: 8),
               Text(
@@ -289,7 +342,9 @@ class CreateTemplateModalTabletView extends StatelessWidget {
         maxLines: null,
         expands: true,
         textAlignVertical: TextAlignVertical.top,
-        style: Get.textTheme.bodyMedium?.copyWith(color: AuthConstants.textColor),
+        style: Get.textTheme.bodyMedium?.copyWith(
+          color: AuthConstants.textColor,
+        ),
         decoration: InputDecoration(
           hintText: 'Type your message here....',
           hintStyle: Get.theme.textTheme.labelMedium?.copyWith(
@@ -313,7 +368,11 @@ class CreateTemplateModalTabletView extends StatelessWidget {
     );
   }
 
-  Widget _buildCheckbox(String label, bool value, ValueChanged<bool> onChanged) {
+  Widget _buildCheckbox(
+    String label,
+    bool value,
+    ValueChanged<bool> onChanged,
+  ) {
     return InkWell(
       onTap: () => onChanged(!value),
       borderRadius: BorderRadius.circular(4),
@@ -327,17 +386,28 @@ class CreateTemplateModalTabletView extends StatelessWidget {
               value: value,
               onChanged: (v) => onChanged(v ?? false),
               fillColor: WidgetStateProperty.resolveWith((states) {
-                if (states.contains(WidgetState.selected)) return Colors.transparent;
+                if (states.contains(WidgetState.selected))
+                  return Colors.transparent;
                 return null;
               }),
               checkColor: AuthConstants.labelColor,
-              side: const BorderSide(color: AuthConstants.borderColor, width: 1),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+              side: const BorderSide(
+                color: AuthConstants.borderColor,
+                width: 1,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
           ),
           const SizedBox(width: 10),
-          Text(label, style: Get.textTheme.bodyMedium?.copyWith(color: AuthConstants.labelColor)),
+          Text(
+            label,
+            style: Get.textTheme.bodyMedium?.copyWith(
+              color: AuthConstants.labelColor,
+            ),
+          ),
         ],
       ),
     );
@@ -352,7 +422,11 @@ class CreateTemplateModalTabletView extends StatelessWidget {
           style: TextButton.styleFrom(
             foregroundColor: AuthConstants.supportTextColor,
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AuthConstants.fieldBorderRadius)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                AuthConstants.fieldBorderRadius,
+              ),
+            ),
           ),
           child: const Text('Cancel'),
         ),
@@ -363,13 +437,20 @@ class CreateTemplateModalTabletView extends StatelessWidget {
           child: FilledButton(
             onPressed: isCreateEnabled ? onCreate : null,
             style: FilledButton.styleFrom(
-              backgroundColor: isCreateEnabled ? AuthConstants.buttonEnabledColor : AuthConstants.buttonDisabledColor,
+              backgroundColor: isCreateEnabled
+                  ? AuthConstants.buttonEnabledColor
+                  : AuthConstants.buttonDisabledColor,
               disabledBackgroundColor: AuthConstants.buttonDisabledColor,
+              disabledForegroundColor: Colors.white,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
-            child: Text(title.contains('Edit') ? 'Update Template' : 'Create Template'),
+            child: Text(
+              title.contains('Edit') ? 'Update Template' : 'Create Template',
+            ),
           ),
         ),
       ],
@@ -383,10 +464,16 @@ class _DashedBorderPainter extends CustomPainter {
   final double borderRadius;
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = color..style = PaintingStyle.stroke..strokeWidth = 1.5;
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
     const dashWidth = 6.0;
     const dashSpace = 4.0;
-    final rrect = RRect.fromRectAndRadius(Rect.fromLTWH(1, 1, size.width - 2, size.height - 2), Radius.circular(borderRadius - 1));
+    final rrect = RRect.fromRectAndRadius(
+      Rect.fromLTWH(1, 1, size.width - 2, size.height - 2),
+      Radius.circular(borderRadius - 1),
+    );
     final path = Path()..addRRect(rrect);
     for (final metric in path.computeMetrics()) {
       double distance = 0;
@@ -397,6 +484,7 @@ class _DashedBorderPainter extends CustomPainter {
       }
     }
   }
+
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

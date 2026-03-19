@@ -74,82 +74,110 @@ class EditPlanModalMobileView extends StatelessWidget {
           child: Divider(thickness: 1, color: Color(0xFFCBD5E1), height: 1),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildSectionTitle('Plan Details'),
-                  const SizedBox(height: 16),
-                  AuthFormFieldSection(
-                    label: 'Plan Name*',
-                    spacingAfterLabel: 8,
-                    child: TextField(
-                      controller: planNameController,
-                      style: Get.textTheme.bodyMedium?.copyWith(color: _labelColor, fontSize: 14),
-                      decoration: _inputDecoration('Enter Plan Name'),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  AuthFormFieldSection(
-                    label: 'Price',
-                    spacingAfterLabel: 8,
-                    child: TextField(
-                      controller: priceController,
-                      style: Get.textTheme.bodyMedium?.copyWith(color: _labelColor, fontSize: 14),
-                      decoration: _inputDecoration('Enter Plan Price'),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  AuthFormFieldSection(
-                    label: 'Status*',
-                    spacingAfterLabel: 8,
-                    child: InkWell(
-                      onTap: onStatusTap,
-                      child: Container(
-                        height: 44,
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(_inputBorderRadius),
-                          border: Border.all(color: _inputBorderColor),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                selectedStatus ?? 'Select Plan Status',
-                                style: Get.theme.textTheme.bodyMedium?.copyWith(
-                                  fontSize: 14,
-                                  color: selectedStatus != null ? _labelColor : _hintColor,
-                                ),
-                              ),
-                            ),
-                            const Icon(Icons.keyboard_arrow_down, size: 20, color: Color(0xFF64748B)),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  _buildSectionTitle('Select Plan Duration'),
-                  const SizedBox(height: 12),
-                  _buildDurationRadios(),
-                  const SizedBox(height: 16),
-                  _buildCustomDurationField(),
-                ],
+      body: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildSectionTitle('Plan Details'),
+            const SizedBox(height: 16),
+            AuthFormFieldSection(
+              label: 'Plan Name*',
+              spacingAfterLabel: 8,
+              child: TextField(
+                controller: planNameController,
+                onTapOutside: (_) {},
+                style: Get.textTheme.bodyMedium?.copyWith(
+                  color: _labelColor,
+                  fontSize: 14,
+                ),
+                decoration: _inputDecoration('Enter Plan Name'),
               ),
             ),
+            const SizedBox(height: 16),
+            AuthFormFieldSection(
+              label: 'Price',
+              spacingAfterLabel: 8,
+              child: TextField(
+                controller: priceController,
+                onTapOutside: (_) {},
+                style: Get.textTheme.bodyMedium?.copyWith(
+                  color: _labelColor,
+                  fontSize: 14,
+                ),
+                decoration: _inputDecoration('Enter Plan Price'),
+              ),
+            ),
+            const SizedBox(height: 16),
+            AuthFormFieldSection(
+              label: 'Status*',
+              spacingAfterLabel: 8,
+              child: InkWell(
+                onTap: onStatusTap,
+                child: Container(
+                  height: 44,
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(_inputBorderRadius),
+                    border: Border.all(color: _inputBorderColor),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          selectedStatus ?? 'Select Plan Status',
+                          style: Get.theme.textTheme.bodyMedium?.copyWith(
+                            fontSize: 14,
+                            color:
+                                selectedStatus != null ? _labelColor : _hintColor,
+                          ),
+                        ),
+                      ),
+                      const Icon(
+                        Icons.keyboard_arrow_down,
+                        size: 20,
+                        color: Color(0xFF64748B),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            _buildSectionTitle('Select Plan Duration'),
+            const SizedBox(height: 12),
+            _buildDurationRadios(),
+            const SizedBox(height: 16),
+            _buildCustomDurationField(),
+            const SizedBox(height: 140),
+          ],
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: AnimatedPadding(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.viewInsetsOf(context).bottom,
           ),
-          const Divider(thickness: 1, height: 1, color: Color(0xFFCBD5E1)),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
-            child: _buildActions(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Divider(
+                thickness: 1,
+                height: 1,
+                color: Color(0xFFCBD5E1),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+                child: _buildActions(),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

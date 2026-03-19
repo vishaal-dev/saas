@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+
+import '../../authentication/widgets/auth_constants.dart';
 
 /// Confirmation dialog shown when deleting a plan.
 class DeletePlanConfirmDialog extends StatelessWidget {
@@ -7,10 +10,16 @@ class DeletePlanConfirmDialog extends StatelessWidget {
     super.key,
     required this.onCancel,
     required this.onDelete,
+    this.title = 'Delete Plan?',
+    this.bodyTitle = 'Are you sure?',
+    this.bodyText = 'You want to delete the plan.',
   });
 
   final VoidCallback onCancel;
   final VoidCallback onDelete;
+  final String title;
+  final String bodyTitle;
+  final String bodyText;
 
   static const _dividerColor = Color(0xFFE2E8F0);
 
@@ -43,7 +52,7 @@ class DeletePlanConfirmDialog extends StatelessWidget {
                 children: [
                   Center(
                     child: Text(
-                      'Delete Plan?',
+                      title,
                       style: Get.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.w700,
                         color: const Color(0xFF0F172A),
@@ -52,21 +61,15 @@ class DeletePlanConfirmDialog extends StatelessWidget {
                   ),
                   Positioned(
                     right: 0,
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: onCancel,
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          width: 36,
-                          height: 36,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF1F5F9),
-                            shape: BoxShape.circle,
-                            border: Border.all(color: _dividerColor, width: 1),
-                          ),
-                          alignment: Alignment.center,
-                          child: const Icon(Icons.close, size: 18, color: Color(0xFF64748B)),
+                    child: IconButton(
+                      onPressed: onCancel,
+                      icon: SvgPicture.asset(
+                        'assets/icons/close-button.svg',
+                        width: 24,
+                        height: 24,
+                        colorFilter: const ColorFilter.mode(
+                          AuthConstants.hintColor,
+                          BlendMode.srcIn,
                         ),
                       ),
                     ),
@@ -78,10 +81,10 @@ class DeletePlanConfirmDialog extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Are you sure?',
+                    bodyTitle,
                     style: Get.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFF0F172A),
@@ -89,14 +92,14 @@ class DeletePlanConfirmDialog extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'You want to delete the plan.',
+                    bodyText,
                     style: Get.textTheme.bodyMedium?.copyWith(
                       color: const Color(0xFF334155),
                     ),
                   ),
                   const SizedBox(height: 24),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       OutlinedButton(
                         onPressed: onCancel,
@@ -104,7 +107,10 @@ class DeletePlanConfirmDialog extends StatelessWidget {
                           foregroundColor: const Color(0xFF334155),
                           side: const BorderSide(color: _dividerColor),
                           backgroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 12,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -117,7 +123,10 @@ class DeletePlanConfirmDialog extends StatelessWidget {
                         style: FilledButton.styleFrom(
                           backgroundColor: const Color(0xFFDC2626),
                           foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 12,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),

@@ -18,23 +18,34 @@ class AuthPrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: AuthConstants.buttonHeight,
-      child: ElevatedButton(
-        onPressed: isEnabled ? onPressed : null,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: isEnabled
-              ? AuthConstants.buttonEnabledColor
-              : AuthConstants.buttonDisabledColor,
-          disabledBackgroundColor: AuthConstants.buttonDisabledColor,
-          padding: const EdgeInsets.symmetric(vertical: 12.5),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              AuthConstants.fieldBorderRadius,
-            ),
+    return ElevatedButton(
+      onPressed: isEnabled ? onPressed : null,
+      style: ElevatedButton.styleFrom(
+        elevation: 0,
+        minimumSize: Size(double.infinity, AuthConstants.buttonHeight),
+        backgroundColor: isEnabled
+            ? AuthConstants.buttonEnabledColor
+            : AuthConstants.buttonDisabledColor,
+        disabledBackgroundColor: AuthConstants.buttonDisabledColor,
+        foregroundColor: Colors.white,
+        disabledForegroundColor: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            AuthConstants.fieldBorderRadius,
           ),
         ),
-        child: Text(text, style: Get.theme.textTheme.bodyMedium),
+      ),
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: Get.theme.textTheme.bodyMedium?.copyWith(
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+          height: 1.15,
+        ),
       ),
     );
   }

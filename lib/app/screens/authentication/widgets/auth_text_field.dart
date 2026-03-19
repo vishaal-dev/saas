@@ -10,11 +10,13 @@ class AuthTextField extends StatelessWidget {
     required this.controller,
     required this.hint,
     this.isHovered = false,
+    this.dismissKeyboardOnTapOutside = true,
   });
 
   final TextEditingController controller;
   final String hint;
   final bool isHovered;
+  final bool dismissKeyboardOnTapOutside;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,9 @@ class AuthTextField extends StatelessWidget {
       height: AuthConstants.fieldHeight,
       child: TextField(
         controller: controller,
+        onTapOutside: dismissKeyboardOnTapOutside
+            ? (_) => FocusManager.instance.primaryFocus?.unfocus()
+            : (_) {},
         style: Get.theme.textTheme.bodySmall?.copyWith(
           color: AuthConstants.textColor,
         ),

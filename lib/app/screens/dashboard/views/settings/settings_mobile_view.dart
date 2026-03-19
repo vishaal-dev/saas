@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class SettingsMobileView extends StatefulWidget {
@@ -18,12 +19,40 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
 
   int _selectedTabIndex = 0;
   final _businessNameController = TextEditingController(text: 'SaaS');
+  late final String _initialBusinessName;
   final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  bool _currentPasswordVisible = false;
+  bool _newPasswordVisible = false;
+  bool _confirmPasswordVisible = false;
+
+  bool get _isProfileDirty =>
+      _businessNameController.text.trim() != _initialBusinessName.trim();
+
+  bool get _isPasswordFormFilled =>
+      _currentPasswordController.text.trim().isNotEmpty &&
+      _newPasswordController.text.trim().isNotEmpty &&
+      _confirmPasswordController.text.trim().isNotEmpty;
+
+  @override
+  void initState() {
+    super.initState();
+    _initialBusinessName = _businessNameController.text;
+    _businessNameController.addListener(_onFieldsChanged);
+    _currentPasswordController.addListener(_onFieldsChanged);
+    _newPasswordController.addListener(_onFieldsChanged);
+    _confirmPasswordController.addListener(_onFieldsChanged);
+  }
+
+  void _onFieldsChanged() => setState(() {});
 
   @override
   void dispose() {
+    _businessNameController.removeListener(_onFieldsChanged);
+    _currentPasswordController.removeListener(_onFieldsChanged);
+    _newPasswordController.removeListener(_onFieldsChanged);
+    _confirmPasswordController.removeListener(_onFieldsChanged);
     _businessNameController.dispose();
     _currentPasswordController.dispose();
     _newPasswordController.dispose();
@@ -104,6 +133,51 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
         _buildBusinessLogoSection(),
         const SizedBox(height: 24),
         _buildBusinessNameSection(),
+        const SizedBox(height: 24),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            OutlinedButton(
+              onPressed: () => setState(() {
+                _businessNameController.text = _initialBusinessName;
+              }),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: _textDark,
+                side: BorderSide(color: _border),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text('Cancel'),
+            ),
+            const SizedBox(width: 12),
+            FilledButton(
+              onPressed: _isProfileDirty
+                  ? () {
+                      FocusScope.of(context).unfocus();
+                    }
+                  : null,
+              style: FilledButton.styleFrom(
+                backgroundColor: _purple,
+                disabledBackgroundColor: const Color(0xFFA5B4FC),
+                foregroundColor: Colors.white,
+                disabledForegroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text('Save'),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -118,11 +192,29 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
           style: Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: _textDark),
         ),
         const SizedBox(height: 20),
-        _buildPasswordField('Current Password', 'Enter Current Password', _currentPasswordController),
+        _buildPasswordField(
+          'Current Password',
+          'Enter Current Password',
+          _currentPasswordController,
+          isObscure: !_currentPasswordVisible,
+          onToggleVisibility: () => setState(() => _currentPasswordVisible = !_currentPasswordVisible),
+        ),
         const SizedBox(height: 16),
-        _buildPasswordField('New Password', 'Enter New Password', _newPasswordController),
+        _buildPasswordField(
+          'New Password',
+          'Enter New Password',
+          _newPasswordController,
+          isObscure: !_newPasswordVisible,
+          onToggleVisibility: () => setState(() => _newPasswordVisible = !_newPasswordVisible),
+        ),
         const SizedBox(height: 16),
-        _buildPasswordField('Confirm New Password', 'Confirm New Password', _confirmPasswordController),
+        _buildPasswordField(
+          'Confirm New Password',
+          'Confirm New Password',
+          _confirmPasswordController,
+          isObscure: !_confirmPasswordVisible,
+          onToggleVisibility: () => setState(() => _confirmPasswordVisible = !_confirmPasswordVisible),
+        ),
         const SizedBox(height: 24),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -143,10 +235,16 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
             ),
             const SizedBox(width: 12),
             FilledButton(
-              onPressed: () {},
+              onPressed: _isPasswordFormFilled
+                  ? () {
+                      FocusScope.of(context).unfocus();
+                    }
+                  : null,
               style: FilledButton.styleFrom(
                 backgroundColor: _purple,
+                disabledBackgroundColor: const Color(0xFFA5B4FC),
                 foregroundColor: Colors.white,
+                disabledForegroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
@@ -158,7 +256,13 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
     );
   }
 
-  Widget _buildPasswordField(String label, String hint, TextEditingController controller) {
+  Widget _buildPasswordField(
+    String label,
+    String hint,
+    TextEditingController controller, {
+    required bool isObscure,
+    required VoidCallback onToggleVisibility,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -169,7 +273,7 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
         const SizedBox(height: 8),
         TextField(
           controller: controller,
-          obscureText: true,
+          obscureText: isObscure,
           style: Get.textTheme.bodyMedium?.copyWith(color: _textDark),
           decoration: InputDecoration(
             hintText: hint,
@@ -177,6 +281,15 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
             filled: true,
             fillColor: Colors.white,
             contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            suffixIcon: IconButton(
+              onPressed: onToggleVisibility,
+              icon: SvgPicture.asset(
+                isObscure ? 'assets/icons/eye-close.svg' : 'assets/icons/eye-open.svg',
+                width: 20,
+                height: 20,
+                colorFilter: ColorFilter.mode(_textMuted, BlendMode.srcIn),
+              ),
+            ),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: _border)),
             enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: _border)),
             focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: _purple, width: 1.5)),
@@ -230,37 +343,31 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
           ),
         ),
         const SizedBox(height: 12),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: TextField(
-                controller: _businessNameController,
-                style: Get.textTheme.bodyMedium?.copyWith(color: _textDark),
-                decoration: InputDecoration(
-                  hintText: 'SaaS',
-                  hintStyle: Get.textTheme.bodyMedium?.copyWith(color: _textMuted),
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: _border),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: _border),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: _purple, width: 1.5),
-                  ),
-                ),
-              ),
+        TextField(
+          controller: _businessNameController,
+          style: Get.textTheme.bodyMedium?.copyWith(color: _textDark),
+          decoration: InputDecoration(
+            hintText: 'SaaS',
+            hintStyle: Get.textTheme.bodyMedium?.copyWith(color: _textMuted),
+            filled: true,
+            fillColor: Colors.white,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 12,
             ),
-            const SizedBox(width: 12),
-            _editButton(() {}),
-          ],
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: _border),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: _border),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: _purple, width: 1.5),
+            ),
+          ),
         ),
       ],
     );

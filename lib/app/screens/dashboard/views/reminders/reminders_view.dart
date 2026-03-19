@@ -3,7 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import 'package:saas/shared/widgets/primary_action_button.dart';
+import 'package:saas/shared/widgets/success_toast.dart';
 
+import '../../dialogs/delete_plan_confirm_dialog.dart';
 import '../../modals/create_rule_modal.dart';
 import '../../modals/create_template_modal.dart';
 import '../../modals/modal_route_helper.dart';
@@ -415,20 +417,64 @@ class RemindersView extends StatelessWidget {
         _actionIcon(
           'assets/icons/edit.svg',
           onTap: () {
-            openModalWithTransition(
-              context,
-              CreateTemplateModal(
-                title: 'Edit Template',
-                initialTrigger: row.trigger,
-                initialTiming: row.timing,
-                initialAudience: row.audience,
-                initialStatus: row.isActive ? 'Active' : 'Inactive',
-              ),
-            );
+            if (isMessageTemplates) {
+              openModalWithTransition(
+                context,
+                CreateTemplateModal(
+                  title: 'Edit Template',
+                  initialTrigger: row.trigger,
+                  initialTiming: row.timing,
+                  initialAudience: row.audience,
+                  initialStatus: row.isActive ? 'Active' : 'Inactive',
+                ),
+              );
+            } else {
+              openModalWithTransition(
+                context,
+                CreateRuleModal(
+                  title: 'Edit Rule',
+                  initialTrigger: row.trigger,
+                  initialTiming: row.timing,
+                  initialAudience: row.audience,
+                  initialStatus: row.isActive ? 'Active' : 'Inactive',
+                ),
+              );
+            }
           },
         ),
-        _actionIcon('assets/icons/trash.svg'),
+        _actionIcon(
+          'assets/icons/trash.svg',
+          onTap: () => _showDeleteConfirmDialog(
+            context,
+            isMessageTemplates: isMessageTemplates,
+          ),
+        ),
       ],
+    );
+  }
+
+  void _showDeleteConfirmDialog(
+    BuildContext context, {
+    required bool isMessageTemplates,
+  }) {
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => DeletePlanConfirmDialog(
+        title: isMessageTemplates ? 'Delete Template?' : 'Delete Rule?',
+        bodyText: isMessageTemplates
+            ? 'You want to delete this message template.'
+            : 'You want to delete this reminder rule.',
+        onCancel: () => Navigator.of(ctx).pop(),
+        onDelete: () {
+          final overlayState = Overlay.of(ctx);
+          Navigator.of(ctx).pop();
+          SuccessToast.showWithOverlay(
+            overlayState,
+            title: isMessageTemplates ? 'Template Deleted' : 'Rule Deleted',
+            iconColor: SuccessToast.iconColorRed,
+          );
+        },
+      ),
     );
   }
 

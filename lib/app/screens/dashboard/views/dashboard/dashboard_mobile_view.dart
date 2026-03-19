@@ -9,7 +9,6 @@ import 'dashboard_controller.dart';
 import '../../modals/add_member_modal.dart';
 import '../../modals/help_support_modal.dart';
 import '../../modals/modal_route_helper.dart';
-import '../../modals/modal_route_helper.dart';
 import '../members/members_view.dart';
 import '../reminders/reminders_view.dart';
 import '../renewals/renewals_view.dart';
@@ -158,7 +157,15 @@ class DashboardMobileView extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.close_rounded, color: Color(0xFF64748B)),
+                    icon: SvgPicture.asset(
+                      'assets/icons/close-button.svg',
+                      width: 24,
+                      height: 24,
+                      colorFilter: const ColorFilter.mode(
+                        Color(0xFF64748B),
+                        BlendMode.srcIn,
+                      ),
+                    ),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   const Spacer(),
@@ -184,30 +191,41 @@ class DashboardMobileView extends StatelessWidget {
                       final isActive = controller.selectedNavIndex.value == e.key;
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 8),
-                        child: Material(
-                          color: isActive ? _purpleLight : Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            controller.onNavTap(e.key);
+                            Navigator.of(context).pop();
+                          },
                           borderRadius: BorderRadius.circular(28),
-                          child: ListTile(
-                            onTap: () {
-                              controller.onNavTap(e.key);
-                              Navigator.of(context).pop();
-                            },
-                            dense: true,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
-                            leading: SvgPicture.asset(
-                              _getIconForIndex(e.key),
-                              width: 24,
-                              height: 24,
-                              color: isActive ? _purple : _sidebarIconColor,
-                              colorBlendMode: BlendMode.srcIn,
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 14,
                             ),
-                            title: Text(
-                              e.value,
-                              style: Get.textTheme.bodySmall?.copyWith(
-                                fontSize: 18,
-                                color: isActive ? _purple : _sidebarTextColor,
-                                fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-                              ),
+                            decoration: BoxDecoration(
+                              color: isActive ? _purpleLight : Colors.transparent,
+                              borderRadius: BorderRadius.circular(28),
+                            ),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  _getIconForIndex(e.key),
+                                  width: 24,
+                                  height: 24,
+                                  color: isActive ? _purple : _sidebarIconColor,
+                                  colorBlendMode: BlendMode.srcIn,
+                                ),
+                                const SizedBox(width: 12),
+                                Text(
+                                  e.value,
+                                  style: Get.textTheme.bodySmall?.copyWith(
+                                    fontSize: 18,
+                                    color: isActive ? _purple : _sidebarTextColor,
+                                    fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -217,24 +235,40 @@ class DashboardMobileView extends StatelessWidget {
             ),
             // Logout and Footer
             const Divider(thickness: 1, color: Color(0xFFCBD5E1)),
-            ListTile(
-              onTap: () {
-                Navigator.of(context).pop();
-                controller.onLogout();
-              },
-              contentPadding: const EdgeInsets.symmetric(horizontal: 28, vertical: 4),
-              leading: SvgPicture.asset(
-                'assets/icons/log-out.svg',
-                width: 24,
-                height: 24,
-                color: _sidebarIconColor,
-                colorBlendMode: BlendMode.srcIn,
-              ),
-              title: Text(
-                'Logout',
-                style: Get.textTheme.bodySmall?.copyWith(
-                  fontSize: 18,
-                  color: _sidebarTextColor,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  controller.onLogout();
+                },
+                borderRadius: BorderRadius.circular(28),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(28),
+                  ),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/log-out.svg',
+                        width: 24,
+                        height: 24,
+                        color: _sidebarIconColor,
+                        colorBlendMode: BlendMode.srcIn,
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        'Logout',
+                        style: Get.textTheme.bodySmall?.copyWith(
+                          fontSize: 18,
+                          color: _sidebarTextColor,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -564,7 +598,15 @@ class DashboardMobileView extends StatelessWidget {
             children: [
               _actionButton(iconPath: 'assets/icons/bell-ring.svg', onTap: () => SuccessToast.show(context, title: 'Reminders Sent')),
               const SizedBox(width: 8),
-              _actionButton(iconPath: 'assets/icons/renew.svg'),
+              _actionButton(
+                iconPath: 'assets/icons/renew.svg',
+                onTap: () => Get.dialog(
+                  AddMemberModal(
+                    initialFullName: row.name,
+                    initialPlan: row.plan,
+                  ),
+                ),
+              ),
             ],
           ),
         ],

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
+import 'package:saas/shared/widgets/hover_elevated_card.dart';
 
 import 'reports_mobile_view.dart';
 import 'reports_tablet_view.dart';
@@ -284,51 +285,42 @@ class ReportsView extends StatelessWidget {
     required Color valueColor,
     required String description,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: _border),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 12,
-            offset: const Offset(0, 2),
+    return HoverElevatedCard(
+      accentColor: valueColor,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.topLeft,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                style: Get.textTheme.bodySmall?.copyWith(
+                  color: _textMuted,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                value,
+                style: Get.textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: valueColor,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                description,
+                style: Get.textTheme.bodySmall?.copyWith(
+                  color: _textMuted,
+                  fontSize: 12,
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: FittedBox(
-        fit: BoxFit.scaleDown,
-        alignment: Alignment.topLeft,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              title,
-              style: Get.textTheme.bodySmall?.copyWith(
-                color: _textMuted,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              value,
-              style: Get.textTheme.bodyLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: valueColor,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              description,
-              style: Get.textTheme.bodySmall?.copyWith(
-                color: _textMuted,
-                fontSize: 12,
-              ),
-            ),
-          ],
         ),
       ),
     );

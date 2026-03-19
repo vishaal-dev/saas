@@ -9,11 +9,13 @@ class HelpSupportModalMobileView extends StatelessWidget {
   const HelpSupportModalMobileView({
     super.key,
     required this.messageController,
+    required this.isSendEnabled,
     required this.onCancel,
     required this.onSend,
   });
 
   final TextEditingController messageController;
+  final bool isSendEnabled;
   final VoidCallback onCancel;
   final VoidCallback onSend;
 
@@ -126,16 +128,16 @@ class HelpSupportModalMobileView extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 0,
-            child: InkWell(
-              onTap: onCancel,
-              borderRadius: BorderRadius.circular(20),
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: SvgPicture.asset(
-                  'assets/icons/back-button.svg',
-                  width: 20,
-                  height: 20,
+            right: 0,
+            child: IconButton(
+              onPressed: onCancel,
+              icon: SvgPicture.asset(
+                'assets/icons/close-button.svg',
+                width: 24,
+                height: 24,
+                colorFilter: const ColorFilter.mode(
+                  AuthConstants.hintColor,
+                  BlendMode.srcIn,
                 ),
               ),
             ),
@@ -150,9 +152,12 @@ class HelpSupportModalMobileView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         FilledButton(
-          onPressed: onSend,
+          onPressed: isSendEnabled ? onSend : null,
           style: FilledButton.styleFrom(
             backgroundColor: AuthConstants.buttonEnabledColor,
+            disabledBackgroundColor: AuthConstants.buttonDisabledColor,
+            foregroundColor: Colors.white,
+            disabledForegroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 12),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           ),
