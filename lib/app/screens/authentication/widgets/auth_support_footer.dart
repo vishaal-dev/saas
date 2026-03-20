@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'auth_constants.dart';
+import 'app_constants.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 
 /// Reusable support footer link for authentication screens.
 /// Styled like the Forgot Password link: underlined, titleColor on hover.
@@ -20,8 +21,8 @@ class _AuthSupportFooterState extends State<AuthSupportFooter> {
   @override
   Widget build(BuildContext context) {
     final linkColor = _isLinkHovered
-        ? AuthConstants.titleColor
-        : AuthConstants.hintColor;
+        ? AppConstants.titleColor
+        : AppConstants.hintColor;
 
     return Center(
       child: Row(
@@ -29,9 +30,9 @@ class _AuthSupportFooterState extends State<AuthSupportFooter> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Any support required? ',
+            AppStrings.anySupportRequiredText,
             style: Get.theme.textTheme.bodySmall?.copyWith(
-              color: AuthConstants.hintColor,
+              color: AppConstants.hintColor,
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -42,7 +43,7 @@ class _AuthSupportFooterState extends State<AuthSupportFooter> {
             child: GestureDetector(
               onTap: widget.onReachOut,
               child: Text(
-                'Reach out to us',
+                AppStrings.reachOutToUsText,
                 style: Get.theme.textTheme.bodySmall?.copyWith(
                   color: linkColor,
                   fontWeight: FontWeight.w400,

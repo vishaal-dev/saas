@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:saas/shared/widgets/success_toast.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 
 import '../../dialogs/delete_plan_confirm_dialog.dart';
 import '../../modals/create_rule_modal.dart';
@@ -76,7 +77,7 @@ class RemindersTabletView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Reminder Rules',
+                    AppStrings.reminderRulesTitle,
                     style: Get.textTheme.bodyMedium?.copyWith(
                       color: _textDark,
                       fontWeight: FontWeight.w600,
@@ -84,7 +85,7 @@ class RemindersTabletView extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Define when and how reminders are sent automatically',
+                    AppStrings.reminderRulesSubtitle,
                     style: Get.textTheme.bodySmall?.copyWith(
                       color: _textMuted,
                       fontWeight: FontWeight.w500,
@@ -132,7 +133,7 @@ class RemindersTabletView extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'Message Templates',
+                        AppStrings.messageTemplatesTitle,
                         style: Get.textTheme.bodyMedium?.copyWith(
                           color: _textDark,
                           fontWeight: FontWeight.w600,
@@ -140,7 +141,7 @@ class RemindersTabletView extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'Customize the message sent to members.',
+                        AppStrings.messageTemplatesSubtitle,
                         style: Get.textTheme.bodySmall?.copyWith(
                           color: _textMuted,
                         ),
@@ -167,7 +168,7 @@ class RemindersTabletView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      child: const Text('Create Template'),
+                      child: const Text(AppStrings.createTemplateLabel),
                     ),
                   ),
                 ],
@@ -204,12 +205,12 @@ class RemindersTabletView extends StatelessWidget {
             ),
           ),
           children: [
-            _tableCell('Trigger', isHeader: true),
-            _tableCell('Timing', isHeader: true),
-            _tableCell('Channel', isHeader: true),
-            _tableCell('Audience', isHeader: true),
-            _tableCell('Status', isHeader: true),
-            _tableCell('Action', isHeader: true),
+            _tableCell(AppStrings.triggerLabel, isHeader: true),
+            _tableCell(AppStrings.timingLabel, isHeader: true),
+            _tableCell(AppStrings.channelLabel, isHeader: true),
+            _tableCell(AppStrings.audienceLabel, isHeader: true),
+            _tableCell(AppStrings.status, isHeader: true),
+            _tableCell(AppStrings.tableHeaderAction, isHeader: true),
           ],
         ),
         ...rows.map(
@@ -282,7 +283,7 @@ class RemindersTabletView extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
-        'Active',
+        isActive ? AppStrings.active : AppStrings.inactive,
         style: Get.textTheme.bodySmall?.copyWith(
           color: _iconCircleGreen,
           fontWeight: FontWeight.w500,
@@ -310,22 +311,24 @@ class RemindersTabletView extends StatelessWidget {
                 openModalWithTransition(
                   context,
                   CreateTemplateModal(
-                    title: 'Edit Template',
+                    title: AppStrings.editTemplateTitle,
                     initialTrigger: row.trigger,
                     initialTiming: row.timing,
                     initialAudience: row.audience,
-                    initialStatus: row.isActive ? 'Active' : 'Inactive',
+                    initialStatus:
+                        row.isActive ? AppStrings.active : AppStrings.inactive,
                   ),
                 );
               } else {
                 openModalWithTransition(
                   context,
                   CreateRuleModal(
-                    title: 'Edit Rule',
+                    title: AppStrings.editRuleTitle,
                     initialTrigger: row.trigger,
                     initialTiming: row.timing,
                     initialAudience: row.audience,
-                    initialStatus: row.isActive ? 'Active' : 'Inactive',
+                    initialStatus:
+                        row.isActive ? AppStrings.active : AppStrings.inactive,
                   ),
                 );
               }
@@ -351,17 +354,21 @@ class RemindersTabletView extends StatelessWidget {
     showDialog<void>(
       context: context,
       builder: (ctx) => DeletePlanConfirmDialog(
-        title: isMessageTemplates ? 'Delete Template?' : 'Delete Rule?',
+        title: isMessageTemplates
+            ? AppStrings.deleteTemplateTitle
+            : AppStrings.deleteRuleTitle,
         bodyText: isMessageTemplates
-            ? 'You want to delete this message template.'
-            : 'You want to delete this reminder rule.',
+            ? AppStrings.reminderTemplateDeletePrompt
+            : AppStrings.reminderRuleDeletePrompt,
         onCancel: () => Navigator.of(ctx).pop(),
         onDelete: () {
           final overlayState = Overlay.of(ctx);
           Navigator.of(ctx).pop();
           SuccessToast.showWithOverlay(
             overlayState,
-            title: isMessageTemplates ? 'Template Deleted' : 'Rule Deleted',
+            title: isMessageTemplates
+                ? AppStrings.templateDeletedTitle
+                : AppStrings.ruleDeletedTitle,
             iconColor: SuccessToast.iconColorRed,
           );
         },

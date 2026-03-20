@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../../../shared/widgets/app_close_button.dart';
 import '../../../../shared/widgets/plan_dropdown.dart';
 import '../../../../shared/widgets/app_modal_primary_button.dart';
-import '../../authentication/widgets/auth_constants.dart';
+import '../../authentication/widgets/app_constants.dart';
 import 'subscription_utils.dart';
 import '../../authentication/widgets/auth_form_field_section.dart';
 import '../../authentication/widgets/auth_text_field.dart';
@@ -109,7 +109,7 @@ class AddMemberModalTabletView extends StatelessWidget {
                 title,
                 style: Get.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: AuthConstants.labelColor,
+                  color: AppConstants.labelColor,
                   fontSize: 20,
                 ),
               ),
@@ -126,7 +126,7 @@ class AddMemberModalTabletView extends StatelessWidget {
       title,
       style: Get.textTheme.titleSmall?.copyWith(
         fontWeight: FontWeight.bold,
-        color: AuthConstants.labelColor,
+        color: AppConstants.labelColor,
         fontSize: 16,
       ),
     );
@@ -152,11 +152,11 @@ class AddMemberModalTabletView extends StatelessWidget {
             label: 'Phone Number',
             spacingAfterLabel: 8,
             child: SizedBox(
-              height: AuthConstants.fieldHeight,
+              height: AppConstants.fieldHeight,
               child: TextField(
                 controller: phoneController,
                 style: Get.theme.textTheme.bodySmall?.copyWith(
-                  color: AuthConstants.textColor,
+                  color: AppConstants.textColor,
                 ),
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
@@ -168,7 +168,7 @@ class AddMemberModalTabletView extends StatelessWidget {
                       child: Text(
                         '+91 ',
                         style: Get.theme.textTheme.labelMedium?.copyWith(
-                          color: AuthConstants.labelColor,
+                          color: AppConstants.labelColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -180,33 +180,33 @@ class AddMemberModalTabletView extends StatelessWidget {
                   ),
                   hintText: '00000 00000',
                   hintStyle: Get.theme.textTheme.labelMedium?.copyWith(
-                    color: AuthConstants.hintColor,
+                    color: AppConstants.hintColor,
                     fontWeight: FontWeight.w400,
                   ),
                   filled: true,
-                  fillColor: AuthConstants.fieldFillColor,
+                  fillColor: AppConstants.fieldFillColor,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(
-                      AuthConstants.fieldBorderRadius,
+                      AppConstants.fieldBorderRadius,
                     ),
                     borderSide: const BorderSide(
-                      color: AuthConstants.borderColor,
+                      color: AppConstants.borderColor,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(
-                      AuthConstants.fieldBorderRadius,
+                      AppConstants.fieldBorderRadius,
                     ),
                     borderSide: const BorderSide(
-                      color: AuthConstants.borderColor,
+                      color: AppConstants.borderColor,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(
-                      AuthConstants.fieldBorderRadius,
+                      AppConstants.fieldBorderRadius,
                     ),
                     borderSide: const BorderSide(
-                      color: AuthConstants.focusedBorderColor,
+                      color: AppConstants.focusedBorderColor,
                     ),
                   ),
                   contentPadding: const EdgeInsets.symmetric(
@@ -259,31 +259,31 @@ class AddMemberModalTabletView extends StatelessWidget {
               _requiredLabel('Start Date'),
               const SizedBox(height: 8),
               SizedBox(
-                height: AuthConstants.fieldHeight,
+                height: AppConstants.fieldHeight,
                 child: InkWell(
                   onTap: onPickStartDate,
                   borderRadius: BorderRadius.circular(
-                    AuthConstants.fieldBorderRadius,
+                    AppConstants.fieldBorderRadius,
                   ),
                   child: InputDecorator(
                     decoration: InputDecoration(
                       hintText: 'Select Date',
                       filled: true,
-                      fillColor: AuthConstants.fieldFillColor,
+                      fillColor: AppConstants.fieldFillColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
-                          AuthConstants.fieldBorderRadius,
+                          AppConstants.fieldBorderRadius,
                         ),
                         borderSide: const BorderSide(
-                          color: AuthConstants.borderColor,
+                          color: AppConstants.borderColor,
                         ),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
-                          AuthConstants.fieldBorderRadius,
+                          AppConstants.fieldBorderRadius,
                         ),
                         borderSide: const BorderSide(
-                          color: AuthConstants.borderColor,
+                          color: AppConstants.borderColor,
                         ),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
@@ -292,7 +292,7 @@ class AddMemberModalTabletView extends StatelessWidget {
                       suffixIcon: const Icon(
                         Icons.calendar_today_outlined,
                         size: 20,
-                        color: AuthConstants.hintColor,
+                        color: AppConstants.hintColor,
                       ),
                     ),
                     child: Text(
@@ -301,8 +301,8 @@ class AddMemberModalTabletView extends StatelessWidget {
                           : 'Select Date',
                       style: Get.theme.textTheme.bodySmall?.copyWith(
                         color: startDate != null
-                            ? AuthConstants.textColor
-                            : AuthConstants.hintColor,
+                            ? AppConstants.textColor
+                            : AppConstants.hintColor,
                       ),
                     ),
                   ),
@@ -319,7 +319,7 @@ class AddMemberModalTabletView extends StatelessWidget {
               Text(
                 'Expiry Date',
                 style: Get.theme.textTheme.labelMedium?.copyWith(
-                  color: AuthConstants.labelColor,
+                  color: AppConstants.labelColor,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -329,15 +329,15 @@ class AddMemberModalTabletView extends StatelessWidget {
                   final expiry = calculateExpiryDate(selectedPlan, startDate);
                   return Container(
                     width: double.infinity,
-                    height: AuthConstants.fieldHeight,
+                    height: AppConstants.fieldHeight,
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
-                      color: AuthConstants.cardBackground,
+                      color: AppConstants.cardBackground,
                       borderRadius: BorderRadius.circular(
-                        AuthConstants.fieldBorderRadius,
+                        AppConstants.fieldBorderRadius,
                       ),
-                      border: Border.all(color: AuthConstants.borderColor),
+                      border: Border.all(color: AppConstants.borderColor),
                     ),
                     child: Text(
                       expiry != null
@@ -345,8 +345,8 @@ class AddMemberModalTabletView extends StatelessWidget {
                           : '—',
                       style: Get.theme.textTheme.bodySmall?.copyWith(
                         color: expiry != null
-                            ? AuthConstants.textColor
-                            : AuthConstants.hintColor,
+                            ? AppConstants.textColor
+                            : AppConstants.hintColor,
                       ),
                     ),
                   );
@@ -363,7 +363,7 @@ class AddMemberModalTabletView extends StatelessWidget {
     return RichText(
       text: TextSpan(
         style: Get.textTheme.bodySmall?.copyWith(
-          color: AuthConstants.labelColor,
+          color: AppConstants.labelColor,
           fontSize: 14,
         ),
         children: [
@@ -410,12 +410,11 @@ class AddMemberModalTabletView extends StatelessWidget {
                 }
                 return null;
               }),
-              checkColor: AuthConstants.labelColor,
-              side: WidgetStateBorderSide.resolveWith((states) =>
-                  const BorderSide(
-                    color: AuthConstants.borderColor,
-                    width: 1,
-                  )),
+              checkColor: AppConstants.labelColor,
+              side: WidgetStateBorderSide.resolveWith(
+                (states) =>
+                    const BorderSide(color: AppConstants.borderColor, width: 1),
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
               ),
@@ -426,7 +425,7 @@ class AddMemberModalTabletView extends StatelessWidget {
           Text(
             label,
             style: Get.textTheme.bodyMedium?.copyWith(
-              color: AuthConstants.labelColor,
+              color: AppConstants.labelColor,
             ),
           ),
         ],
@@ -441,11 +440,11 @@ class AddMemberModalTabletView extends StatelessWidget {
         TextButton(
           onPressed: onCancel,
           style: TextButton.styleFrom(
-            foregroundColor: AuthConstants.supportTextColor,
+            foregroundColor: AppConstants.supportTextColor,
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
-                AuthConstants.fieldBorderRadius,
+                AppConstants.fieldBorderRadius,
               ),
             ),
           ),

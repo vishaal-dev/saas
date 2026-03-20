@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../widgets/auth_widgets.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 import 'reset_password_controller.dart';
 
 class ResetPasswordMobileView extends GetView<ResetPasswordController> {
@@ -12,40 +13,41 @@ class ResetPasswordMobileView extends GetView<ResetPasswordController> {
       body: AuthScreenLayout(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         child: _AuthFormCardMobile(
-          title: 'Reset Password',
+          title: AppStrings.resetPasswordTitle,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               AuthFormFieldSection(
-                label: 'New Password',
+                label: AppStrings.newPasswordLabel,
                 spacingAfterLabel: 8,
                 child: Obx(
                   () => AuthPasswordField(
                     controller: controller.newPasswordController,
                     obscureText: !controller.isNewPasswordVisible.value,
                     onToggleVisibility: controller.toggleNewPasswordVisibility,
-                    hint: 'Enter New Password',
+                    hint: AppStrings.enterNewPasswordHint,
                   ),
                 ),
               ),
               const SizedBox(height: 20),
               AuthFormFieldSection(
-                label: 'Confirm Password',
+                label: AppStrings.confirmPasswordLabel,
                 spacingAfterLabel: 8,
                 child: Obx(
                   () => AuthPasswordField(
                     controller: controller.confirmPasswordController,
                     obscureText: !controller.isConfirmPasswordVisible.value,
-                    onToggleVisibility: controller.toggleConfirmPasswordVisibility,
-                    hint: 'Enter New Password',
+                    onToggleVisibility:
+                        controller.toggleConfirmPasswordVisibility,
+                    hint: AppStrings.enterNewPasswordHint,
                   ),
                 ),
               ),
               const SizedBox(height: 32),
               Obx(
                 () => AuthPrimaryButton(
-                  text: 'Reset Password',
+                  text: AppStrings.resetPasswordTitle,
                   onPressed: controller.onResetPassword,
                   isEnabled: controller.isFormValid.value,
                 ),
@@ -70,8 +72,8 @@ class _AuthFormCardMobile extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
       decoration: BoxDecoration(
-        color: AuthConstants.cardBackground,
-        borderRadius: BorderRadius.circular(AuthConstants.cardBorderRadius),
+        color: AppConstants.cardBackground,
+        borderRadius: BorderRadius.circular(AppConstants.cardBorderRadius),
         boxShadow: const [
           BoxShadow(
             color: Color(0x40000000),
@@ -87,19 +89,14 @@ class _AuthFormCardMobile extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/saas-logo.png',
-                height: 36,
-              ),
-            ],
+            children: [Image.asset('assets/images/saas-logo.png', height: 36)],
           ),
           const SizedBox(height: 32),
           Text(
             title,
             textAlign: TextAlign.center,
             style: Get.theme.textTheme.bodyLarge?.copyWith(
-              color: AuthConstants.titleColor,
+              color: AppConstants.titleColor,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),

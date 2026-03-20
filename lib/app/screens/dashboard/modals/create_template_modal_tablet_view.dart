@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import '../../authentication/widgets/auth_constants.dart';
+import '../../authentication/widgets/app_constants.dart';
 import '../../../../shared/widgets/app_close_button.dart';
 import '../../../../shared/widgets/app_modal_primary_button.dart';
 
@@ -131,7 +131,7 @@ class CreateTemplateModalTabletView extends StatelessWidget {
                 title,
                 style: Get.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: AuthConstants.labelColor,
+                  color: AppConstants.labelColor,
                   fontSize: 20,
                 ),
               ),
@@ -148,7 +148,7 @@ class CreateTemplateModalTabletView extends StatelessWidget {
       title,
       style: Get.textTheme.titleSmall?.copyWith(
         fontWeight: FontWeight.bold,
-        color: AuthConstants.labelColor,
+        color: AppConstants.labelColor,
         fontSize: 16,
       ),
     );
@@ -217,17 +217,17 @@ class CreateTemplateModalTabletView extends StatelessWidget {
             return InkWell(
               onTap: () => onTap(anchorContext),
               borderRadius: BorderRadius.circular(
-                AuthConstants.fieldBorderRadius,
+                AppConstants.fieldBorderRadius,
               ),
               child: Container(
-                height: AuthConstants.fieldHeight,
+                height: AppConstants.fieldHeight,
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
-                  color: AuthConstants.fieldFillColor,
+                  color: AppConstants.fieldFillColor,
                   borderRadius: BorderRadius.circular(
-                    AuthConstants.fieldBorderRadius,
+                    AppConstants.fieldBorderRadius,
                   ),
-                  border: Border.all(color: AuthConstants.borderColor),
+                  border: Border.all(color: AppConstants.borderColor),
                 ),
                 child: Row(
                   children: [
@@ -236,8 +236,8 @@ class CreateTemplateModalTabletView extends StatelessWidget {
                         value,
                         style: Get.theme.textTheme.bodySmall?.copyWith(
                           color: value.contains('Select')
-                              ? AuthConstants.hintColor
-                              : AuthConstants.labelColor,
+                              ? AppConstants.hintColor
+                              : AppConstants.labelColor,
                           fontWeight: value.contains('Select')
                               ? FontWeight.w500
                               : FontWeight.w600,
@@ -247,7 +247,7 @@ class CreateTemplateModalTabletView extends StatelessWidget {
                     const Icon(
                       Icons.keyboard_arrow_down_rounded,
                       size: 20,
-                      color: AuthConstants.hintColor,
+                      color: AppConstants.hintColor,
                     ),
                   ],
                 ),
@@ -263,7 +263,7 @@ class CreateTemplateModalTabletView extends StatelessWidget {
     return RichText(
       text: TextSpan(
         style: Get.textTheme.bodySmall?.copyWith(
-          color: AuthConstants.labelColor,
+          color: AppConstants.labelColor,
           fontSize: 14,
         ),
         children: [
@@ -285,12 +285,12 @@ class CreateTemplateModalTabletView extends StatelessWidget {
         width: double.infinity,
         height: 120,
         decoration: BoxDecoration(
-          color: AuthConstants.fieldFillColor,
+          color: AppConstants.fieldFillColor,
           borderRadius: BorderRadius.circular(10),
         ),
         child: CustomPaint(
           painter: _DashedBorderPainter(
-            color: AuthConstants.borderColor,
+            color: AppConstants.borderColor,
             borderRadius: 10,
           ),
           child: Column(
@@ -301,7 +301,7 @@ class CreateTemplateModalTabletView extends StatelessWidget {
                 width: 32,
                 height: 32,
                 colorFilter: const ColorFilter.mode(
-                  AuthConstants.hintColor,
+                  AppConstants.hintColor,
                   BlendMode.srcIn,
                 ),
               ),
@@ -309,7 +309,7 @@ class CreateTemplateModalTabletView extends StatelessWidget {
               Text(
                 'Upload Attachment',
                 style: Get.textTheme.labelMedium?.copyWith(
-                  color: AuthConstants.hintColor,
+                  color: AppConstants.hintColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -324,9 +324,9 @@ class CreateTemplateModalTabletView extends StatelessWidget {
     return Container(
       height: 120,
       decoration: BoxDecoration(
-        color: AuthConstants.fieldFillColor,
+        color: AppConstants.fieldFillColor,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AuthConstants.borderColor),
+        border: Border.all(color: AppConstants.borderColor),
       ),
       child: TextField(
         controller: messageController,
@@ -334,12 +334,12 @@ class CreateTemplateModalTabletView extends StatelessWidget {
         expands: true,
         textAlignVertical: TextAlignVertical.top,
         style: Get.textTheme.bodyMedium?.copyWith(
-          color: AuthConstants.textColor,
+          color: AppConstants.textColor,
         ),
         decoration: InputDecoration(
           hintText: 'Type your message here....',
           hintStyle: Get.theme.textTheme.labelMedium?.copyWith(
-            color: AuthConstants.hintColor,
+            color: AppConstants.hintColor,
             fontWeight: FontWeight.w500,
           ),
           border: InputBorder.none,
@@ -381,11 +381,8 @@ class CreateTemplateModalTabletView extends StatelessWidget {
                   return Colors.transparent;
                 return null;
               }),
-              checkColor: AuthConstants.labelColor,
-              side: const BorderSide(
-                color: AuthConstants.borderColor,
-                width: 1,
-              ),
+              checkColor: AppConstants.labelColor,
+              side: const BorderSide(color: AppConstants.borderColor, width: 1),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
               ),
@@ -396,7 +393,7 @@ class CreateTemplateModalTabletView extends StatelessWidget {
           Text(
             label,
             style: Get.textTheme.bodyMedium?.copyWith(
-              color: AuthConstants.labelColor,
+              color: AppConstants.labelColor,
             ),
           ),
         ],
@@ -411,11 +408,11 @@ class CreateTemplateModalTabletView extends StatelessWidget {
         TextButton(
           onPressed: onCancel,
           style: TextButton.styleFrom(
-            foregroundColor: AuthConstants.supportTextColor,
+            foregroundColor: AppConstants.supportTextColor,
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
-                AuthConstants.fieldBorderRadius,
+                AppConstants.fieldBorderRadius,
               ),
             ),
           ),
@@ -426,7 +423,9 @@ class CreateTemplateModalTabletView extends StatelessWidget {
           width: 180,
           height: 44,
           child: AppModalPrimaryButton(
-            label: title.contains('Edit') ? 'Update Template' : 'Create Template',
+            label: title.contains('Edit')
+                ? 'Update Template'
+                : 'Create Template',
             onPressed: isCreateEnabled ? onCreate : null,
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             minimumSize: const Size(180, 44),

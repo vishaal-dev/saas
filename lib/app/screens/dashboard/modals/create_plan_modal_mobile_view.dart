@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import '../../authentication/widgets/auth_constants.dart';
+import '../../authentication/widgets/app_constants.dart';
 import '../../authentication/widgets/auth_form_field_section.dart';
 import '../../../../shared/widgets/app_modal_primary_button.dart';
 import 'create_plan_modal.dart';
@@ -64,7 +64,7 @@ class CreatePlanModalMobileView extends StatelessWidget {
           'Create Plan',
           style: Get.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
-            color: AuthConstants.labelColor,
+            color: AppConstants.labelColor,
             fontSize: 16,
           ),
         ),
@@ -130,8 +130,9 @@ class CreatePlanModalMobileView extends StatelessWidget {
                           selectedStatus ?? 'Select Plan Status',
                           style: Get.theme.textTheme.bodyMedium?.copyWith(
                             fontSize: 14,
-                            color:
-                                selectedStatus != null ? _labelColor : _hintColor,
+                            color: selectedStatus != null
+                                ? _labelColor
+                                : _hintColor,
                           ),
                         ),
                       ),
@@ -166,11 +167,7 @@ class CreatePlanModalMobileView extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Divider(
-                thickness: 1,
-                height: 1,
-                color: Color(0xFFCBD5E1),
-              ),
+              const Divider(thickness: 1, height: 1, color: Color(0xFFCBD5E1)),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
                 child: _buildActions(),
@@ -185,14 +182,21 @@ class CreatePlanModalMobileView extends StatelessWidget {
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
-      style: Get.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700, color: _labelColor, fontSize: 14),
+      style: Get.textTheme.titleSmall?.copyWith(
+        fontWeight: FontWeight.w700,
+        color: _labelColor,
+        fontSize: 14,
+      ),
     );
   }
 
   InputDecoration _inputDecoration(String hint) {
     return InputDecoration(
       hintText: hint,
-      hintStyle: Get.theme.textTheme.bodyMedium?.copyWith(color: _hintColor, fontSize: 14),
+      hintStyle: Get.theme.textTheme.bodyMedium?.copyWith(
+        color: _hintColor,
+        fontSize: 14,
+      ),
       filled: true,
       fillColor: Colors.white,
       border: OutlineInputBorder(
@@ -205,7 +209,10 @@ class CreatePlanModalMobileView extends StatelessWidget {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(_inputBorderRadius),
-        borderSide: const BorderSide(color: AuthConstants.focusedBorderColor, width: 1.5),
+        borderSide: const BorderSide(
+          color: AppConstants.focusedBorderColor,
+          width: 1.5,
+        ),
       ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 14),
     );
@@ -246,10 +253,14 @@ class CreatePlanModalMobileView extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected ? AuthConstants.buttonEnabledColor : _inputBorderColor,
+                  color: isSelected
+                      ? AppConstants.buttonEnabledColor
+                      : _inputBorderColor,
                   width: 1.5,
                 ),
-                color: isSelected ? AuthConstants.buttonEnabledColor : Colors.transparent,
+                color: isSelected
+                    ? AppConstants.buttonEnabledColor
+                    : Colors.transparent,
               ),
               child: isSelected
                   ? const Center(
@@ -258,7 +269,13 @@ class CreatePlanModalMobileView extends StatelessWidget {
                   : null,
             ),
             const SizedBox(width: 8),
-            Text(label, style: Get.textTheme.bodyMedium?.copyWith(color: _labelColor, fontSize: 14)),
+            Text(
+              label,
+              style: Get.textTheme.bodyMedium?.copyWith(
+                color: _labelColor,
+                fontSize: 14,
+              ),
+            ),
           ],
         ),
       ),
@@ -266,8 +283,9 @@ class CreatePlanModalMobileView extends StatelessWidget {
   }
 
   Widget _buildCustomDurationField() {
-    final dateText =
-        customStartDate != null ? _formatDate(customStartDate!) : null;
+    final dateText = customStartDate != null
+        ? _formatDate(customStartDate!)
+        : null;
     return AuthFormFieldSection(
       label: 'Custom Date*',
       spacingAfterLabel: 8,
@@ -308,7 +326,8 @@ class CreatePlanModalMobileView extends StatelessWidget {
     );
   }
 
-  String _formatDate(DateTime d) => '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year}';
+  String _formatDate(DateTime d) =>
+      '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year}';
 
   Widget _buildActions() {
     return Row(

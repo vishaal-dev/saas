@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../../shared/widgets/success_toast.dart';
 import '../../../../shared/widgets/app_close_button.dart';
 import '../../../../shared/widgets/app_modal_primary_button.dart';
-import '../../authentication/widgets/auth_constants.dart';
+import '../../authentication/widgets/app_constants.dart';
 import '../../authentication/widgets/auth_form_field_section.dart';
 import 'create_plan_modal_mobile_view.dart';
 import 'create_plan_modal_tablet_view.dart';
@@ -91,10 +91,7 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
         pos.dx + size.width,
         pos.dy + size.height + 8,
       ),
-      constraints: BoxConstraints(
-        minWidth: size.width,
-        maxWidth: size.width,
-      ),
+      constraints: BoxConstraints(minWidth: size.width, maxWidth: size.width),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(_statusMenuBorderRadius),
       ),
@@ -107,7 +104,7 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
           child: Text(
             'Active',
             style: Get.theme.textTheme.bodyMedium?.copyWith(
-              color: AuthConstants.labelColor,
+              color: AppConstants.labelColor,
               fontSize: 14,
             ),
           ),
@@ -119,7 +116,7 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
           child: Text(
             'Inactive',
             style: Get.theme.textTheme.bodyMedium?.copyWith(
-              color: AuthConstants.labelColor,
+              color: AppConstants.labelColor,
               fontSize: 14,
             ),
           ),
@@ -143,11 +140,11 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.light(
-              primary: AuthConstants.buttonEnabledColor,
+              primary: AppConstants.buttonEnabledColor,
               onPrimary: Colors.white,
               surface: Colors.white,
-              onSurface: AuthConstants.labelColor,
-              surfaceContainerHighest: AuthConstants.cardBackground,
+              onSurface: AppConstants.labelColor,
+              surfaceContainerHighest: AppConstants.cardBackground,
             ),
             dialogTheme: DialogThemeData(
               elevation: 16,
@@ -165,7 +162,7 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),
               ),
-              headerBackgroundColor: AuthConstants.buttonEnabledColor,
+              headerBackgroundColor: AppConstants.buttonEnabledColor,
               headerForegroundColor: Colors.white,
               headerHeadlineStyle: Get.textTheme.headlineMedium?.copyWith(
                 color: Colors.white,
@@ -177,58 +174,54 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
                 fontFamily: 'Inter',
               ),
               weekdayStyle: Get.textTheme.bodySmall?.copyWith(
-                color: AuthConstants.supportTextColor,
+                color: AppConstants.supportTextColor,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'Inter',
               ),
               dayStyle: Get.textTheme.bodyMedium?.copyWith(
-                color: AuthConstants.labelColor,
+                color: AppConstants.labelColor,
                 fontFamily: 'Inter',
               ),
               dayForegroundColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) return Colors.white;
                 if (states.contains(WidgetState.disabled)) {
-                  return AuthConstants.hintColor;
+                  return AppConstants.hintColor;
                 }
-                return AuthConstants.labelColor;
+                return AppConstants.labelColor;
               }),
               dayBackgroundColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) {
-                  return AuthConstants.buttonEnabledColor;
+                  return AppConstants.buttonEnabledColor;
                 }
                 return null;
               }),
               dayShape: WidgetStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
               todayBorder: BorderSide(
-                color: AuthConstants.buttonEnabledColor,
+                color: AppConstants.buttonEnabledColor,
                 width: 1.5,
               ),
               yearStyle: Get.textTheme.bodyLarge?.copyWith(
-                color: AuthConstants.labelColor,
+                color: AppConstants.labelColor,
                 fontFamily: 'Inter',
               ),
               yearForegroundColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) return Colors.white;
-                return AuthConstants.labelColor;
+                return AppConstants.labelColor;
               }),
               yearBackgroundColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) {
-                  return AuthConstants.buttonEnabledColor;
+                  return AppConstants.buttonEnabledColor;
                 }
                 return null;
               }),
               yearShape: WidgetStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
-              dividerColor: AuthConstants.borderColor,
+              dividerColor: AppConstants.borderColor,
               cancelButtonStyle: TextButton.styleFrom(
-                foregroundColor: AuthConstants.supportTextColor,
+                foregroundColor: AppConstants.supportTextColor,
                 textStyle: Get.textTheme.labelLarge?.copyWith(
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w600,
@@ -242,7 +235,7 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
                 ),
               ),
               confirmButtonStyle: FilledButton.styleFrom(
-                backgroundColor: AuthConstants.buttonEnabledColor,
+                backgroundColor: AppConstants.buttonEnabledColor,
                 foregroundColor: Colors.white,
                 textStyle: Get.textTheme.labelLarge?.copyWith(
                   color: Colors.white,
@@ -319,7 +312,11 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
         onDurationChanged: (v) => setState(() => _selectedDuration = v),
         onStatusTap: () {
           // Simple mock for status selection
-          setState(() => _selectedStatus = _selectedStatus == 'Active' ? 'Inactive' : 'Active');
+          setState(
+            () => _selectedStatus = _selectedStatus == 'Active'
+                ? 'Inactive'
+                : 'Active',
+          );
         },
         onCancel: () => Navigator.of(context).pop(),
         onCreate: _onCreate,
@@ -337,7 +334,11 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
         onPickCustomDates: _pickCustomDate,
         onDurationChanged: (v) => setState(() => _selectedDuration = v),
         onStatusTap: () {
-          setState(() => _selectedStatus = _selectedStatus == 'Active' ? 'Inactive' : 'Active');
+          setState(
+            () => _selectedStatus = _selectedStatus == 'Active'
+                ? 'Inactive'
+                : 'Active',
+          );
         },
         onCancel: () => Navigator.of(context).pop(),
         onCreate: _onCreate,
@@ -386,11 +387,7 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
                 ),
               ),
             ),
-            const Divider(
-              thickness: 1,
-              height: 1,
-              color: Color(0xFFE2E8F0),
-            ),
+            const Divider(thickness: 1, height: 1, color: Color(0xFFE2E8F0)),
             Padding(
               padding: const EdgeInsets.fromLTRB(28, 16, 28, 24),
               child: _buildActions(),
@@ -457,7 +454,7 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(_inputBorderRadius),
         borderSide: const BorderSide(
-          color: AuthConstants.focusedBorderColor,
+          color: AppConstants.focusedBorderColor,
           width: 1.5,
         ),
       ),
@@ -581,12 +578,12 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
                 shape: BoxShape.circle,
                 border: Border.all(
                   color: isSelected
-                      ? AuthConstants.buttonEnabledColor
+                      ? AppConstants.buttonEnabledColor
                       : _inputBorderColor,
                   width: 1.5,
                 ),
                 color: isSelected
-                    ? AuthConstants.buttonEnabledColor
+                    ? AppConstants.buttonEnabledColor
                     : Colors.transparent,
               ),
               child: isSelected
@@ -619,8 +616,9 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
   static const _customDurationFieldWidth = 240.0;
 
   Widget _buildCustomDurationField() {
-    final dateText =
-        _customStartDate != null ? _formatDate(_customStartDate!) : null;
+    final dateText = _customStartDate != null
+        ? _formatDate(_customStartDate!)
+        : null;
     return SizedBox(
       width: _customDurationFieldWidth,
       child: AuthFormFieldSection(
@@ -682,14 +680,14 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
           child: TextButton(
             onPressed: () => Navigator.of(context).pop(),
             style: TextButton.styleFrom(
-              foregroundColor: AuthConstants.supportTextColor,
+              foregroundColor: AppConstants.supportTextColor,
               padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
               minimumSize: const Size(94, 44),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
                 side: const BorderSide(
                   width: 1,
-                  color: AuthConstants.borderColor,
+                  color: AppConstants.borderColor,
                 ),
               ),
             ),

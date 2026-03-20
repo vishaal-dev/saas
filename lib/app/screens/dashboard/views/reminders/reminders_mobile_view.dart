@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:saas/shared/widgets/success_toast.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 import '../../dialogs/delete_plan_confirm_dialog.dart';
 import '../../modals/create_rule_modal.dart';
 import '../../modals/create_template_modal.dart';
@@ -76,7 +77,7 @@ class RemindersMobileView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Reminder Rules',
+                    AppStrings.reminderRulesTitle,
                     style: Get.textTheme.bodyMedium?.copyWith(
                       color: _textDark,
                       fontWeight: FontWeight.w600,
@@ -84,7 +85,7 @@ class RemindersMobileView extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Define when and how reminders are sent automatically',
+                    AppStrings.reminderRulesSubtitle,
                     style: Get.textTheme.bodySmall?.copyWith(
                       color: _textMuted,
                       fontWeight: FontWeight.w500,
@@ -136,7 +137,7 @@ class RemindersMobileView extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: const [
                         Text(
-                          'Message Templates',
+                          AppStrings.messageTemplatesTitle,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: _textDark,
@@ -145,7 +146,7 @@ class RemindersMobileView extends StatelessWidget {
                         ),
                         SizedBox(height: 16),
                         Text(
-                          'Customize the message sent to members.',
+                          AppStrings.messageTemplatesSubtitle,
                           style: TextStyle(color: _textMuted, fontSize: 13),
                         ),
                       ],
@@ -170,7 +171,7 @@ class RemindersMobileView extends StatelessWidget {
                         ),
                       ),
                       child: const Text(
-                        'Create Template',
+                        AppStrings.createTemplateLabel,
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
@@ -257,8 +258,8 @@ class RemindersMobileView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _infoColumn('Timing', row.timing),
-              _infoColumn('Audience', row.audience),
+              _infoColumn(AppStrings.timingLabel, row.timing),
+              _infoColumn(AppStrings.audienceLabel, row.audience),
               if (!isMessageTemplates)
                 Padding(
                   padding: const EdgeInsets.only(left: 8),
@@ -266,7 +267,7 @@ class RemindersMobileView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Channel',
+                            AppStrings.channelLabel,
                         style: TextStyle(color: _textMuted, fontSize: 11),
                       ),
                       const SizedBox(height: 4),
@@ -341,8 +342,8 @@ class RemindersMobileView extends StatelessWidget {
         color: const Color(0xFFDCFCE7),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: const Text(
-        'Active',
+      child: Text(
+        isActive ? AppStrings.active : AppStrings.inactive,
         style: TextStyle(
           color: _iconCircleGreen,
           fontWeight: FontWeight.w500,
@@ -367,22 +368,24 @@ class RemindersMobileView extends StatelessWidget {
               openModalWithTransition(
                 context,
                 CreateTemplateModal(
-                  title: 'Edit Template',
+                  title: AppStrings.editTemplateTitle,
                   initialTrigger: row.trigger,
                   initialTiming: row.timing,
                   initialAudience: row.audience,
-                  initialStatus: row.isActive ? 'Active' : 'Inactive',
+                  initialStatus:
+                      row.isActive ? AppStrings.active : AppStrings.inactive,
                 ),
               );
             } else {
               openModalWithTransition(
                 context,
                 CreateRuleModal(
-                  title: 'Edit Rule',
+                  title: AppStrings.editRuleTitle,
                   initialTrigger: row.trigger,
                   initialTiming: row.timing,
                   initialAudience: row.audience,
-                  initialStatus: row.isActive ? 'Active' : 'Inactive',
+                  initialStatus:
+                      row.isActive ? AppStrings.active : AppStrings.inactive,
                 ),
               );
             }
@@ -409,17 +412,21 @@ class RemindersMobileView extends StatelessWidget {
     showDialog<void>(
       context: context,
       builder: (ctx) => DeletePlanConfirmDialog(
-        title: isMessageTemplates ? 'Delete Template?' : 'Delete Rule?',
+        title: isMessageTemplates
+            ? AppStrings.deleteTemplateTitle
+            : AppStrings.deleteRuleTitle,
         bodyText: isMessageTemplates
-            ? 'You want to delete this message template.'
-            : 'You want to delete this reminder rule.',
+            ? AppStrings.reminderTemplateDeletePrompt
+            : AppStrings.reminderRuleDeletePrompt,
         onCancel: () => Navigator.of(ctx).pop(),
         onDelete: () {
           final overlayState = Overlay.of(ctx);
           Navigator.of(ctx).pop();
           SuccessToast.showWithOverlay(
             overlayState,
-            title: isMessageTemplates ? 'Template Deleted' : 'Rule Deleted',
+            title: isMessageTemplates
+                ? AppStrings.templateDeletedTitle
+                : AppStrings.ruleDeletedTitle,
             iconColor: SuccessToast.iconColorRed,
           );
         },

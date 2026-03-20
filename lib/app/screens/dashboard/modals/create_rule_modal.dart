@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../../../shared/widgets/success_toast.dart';
 import '../../../../shared/widgets/app_close_button.dart';
 import '../../../../shared/widgets/app_modal_primary_button.dart';
-import '../../authentication/widgets/auth_constants.dart';
+import '../../authentication/widgets/app_constants.dart';
 import 'create_rule_modal_mobile_view.dart';
 import 'create_rule_modal_tablet_view.dart';
 
@@ -23,6 +23,7 @@ class CreateRuleModal extends StatefulWidget {
   });
 
   final VoidCallback? onCreate;
+
   /// App bar / header title (use `Edit Rule` when editing).
   final String title;
   final String? initialTrigger;
@@ -91,8 +92,7 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
     if (box == null || !box.hasSize) return;
 
     final overlayState = Overlay.of(context);
-    final overlayRender =
-        overlayState.context.findRenderObject() as RenderBox?;
+    final overlayRender = overlayState.context.findRenderObject() as RenderBox?;
     if (overlayRender == null) return;
 
     final topLeft = box.localToGlobal(Offset.zero, ancestor: overlayRender);
@@ -102,10 +102,11 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
 
     final overlayRect = Offset.zero & oSize;
     final anchorLeft = topLeft.dx.clamp(0.0, oSize.width);
-    final anchorTop =
-        (topLeft.dy + size.height + gap).clamp(0.0, oSize.height);
-    final anchorWidth =
-        size.width.clamp(1.0, (oSize.width - anchorLeft).clamp(1.0, oSize.width));
+    final anchorTop = (topLeft.dy + size.height + gap).clamp(0.0, oSize.height);
+    final anchorWidth = size.width.clamp(
+      1.0,
+      (oSize.width - anchorLeft).clamp(1.0, oSize.width),
+    );
     final anchorBelow = Rect.fromLTWH(anchorLeft, anchorTop, anchorWidth, 1);
     final position = RelativeRect.fromRect(anchorBelow, overlayRect);
 
@@ -119,7 +120,7 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
           child: Text(
             options[i],
             style: Get.theme.textTheme.bodyMedium?.copyWith(
-              color: AuthConstants.labelColor,
+              color: AppConstants.labelColor,
               fontSize: 14,
             ),
           ),
@@ -265,7 +266,7 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildSectionTitle('Reminder Rule Details'),
-                    const SizedBox(height: AuthConstants.spacingAfterLabel),
+                    const SizedBox(height: AppConstants.spacingAfterLabel),
                     LayoutBuilder(
                       builder: (context, constraints) {
                         const gap = 16.0;
@@ -368,7 +369,7 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
                     ),
                     const SizedBox(height: 24),
                     _buildSectionTitle('Reminder Channels'),
-                    const SizedBox(height: AuthConstants.spacingAfterLabel),
+                    const SizedBox(height: AppConstants.spacingAfterLabel),
                     Row(
                       children: [
                         _buildCheckbox(
@@ -434,14 +435,14 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
           child: TextButton(
             onPressed: () => Navigator.of(context).pop(),
             style: TextButton.styleFrom(
-              foregroundColor: AuthConstants.supportTextColor,
+              foregroundColor: AppConstants.supportTextColor,
               padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
               minimumSize: const Size(94, 44),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
                 side: const BorderSide(
                   width: 1,
-                  color: AuthConstants.borderColor,
+                  color: AppConstants.borderColor,
                 ),
               ),
             ),
@@ -469,7 +470,7 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
       title,
       style: Get.textTheme.titleSmall?.copyWith(
         fontWeight: FontWeight.bold,
-        color: AuthConstants.labelColor,
+        color: AppConstants.labelColor,
         fontSize: 16,
       ),
     );
@@ -479,7 +480,7 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
     return RichText(
       text: TextSpan(
         style: Get.textTheme.bodySmall?.copyWith(
-          color: AuthConstants.labelColor,
+          color: AppConstants.labelColor,
           fontSize: 14,
         ),
         children: [
@@ -507,16 +508,16 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
             options: options,
             onSelected: onChanged,
           ),
-          borderRadius: BorderRadius.circular(AuthConstants.fieldBorderRadius),
+          borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
           child: Container(
-            height: AuthConstants.fieldHeight,
+            height: AppConstants.fieldHeight,
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
-              color: AuthConstants.fieldFillColor,
+              color: AppConstants.fieldFillColor,
               borderRadius: BorderRadius.circular(
-                AuthConstants.fieldBorderRadius,
+                AppConstants.fieldBorderRadius,
               ),
-              border: Border.all(color: AuthConstants.borderColor),
+              border: Border.all(color: AppConstants.borderColor),
             ),
             child: Row(
               children: [
@@ -525,11 +526,11 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
                     value ?? hint,
                     style: value != null
                         ? Get.theme.textTheme.bodySmall?.copyWith(
-                            color: AuthConstants.labelColor,
+                            color: AppConstants.labelColor,
                             fontWeight: FontWeight.w600,
                           )
                         : Get.theme.textTheme.labelMedium?.copyWith(
-                            color: AuthConstants.hintColor,
+                            color: AppConstants.hintColor,
                             fontWeight: FontWeight.w500,
                           ),
                   ),
@@ -537,7 +538,7 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
                 Icon(
                   Icons.keyboard_arrow_down_rounded,
                   size: 20,
-                  color: AuthConstants.hintColor,
+                  color: AppConstants.hintColor,
                 ),
               ],
             ),
@@ -570,12 +571,11 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
                 }
                 return null;
               }),
-              checkColor: AuthConstants.labelColor,
-              side: WidgetStateBorderSide.resolveWith((states) =>
-                  const BorderSide(
-                    color: AuthConstants.borderColor,
-                    width: 1,
-                  )),
+              checkColor: AppConstants.labelColor,
+              side: WidgetStateBorderSide.resolveWith(
+                (states) =>
+                    const BorderSide(color: AppConstants.borderColor, width: 1),
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
               ),
@@ -586,7 +586,7 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
           Text(
             label,
             style: Get.theme.textTheme.bodySmall?.copyWith(
-              color: AuthConstants.labelColor,
+              color: AppConstants.labelColor,
               fontWeight: FontWeight.w600,
             ),
           ),

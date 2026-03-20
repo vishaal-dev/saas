@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import '../../authentication/widgets/auth_constants.dart';
+import '../../authentication/widgets/app_constants.dart';
 import '../../../../shared/widgets/app_close_button.dart';
 import '../../../../shared/widgets/app_modal_primary_button.dart';
 
@@ -102,7 +102,7 @@ class CreateRuleModalTabletView extends StatelessWidget {
                 modalTitle,
                 style: Get.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: AuthConstants.labelColor,
+                  color: AppConstants.labelColor,
                   fontSize: 20,
                 ),
               ),
@@ -119,7 +119,7 @@ class CreateRuleModalTabletView extends StatelessWidget {
       title,
       style: Get.textTheme.titleSmall?.copyWith(
         fontWeight: FontWeight.bold,
-        color: AuthConstants.labelColor,
+        color: AppConstants.labelColor,
         fontSize: 16,
       ),
     );
@@ -188,16 +188,18 @@ class CreateRuleModalTabletView extends StatelessWidget {
           builder: (anchorContext) {
             return InkWell(
               onTap: () => onTap(anchorContext),
-              borderRadius: BorderRadius.circular(AuthConstants.fieldBorderRadius),
+              borderRadius: BorderRadius.circular(
+                AppConstants.fieldBorderRadius,
+              ),
               child: Container(
-                height: AuthConstants.fieldHeight,
+                height: AppConstants.fieldHeight,
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
-                  color: AuthConstants.fieldFillColor,
+                  color: AppConstants.fieldFillColor,
                   borderRadius: BorderRadius.circular(
-                    AuthConstants.fieldBorderRadius,
+                    AppConstants.fieldBorderRadius,
                   ),
-                  border: Border.all(color: AuthConstants.borderColor),
+                  border: Border.all(color: AppConstants.borderColor),
                 ),
                 child: Row(
                   children: [
@@ -206,8 +208,8 @@ class CreateRuleModalTabletView extends StatelessWidget {
                         value,
                         style: Get.theme.textTheme.bodySmall?.copyWith(
                           color: value.contains('Select')
-                              ? AuthConstants.hintColor
-                              : AuthConstants.labelColor,
+                              ? AppConstants.hintColor
+                              : AppConstants.labelColor,
                           fontWeight: value.contains('Select')
                               ? FontWeight.w500
                               : FontWeight.w600,
@@ -217,7 +219,7 @@ class CreateRuleModalTabletView extends StatelessWidget {
                     const Icon(
                       Icons.keyboard_arrow_down_rounded,
                       size: 20,
-                      color: AuthConstants.hintColor,
+                      color: AppConstants.hintColor,
                     ),
                   ],
                 ),
@@ -233,7 +235,7 @@ class CreateRuleModalTabletView extends StatelessWidget {
     return RichText(
       text: TextSpan(
         style: Get.textTheme.bodySmall?.copyWith(
-          color: AuthConstants.labelColor,
+          color: AppConstants.labelColor,
           fontSize: 14,
         ),
         children: [
@@ -279,11 +281,8 @@ class CreateRuleModalTabletView extends StatelessWidget {
                   return Colors.transparent;
                 return null;
               }),
-              checkColor: AuthConstants.labelColor,
-              side: const BorderSide(
-                color: AuthConstants.borderColor,
-                width: 1,
-              ),
+              checkColor: AppConstants.labelColor,
+              side: const BorderSide(color: AppConstants.borderColor, width: 1),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
               ),
@@ -294,7 +293,7 @@ class CreateRuleModalTabletView extends StatelessWidget {
           Text(
             label,
             style: Get.textTheme.bodyMedium?.copyWith(
-              color: AuthConstants.labelColor,
+              color: AppConstants.labelColor,
             ),
           ),
         ],
@@ -309,11 +308,11 @@ class CreateRuleModalTabletView extends StatelessWidget {
         TextButton(
           onPressed: onCancel,
           style: TextButton.styleFrom(
-            foregroundColor: AuthConstants.supportTextColor,
+            foregroundColor: AppConstants.supportTextColor,
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
-                AuthConstants.fieldBorderRadius,
+                AppConstants.fieldBorderRadius,
               ),
             ),
           ),

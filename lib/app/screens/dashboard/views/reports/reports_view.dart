@@ -6,6 +6,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:saas/shared/widgets/hover_elevated_card.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 
 import 'reports_mobile_view.dart';
 import 'reports_tablet_view.dart';
@@ -107,28 +108,28 @@ class ReportsView extends StatelessWidget {
                   .toList(),
               kpiCards: [
                 _kpiCard(
-                  title: 'Total Renewals',
+                  title: AppStrings.totalRenewalsTitle,
                   value: '96',
                   valueColor: _valueBlue,
-                  description: 'Successful renewals',
+                  description: AppStrings.successfulRenewalsDescription,
                 ),
                 _kpiCard(
-                  title: 'Missed Renewals',
+                  title: AppStrings.missedRenewalsTitle,
                   value: '12',
                   valueColor: _valueRed,
-                  description: 'Not renewed after expiry',
+                  description: AppStrings.notRenewedAfterExpiryDescription,
                 ),
                 _kpiCard(
-                  title: 'Renewal Rate',
+                  title: AppStrings.renewalRateTitle,
                   value: '88%',
                   valueColor: _valueBlack,
-                  description: 'Renewals + Expiring',
+                  description: AppStrings.renewalsPlusExpiringDescription,
                 ),
                 _kpiCard(
-                  title: 'Revenue Recovered',
+                  title: AppStrings.revenueRecoveredTitle,
                   value: '₹ 1,24,000/-',
                   valueColor: _valueGreen,
-                  description: 'From renewed subscriptions',
+                  description: AppStrings.fromRenewedSubscriptionsDescription,
                 ),
               ],
               onExport: _exportRevenueTableToPdf,
@@ -149,28 +150,28 @@ class ReportsView extends StatelessWidget {
                   .toList(),
               kpiCards: [
                 _kpiCard(
-                  title: 'Total Renewals',
+                  title: AppStrings.totalRenewalsTitle,
                   value: '96',
                   valueColor: _valueBlue,
-                  description: 'Successful renewals',
+                  description: AppStrings.successfulRenewalsDescription,
                 ),
                 _kpiCard(
-                  title: 'Missed Renewals',
+                  title: AppStrings.missedRenewalsTitle,
                   value: '12',
                   valueColor: _valueRed,
-                  description: 'Not renewed after expiry',
+                  description: AppStrings.notRenewedAfterExpiryDescription,
                 ),
                 _kpiCard(
-                  title: 'Renewal Rate',
+                  title: AppStrings.renewalRateTitle,
                   value: '88%',
                   valueColor: _valueBlack,
-                  description: 'Renewals + Expiring',
+                  description: AppStrings.renewalsPlusExpiringDescription,
                 ),
                 _kpiCard(
-                  title: 'Revenue Recovered',
+                  title: AppStrings.revenueRecoveredTitle,
                   value: '₹ 1,24,000/-',
                   valueColor: _valueGreen,
-                  description: 'From renewed subscriptions',
+                  description: AppStrings.fromRenewedSubscriptionsDescription,
                 ),
               ],
               onExport: _exportRevenueTableToPdf,
@@ -191,7 +192,7 @@ class ReportsView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Reports',
+            AppStrings.reportsTitle,
             style: Get.textTheme.bodyLarge?.copyWith(
               fontWeight: FontWeight.bold,
               color: _textDark,
@@ -199,7 +200,7 @@ class ReportsView extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Analyze renewals, revenue, and performance',
+            AppStrings.reportsSubtitle,
             style: Get.textTheme.bodySmall?.copyWith(
               color: _textMuted,
               fontWeight: FontWeight.w600,
@@ -217,7 +218,7 @@ class ReportsView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Reports',
+              AppStrings.reportsTitle,
               style: Get.textTheme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: _textDark,
@@ -225,7 +226,7 @@ class ReportsView extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'Analyze renewals, revenue, and performance',
+              AppStrings.reportsSubtitle,
               style: Get.textTheme.bodySmall?.copyWith(
                 color: _textMuted,
                 fontWeight: FontWeight.w600,
@@ -242,37 +243,37 @@ class ReportsView extends StatelessWidget {
       children: [
         Expanded(
           child: _kpiCard(
-            title: 'Total Renewals',
+            title: AppStrings.totalRenewalsTitle,
             value: '96',
             valueColor: _valueBlue,
-            description: 'Successful renewals',
+            description: AppStrings.successfulRenewalsDescription,
           ),
         ),
         const SizedBox(width: 20),
         Expanded(
           child: _kpiCard(
-            title: 'Missed Renewals',
+            title: AppStrings.missedRenewalsTitle,
             value: '12',
             valueColor: _valueRed,
-            description: 'Not renewed after expiry',
+            description: AppStrings.notRenewedAfterExpiryDescription,
           ),
         ),
         const SizedBox(width: 20),
         Expanded(
           child: _kpiCard(
-            title: 'Renewal Rate',
+            title: AppStrings.renewalRateTitle,
             value: '88%',
             valueColor: _textDark,
-            description: 'Renewals + Expiring',
+            description: AppStrings.renewalsPlusExpiringDescription,
           ),
         ),
         const SizedBox(width: 20),
         Expanded(
           child: _kpiCard(
-            title: 'Revenue Recovered',
+            title: AppStrings.revenueRecoveredTitle,
             value: '₹ 1,24,000/-',
             valueColor: _valueGreen,
-            description: 'From renewed subscriptions',
+            description: AppStrings.fromRenewedSubscriptionsDescription,
           ),
         ),
       ],
@@ -340,12 +341,12 @@ class ReportsView extends StatelessWidget {
     final doc = pw.Document(theme: theme);
 
     final headers = [
-      'Name',
-      'Total Members',
-      'Renewals',
-      'Missed Renewals',
-      'Renewal Rate',
-      'Revenue',
+      AppStrings.tableHeaderName,
+      AppStrings.tableHeaderTotalMembers,
+      AppStrings.renewalsTitle,
+      AppStrings.missedRenewalsTitle,
+      AppStrings.renewalRateTitle,
+      AppStrings.tableHeaderRevenue,
     ];
     final data = _revenueData
         .map(
@@ -370,7 +371,7 @@ class ReportsView extends StatelessWidget {
               mainAxisSize: pw.MainAxisSize.min,
               children: [
                 pw.Text(
-                  'Revenue Analysis',
+                  AppStrings.revenueAnalysisTitle,
                   style: pw.TextStyle(
                     font: boldFont,
                     fontSize: 18,
@@ -438,7 +439,7 @@ class ReportsView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Revenue Analysis',
+                    AppStrings.revenueAnalysisTitle,
                     style: Get.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: _textDark,
@@ -449,13 +450,13 @@ class ReportsView extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       _primaryStyleButton(
-                        label: 'Export',
+                        label: AppStrings.exportLabel,
                         iconAsset: 'assets/icons/download.svg',
                         onPressed: _exportRevenueTableToPdf,
                       ),
                       const SizedBox(width: 10),
                       _primaryStyleButton(
-                        label: 'This Month',
+                        label: AppStrings.thisMonthLabel,
                         iconAsset: 'assets/icons/dropdown_down.svg',
                         onPressed: () {},
                         width: 145,
@@ -574,24 +575,27 @@ class ReportsView extends StatelessWidget {
           decoration: const BoxDecoration(color: _headerRowColor),
           children: [
             _tableCell(
-              'Plan Name',
+              AppStrings.tableHeaderPlanName,
               isHeader: true,
               align: Alignment.centerLeft,
               isNameColumn: true,
             ),
             _tableCell(
-              'Total Members',
+              AppStrings.tableHeaderTotalMembers,
               isHeader: true,
               align: Alignment.center,
             ),
-            _tableCell('Renewals', isHeader: true, align: Alignment.center),
+            _tableCell(AppStrings.renewalsTitle,
+                isHeader: true, align: Alignment.center),
             _tableCell(
-              'Missed Renewals',
+              AppStrings.missedRenewalsTitle,
               isHeader: true,
               align: Alignment.center,
             ),
-            _tableCell('Renewal Rate', isHeader: true, align: Alignment.center),
-            _tableCell('Revenue', isHeader: true, align: Alignment.center),
+            _tableCell(AppStrings.renewalRateTitle,
+                isHeader: true, align: Alignment.center),
+            _tableCell(AppStrings.tableHeaderRevenue,
+                isHeader: true, align: Alignment.center),
           ],
         ),
         ..._revenueData.map(

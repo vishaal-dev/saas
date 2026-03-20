@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'auth_constants.dart';
+import 'app_constants.dart';
 
 /// Reusable primary action button for authentication screens.
 class AuthPrimaryButton extends StatelessWidget {
@@ -22,18 +22,16 @@ class AuthPrimaryButton extends StatelessWidget {
       onPressed: isEnabled ? onPressed : null,
       style: ElevatedButton.styleFrom(
         elevation: 0,
-        minimumSize: Size(double.infinity, AuthConstants.buttonHeight),
+        minimumSize: Size(double.infinity, AppConstants.buttonHeight),
         backgroundColor: isEnabled
-            ? AuthConstants.buttonEnabledColor
-            : AuthConstants.buttonDisabledColor,
-        disabledBackgroundColor: AuthConstants.buttonDisabledColor,
+            ? AppConstants.buttonEnabledColor
+            : AppConstants.buttonDisabledColor,
+        disabledBackgroundColor: AppConstants.buttonDisabledColor,
         foregroundColor: Colors.white,
         disabledForegroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-            AuthConstants.fieldBorderRadius,
-          ),
+          borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
         ),
       ),
       child: Text(

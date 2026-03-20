@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../../../shared/widgets/success_toast.dart';
 import '../../../../shared/widgets/app_close_button.dart';
 import '../../../../shared/widgets/app_modal_primary_button.dart';
-import '../../authentication/widgets/auth_constants.dart';
+import '../../authentication/widgets/app_constants.dart';
 import '../../authentication/widgets/auth_form_field_section.dart';
 import 'create_plan_modal.dart';
 import 'edit_plan_modal_mobile_view.dart';
@@ -93,11 +93,11 @@ class _EditPlanModalState extends State<EditPlanModal> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.light(
-              primary: AuthConstants.buttonEnabledColor,
+              primary: AppConstants.buttonEnabledColor,
               onPrimary: Colors.white,
               surface: Colors.white,
-              onSurface: AuthConstants.labelColor,
-              surfaceContainerHighest: AuthConstants.cardBackground,
+              onSurface: AppConstants.labelColor,
+              surfaceContainerHighest: AppConstants.cardBackground,
             ),
             dialogTheme: DialogThemeData(
               elevation: 16,
@@ -115,7 +115,7 @@ class _EditPlanModalState extends State<EditPlanModal> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),
               ),
-              headerBackgroundColor: AuthConstants.buttonEnabledColor,
+              headerBackgroundColor: AppConstants.buttonEnabledColor,
               headerForegroundColor: Colors.white,
               headerHeadlineStyle: Get.textTheme.headlineMedium?.copyWith(
                 color: Colors.white,
@@ -127,58 +127,54 @@ class _EditPlanModalState extends State<EditPlanModal> {
                 fontFamily: 'Inter',
               ),
               weekdayStyle: Get.textTheme.bodySmall?.copyWith(
-                color: AuthConstants.supportTextColor,
+                color: AppConstants.supportTextColor,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'Inter',
               ),
               dayStyle: Get.textTheme.bodyMedium?.copyWith(
-                color: AuthConstants.labelColor,
+                color: AppConstants.labelColor,
                 fontFamily: 'Inter',
               ),
               dayForegroundColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) return Colors.white;
                 if (states.contains(WidgetState.disabled)) {
-                  return AuthConstants.hintColor;
+                  return AppConstants.hintColor;
                 }
-                return AuthConstants.labelColor;
+                return AppConstants.labelColor;
               }),
               dayBackgroundColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) {
-                  return AuthConstants.buttonEnabledColor;
+                  return AppConstants.buttonEnabledColor;
                 }
                 return null;
               }),
               dayShape: WidgetStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
               todayBorder: BorderSide(
-                color: AuthConstants.buttonEnabledColor,
+                color: AppConstants.buttonEnabledColor,
                 width: 1.5,
               ),
               yearStyle: Get.textTheme.bodyLarge?.copyWith(
-                color: AuthConstants.labelColor,
+                color: AppConstants.labelColor,
                 fontFamily: 'Inter',
               ),
               yearForegroundColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) return Colors.white;
-                return AuthConstants.labelColor;
+                return AppConstants.labelColor;
               }),
               yearBackgroundColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) {
-                  return AuthConstants.buttonEnabledColor;
+                  return AppConstants.buttonEnabledColor;
                 }
                 return null;
               }),
               yearShape: WidgetStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
-              dividerColor: AuthConstants.borderColor,
+              dividerColor: AppConstants.borderColor,
               cancelButtonStyle: TextButton.styleFrom(
-                foregroundColor: AuthConstants.supportTextColor,
+                foregroundColor: AppConstants.supportTextColor,
                 textStyle: Get.textTheme.labelLarge?.copyWith(
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w600,
@@ -192,7 +188,7 @@ class _EditPlanModalState extends State<EditPlanModal> {
                 ),
               ),
               confirmButtonStyle: FilledButton.styleFrom(
-                backgroundColor: AuthConstants.buttonEnabledColor,
+                backgroundColor: AppConstants.buttonEnabledColor,
                 foregroundColor: Colors.white,
                 textStyle: Get.textTheme.labelLarge?.copyWith(
                   color: Colors.white,
@@ -270,7 +266,11 @@ class _EditPlanModalState extends State<EditPlanModal> {
         onPickCustomDates: _pickCustomDate,
         onDurationChanged: (v) => setState(() => _selectedDuration = v),
         onStatusTap: () {
-          setState(() => _selectedStatus = _selectedStatus == 'Active' ? 'Inactive' : 'Active');
+          setState(
+            () => _selectedStatus = _selectedStatus == 'Active'
+                ? 'Inactive'
+                : 'Active',
+          );
         },
         onCancel: () => Navigator.of(context).pop(),
         onSave: _onSave,
@@ -288,7 +288,11 @@ class _EditPlanModalState extends State<EditPlanModal> {
         onPickCustomDates: _pickCustomDate,
         onDurationChanged: (v) => setState(() => _selectedDuration = v),
         onStatusTap: () {
-          setState(() => _selectedStatus = _selectedStatus == 'Active' ? 'Inactive' : 'Active');
+          setState(
+            () => _selectedStatus = _selectedStatus == 'Active'
+                ? 'Inactive'
+                : 'Active',
+          );
         },
         onCancel: () => Navigator.of(context).pop(),
         onSave: _onSave,
@@ -388,7 +392,10 @@ class _EditPlanModalState extends State<EditPlanModal> {
   InputDecoration _inputDecoration(String hint) {
     return InputDecoration(
       hintText: hint,
-      hintStyle: Get.theme.textTheme.bodyMedium?.copyWith(color: _hintColor, fontSize: 14),
+      hintStyle: Get.theme.textTheme.bodyMedium?.copyWith(
+        color: _hintColor,
+        fontSize: 14,
+      ),
       filled: true,
       fillColor: Colors.white,
       border: OutlineInputBorder(
@@ -402,7 +409,7 @@ class _EditPlanModalState extends State<EditPlanModal> {
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(_inputBorderRadius),
         borderSide: const BorderSide(
-          color: AuthConstants.focusedBorderColor,
+          color: AppConstants.focusedBorderColor,
           width: 1.5,
         ),
       ),
@@ -421,7 +428,10 @@ class _EditPlanModalState extends State<EditPlanModal> {
             spacingAfterLabel: 8,
             child: TextField(
               controller: _planNameController,
-              style: Get.textTheme.bodyMedium?.copyWith(color: _labelColor, fontSize: 14),
+              style: Get.textTheme.bodyMedium?.copyWith(
+                color: _labelColor,
+                fontSize: 14,
+              ),
               decoration: _inputDecoration('Enter Plan Name'),
             ),
           ),
@@ -433,7 +443,10 @@ class _EditPlanModalState extends State<EditPlanModal> {
             spacingAfterLabel: 8,
             child: TextField(
               controller: _priceController,
-              style: Get.textTheme.bodyMedium?.copyWith(color: _labelColor, fontSize: 14),
+              style: Get.textTheme.bodyMedium?.copyWith(
+                color: _labelColor,
+                fontSize: 14,
+              ),
               decoration: _inputDecoration('Enter Plan Price'),
             ),
           ),
@@ -445,7 +458,11 @@ class _EditPlanModalState extends State<EditPlanModal> {
             spacingAfterLabel: 8,
             child: InkWell(
               onTap: () {
-                setState(() => _selectedStatus = _selectedStatus == 'Active' ? 'Inactive' : 'Active');
+                setState(
+                  () => _selectedStatus = _selectedStatus == 'Active'
+                      ? 'Inactive'
+                      : 'Active',
+                );
               },
               child: Container(
                 height: 44,
@@ -462,7 +479,9 @@ class _EditPlanModalState extends State<EditPlanModal> {
                         _selectedStatus ?? 'Select Plan Status',
                         style: Get.theme.textTheme.bodyMedium?.copyWith(
                           fontSize: 14,
-                          color: _selectedStatus != null ? _labelColor : _hintColor,
+                          color: _selectedStatus != null
+                              ? _labelColor
+                              : _hintColor,
                         ),
                       ),
                     ),
@@ -511,10 +530,14 @@ class _EditPlanModalState extends State<EditPlanModal> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected ? AuthConstants.buttonEnabledColor : _inputBorderColor,
+                  color: isSelected
+                      ? AppConstants.buttonEnabledColor
+                      : _inputBorderColor,
                   width: 1.5,
                 ),
-                color: isSelected ? AuthConstants.buttonEnabledColor : Colors.transparent,
+                color: isSelected
+                    ? AppConstants.buttonEnabledColor
+                    : Colors.transparent,
               ),
               child: isSelected
                   ? Center(
@@ -532,7 +555,10 @@ class _EditPlanModalState extends State<EditPlanModal> {
             const SizedBox(width: 10),
             Text(
               label,
-              style: Get.textTheme.bodyMedium?.copyWith(color: _labelColor, fontSize: 14),
+              style: Get.textTheme.bodyMedium?.copyWith(
+                color: _labelColor,
+                fontSize: 14,
+              ),
             ),
           ],
         ),
@@ -622,8 +648,8 @@ class _EditPlanModalState extends State<EditPlanModal> {
           padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 12),
           minimumSize: const Size(0, 44),
           borderRadius: _inputBorderRadius,
-          enabledBackgroundColor: AuthConstants.buttonEnabledColor,
-          disabledBackgroundColor: AuthConstants.buttonDisabledColor,
+          enabledBackgroundColor: AppConstants.buttonEnabledColor,
+          disabledBackgroundColor: AppConstants.buttonDisabledColor,
         ),
       ],
     );

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import 'auth_constants.dart';
+import 'app_constants.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 
 /// Reusable password field with visibility toggle for authentication screens.
 class AuthPasswordField extends StatelessWidget {
@@ -11,7 +12,7 @@ class AuthPasswordField extends StatelessWidget {
     required this.controller,
     required this.obscureText,
     required this.onToggleVisibility,
-    this.hint = 'Enter Password',
+    this.hint = AppStrings.enterPasswordHint,
     this.isHovered = false,
   });
 
@@ -24,45 +25,39 @@ class AuthPasswordField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AuthConstants.fieldHeight,
+      height: AppConstants.fieldHeight,
       child: TextField(
         controller: controller,
         obscureText: obscureText,
         style: Get.theme.textTheme.bodySmall?.copyWith(
-          color: AuthConstants.textColor,
+          color: AppConstants.textColor,
         ),
         cursorColor: Colors.black,
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: Get.theme.textTheme.labelMedium!.copyWith(
-            color: AuthConstants.hintColor,
+            color: AppConstants.hintColor,
             fontWeight: FontWeight.w400,
           ),
           filled: true,
-          fillColor: AuthConstants.fieldFillColor,
-          hoverColor: AuthConstants.fieldFillColor,
+          fillColor: AppConstants.fieldFillColor,
+          hoverColor: AppConstants.fieldFillColor,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(
-              AuthConstants.fieldBorderRadius,
-            ),
+            borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
             borderSide: BorderSide(color: Colors.grey.shade300),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(
-              AuthConstants.fieldBorderRadius,
-            ),
+            borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
             borderSide: BorderSide(
               color: isHovered
-                  ? AuthConstants.focusedBorderColor
+                  ? AppConstants.focusedBorderColor
                   : Colors.grey.shade300,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(
-              AuthConstants.fieldBorderRadius,
-            ),
+            borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
             borderSide: const BorderSide(
-              color: AuthConstants.focusedBorderColor,
+              color: AppConstants.focusedBorderColor,
             ),
           ),
           suffixIcon: IconButton(

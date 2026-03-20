@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../modals/add_member_modal.dart';
 import '../../modals/view_member_modal.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 
 enum MemberStatus { active, expired, expiring }
 
@@ -53,14 +54,15 @@ class MembersMobileView extends StatelessWidget {
 
   Widget _buildMemberCard(MemberRow member) {
     final (String label, Color bg, Color textColor) = switch (member.status) {
-      MemberStatus.active => ('Active', _activeBadge, const Color(0xFF166534)),
+      MemberStatus.active => (AppStrings.active, _activeBadge,
+          const Color(0xFF166534)),
       MemberStatus.expired => (
-        'Expired',
+        AppStrings.expired,
         _expiredBadge,
         const Color(0xFF991B1B),
       ),
       MemberStatus.expiring => (
-        'Expiring',
+        AppStrings.expiring,
         _expiringBadge,
         const Color(0xFF92400E),
       ),
@@ -142,7 +144,7 @@ class MembersMobileView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Plan',
+                        AppStrings.plan,
                         style: TextStyle(color: _textMuted, fontSize: 11),
                       ),
                       Text(
@@ -159,7 +161,7 @@ class MembersMobileView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       const Text(
-                        'Expiry Date',
+                        AppStrings.tableHeaderExpiryDate,
                         style: TextStyle(color: _textMuted, fontSize: 11),
                       ),
                       Text(

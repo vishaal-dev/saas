@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 import 'subscriptions_mobile_view.dart';
 
 class SubscriptionsTabletView extends StatelessWidget {
@@ -43,12 +44,12 @@ class SubscriptionsTabletView extends StatelessWidget {
           TableRow(
             decoration: const BoxDecoration(color: Color(0xFFF1F5F9)),
             children: [
-              _tableCell('Plan Name', isHeader: true),
-              _tableCell('Duration', isHeader: true),
-              _tableCell('Price', isHeader: true),
-              _tableCell('Active Members', isHeader: true),
-              _tableCell('Status', isHeader: true),
-              _tableCell('Action', isHeader: true),
+              _tableCell(AppStrings.planNameHeader, isHeader: true),
+              _tableCell(AppStrings.tableHeaderDuration, isHeader: true),
+              _tableCell(AppStrings.tableHeaderPrice, isHeader: true),
+              _tableCell(AppStrings.activeMembersHeader, isHeader: true),
+              _tableCell(AppStrings.status, isHeader: true),
+              _tableCell(AppStrings.actionHeader, isHeader: true),
             ],
           ),
           ...tableData.asMap().entries.map(
@@ -96,7 +97,7 @@ class SubscriptionsTabletView extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
-        isActive ? 'Active' : 'Inactive',
+        isActive ? AppStrings.active : AppStrings.inactive,
         style: Get.textTheme.bodySmall?.copyWith(
           color: isActive ? Colors.white : _inactivePillText,
           fontWeight: FontWeight.w500,

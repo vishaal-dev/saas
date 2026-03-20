@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'auth_constants.dart';
+import 'app_constants.dart';
 
 /// Reusable authentication form card with logo, title, and content slot.
 class AuthFormCard extends StatelessWidget {
@@ -13,15 +13,15 @@ class AuthFormCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: AuthConstants.cardMinWidth,
-      constraints: const BoxConstraints(minHeight: AuthConstants.cardMinHeight),
+      width: AppConstants.cardMinWidth,
+      constraints: const BoxConstraints(minHeight: AppConstants.cardMinHeight),
       padding: const EdgeInsets.symmetric(
-        vertical: AuthConstants.cardPaddingVertical,
-        horizontal: AuthConstants.cardPaddingHorizontal,
+        vertical: AppConstants.cardPaddingVertical,
+        horizontal: AppConstants.cardPaddingHorizontal,
       ),
       decoration: BoxDecoration(
-        color: AuthConstants.cardBackground,
-        borderRadius: BorderRadius.circular(AuthConstants.cardBorderRadius),
+        color: AppConstants.cardBackground,
+        borderRadius: BorderRadius.circular(AppConstants.cardBorderRadius),
         boxShadow: const [
           BoxShadow(
             color: Color(0x40000000),
@@ -40,20 +40,20 @@ class AuthFormCard extends StatelessWidget {
             children: [
               Image.asset(
                 'assets/images/saas-logo.png',
-                height: AuthConstants.logoHeight,
+                height: AppConstants.logoHeight,
               ),
             ],
           ),
-          const SizedBox(height: AuthConstants.spacingAfterLogo),
+          const SizedBox(height: AppConstants.spacingAfterLogo),
           Text(
             title,
             textAlign: TextAlign.center,
             style: Get.theme.textTheme.bodyLarge?.copyWith(
               fontWeight: FontWeight.w700,
-              color: AuthConstants.titleColor,
+              color: AppConstants.titleColor,
             ),
           ),
-          const SizedBox(height: AuthConstants.spacingAfterTitle),
+          const SizedBox(height: AppConstants.spacingAfterTitle),
           child,
         ],
       ),

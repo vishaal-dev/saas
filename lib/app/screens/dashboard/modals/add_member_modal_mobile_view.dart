@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../../shared/widgets/plan_dropdown.dart';
 import '../../../../shared/widgets/app_modal_primary_button.dart';
-import '../../authentication/widgets/auth_constants.dart';
+import '../../authentication/widgets/app_constants.dart';
 import 'subscription_utils.dart';
 import '../../authentication/widgets/auth_form_field_section.dart';
 import '../../authentication/widgets/auth_text_field.dart';
@@ -72,7 +72,7 @@ class AddMemberModalMobileView extends StatelessWidget {
           title,
           style: Get.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
-            color: AuthConstants.labelColor,
+            color: AppConstants.labelColor,
             fontSize: 16,
           ),
         ),
@@ -104,12 +104,12 @@ class AddMemberModalMobileView extends StatelessWidget {
               label: 'Phone Number',
               spacingAfterLabel: 8,
               child: SizedBox(
-                height: AuthConstants.fieldHeight,
+                height: AppConstants.fieldHeight,
                 child: TextField(
                   controller: phoneController,
                   onTapOutside: (_) {},
                   style: Get.theme.textTheme.bodySmall?.copyWith(
-                    color: AuthConstants.textColor,
+                    color: AppConstants.textColor,
                   ),
                   cursorColor: Colors.black,
                   decoration: InputDecoration(
@@ -121,7 +121,7 @@ class AddMemberModalMobileView extends StatelessWidget {
                         child: Text(
                           '+91 ',
                           style: Get.theme.textTheme.labelMedium?.copyWith(
-                            color: AuthConstants.labelColor,
+                            color: AppConstants.labelColor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -133,33 +133,33 @@ class AddMemberModalMobileView extends StatelessWidget {
                     ),
                     hintText: '00000 00000',
                     hintStyle: Get.theme.textTheme.labelMedium?.copyWith(
-                      color: AuthConstants.hintColor,
+                      color: AppConstants.hintColor,
                       fontWeight: FontWeight.w400,
                     ),
                     filled: true,
-                    fillColor: AuthConstants.fieldFillColor,
+                    fillColor: AppConstants.fieldFillColor,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(
-                        AuthConstants.fieldBorderRadius,
+                        AppConstants.fieldBorderRadius,
                       ),
                       borderSide: const BorderSide(
-                        color: AuthConstants.borderColor,
+                        color: AppConstants.borderColor,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(
-                        AuthConstants.fieldBorderRadius,
+                        AppConstants.fieldBorderRadius,
                       ),
                       borderSide: const BorderSide(
-                        color: AuthConstants.borderColor,
+                        color: AppConstants.borderColor,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(
-                        AuthConstants.fieldBorderRadius,
+                        AppConstants.fieldBorderRadius,
                       ),
                       borderSide: const BorderSide(
-                        color: AuthConstants.focusedBorderColor,
+                        color: AppConstants.focusedBorderColor,
                       ),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
@@ -194,7 +194,7 @@ class AddMemberModalMobileView extends StatelessWidget {
             Text(
               'Expiry Date',
               style: Get.theme.textTheme.labelMedium?.copyWith(
-                color: AuthConstants.labelColor,
+                color: AppConstants.labelColor,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -213,15 +213,13 @@ class AddMemberModalMobileView extends StatelessWidget {
         child: AnimatedPadding(
           duration: const Duration(milliseconds: 200),
           curve: Curves.easeOut,
-          padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.viewInsetsOf(context).bottom,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Divider(
-                thickness: 1,
-                height: 1,
-                color: Color(0xFFCBD5E1),
-              ),
+              const Divider(thickness: 1, height: 1, color: Color(0xFFCBD5E1)),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
                 child: _buildActions(),
@@ -238,7 +236,7 @@ class AddMemberModalMobileView extends StatelessWidget {
       title,
       style: Get.textTheme.titleSmall?.copyWith(
         fontWeight: FontWeight.bold,
-        color: AuthConstants.labelColor,
+        color: AppConstants.labelColor,
         fontSize: 14,
       ),
     );
@@ -254,32 +252,32 @@ class AddMemberModalMobileView extends StatelessWidget {
 
   Widget _buildStartDatePicker() {
     return SizedBox(
-      height: AuthConstants.fieldHeight,
+      height: AppConstants.fieldHeight,
       child: InkWell(
         onTap: onPickStartDate,
-        borderRadius: BorderRadius.circular(AuthConstants.fieldBorderRadius),
+        borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
         child: InputDecorator(
           decoration: InputDecoration(
             hintText: 'Select Date',
             filled: true,
-            fillColor: AuthConstants.fieldFillColor,
+            fillColor: AppConstants.fieldFillColor,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(
-                AuthConstants.fieldBorderRadius,
+                AppConstants.fieldBorderRadius,
               ),
-              borderSide: const BorderSide(color: AuthConstants.borderColor),
+              borderSide: const BorderSide(color: AppConstants.borderColor),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(
-                AuthConstants.fieldBorderRadius,
+                AppConstants.fieldBorderRadius,
               ),
-              borderSide: const BorderSide(color: AuthConstants.borderColor),
+              borderSide: const BorderSide(color: AppConstants.borderColor),
             ),
             contentPadding: const EdgeInsets.symmetric(horizontal: 12),
             suffixIcon: const Icon(
               Icons.calendar_today_outlined,
               size: 18,
-              color: AuthConstants.hintColor,
+              color: AppConstants.hintColor,
             ),
           ),
           child: Text(
@@ -288,8 +286,8 @@ class AddMemberModalMobileView extends StatelessWidget {
                 : 'Select Date',
             style: Get.theme.textTheme.bodySmall?.copyWith(
               color: startDate != null
-                  ? AuthConstants.textColor
-                  : AuthConstants.hintColor,
+                  ? AppConstants.textColor
+                  : AppConstants.hintColor,
             ),
           ),
         ),
@@ -301,20 +299,20 @@ class AddMemberModalMobileView extends StatelessWidget {
     final expiry = calculateExpiryDate(selectedPlan, startDate);
     return Container(
       width: double.infinity,
-      height: AuthConstants.fieldHeight,
+      height: AppConstants.fieldHeight,
       padding: const EdgeInsets.symmetric(horizontal: 12),
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: AuthConstants.cardBackground,
-        borderRadius: BorderRadius.circular(AuthConstants.fieldBorderRadius),
-        border: Border.all(color: AuthConstants.borderColor),
+        color: AppConstants.cardBackground,
+        borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
+        border: Border.all(color: AppConstants.borderColor),
       ),
       child: Text(
         expiry != null ? '${expiry.day}/${expiry.month}/${expiry.year}' : '—',
         style: Get.theme.textTheme.bodySmall?.copyWith(
           color: expiry != null
-              ? AuthConstants.textColor
-              : AuthConstants.hintColor,
+              ? AppConstants.textColor
+              : AppConstants.hintColor,
         ),
       ),
     );
@@ -324,7 +322,7 @@ class AddMemberModalMobileView extends StatelessWidget {
     return RichText(
       text: TextSpan(
         style: Get.textTheme.bodySmall?.copyWith(
-          color: AuthConstants.labelColor,
+          color: AppConstants.labelColor,
           fontSize: 14,
         ),
         children: [
@@ -369,12 +367,10 @@ class AddMemberModalMobileView extends StatelessWidget {
                 }
                 return null;
               }),
-              checkColor: AuthConstants.labelColor,
+              checkColor: AppConstants.labelColor,
               side: WidgetStateBorderSide.resolveWith(
-                (states) => const BorderSide(
-                  color: AuthConstants.borderColor,
-                  width: 1,
-                ),
+                (states) =>
+                    const BorderSide(color: AppConstants.borderColor, width: 1),
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
@@ -386,7 +382,7 @@ class AddMemberModalMobileView extends StatelessWidget {
           Text(
             label,
             style: Get.textTheme.bodyMedium?.copyWith(
-              color: AuthConstants.labelColor,
+              color: AppConstants.labelColor,
             ),
           ),
         ],
@@ -401,14 +397,14 @@ class AddMemberModalMobileView extends StatelessWidget {
           child: OutlinedButton(
             onPressed: onCancel,
             style: OutlinedButton.styleFrom(
-              foregroundColor: AuthConstants.supportTextColor,
+              foregroundColor: AppConstants.supportTextColor,
               padding: const EdgeInsets.symmetric(vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
-                  AuthConstants.fieldBorderRadius,
+                  AppConstants.fieldBorderRadius,
                 ),
               ),
-              side: const BorderSide(color: AuthConstants.borderColor),
+              side: const BorderSide(color: AppConstants.borderColor),
             ),
             child: const Text('Cancel'),
           ),

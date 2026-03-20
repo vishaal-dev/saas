@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../../shared/widgets/success_toast.dart';
 import '../../../../shared/widgets/app_close_button.dart';
-import '../../authentication/widgets/auth_constants.dart';
+import '../../authentication/widgets/app_constants.dart';
 import '../../authentication/widgets/auth_form_field_section.dart';
 import 'help_support_modal_mobile_view.dart';
 import 'help_support_modal_tablet_view.dart';
@@ -105,32 +105,32 @@ class _HelpSupportModalState extends State<HelpSupportModal> {
                       controller: _messageController,
                       maxLines: 5,
                       style: Get.theme.textTheme.bodySmall?.copyWith(
-                        color: AuthConstants.textColor,
+                        color: AppConstants.textColor,
                       ),
-                      cursorColor: AuthConstants.textColor,
+                      cursorColor: AppConstants.textColor,
                       decoration: InputDecoration(
                         hintText: 'I need help with adding multiple branch.',
                         hintStyle: Get.theme.textTheme.labelMedium?.copyWith(
-                          color: AuthConstants.hintColor,
+                          color: AppConstants.hintColor,
                         ),
                         filled: true,
-                        fillColor: AuthConstants.cardBackground,
+                        fillColor: AppConstants.cardBackground,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: const BorderSide(
-                            color: AuthConstants.borderColor,
+                            color: AppConstants.borderColor,
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: const BorderSide(
-                            color: AuthConstants.borderColor,
+                            color: AppConstants.borderColor,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: const BorderSide(
-                            color: AuthConstants.focusedBorderColor,
+                            color: AppConstants.focusedBorderColor,
                           ),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
@@ -166,9 +166,9 @@ class _HelpSupportModalState extends State<HelpSupportModal> {
                             ? () => _onSendPressed(context)
                             : null,
                         style: FilledButton.styleFrom(
-                          backgroundColor: AuthConstants.buttonEnabledColor,
+                          backgroundColor: AppConstants.buttonEnabledColor,
                           disabledBackgroundColor:
-                              AuthConstants.buttonDisabledColor,
+                              AppConstants.buttonDisabledColor,
                           foregroundColor: Colors.white,
                           disabledForegroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(
@@ -220,9 +220,7 @@ class _HelpSupportModalState extends State<HelpSupportModal> {
           ),
           Positioned(
             right: 0,
-            child: AppCloseButton(
-              onPressed: () => Navigator.of(context).pop(),
-            ),
+            child: AppCloseButton(onPressed: () => Navigator.of(context).pop()),
           ),
         ],
       ),

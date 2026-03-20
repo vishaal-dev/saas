@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 
 class RevenueRow {
   final String planName;
@@ -66,8 +67,8 @@ class ReportsMobileView extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'Revenue Analysis',
+        const Text(
+          AppStrings.revenueAnalysisTitle,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: _textDark,
@@ -102,7 +103,8 @@ class ReportsMobileView extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text('Monthly', style: TextStyle(color: _textDark, fontSize: 12)),
+          const Text(AppStrings.monthly,
+              style: TextStyle(color: _textDark, fontSize: 12)),
           const SizedBox(width: 4),
           SvgPicture.asset(
             'assets/icons/dropdown_down.svg',
@@ -152,10 +154,10 @@ class ReportsMobileView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _infoItem('Members', row.totalMembers),
-              _infoItem('Renewals', row.renewals),
-              _infoItem('Missed', row.missedRenewals),
-              _infoItem('Rate', row.renewalRate),
+              _infoItem(AppStrings.membersTitle, row.totalMembers),
+              _infoItem(AppStrings.renewalsTitle, row.renewals),
+              _infoItem(AppStrings.missedMobileLabel, row.missedRenewals),
+              _infoItem(AppStrings.rateMobileLabel, row.renewalRate),
             ],
           ),
         ],
@@ -219,7 +221,7 @@ class _ExportButton extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 const Text(
-                  'Export',
+                  AppStrings.exportLabel,
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,

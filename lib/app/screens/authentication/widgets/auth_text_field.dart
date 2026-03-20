@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'auth_constants.dart';
+import 'app_constants.dart';
 
 /// Reusable styled text field for authentication screens.
 class AuthTextField extends StatelessWidget {
@@ -21,47 +21,41 @@ class AuthTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AuthConstants.fieldHeight,
+      height: AppConstants.fieldHeight,
       child: TextField(
         controller: controller,
         onTapOutside: dismissKeyboardOnTapOutside
             ? (_) => FocusManager.instance.primaryFocus?.unfocus()
             : (_) {},
         style: Get.theme.textTheme.bodySmall?.copyWith(
-          color: AuthConstants.textColor,
+          color: AppConstants.textColor,
         ),
         cursorColor: Colors.black,
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: Get.theme.textTheme.labelMedium!.copyWith(
-            color: AuthConstants.hintColor,
+            color: AppConstants.hintColor,
             fontWeight: FontWeight.w400,
           ),
           filled: true,
-          fillColor: AuthConstants.fieldFillColor,
-          hoverColor: AuthConstants.fieldFillColor,
+          fillColor: AppConstants.fieldFillColor,
+          hoverColor: AppConstants.fieldFillColor,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(
-              AuthConstants.fieldBorderRadius,
-            ),
-            borderSide: const BorderSide(color: AuthConstants.borderColor),
+            borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
+            borderSide: const BorderSide(color: AppConstants.borderColor),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(
-              AuthConstants.fieldBorderRadius,
-            ),
+            borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
             borderSide: BorderSide(
               color: isHovered
-                  ? AuthConstants.focusedBorderColor
-                  : AuthConstants.borderColor,
+                  ? AppConstants.focusedBorderColor
+                  : AppConstants.borderColor,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(
-              AuthConstants.fieldBorderRadius,
-            ),
+            borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
             borderSide: const BorderSide(
-              color: AuthConstants.focusedBorderColor,
+              color: AppConstants.focusedBorderColor,
             ),
           ),
         ),

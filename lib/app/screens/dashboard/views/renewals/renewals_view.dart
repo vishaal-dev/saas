@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../../../../shared/widgets/success_toast.dart';
-import '../../../authentication/widgets/auth_constants.dart';
+import '../../../authentication/widgets/app_constants.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 import '../../modals/add_member_modal.dart';
 import 'renewals_mobile_view.dart';
 import 'renewals_tablet_view.dart';
@@ -17,27 +18,27 @@ class RenewalsView extends StatefulWidget {
 }
 
 class _RenewalsViewState extends State<RenewalsView> {
-  static const _purple = Color(0xFF4F46E5);
-  static const _textDark = Color(0xFF0F172A);
-  static const _textMuted = Color(0xFF666666);
-  static const _border = Color(0xFFE5E7EB);
-  static const _headerBg = Color(0xFFF1F5F9);
+  static const _purple = AppConstants.titleColor;
+  static const _textDark = AppConstants.textColor;
+  static const _textMuted = AppConstants.mutedTextColor;
+  static const _border = AppConstants.softBorderColor;
+  static const _headerBg = AppConstants.headerBackgroundColor;
 
   /// Light orange/yellow for "Expiring" badge
-  static const _expiringBadge = Color(0xFFFEF3C7);
+  static const _expiringBadge = AppConstants.expiringBadgeColor;
 
   /// Light red for "Expired" badge
-  static const _expiredBadge = Color(0xFFFEE2E2);
-  static const _expiredTextRed = Color(0xFFDC2626);
-  static const _renewedBadge = Color(0xFFD1FAE5);
-  static const _renewedText = Color(0xFF059669);
+  static const _expiredBadge = AppConstants.expiredBadgeColor;
+  static const _expiredTextRed = AppConstants.dangerTextColor;
+  static const _renewedBadge = AppConstants.renewedBadgeColor;
+  static const _renewedText = AppConstants.renewedBadgeTextColor;
 
   int _selectedTabIndex = 0;
-  static const _statusTabs = ['All', 'Expiring Soon', 'Expired', 'Renewed'];
+  static const _statusTabs = AppStrings.renewalsStatusTabs;
 
   final _planDropdownKey = GlobalKey();
   String? _selectedPlan;
-  static const _planOptions = ['Monthly', 'Quarterly', 'Yearly'];
+  static const _planOptions = AppStrings.commonPlanOptions;
 
   DateTime? _selectedDate;
 
@@ -104,7 +105,7 @@ class _RenewalsViewState extends State<RenewalsView> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          'Renewals',
+          AppStrings.renewalsTitle,
           style: Get.textTheme.bodyLarge?.copyWith(
             fontWeight: FontWeight.w700,
             color: _textDark,
@@ -112,7 +113,7 @@ class _RenewalsViewState extends State<RenewalsView> {
         ),
         const SizedBox(height: 16),
         Text(
-          'Track and manage upcoming and missed renewals',
+          AppStrings.renewalsSubtitle,
           style: Get.textTheme.bodySmall?.copyWith(
             fontWeight: FontWeight.w600,
             color: _textMuted,
@@ -127,10 +128,10 @@ class _RenewalsViewState extends State<RenewalsView> {
   static const _segmentBorderRadius = 12.0;
 
   /// Outer border of the status tabs - darker grey so 1px border is clearly visible
-  static const _tabDividerColor = Color(0xFFCBD5E1);
+  static const _tabDividerColor = AppConstants.dividerColor;
 
   /// Vertical dividers between segments
-  static const _tabSegmentDividerColor = Color(0xFFCBD5E1);
+  static const _tabSegmentDividerColor = AppConstants.dividerColor;
 
   /// Width of the "All" tab segment (smaller than the others)
   static const _allTabWidth = 72.0;
@@ -251,18 +252,18 @@ class _RenewalsViewState extends State<RenewalsView> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(22),
-              border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+              border: Border.all(color: AppConstants.borderColor, width: 1),
             ),
             child: TextField(
               cursorColor: Colors.black,
               style: Get.textTheme.bodyMedium?.copyWith(
-                color: const Color(0xFF0F172A),
+                color: AppConstants.textColor,
                 fontSize: 14,
               ),
               decoration: InputDecoration(
-                hintText: 'Search by name or phone',
+                hintText: AppStrings.searchByNameOrPhoneShort,
                 hintStyle: const TextStyle(
-                  color: Color(0xFF94A3B8),
+                  color: AppConstants.hintColor,
                   fontSize: 14,
                 ),
                 prefixIcon: Padding(
@@ -272,7 +273,7 @@ class _RenewalsViewState extends State<RenewalsView> {
                     width: 20,
                     height: 20,
                     colorFilter: const ColorFilter.mode(
-                      Color(0xFF64748B),
+                      AppConstants.slateMutedColor,
                       BlendMode.srcIn,
                     ),
                   ),
@@ -322,9 +323,9 @@ class _RenewalsViewState extends State<RenewalsView> {
         TextButton(
           onPressed: () {},
           child: Text(
-            'Clear Filters',
+            AppStrings.clearFilters,
             style: Get.textTheme.labelMedium?.copyWith(
-              color: const Color(0xFF94A3B8),
+              color: AppConstants.hintColor,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -339,7 +340,7 @@ class _RenewalsViewState extends State<RenewalsView> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+        border: Border.all(color: AppConstants.borderColor, width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.03),
@@ -351,12 +352,15 @@ class _RenewalsViewState extends State<RenewalsView> {
       child: TextField(
         cursorColor: Colors.black,
         style: Get.textTheme.bodyMedium?.copyWith(
-          color: const Color(0xFF0F172A),
+          color: AppConstants.textColor,
           fontSize: 14,
         ),
         decoration: InputDecoration(
-          hintText: 'Search by name or phone number',
-          hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
+              hintText: AppStrings.searchByNameOrPhoneLong,
+          hintStyle: const TextStyle(
+            color: AppConstants.hintColor,
+            fontSize: 14,
+          ),
           prefixIcon: Padding(
             padding: const EdgeInsets.only(left: 14, right: 10),
             child: SvgPicture.asset(
@@ -364,7 +368,7 @@ class _RenewalsViewState extends State<RenewalsView> {
               width: 20,
               height: 20,
               colorFilter: const ColorFilter.mode(
-                Color(0xFF64748B),
+                AppConstants.slateMutedColor,
                 BlendMode.srcIn,
               ),
             ),
@@ -422,17 +426,17 @@ class _RenewalsViewState extends State<RenewalsView> {
       initialDate: _selectedDate ?? DateTime.now(),
       firstDate: DateTime(2020),
       lastDate: DateTime(2030),
-      helpText: 'Select date',
+      helpText: AppStrings.selectDate,
       initialEntryMode: DatePickerEntryMode.calendar,
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.light(
-              primary: AuthConstants.buttonEnabledColor,
+              primary: AppConstants.buttonEnabledColor,
               onPrimary: Colors.white,
               surface: Colors.white,
-              onSurface: AuthConstants.labelColor,
-              surfaceContainerHighest: AuthConstants.cardBackground,
+              onSurface: AppConstants.labelColor,
+              surfaceContainerHighest: AppConstants.cardBackground,
             ),
             dialogTheme: DialogThemeData(
               elevation: 16,
@@ -450,7 +454,7 @@ class _RenewalsViewState extends State<RenewalsView> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),
               ),
-              headerBackgroundColor: AuthConstants.buttonEnabledColor,
+              headerBackgroundColor: AppConstants.buttonEnabledColor,
               headerForegroundColor: Colors.white,
               headerHeadlineStyle: Get.textTheme.headlineMedium?.copyWith(
                 color: Colors.white,
@@ -462,24 +466,24 @@ class _RenewalsViewState extends State<RenewalsView> {
                 fontFamily: 'Inter',
               ),
               weekdayStyle: Get.textTheme.bodySmall?.copyWith(
-                color: AuthConstants.supportTextColor,
+                color: AppConstants.supportTextColor,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'Inter',
               ),
               dayStyle: Get.textTheme.bodyMedium?.copyWith(
-                color: AuthConstants.labelColor,
+                color: AppConstants.labelColor,
                 fontFamily: 'Inter',
               ),
               dayForegroundColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) return Colors.white;
                 if (states.contains(WidgetState.disabled)) {
-                  return AuthConstants.hintColor;
+                  return AppConstants.hintColor;
                 }
-                return AuthConstants.labelColor;
+                return AppConstants.labelColor;
               }),
               dayBackgroundColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) {
-                  return AuthConstants.buttonEnabledColor;
+                  return AppConstants.buttonEnabledColor;
                 }
                 return null;
               }),
@@ -487,29 +491,29 @@ class _RenewalsViewState extends State<RenewalsView> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
               todayBorder: BorderSide(
-                color: AuthConstants.buttonEnabledColor,
+                color: AppConstants.buttonEnabledColor,
                 width: 1.5,
               ),
               yearStyle: Get.textTheme.bodyLarge?.copyWith(
-                color: AuthConstants.labelColor,
+                color: AppConstants.labelColor,
                 fontFamily: 'Inter',
               ),
               yearForegroundColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) return Colors.white;
-                return AuthConstants.labelColor;
+                return AppConstants.labelColor;
               }),
               yearBackgroundColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) {
-                  return AuthConstants.buttonEnabledColor;
+                  return AppConstants.buttonEnabledColor;
                 }
                 return null;
               }),
               yearShape: WidgetStateProperty.all(
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
-              dividerColor: AuthConstants.borderColor,
+              dividerColor: AppConstants.borderColor,
               cancelButtonStyle: TextButton.styleFrom(
-                foregroundColor: AuthConstants.supportTextColor,
+                foregroundColor: AppConstants.supportTextColor,
                 textStyle: Get.textTheme.labelLarge?.copyWith(
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w600,
@@ -523,7 +527,7 @@ class _RenewalsViewState extends State<RenewalsView> {
                 ),
               ),
               confirmButtonStyle: FilledButton.styleFrom(
-                backgroundColor: AuthConstants.buttonEnabledColor,
+                backgroundColor: AppConstants.buttonEnabledColor,
                 foregroundColor: Colors.white,
                 textStyle: Get.textTheme.labelLarge?.copyWith(
                   color: Colors.white,
@@ -548,7 +552,7 @@ class _RenewalsViewState extends State<RenewalsView> {
   }
 
   String get _formattedSelectedDate {
-    if (_selectedDate == null) return 'Select Dates';
+    if (_selectedDate == null) return AppStrings.selectDates;
     final d = _selectedDate!;
     return '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year}';
   }
@@ -566,7 +570,7 @@ class _RenewalsViewState extends State<RenewalsView> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFFE2E8F0)),
+            border: Border.all(color: AppConstants.borderColor),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.03),
@@ -583,8 +587,8 @@ class _RenewalsViewState extends State<RenewalsView> {
                 _formattedSelectedDate,
                 style: Get.textTheme.labelMedium?.copyWith(
                   color: _selectedDate != null
-                      ? const Color(0xFF0F172A)
-                      : const Color(0xFF94A3B8),
+                      ? AppConstants.textColor
+                      : AppConstants.hintColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -594,7 +598,7 @@ class _RenewalsViewState extends State<RenewalsView> {
                 width: 24,
                 height: 24,
                 colorFilter: const ColorFilter.mode(
-                  Color(0xFF64748B),
+                  AppConstants.slateMutedColor,
                   BlendMode.srcIn,
                 ),
               ),
@@ -655,13 +659,16 @@ class _RenewalsViewState extends State<RenewalsView> {
               border: isLast
                   ? null
                   : const Border(
-                      bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1),
+                      bottom: BorderSide(
+                        color: AppConstants.borderColor,
+                        width: 1,
+                      ),
                     ),
             ),
             child: Text(
               value,
               style: Get.textTheme.bodyMedium?.copyWith(
-                color: const Color(0xFF334155),
+                color: AppConstants.slate700Color,
                 fontSize: 14,
               ),
             ),
@@ -674,7 +681,7 @@ class _RenewalsViewState extends State<RenewalsView> {
 
   Widget _buildPlanFilterBox({required bool isMobile}) {
     const planBoxWidth = 169.0;
-    final display = _selectedPlan ?? 'Plan';
+    final display = _selectedPlan ?? AppStrings.plan;
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -688,7 +695,7 @@ class _RenewalsViewState extends State<RenewalsView> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFFE2E8F0)),
+            border: Border.all(color: AppConstants.borderColor),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.03),
@@ -705,8 +712,8 @@ class _RenewalsViewState extends State<RenewalsView> {
                 display,
                 style: Get.textTheme.labelMedium?.copyWith(
                   color: _selectedPlan != null
-                      ? const Color(0xFF0F172A)
-                      : const Color(0xFF94A3B8),
+                      ? AppConstants.textColor
+                      : AppConstants.hintColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -716,7 +723,7 @@ class _RenewalsViewState extends State<RenewalsView> {
                 width: 24,
                 height: 24,
                 colorFilter: const ColorFilter.mode(
-                  Color(0xFF64748B),
+                  AppConstants.slateMutedColor,
                   BlendMode.srcIn,
                 ),
               ),
@@ -734,7 +741,7 @@ class _RenewalsViewState extends State<RenewalsView> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(_tableBorderRadius)),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+        border: Border.all(color: AppConstants.borderColor, width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -757,32 +764,34 @@ class _RenewalsViewState extends State<RenewalsView> {
           },
           children: [
             TableRow(
-              decoration: const BoxDecoration(color: Color(0xFFEEF2FF)),
+              decoration: const BoxDecoration(
+                color: AppConstants.tableHeaderBackgroundColor,
+              ),
               children: [
                 _tableCell(
-                  'Name',
+                  AppStrings.tableHeaderName,
                   isHeader: true,
                   align: Alignment.centerLeft,
                   isNameColumn: true,
                 ),
                 _tableCell(
-                  'Phone Number',
+                  AppStrings.tableHeaderPhoneNumber,
                   isHeader: true,
                   align: Alignment.center,
                 ),
                 _tableCell(
-                  'Expiry Date',
+                  AppStrings.tableHeaderExpiryDate,
                   isHeader: true,
                   align: Alignment.center,
                 ),
                 _tableCell(
-                  'Days Left',
+                  AppStrings.tableHeaderDaysLeft,
                   isHeader: true,
                   align: Alignment.center,
                 ),
-                _tableCell('Plan', isHeader: true, align: Alignment.center),
-                _tableCell('Status', isHeader: true, align: Alignment.center),
-                _tableCell('Action', isHeader: true, align: Alignment.center),
+                _tableCell(AppStrings.plan, isHeader: true, align: Alignment.center),
+                _tableCell(AppStrings.status, isHeader: true, align: Alignment.center),
+                _tableCell(AppStrings.tableHeaderAction, isHeader: true, align: Alignment.center),
               ],
             ),
             ..._tableData.map(
@@ -790,7 +799,10 @@ class _RenewalsViewState extends State<RenewalsView> {
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   border: Border(
-                    bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1),
+                    bottom: BorderSide(
+                      color: AppConstants.borderColor,
+                      width: 1,
+                    ),
                   ),
                 ),
                 children: [
@@ -870,12 +882,12 @@ class _RenewalsViewState extends State<RenewalsView> {
   Widget _statusPill(RenewalStatus status) {
     final (String label, Color bg, Color textColor) = switch (status) {
       RenewalStatus.expiring => (
-        'Expiring',
+        AppStrings.expiring,
         _expiringBadge,
-        const Color(0xFFB45309),
+        AppConstants.expiringBadgeTextColorDark,
       ),
-      RenewalStatus.expired => ('Expired', _expiredBadge, _expiredTextRed),
-      RenewalStatus.renewed => ('Renewed', _renewedBadge, _renewedText),
+      RenewalStatus.expired => (AppStrings.expired, _expiredBadge, _expiredTextRed),
+      RenewalStatus.renewed => (AppStrings.renewed, _renewedBadge, _renewedText),
     };
     return Container(
       width: _statusPillWidth,
@@ -914,7 +926,7 @@ class _RenewalsViewState extends State<RenewalsView> {
           'assets/icons/bell-ring.svg',
           onTap: () => SuccessToast.show(
             context,
-            title: 'Reminder sent to ${row.name}',
+            title: AppStrings.reminderSentTo(row.name),
             popRoute: false,
           ),
         ),
@@ -934,7 +946,7 @@ class _RenewalsViewState extends State<RenewalsView> {
             width: 32,
             height: 32,
             decoration: const BoxDecoration(
-              color: Color(0xFFEEF2FF),
+              color: AppConstants.tableHeaderBackgroundColor,
               shape: BoxShape.circle,
             ),
             padding: const EdgeInsets.all(6),

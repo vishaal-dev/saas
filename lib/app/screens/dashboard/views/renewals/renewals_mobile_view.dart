@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import '../../modals/add_member_modal.dart';
 import '../../../../../shared/widgets/success_toast.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 
 enum RenewalStatus { expiring, expired, renewed }
 
@@ -80,14 +81,14 @@ class RenewalsMobileView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _infoColumn('Expiry Date', row.expiryDate),
+              _infoColumn(AppStrings.tableHeaderExpiryDate, row.expiryDate),
               _infoColumn(
-                'Days Left',
+                AppStrings.tableHeaderDaysLeft,
                 row.daysLeft == 0
                     ? '0'
                     : row.daysLeft.toString().padLeft(2, '0'),
               ),
-              _infoColumn('Plan', row.plan),
+              _infoColumn(AppStrings.plan, row.plan),
             ],
           ),
           const SizedBox(height: 16),
@@ -111,7 +112,7 @@ class RenewalsMobileView extends StatelessWidget {
                 'assets/icons/bell-ring.svg',
                 onTap: () => SuccessToast.show(
                   context,
-                  title: 'Reminder sent to ${row.name}',
+                  title: AppStrings.reminderSentTo(row.name),
                   popRoute: false,
                 ),
               ),
@@ -143,12 +144,20 @@ class RenewalsMobileView extends StatelessWidget {
   Widget _statusPill(RenewalStatus status) {
     final (String label, Color bg, Color textColor) = switch (status) {
       RenewalStatus.expiring => (
-        'Expiring',
+        AppStrings.expiring,
         _expiringBadge,
         const Color(0xFFB45309),
       ),
-      RenewalStatus.expired => ('Expired', _expiredBadge, _expiredTextRed),
-      RenewalStatus.renewed => ('Renewed', _renewedBadge, _renewedText),
+      RenewalStatus.expired => (
+        AppStrings.expired,
+        _expiredBadge,
+        _expiredTextRed
+      ),
+      RenewalStatus.renewed => (
+        AppStrings.renewed,
+        _renewedBadge,
+        _renewedText
+      ),
     };
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),

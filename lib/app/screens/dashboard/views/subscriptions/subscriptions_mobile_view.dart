@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 
 class SubscriptionPlanRow {
   final String planName;
@@ -74,9 +75,9 @@ class SubscriptionsMobileView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _infoColumn('Duration', plan.duration),
-              _infoColumn('Price', plan.price),
-              _infoColumn('Members', plan.activeMembers),
+              _infoColumn(AppStrings.tableHeaderDuration, plan.duration),
+              _infoColumn(AppStrings.tableHeaderPrice, plan.price),
+              _infoColumn(AppStrings.membersTitle, plan.activeMembers),
             ],
           ),
           const SizedBox(height: 16),
@@ -121,7 +122,7 @@ class SubscriptionsMobileView extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
-        isActive ? 'Active' : 'Inactive',
+        isActive ? AppStrings.active : AppStrings.inactive,
         style: TextStyle(
           color: isActive ? Colors.white : _inactivePillText,
           fontWeight: FontWeight.w500,

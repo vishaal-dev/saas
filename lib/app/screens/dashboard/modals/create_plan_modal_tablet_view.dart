@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import '../../authentication/widgets/auth_constants.dart';
+import '../../authentication/widgets/app_constants.dart';
 import '../../authentication/widgets/auth_form_field_section.dart';
 import 'create_plan_modal.dart';
 import '../../../../shared/widgets/app_close_button.dart';
@@ -99,10 +99,7 @@ class CreatePlanModalTabletView extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
-            right: 0,
-            child: AppCloseButton(onPressed: onCancel),
-          ),
+          Positioned(right: 0, child: AppCloseButton(onPressed: onCancel)),
         ],
       ),
     );
@@ -111,14 +108,21 @@ class CreatePlanModalTabletView extends StatelessWidget {
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
-      style: Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700, color: _labelColor, fontSize: 16),
+      style: Get.textTheme.titleMedium?.copyWith(
+        fontWeight: FontWeight.w700,
+        color: _labelColor,
+        fontSize: 16,
+      ),
     );
   }
 
   InputDecoration _inputDecoration(String hint) {
     return InputDecoration(
       hintText: hint,
-      hintStyle: Get.theme.textTheme.bodyMedium?.copyWith(color: _hintColor, fontSize: 14),
+      hintStyle: Get.theme.textTheme.bodyMedium?.copyWith(
+        color: _hintColor,
+        fontSize: 14,
+      ),
       filled: true,
       fillColor: Colors.white,
       border: OutlineInputBorder(
@@ -131,7 +135,10 @@ class CreatePlanModalTabletView extends StatelessWidget {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(_inputBorderRadius),
-        borderSide: const BorderSide(color: AuthConstants.focusedBorderColor, width: 1.5),
+        borderSide: const BorderSide(
+          color: AppConstants.focusedBorderColor,
+          width: 1.5,
+        ),
       ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
     );
@@ -148,7 +155,10 @@ class CreatePlanModalTabletView extends StatelessWidget {
             spacingAfterLabel: 8,
             child: TextField(
               controller: planNameController,
-              style: Get.textTheme.bodyMedium?.copyWith(color: _labelColor, fontSize: 14),
+              style: Get.textTheme.bodyMedium?.copyWith(
+                color: _labelColor,
+                fontSize: 14,
+              ),
               decoration: _inputDecoration('Enter Plan Name'),
             ),
           ),
@@ -160,7 +170,10 @@ class CreatePlanModalTabletView extends StatelessWidget {
             spacingAfterLabel: 8,
             child: TextField(
               controller: priceController,
-              style: Get.textTheme.bodyMedium?.copyWith(color: _labelColor, fontSize: 14),
+              style: Get.textTheme.bodyMedium?.copyWith(
+                color: _labelColor,
+                fontSize: 14,
+              ),
               decoration: _inputDecoration('Enter Plan Price'),
             ),
           ),
@@ -198,10 +211,14 @@ class CreatePlanModalTabletView extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected ? AuthConstants.buttonEnabledColor : _inputBorderColor,
+                  color: isSelected
+                      ? AppConstants.buttonEnabledColor
+                      : _inputBorderColor,
                   width: 1.5,
                 ),
-                color: isSelected ? AuthConstants.buttonEnabledColor : Colors.transparent,
+                color: isSelected
+                    ? AppConstants.buttonEnabledColor
+                    : Colors.transparent,
               ),
               child: isSelected
                   ? const Center(
@@ -210,7 +227,13 @@ class CreatePlanModalTabletView extends StatelessWidget {
                   : null,
             ),
             const SizedBox(width: 10),
-            Text(label, style: Get.textTheme.bodyMedium?.copyWith(color: _labelColor, fontSize: 14)),
+            Text(
+              label,
+              style: Get.textTheme.bodyMedium?.copyWith(
+                color: _labelColor,
+                fontSize: 14,
+              ),
+            ),
           ],
         ),
       ),
@@ -218,8 +241,9 @@ class CreatePlanModalTabletView extends StatelessWidget {
   }
 
   Widget _buildCustomDurationField() {
-    final dateText =
-        customStartDate != null ? _formatDate(customStartDate!) : null;
+    final dateText = customStartDate != null
+        ? _formatDate(customStartDate!)
+        : null;
     return Row(
       children: [
         SizedBox(
@@ -241,7 +265,7 @@ class CreatePlanModalTabletView extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                      dateText ?? 'Select Date',
+                        dateText ?? 'Select Date',
                         style: Get.theme.textTheme.bodyMedium?.copyWith(
                           fontSize: 14,
                           color: dateText != null ? _labelColor : _hintColor,
@@ -285,11 +309,17 @@ class CreatePlanModalTabletView extends StatelessWidget {
                         selectedStatus ?? 'Select Plan Status',
                         style: Get.theme.textTheme.bodyMedium?.copyWith(
                           fontSize: 14,
-                          color: selectedStatus != null ? _labelColor : _hintColor,
+                          color: selectedStatus != null
+                              ? _labelColor
+                              : _hintColor,
                         ),
                       ),
                     ),
-                    const Icon(Icons.keyboard_arrow_down, size: 20, color: Color(0xFF64748B)),
+                    const Icon(
+                      Icons.keyboard_arrow_down,
+                      size: 20,
+                      color: Color(0xFF64748B),
+                    ),
                   ],
                 ),
               ),
@@ -300,7 +330,8 @@ class CreatePlanModalTabletView extends StatelessWidget {
     );
   }
 
-  String _formatDate(DateTime d) => '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year}';
+  String _formatDate(DateTime d) =>
+      '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year}';
 
   Widget _buildActions() {
     return Row(
@@ -312,7 +343,9 @@ class CreatePlanModalTabletView extends StatelessWidget {
             foregroundColor: const Color(0xFF334155),
             side: const BorderSide(color: _inputBorderColor),
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_inputBorderRadius)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(_inputBorderRadius),
+            ),
           ),
           child: const Text('Cancel'),
         ),

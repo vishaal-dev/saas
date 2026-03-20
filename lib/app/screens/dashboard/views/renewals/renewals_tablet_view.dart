@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import '../../../authentication/widgets/auth_constants.dart';
+import '../../../authentication/widgets/app_constants.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 import '../../modals/add_member_modal.dart';
 import '../../../../../shared/widgets/success_toast.dart';
 import 'renewals_mobile_view.dart';
@@ -12,9 +13,9 @@ class RenewalsTabletView extends StatelessWidget {
   final List<RenewalRow> tableData;
 
   // Design colors from AuthConstants and reference
-  static const _textDark = AuthConstants.textColor;
-  static const _textMuted = AuthConstants.supportTextColor;
-  static const _border = AuthConstants.borderColor;
+  static const _textDark = AppConstants.textColor;
+  static const _textMuted = AppConstants.supportTextColor;
+  static const _border = AppConstants.borderColor;
   static const _dividerColor = Color(0xFFCBD5E1);
 
   static const _expiringBadge = Color(0xFFFEF3C7);
@@ -88,13 +89,15 @@ class RenewalsTabletView extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _infoColumn('Expiry Date', row.expiryDate),
+                _infoColumn(AppStrings.tableHeaderExpiryDate, row.expiryDate),
                 _infoColumn(
-                  'Days Left',
-                  row.daysLeft == 0 ? '0' : row.daysLeft.toString().padLeft(2, '0'),
+                  AppStrings.tableHeaderDaysLeft,
+                  row.daysLeft == 0
+                      ? '0'
+                      : row.daysLeft.toString().padLeft(2, '0'),
                   isAlert: row.daysLeft == 0,
                 ),
-                _infoColumn('Plan', row.plan, alignRight: true),
+                _infoColumn(AppStrings.plan, row.plan, alignRight: true),
               ],
             ),
             const SizedBox(height: 16),
@@ -118,7 +121,7 @@ class RenewalsTabletView extends StatelessWidget {
                   'assets/icons/bell-ring.svg',
                   onTap: () => SuccessToast.show(
                     context,
-                    title: 'Reminder sent to ${row.name}',
+                    title: AppStrings.reminderSentTo(row.name),
                     popRoute: false,
                   ),
                 ),
@@ -130,9 +133,16 @@ class RenewalsTabletView extends StatelessWidget {
     );
   }
 
-  Widget _infoColumn(String label, String value, {bool alignRight = false, bool isAlert = false}) {
+  Widget _infoColumn(
+    String label,
+    String value, {
+    bool alignRight = false,
+    bool isAlert = false,
+  }) {
     return Column(
-      crossAxisAlignment: alignRight ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      crossAxisAlignment: alignRight
+          ? CrossAxisAlignment.end
+          : CrossAxisAlignment.start,
       children: [
         Text(
           label,
@@ -157,9 +167,21 @@ class RenewalsTabletView extends StatelessWidget {
 
   Widget _statusPill(RenewalStatus status) {
     final (String label, Color bg, Color textColor) = switch (status) {
-      RenewalStatus.expiring => ('Expiring', _expiringBadge, const Color(0xFFB45309)),
-      RenewalStatus.expired => ('Expired', _expiredBadge, _expiredTextRed),
-      RenewalStatus.renewed => ('Renewed', _renewedBadge, _renewedText),
+      RenewalStatus.expiring => (
+        AppStrings.expiring,
+        _expiringBadge,
+        const Color(0xFFB45309),
+      ),
+      RenewalStatus.expired => (
+        AppStrings.expired,
+        _expiredBadge,
+        _expiredTextRed,
+      ),
+      RenewalStatus.renewed => (
+        AppStrings.renewed,
+        _renewedBadge,
+        _renewedText,
+      ),
     };
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),

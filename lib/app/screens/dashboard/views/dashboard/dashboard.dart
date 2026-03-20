@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:saas/shared/widgets/hover_elevated_card.dart';
 import 'package:saas/shared/widgets/primary_action_button.dart';
 import '../../../../../shared/widgets/success_toast.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 import 'dashboard_controller.dart';
 import '../../modals/add_member_modal.dart';
 import '../../modals/help_support_modal.dart';
@@ -76,7 +77,7 @@ class Dashboard extends GetView<DashboardController> {
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Center(
         child: Text(
-          '© 2026 All rights reserved',
+          AppStrings.footerAllRightsReserved,
           style: Get.textTheme.bodySmall?.copyWith(
             color: _textMuted,
             fontSize: 12,
@@ -103,37 +104,37 @@ class Dashboard extends GetView<DashboardController> {
       final navItems = [
         _NavItem(
           iconPath: _menuIcons.dashboard,
-          label: 'Dashboard',
+          label: AppStrings.navDashboard,
           isActive: index == 0,
         ),
         _NavItem(
           iconPath: _menuIcons.members,
-          label: 'Members',
+          label: AppStrings.navMembers,
           isActive: index == 1,
         ),
         _NavItem(
           iconPath: _menuIcons.subscriptions,
-          label: 'Subscriptions',
+          label: AppStrings.navSubscriptions,
           isActive: index == 2,
         ),
         _NavItem(
           iconPath: _menuIcons.renewals,
-          label: 'Renewals',
+          label: AppStrings.navRenewals,
           isActive: index == 3,
         ),
         _NavItem(
           iconPath: _menuIcons.reminders,
-          label: 'Reminders',
+          label: AppStrings.navReminders,
           isActive: index == 4,
         ),
         _NavItem(
           iconPath: _menuIcons.reports,
-          label: 'Reports',
+          label: AppStrings.navReports,
           isActive: index == 5,
         ),
         _NavItem(
           iconPath: _menuIcons.settings,
-          label: 'Settings',
+          label: AppStrings.navSettings,
           isActive: index == 6,
         ),
       ];
@@ -242,7 +243,7 @@ class Dashboard extends GetView<DashboardController> {
                 ),
                 const SizedBox(width: 16),
                 Text(
-                  'Logout',
+                  AppStrings.logout,
                   style: Get.textTheme.bodySmall?.copyWith(
                     fontSize: 18,
                     color: _sidebarTextColor,
@@ -365,7 +366,7 @@ class Dashboard extends GetView<DashboardController> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Dashboard',
+              AppStrings.dashboardTitle,
               style: Get.textTheme.headlineMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: _textDark,
@@ -373,7 +374,7 @@ class Dashboard extends GetView<DashboardController> {
             ),
             const SizedBox(height: 4),
             Text(
-              'Manage everything here',
+              AppStrings.manageEverythingHere,
               style: Get.textTheme.bodySmall?.copyWith(
                 color: _textMuted,
                 fontWeight: FontWeight.w600,
@@ -382,7 +383,7 @@ class Dashboard extends GetView<DashboardController> {
           ],
         ),
         PrimaryActionButton(
-          label: 'Add Member',
+          label: AppStrings.addMember,
           onPressed: () => Get.dialog(const AddMemberModal()),
         ),
       ],
@@ -397,7 +398,7 @@ class Dashboard extends GetView<DashboardController> {
         circleBg: _iconCirclePurple,
         value: '284',
         valueColor: Colors.black,
-        label: 'Active Members',
+        label: AppStrings.summaryActiveMembers,
       ),
       _SummaryCard(
         iconPath: 'assets/icons/alarm-clock_tab.svg',
@@ -405,7 +406,7 @@ class Dashboard extends GetView<DashboardController> {
         circleBg: _iconCircleOrange,
         value: '18',
         valueColor: Colors.black,
-        label: 'Expiring (7 Days)',
+        label: AppStrings.summaryExpiring7Days,
       ),
       _SummaryCard(
         iconPath: 'assets/icons/shield-x_tab.svg',
@@ -413,7 +414,7 @@ class Dashboard extends GetView<DashboardController> {
         circleBg: _iconCircleRed,
         value: '7',
         valueColor: Colors.black,
-        label: 'Expired',
+        label: AppStrings.expired,
       ),
       _SummaryCard(
         iconPath: 'assets/icons/book-check_tab.svg',
@@ -421,7 +422,7 @@ class Dashboard extends GetView<DashboardController> {
         circleBg: _iconCircleGreen,
         value: '96',
         valueColor: Colors.black,
-        label: 'Renewed (This Month)',
+        label: AppStrings.summaryRenewedThisMonth,
       ),
     ];
     return Row(
@@ -563,7 +564,7 @@ class Dashboard extends GetView<DashboardController> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Action Required - Renewals',
+                  AppStrings.actionRequiredRenewals,
                   style: Get.textTheme.titleMedium?.copyWith(
                     color: _textDark,
                     fontWeight: FontWeight.bold,
@@ -574,7 +575,7 @@ class Dashboard extends GetView<DashboardController> {
                 GestureDetector(
                   onTap: controller.onViewAllRenewals,
                   child: Text(
-                    'View All Renewals',
+                    AppStrings.viewAllRenewals,
                     style: Get.textTheme.labelMedium?.copyWith(
                       color: _purple,
                       fontWeight: FontWeight.w600,
@@ -604,16 +605,16 @@ class Dashboard extends GetView<DashboardController> {
                 ),
                 children: [
                   _tableCell(
-                    'Name',
+                    AppStrings.tableHeaderName,
                     isHeader: true,
                     align: Alignment.centerLeft,
                     isNameColumn: true,
                   ),
-                  _tableCell('Plan', isHeader: true, align: Alignment.center),
-                  _tableCell('Expiry', isHeader: true, align: Alignment.center),
-                  _tableCell('Status', isHeader: true, align: Alignment.center),
+                  _tableCell(AppStrings.plan, isHeader: true, align: Alignment.center),
+                  _tableCell(AppStrings.tableHeaderExpiry, isHeader: true, align: Alignment.center),
+                  _tableCell(AppStrings.status, isHeader: true, align: Alignment.center),
                   _tableCell(
-                    'Action',
+                    AppStrings.tableHeaderAction,
                     isHeader: true,
                     align: Alignment.center,
                     isActionColumn: true,
@@ -832,7 +833,7 @@ class Dashboard extends GetView<DashboardController> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'AI Insights',
+              AppStrings.aiInsightsTitle,
               style: Get.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -846,26 +847,25 @@ class Dashboard extends GetView<DashboardController> {
                 fontWeight: FontWeight.w400,
               ),
               children: [
-                const TextSpan(text: 'You may lose '),
+                const TextSpan(text: AppStrings.aiInsightsYouMayLosePrefix),
                 TextSpan(
-                  text: '₹18,000',
+                  text: AppStrings.aiInsightsLostAmount,
                   style: Get.textTheme.bodySmall?.copyWith(
                     color: _textDark,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 const TextSpan(
-                  text:
-                      ' this week due to 6 memberships expiring. Sending reminders today could recover ',
+                  text: AppStrings.aiInsightsThisWeekSuffix,
                 ),
                 TextSpan(
-                  text: '₹12,500',
+                  text: AppStrings.aiInsightsRecoveredAmount,
                   style: Get.textTheme.bodySmall?.copyWith(
                     color: _textDark,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const TextSpan(text: '.'),
+                const TextSpan(text: AppStrings.aiInsightsMessageEnding),
               ],
             ),
             maxLines: 3,
@@ -896,7 +896,7 @@ class Dashboard extends GetView<DashboardController> {
                     ],
                   ),
                   child: Text(
-                    'Send Reminders Now',
+                    AppStrings.sendRemindersNow,
                     style: Get.theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: _purple,
@@ -932,7 +932,7 @@ class Dashboard extends GetView<DashboardController> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Revenue Insights',
+                AppStrings.revenueInsightsTitle,
                 style: Get.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                   color: _textDark,
@@ -960,13 +960,13 @@ class Dashboard extends GetView<DashboardController> {
             children: [
               _revenueLegendItem(
                 color: _revenueRecoveredBlue,
-                label: 'Revenue Recovered',
+                label: AppStrings.revenueRecoveredLabel,
                 value: '₹18,624',
               ),
               const SizedBox(width: 34),
               _revenueLegendItem(
                 color: _revenueLostRed,
-                label: 'Revenue Lost',
+                label: AppStrings.revenueLostLabel,
                 value: '₹2,540',
               ),
             ],

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../shared/widgets/app_close_button.dart';
-import '../../authentication/widgets/auth_constants.dart';
+import '../../authentication/widgets/app_constants.dart';
 import '../../authentication/widgets/auth_form_field_section.dart';
 
 class HelpSupportModalMobileView extends StatelessWidget {
@@ -57,31 +57,31 @@ class HelpSupportModalMobileView extends StatelessWidget {
                         controller: messageController,
                         maxLines: 4,
                         style: Get.textTheme.bodySmall?.copyWith(
-                          color: AuthConstants.textColor,
+                          color: AppConstants.textColor,
                         ),
                         decoration: InputDecoration(
                           hintText: 'I need help with adding multiple branch.',
                           hintStyle: Get.textTheme.labelMedium?.copyWith(
-                            color: AuthConstants.hintColor,
+                            color: AppConstants.hintColor,
                           ),
                           filled: true,
-                          fillColor: AuthConstants.cardBackground,
+                          fillColor: AppConstants.cardBackground,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: const BorderSide(
-                              color: AuthConstants.borderColor,
+                              color: AppConstants.borderColor,
                             ),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: const BorderSide(
-                              color: AuthConstants.borderColor,
+                              color: AppConstants.borderColor,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                             borderSide: const BorderSide(
-                              color: AuthConstants.focusedBorderColor,
+                              color: AppConstants.focusedBorderColor,
                             ),
                           ),
                           contentPadding: const EdgeInsets.all(12),
@@ -127,10 +127,7 @@ class HelpSupportModalMobileView extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
-            right: 0,
-            child: AppCloseButton(onPressed: onCancel),
-          ),
+          Positioned(right: 0, child: AppCloseButton(onPressed: onCancel)),
         ],
       ),
     );
@@ -143,12 +140,14 @@ class HelpSupportModalMobileView extends StatelessWidget {
         FilledButton(
           onPressed: isSendEnabled ? onSend : null,
           style: FilledButton.styleFrom(
-            backgroundColor: AuthConstants.buttonEnabledColor,
-            disabledBackgroundColor: AuthConstants.buttonDisabledColor,
+            backgroundColor: AppConstants.buttonEnabledColor,
+            disabledBackgroundColor: AppConstants.buttonDisabledColor,
             foregroundColor: Colors.white,
             disabledForegroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 12),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
           child: const Text('Send'),
         ),
@@ -159,7 +158,9 @@ class HelpSupportModalMobileView extends StatelessWidget {
             foregroundColor: const Color(0xFF334155),
             side: const BorderSide(color: Color(0xFFE2E8F0)),
             padding: const EdgeInsets.symmetric(vertical: 12),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
           child: const Text('Cancel'),
         ),
@@ -167,4 +168,3 @@ class HelpSupportModalMobileView extends StatelessWidget {
     );
   }
 }
-

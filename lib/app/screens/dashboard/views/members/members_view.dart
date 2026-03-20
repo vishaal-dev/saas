@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../authentication/widgets/app_constants.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 import 'package:saas/shared/widgets/primary_action_button.dart';
 
 import '../../modals/add_member_modal.dart';
@@ -19,15 +21,14 @@ class MembersView extends StatefulWidget {
 }
 
 class _MembersViewState extends State<MembersView> {
-  static const _purple = Color(0xFF4F46E5);
-  static const _textDark = Color(0xFF0F172A);
-  static const _textMuted = Color(0xFF666666);
-  static const _border = Color(0xFFE5E7EB);
-  static const _expiredBadge = Color(0xFFFEE2E2);
-  static const _expiringBadge = Color(0xFFFEF3C7);
-  static const _iconCircleOrange = Color(0xFFFEF3C7);
-  static const _iconCircleRed = Color(0xFFFEE2E2);
-  static const _iconCircleGreen = Color(0xFFDCFCE7);
+  static const _purple = AppConstants.titleColor;
+  static const _textDark = AppConstants.textColor;
+  static const _textMuted = AppConstants.mutedTextColor;
+  static const _expiredBadge = AppConstants.expiredBadgeColor;
+  static const _expiringBadge = AppConstants.expiringBadgeColor;
+  static const _iconCircleOrange = AppConstants.expiringBadgeColor;
+  static const _iconCircleRed = AppConstants.expiredBadgeColor;
+  static const _iconCircleGreen = AppConstants.activeBadgeColor;
 
   final _planDropdownKey = GlobalKey();
   final _statusDropdownKey = GlobalKey();
@@ -35,12 +36,12 @@ class _MembersViewState extends State<MembersView> {
   String? _selectedPlan;
   String? _selectedStatus;
 
-  static const _planOptions = ['Monthly', 'Quarterly', 'Yearly'];
-  static const _statusOptions = ['Active', 'Expiring', 'Expired'];
+  static const _planOptions = AppStrings.commonPlanOptions;
+  static const _statusOptions = AppStrings.membersStatusOptions;
   static const _statusColors = [
-    Color(0xFF166534), // Active text
-    Color(0xFF92400E), // Expiring text
-    Color(0xFF991B1B), // Expired text
+    AppConstants.activeBadgeTextColor,
+    AppConstants.expiringBadgeTextColor,
+    AppConstants.expiredBadgeTextColor,
   ];
 
   static final _tableData = [
@@ -120,12 +121,12 @@ class _MembersViewState extends State<MembersView> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Members',
+                    AppStrings.membersTitle,
                     style: Get.textTheme.bodyLarge?.copyWith(color: _textDark),
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Manage all your members and their subscriptions',
+                    AppStrings.membersSubtitle,
                     style: Get.textTheme.bodySmall?.copyWith(
                       color: _textMuted,
                       fontWeight: FontWeight.w600,
@@ -137,7 +138,7 @@ class _MembersViewState extends State<MembersView> {
             ),
             if (!isMobile)
               PrimaryActionButton(
-                label: 'Add Member',
+                label: AppStrings.addMember,
                 onPressed: () =>
                     openModalWithTransition(context, const AddMemberModal()),
               ),
@@ -148,7 +149,7 @@ class _MembersViewState extends State<MembersView> {
           SizedBox(
             width: double.infinity,
             child: PrimaryActionButton(
-              label: 'Add Member',
+              label: AppStrings.addMember,
               onPressed: () =>
                   openModalWithTransition(context, const AddMemberModal()),
               useFixedSize: false,
@@ -160,7 +161,7 @@ class _MembersViewState extends State<MembersView> {
   }
 
   // Tablet mode gets the wider search box, while web/desktop should stay compact.
-  static const _searchFieldWidthWeb = 360.0;
+  static const _searchFieldWidthWeb = 260.0;
   static const _searchFieldWidthTablet = 900.0;
   static const _dropdownWidthTablet = 132.0;
   static const _dropdownHeightTablet = 40.0;
@@ -174,15 +175,15 @@ class _MembersViewState extends State<MembersView> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(22),
-              border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+              border: Border.all(color: AppConstants.borderColor, width: 1),
             ),
             child: TextField(
               style: const TextStyle(fontSize: 14, color: Colors.black),
               cursorColor: Colors.black,
               decoration: InputDecoration(
-                hintText: 'Search by name or phone',
+                hintText: AppStrings.searchByNameOrPhoneShort,
                 hintStyle: const TextStyle(
-                  color: Color(0xFF94A3B8),
+                  color: AppConstants.hintColor,
                   fontSize: 13,
                 ),
                 prefixIcon: Padding(
@@ -192,7 +193,7 @@ class _MembersViewState extends State<MembersView> {
                     width: 18,
                     height: 18,
                     colorFilter: const ColorFilter.mode(
-                      Color(0xFF64748B),
+                      AppConstants.slateMutedColor,
                       BlendMode.srcIn,
                     ),
                   ),
@@ -212,7 +213,7 @@ class _MembersViewState extends State<MembersView> {
               Expanded(
                 child: _buildFilterDropdown(
                   key: _statusDropdownKey,
-                  label: 'Status',
+                  label: AppStrings.status,
                   selected: _selectedStatus,
                   onTap: _showStatusMenu,
                   width: 169,
@@ -222,7 +223,7 @@ class _MembersViewState extends State<MembersView> {
               Expanded(
                 child: _buildFilterDropdown(
                   key: _planDropdownKey,
-                  label: 'Plan',
+                  label: AppStrings.plan,
                   selected: _selectedPlan,
                   onTap: _showPlanMenu,
                   width: 169,
@@ -238,7 +239,7 @@ class _MembersViewState extends State<MembersView> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+        border: Border.all(color: AppConstants.borderColor, width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.03),
@@ -250,12 +251,15 @@ class _MembersViewState extends State<MembersView> {
       child: TextField(
         cursorColor: Colors.black,
         style: Get.textTheme.bodyMedium?.copyWith(
-          color: const Color(0xFF0F172A),
+          color: AppConstants.textColor,
           fontSize: 14,
         ),
         decoration: InputDecoration(
-          hintText: 'Search by name or phone number',
-          hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
+          hintText: AppStrings.searchByNameOrPhoneLong,
+          hintStyle: const TextStyle(
+            color: AppConstants.hintColor,
+            fontSize: 14,
+          ),
           prefixIcon: Padding(
             padding: const EdgeInsets.only(left: 14, right: 10),
             child: SvgPicture.asset(
@@ -263,7 +267,7 @@ class _MembersViewState extends State<MembersView> {
               width: 20,
               height: 20,
               colorFilter: const ColorFilter.mode(
-                Color(0xFF64748B),
+                AppConstants.slateMutedColor,
                 BlendMode.srcIn,
               ),
             ),
@@ -296,7 +300,7 @@ class _MembersViewState extends State<MembersView> {
         const SizedBox(width: 20),
         _buildFilterDropdown(
           key: _statusDropdownKey,
-          label: 'Status',
+          label: AppStrings.status,
           selected: _selectedStatus,
           onTap: _showStatusMenu,
           width: isTablet ? _dropdownWidthTablet : 169,
@@ -305,7 +309,7 @@ class _MembersViewState extends State<MembersView> {
         const SizedBox(width: 16),
         _buildFilterDropdown(
           key: _planDropdownKey,
-          label: 'Plan',
+          label: AppStrings.plan,
           selected: _selectedPlan,
           onTap: _showPlanMenu,
           width: isTablet ? _dropdownWidthTablet : 169,
@@ -315,9 +319,9 @@ class _MembersViewState extends State<MembersView> {
         TextButton(
           onPressed: () {},
           child: Text(
-            'Clear Filters',
+            AppStrings.clearFilters,
             style: Get.textTheme.labelMedium?.copyWith(
-              color: const Color(0xFF94A3B8),
+              color: AppConstants.hintColor,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -374,13 +378,16 @@ class _MembersViewState extends State<MembersView> {
               border: isLast
                   ? null
                   : const Border(
-                      bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1),
+                      bottom: BorderSide(
+                        color: AppConstants.borderColor,
+                        width: 1,
+                      ),
                     ),
             ),
             child: Text(
               value,
               style: Get.textTheme.bodyMedium?.copyWith(
-                color: const Color(0xFF334155),
+                color: AppConstants.slate700Color,
                 fontSize: 14,
               ),
             ),
@@ -413,7 +420,10 @@ class _MembersViewState extends State<MembersView> {
               border: isLast
                   ? null
                   : const Border(
-                      bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1),
+                      bottom: BorderSide(
+                        color: AppConstants.borderColor,
+                        width: 1,
+                      ),
                     ),
             ),
             child: Text(
@@ -454,7 +464,7 @@ class _MembersViewState extends State<MembersView> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFFE2E8F0)),
+            border: Border.all(color: AppConstants.borderColor),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.03),
@@ -471,8 +481,8 @@ class _MembersViewState extends State<MembersView> {
                 display,
                 style: Get.textTheme.labelMedium?.copyWith(
                   color: selected != null
-                      ? const Color(0xFF0F172A)
-                      : const Color(0xFF94A3B8),
+                      ? AppConstants.textColor
+                      : AppConstants.hintColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -496,7 +506,7 @@ class _MembersViewState extends State<MembersView> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(_tableBorderRadius)),
-        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+        border: Border.all(color: AppConstants.borderColor, width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -518,31 +528,33 @@ class _MembersViewState extends State<MembersView> {
           },
           children: [
             TableRow(
-              decoration: const BoxDecoration(color: Color(0xFFEEF2FF)),
+              decoration: const BoxDecoration(
+                color: AppConstants.tableHeaderBackgroundColor,
+              ),
               children: [
                 _tableCell(
-                  'Name',
+                  AppStrings.tableHeaderName,
                   isHeader: true,
                   align: Alignment.centerLeft,
                   isNameColumn: true,
                 ),
                 _tableCell(
-                  'Phone Number',
+                  AppStrings.tableHeaderPhoneNumber,
                   isHeader: true,
                   align: Alignment.center,
                 ),
                 _tableCell(
-                  'Email Address',
+                  AppStrings.tableHeaderEmailAddress,
                   isHeader: true,
                   align: Alignment.center,
                 ),
-                _tableCell('Plan', isHeader: true, align: Alignment.center),
+                _tableCell(AppStrings.plan, isHeader: true, align: Alignment.center),
                 _tableCell(
-                  'Expiry Date',
+                  AppStrings.tableHeaderExpiryDate,
                   isHeader: true,
                   align: Alignment.center,
                 ),
-                _tableCell('Status', isHeader: true, align: Alignment.center),
+                _tableCell(AppStrings.status, isHeader: true, align: Alignment.center),
               ],
             ),
             ..._tableData.asMap().entries.map(
@@ -550,7 +562,10 @@ class _MembersViewState extends State<MembersView> {
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   border: Border(
-                    bottom: BorderSide(color: Color(0xFFE2E8F0), width: 1),
+                    bottom: BorderSide(
+                      color: AppConstants.borderColor,
+                      width: 1,
+                    ),
                   ),
                 ),
                 children: [
@@ -596,9 +611,9 @@ class _MembersViewState extends State<MembersView> {
 
   void _openViewMember(MemberRow row) {
     final (String label, Color color) = switch (row.status) {
-      MemberStatus.active => ('Active', _iconCircleGreen),
-      MemberStatus.expired => ('Expired', _iconCircleRed),
-      MemberStatus.expiring => ('Expiring', _iconCircleOrange),
+      MemberStatus.active => (AppStrings.active, _iconCircleGreen),
+      MemberStatus.expired => (AppStrings.expired, _iconCircleRed),
+      MemberStatus.expiring => (AppStrings.expiring, _iconCircleOrange),
     };
     openModalWithTransition(
       context,
@@ -675,19 +690,19 @@ class _MembersViewState extends State<MembersView> {
   Widget _statusPill(MemberStatus status) {
     final (String label, Color bg, Color textColor) = switch (status) {
       MemberStatus.active => (
-        'Active',
+        AppStrings.active,
         _iconCircleGreen,
-        const Color(0xFF166534),
+        AppConstants.activeBadgeTextColor,
       ),
       MemberStatus.expired => (
-        'Expired',
+        AppStrings.expired,
         _expiredBadge,
-        const Color(0xFF991B1B),
+        AppConstants.expiredBadgeTextColor,
       ),
       MemberStatus.expiring => (
-        'Expiring',
+        AppStrings.expiring,
         _expiringBadge,
-        const Color(0xFF92400E),
+        AppConstants.expiringBadgeTextColor,
       ),
     };
     return Container(
@@ -719,9 +734,9 @@ class _MembersViewState extends State<MembersView> {
         _paginationButton(Icons.chevron_left, false),
         const SizedBox(width: 24),
         Text(
-          'Showing 1-10 of 248 members',
+          AppStrings.paginationMembers,
           style: Get.textTheme.bodySmall?.copyWith(
-            color: const Color(0xFF64748B),
+            color: AppConstants.slateMutedColor,
             fontSize: isMobile ? 12 : 14,
           ),
         ),
@@ -745,12 +760,12 @@ class _MembersViewState extends State<MembersView> {
             borderRadius: BorderRadius.circular(8),
             border: isActive
                 ? null
-                : Border.all(color: const Color(0xFFE2E8F0)),
+                : Border.all(color: AppConstants.borderColor),
           ),
           alignment: Alignment.center,
           child: Icon(
             icon,
-            color: isActive ? Colors.white : const Color(0xFF64748B),
+            color: isActive ? Colors.white : AppConstants.slateMutedColor,
             size: 20,
           ),
         ),

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../../shared/widgets/success_toast.dart';
 import '../../../../shared/widgets/app_close_button.dart';
-import '../../authentication/widgets/auth_constants.dart';
+import '../../authentication/widgets/app_constants.dart';
 
 /// Data for the View Member modal.
 class ViewMemberData {

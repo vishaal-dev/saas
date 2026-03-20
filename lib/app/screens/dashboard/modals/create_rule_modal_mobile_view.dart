@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import '../../authentication/widgets/auth_constants.dart';
+import '../../authentication/widgets/app_constants.dart';
 import '../../../../shared/widgets/app_modal_primary_button.dart';
 
 class CreateRuleModalMobileView extends StatelessWidget {
@@ -69,7 +69,7 @@ class CreateRuleModalMobileView extends StatelessWidget {
           modalTitle,
           style: Get.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
-            color: AuthConstants.labelColor,
+            color: AppConstants.labelColor,
             fontSize: 16,
           ),
         ),
@@ -129,11 +129,7 @@ class CreateRuleModalMobileView extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Divider(
-                thickness: 1,
-                height: 1,
-                color: Color(0xFFCBD5E1),
-              ),
+              const Divider(thickness: 1, height: 1, color: Color(0xFFCBD5E1)),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
                 child: _buildActions(),
@@ -150,7 +146,7 @@ class CreateRuleModalMobileView extends StatelessWidget {
       title,
       style: Get.textTheme.titleSmall?.copyWith(
         fontWeight: FontWeight.bold,
-        color: AuthConstants.labelColor,
+        color: AppConstants.labelColor,
         fontSize: 14,
       ),
     );
@@ -160,7 +156,7 @@ class CreateRuleModalMobileView extends StatelessWidget {
     return RichText(
       text: TextSpan(
         style: Get.textTheme.bodySmall?.copyWith(
-          color: AuthConstants.labelColor,
+          color: AppConstants.labelColor,
           fontSize: 14,
         ),
         children: [
@@ -182,15 +178,16 @@ class CreateRuleModalMobileView extends StatelessWidget {
       builder: (anchorContext) {
         return InkWell(
           onTap: () => onTap(anchorContext),
-          borderRadius: BorderRadius.circular(AuthConstants.fieldBorderRadius),
+          borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
           child: Container(
-            height: AuthConstants.fieldHeight,
+            height: AppConstants.fieldHeight,
             padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
-              color: AuthConstants.fieldFillColor,
-              borderRadius:
-                  BorderRadius.circular(AuthConstants.fieldBorderRadius),
-              border: Border.all(color: AuthConstants.borderColor),
+              color: AppConstants.fieldFillColor,
+              borderRadius: BorderRadius.circular(
+                AppConstants.fieldBorderRadius,
+              ),
+              border: Border.all(color: AppConstants.borderColor),
             ),
             child: Row(
               children: [
@@ -199,8 +196,8 @@ class CreateRuleModalMobileView extends StatelessWidget {
                     text,
                     style: Get.theme.textTheme.bodySmall?.copyWith(
                       color: text.contains('Select')
-                          ? AuthConstants.hintColor
-                          : AuthConstants.labelColor,
+                          ? AppConstants.hintColor
+                          : AppConstants.labelColor,
                       fontWeight: text.contains('Select')
                           ? FontWeight.w500
                           : FontWeight.w600,
@@ -210,7 +207,7 @@ class CreateRuleModalMobileView extends StatelessWidget {
                 const Icon(
                   Icons.keyboard_arrow_down_rounded,
                   size: 20,
-                  color: AuthConstants.hintColor,
+                  color: AppConstants.hintColor,
                 ),
               ],
             ),
@@ -220,7 +217,11 @@ class CreateRuleModalMobileView extends StatelessWidget {
     );
   }
 
-  Widget _buildCheckbox(String label, bool value, ValueChanged<bool> onChanged) {
+  Widget _buildCheckbox(
+    String label,
+    bool value,
+    ValueChanged<bool> onChanged,
+  ) {
     return InkWell(
       onTap: () => onChanged(!value),
       child: Row(
@@ -232,17 +233,25 @@ class CreateRuleModalMobileView extends StatelessWidget {
               value: value,
               onChanged: (v) => onChanged(v ?? false),
               fillColor: WidgetStateProperty.resolveWith((states) {
-                if (states.contains(WidgetState.selected)) return Colors.transparent;
+                if (states.contains(WidgetState.selected))
+                  return Colors.transparent;
                 return null;
               }),
-              checkColor: AuthConstants.labelColor,
-              side: const BorderSide(color: AuthConstants.borderColor, width: 1),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+              checkColor: AppConstants.labelColor,
+              side: const BorderSide(color: AppConstants.borderColor, width: 1),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
           ),
           const SizedBox(width: 12),
-          Text(label, style: Get.textTheme.bodyMedium?.copyWith(color: AuthConstants.labelColor)),
+          Text(
+            label,
+            style: Get.textTheme.bodyMedium?.copyWith(
+              color: AppConstants.labelColor,
+            ),
+          ),
         ],
       ),
     );
@@ -255,10 +264,14 @@ class CreateRuleModalMobileView extends StatelessWidget {
           child: OutlinedButton(
             onPressed: onCancel,
             style: OutlinedButton.styleFrom(
-              foregroundColor: AuthConstants.supportTextColor,
+              foregroundColor: AppConstants.supportTextColor,
               padding: const EdgeInsets.symmetric(vertical: 12),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AuthConstants.fieldBorderRadius)),
-              side: const BorderSide(color: AuthConstants.borderColor),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                  AppConstants.fieldBorderRadius,
+                ),
+              ),
+              side: const BorderSide(color: AppConstants.borderColor),
             ),
             child: const Text('Cancel'),
           ),

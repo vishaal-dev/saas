@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../widgets/auth_widgets.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 import 'reset_password_controller.dart';
 
 class ResetPasswordTabletView extends GetView<ResetPasswordController> {
@@ -12,40 +13,41 @@ class ResetPasswordTabletView extends GetView<ResetPasswordController> {
       body: AuthScreenLayout(
         padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 48),
         child: AuthFormCard(
-          title: 'Reset Password',
+          title: AppStrings.resetPasswordTitle,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               AuthFormFieldSection(
-                label: 'New Password',
+                label: AppStrings.newPasswordLabel,
                 spacingAfterLabel: 8,
                 child: Obx(
                   () => AuthPasswordField(
                     controller: controller.newPasswordController,
                     obscureText: !controller.isNewPasswordVisible.value,
                     onToggleVisibility: controller.toggleNewPasswordVisibility,
-                    hint: 'Enter New Password',
+                    hint: AppStrings.enterNewPasswordHint,
                   ),
                 ),
               ),
-              const SizedBox(height: AuthConstants.spacingBetweenFields),
+              const SizedBox(height: AppConstants.spacingBetweenFields),
               AuthFormFieldSection(
-                label: 'Confirm Password',
+                label: AppStrings.confirmPasswordLabel,
                 spacingAfterLabel: 8,
                 child: Obx(
                   () => AuthPasswordField(
                     controller: controller.confirmPasswordController,
                     obscureText: !controller.isConfirmPasswordVisible.value,
-                    onToggleVisibility: controller.toggleConfirmPasswordVisibility,
-                    hint: 'Enter New Password',
+                    onToggleVisibility:
+                        controller.toggleConfirmPasswordVisibility,
+                    hint: AppStrings.enterNewPasswordHint,
                   ),
                 ),
               ),
               const SizedBox(height: 24),
               Obx(
                 () => AuthPrimaryButton(
-                  text: 'Reset Password',
+                  text: AppStrings.resetPasswordTitle,
                   onPressed: controller.onResetPassword,
                   isEnabled: controller.isFormValid.value,
                 ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../app/screens/authentication/widgets/auth_constants.dart';
+import '../../app/screens/authentication/widgets/app_constants.dart';
 
 /// Reusable close button used across dashboard modals/dialogs.
 ///
@@ -10,7 +10,7 @@ class AppCloseButton extends StatelessWidget {
   const AppCloseButton({
     super.key,
     required this.onPressed,
-    this.iconColor = AuthConstants.hintColor,
+    this.iconColor = AppConstants.hintColor,
     this.iconSize = 24,
     this.hitSize = 40,
     this.backgroundColor = Colors.transparent,
@@ -36,7 +36,9 @@ class AppCloseButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hoverColor = showHoverBackground ? hoverBackgroundColor : Colors.transparent;
+    final hoverColor = showHoverBackground
+        ? hoverBackgroundColor
+        : Colors.transparent;
 
     return Material(
       color: backgroundColor,
@@ -64,4 +66,3 @@ class AppCloseButton extends StatelessWidget {
     );
   }
 }
-

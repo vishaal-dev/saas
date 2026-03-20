@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../authentication/widgets/auth_constants.dart';
+import '../../../authentication/widgets/app_constants.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 import 'members_mobile_view.dart'; // For MemberRow and MemberStatus
 
 class MembersTabletView extends StatelessWidget {
@@ -14,8 +15,8 @@ class MembersTabletView extends StatelessWidget {
   final Function(MemberRow) onOpenViewMember;
 
   // Design colors from AuthConstants and Mobile reference
-  static const _textDark = AuthConstants.textColor;
-  static const _border = AuthConstants.borderColor;
+  static const _textDark = AppConstants.textColor;
+  static const _border = AppConstants.borderColor;
   static const _dividerColor = Color(0xFFCBD5E1);
 
   // Status Badge Colors
@@ -85,7 +86,7 @@ class MembersTabletView extends StatelessWidget {
               Text(
                 member.phone,
                 style: Get.textTheme.bodySmall?.copyWith(
-                  color: AuthConstants.supportTextColor,
+                  color: AppConstants.supportTextColor,
                   fontSize: 14,
                 ),
               ),
@@ -93,7 +94,7 @@ class MembersTabletView extends StatelessWidget {
               Text(
                 member.email,
                 style: Get.textTheme.bodySmall?.copyWith(
-                  color: AuthConstants.supportTextColor,
+                  color: AppConstants.supportTextColor,
                   fontSize: 14,
                 ),
               ),
@@ -103,8 +104,9 @@ class MembersTabletView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _infoColumn('Plan', member.plan),
-                  _infoColumn('Expiry Date', member.expiry, alignRight: true),
+                  _infoColumn(AppStrings.plan, member.plan),
+                  _infoColumn(AppStrings.tableHeaderExpiryDate, member.expiry,
+                      alignRight: true),
                 ],
               ),
             ],
@@ -116,13 +118,14 @@ class MembersTabletView extends StatelessWidget {
 
   Widget _infoColumn(String label, String value, {bool alignRight = false}) {
     return Column(
-      crossAxisAlignment:
-          alignRight ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      crossAxisAlignment: alignRight
+          ? CrossAxisAlignment.end
+          : CrossAxisAlignment.start,
       children: [
         Text(
           label,
           style: Get.textTheme.labelSmall?.copyWith(
-            color: AuthConstants.supportTextColor,
+            color: AppConstants.supportTextColor,
             fontSize: 12,
             fontWeight: FontWeight.w500,
           ),
@@ -142,9 +145,10 @@ class MembersTabletView extends StatelessWidget {
 
   Widget _statusPill(MemberStatus status) {
     final (String label, Color bg, Color textColor) = switch (status) {
-      MemberStatus.active => ('Active', _activeBadge, _activeText),
-      MemberStatus.expired => ('Expired', _expiredBadge, _expiredText),
-      MemberStatus.expiring => ('Expiring', _expiringBadge, _expiringText),
+      MemberStatus.active => (AppStrings.active, _activeBadge, _activeText),
+      MemberStatus.expired => (AppStrings.expired, _expiredBadge, _expiredText),
+      MemberStatus.expiring =>
+          (AppStrings.expiring, _expiringBadge, _expiringText),
     };
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),

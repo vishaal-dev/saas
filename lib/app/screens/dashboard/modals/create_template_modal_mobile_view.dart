@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import '../../authentication/widgets/auth_constants.dart';
+import '../../authentication/widgets/app_constants.dart';
 import '../../../../shared/widgets/app_modal_primary_button.dart';
 
 class CreateTemplateModalMobileView extends StatelessWidget {
@@ -71,7 +71,7 @@ class CreateTemplateModalMobileView extends StatelessWidget {
           title,
           style: Get.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
-            color: AuthConstants.labelColor,
+            color: AppConstants.labelColor,
             fontSize: 16,
           ),
         ),
@@ -156,7 +156,7 @@ class CreateTemplateModalMobileView extends StatelessWidget {
       title,
       style: Get.textTheme.titleSmall?.copyWith(
         fontWeight: FontWeight.bold,
-        color: AuthConstants.labelColor,
+        color: AppConstants.labelColor,
         fontSize: 14,
       ),
     );
@@ -166,7 +166,7 @@ class CreateTemplateModalMobileView extends StatelessWidget {
     return RichText(
       text: TextSpan(
         style: Get.textTheme.bodySmall?.copyWith(
-          color: AuthConstants.labelColor,
+          color: AppConstants.labelColor,
           fontSize: 14,
         ),
         children: [
@@ -188,16 +188,16 @@ class CreateTemplateModalMobileView extends StatelessWidget {
       builder: (anchorContext) {
         return InkWell(
           onTap: () => onTap(anchorContext),
-          borderRadius: BorderRadius.circular(AuthConstants.fieldBorderRadius),
+          borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
           child: Container(
-            height: AuthConstants.fieldHeight,
+            height: AppConstants.fieldHeight,
             padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
-              color: AuthConstants.fieldFillColor,
+              color: AppConstants.fieldFillColor,
               borderRadius: BorderRadius.circular(
-                AuthConstants.fieldBorderRadius,
+                AppConstants.fieldBorderRadius,
               ),
-              border: Border.all(color: AuthConstants.borderColor),
+              border: Border.all(color: AppConstants.borderColor),
             ),
             child: Row(
               children: [
@@ -206,8 +206,8 @@ class CreateTemplateModalMobileView extends StatelessWidget {
                     text,
                     style: Get.theme.textTheme.bodySmall?.copyWith(
                       color: text.contains('Select')
-                          ? AuthConstants.hintColor
-                          : AuthConstants.labelColor,
+                          ? AppConstants.hintColor
+                          : AppConstants.labelColor,
                       fontWeight: text.contains('Select')
                           ? FontWeight.w500
                           : FontWeight.w600,
@@ -217,7 +217,7 @@ class CreateTemplateModalMobileView extends StatelessWidget {
                 const Icon(
                   Icons.keyboard_arrow_down_rounded,
                   size: 20,
-                  color: AuthConstants.hintColor,
+                  color: AppConstants.hintColor,
                 ),
               ],
             ),
@@ -235,12 +235,12 @@ class CreateTemplateModalMobileView extends StatelessWidget {
         width: double.infinity,
         height: 100,
         decoration: BoxDecoration(
-          color: AuthConstants.fieldFillColor,
+          color: AppConstants.fieldFillColor,
           borderRadius: BorderRadius.circular(10),
         ),
         child: CustomPaint(
           painter: _DashedBorderPainter(
-            color: AuthConstants.borderColor,
+            color: AppConstants.borderColor,
             borderRadius: 10,
           ),
           child: Column(
@@ -251,7 +251,7 @@ class CreateTemplateModalMobileView extends StatelessWidget {
                 width: 24,
                 height: 24,
                 colorFilter: const ColorFilter.mode(
-                  AuthConstants.hintColor,
+                  AppConstants.hintColor,
                   BlendMode.srcIn,
                 ),
               ),
@@ -259,7 +259,7 @@ class CreateTemplateModalMobileView extends StatelessWidget {
               Text(
                 'Upload Attachment',
                 style: Get.textTheme.labelMedium?.copyWith(
-                  color: AuthConstants.hintColor,
+                  color: AppConstants.hintColor,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -274,9 +274,9 @@ class CreateTemplateModalMobileView extends StatelessWidget {
     return Container(
       height: 120,
       decoration: BoxDecoration(
-        color: AuthConstants.fieldFillColor,
+        color: AppConstants.fieldFillColor,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AuthConstants.borderColor),
+        border: Border.all(color: AppConstants.borderColor),
       ),
       child: TextField(
         controller: messageController,
@@ -285,12 +285,12 @@ class CreateTemplateModalMobileView extends StatelessWidget {
         expands: true,
         textAlignVertical: TextAlignVertical.top,
         style: Get.textTheme.bodyMedium?.copyWith(
-          color: AuthConstants.textColor,
+          color: AppConstants.textColor,
         ),
         decoration: InputDecoration(
           hintText: 'Type your message here....',
           hintStyle: Get.theme.textTheme.labelMedium?.copyWith(
-            color: AuthConstants.hintColor,
+            color: AppConstants.hintColor,
             fontWeight: FontWeight.w500,
           ),
           border: InputBorder.none,
@@ -320,11 +320,8 @@ class CreateTemplateModalMobileView extends StatelessWidget {
                   return Colors.transparent;
                 return null;
               }),
-              checkColor: AuthConstants.labelColor,
-              side: const BorderSide(
-                color: AuthConstants.borderColor,
-                width: 1,
-              ),
+              checkColor: AppConstants.labelColor,
+              side: const BorderSide(color: AppConstants.borderColor, width: 1),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
               ),
@@ -335,7 +332,7 @@ class CreateTemplateModalMobileView extends StatelessWidget {
           Text(
             label,
             style: Get.textTheme.bodyMedium?.copyWith(
-              color: AuthConstants.labelColor,
+              color: AppConstants.labelColor,
             ),
           ),
         ],
@@ -350,14 +347,14 @@ class CreateTemplateModalMobileView extends StatelessWidget {
           child: OutlinedButton(
             onPressed: onCancel,
             style: OutlinedButton.styleFrom(
-              foregroundColor: AuthConstants.supportTextColor,
+              foregroundColor: AppConstants.supportTextColor,
               padding: const EdgeInsets.symmetric(vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
-                  AuthConstants.fieldBorderRadius,
+                  AppConstants.fieldBorderRadius,
                 ),
               ),
-              side: const BorderSide(color: AuthConstants.borderColor),
+              side: const BorderSide(color: AppConstants.borderColor),
             ),
             child: const Text('Cancel'),
           ),
@@ -365,7 +362,9 @@ class CreateTemplateModalMobileView extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: AppModalPrimaryButton(
-            label: title.contains('Edit') ? 'Update Template' : 'Create Template',
+            label: title.contains('Edit')
+                ? 'Update Template'
+                : 'Create Template',
             onPressed: isCreateEnabled ? onCreate : null,
             padding: const EdgeInsets.symmetric(vertical: 12),
             borderRadius: 10,

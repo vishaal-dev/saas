@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 
 class SettingsMobileView extends StatefulWidget {
   const SettingsMobileView({super.key});
@@ -18,7 +19,8 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
   static const _cardShadow = Color(0x0F000000);
 
   int _selectedTabIndex = 0;
-  final _businessNameController = TextEditingController(text: 'SaaS');
+  final _businessNameController =
+      TextEditingController(text: AppStrings.businessNameDefault);
   late final String _initialBusinessName;
   final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
@@ -87,8 +89,12 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
   Widget _buildTabBar() {
     return Row(
       children: [
-        _buildTab('Profile', _selectedTabIndex == 0, () => setState(() => _selectedTabIndex = 0)),
-        _buildTab('Login & Security', _selectedTabIndex == 1, () => setState(() => _selectedTabIndex = 1)),
+        _buildTab(AppStrings.settingsProfileTabLabel,
+            _selectedTabIndex == 0,
+            () => setState(() => _selectedTabIndex = 0)),
+        _buildTab(AppStrings.settingsLoginSecurityTabLabel,
+            _selectedTabIndex == 1,
+            () => setState(() => _selectedTabIndex = 1)),
       ],
     );
   }
@@ -152,7 +158,7 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: const Text('Cancel'),
+            child: const Text(AppStrings.cancel),
             ),
             const SizedBox(width: 12),
             FilledButton(
@@ -174,7 +180,7 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: const Text('Save'),
+            child: const Text(AppStrings.save),
             ),
           ],
         ),
@@ -188,29 +194,29 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          'Change Password',
+          AppStrings.changePasswordLabel,
           style: Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: _textDark),
         ),
         const SizedBox(height: 20),
         _buildPasswordField(
-          'Current Password',
-          'Enter Current Password',
+          AppStrings.currentPasswordLabel,
+          AppStrings.enterCurrentPasswordHint,
           _currentPasswordController,
           isObscure: !_currentPasswordVisible,
           onToggleVisibility: () => setState(() => _currentPasswordVisible = !_currentPasswordVisible),
         ),
         const SizedBox(height: 16),
         _buildPasswordField(
-          'New Password',
-          'Enter New Password',
+          AppStrings.newPasswordLabel,
+          AppStrings.enterNewPasswordHint,
           _newPasswordController,
           isObscure: !_newPasswordVisible,
           onToggleVisibility: () => setState(() => _newPasswordVisible = !_newPasswordVisible),
         ),
         const SizedBox(height: 16),
         _buildPasswordField(
-          'Confirm New Password',
-          'Confirm New Password',
+          AppStrings.confirmNewPasswordLabel,
+          AppStrings.confirmNewPasswordHint,
           _confirmPasswordController,
           isObscure: !_confirmPasswordVisible,
           onToggleVisibility: () => setState(() => _confirmPasswordVisible = !_confirmPasswordVisible),
@@ -231,7 +237,7 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
-              child: const Text('Cancel'),
+              child: const Text(AppStrings.cancel),
             ),
             const SizedBox(width: 12),
             FilledButton(
@@ -248,7 +254,7 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
-              child: const Text('Save'),
+              child: const Text(AppStrings.save),
             ),
           ],
         ),
@@ -304,7 +310,7 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Business Logo',
+          AppStrings.businessLogoLabel,
           style: Get.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600, color: _textDark),
         ),
         const SizedBox(height: 12),
@@ -336,7 +342,7 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Business Name',
+          AppStrings.businessNameLabel,
           style: Get.textTheme.titleSmall?.copyWith(
             fontWeight: FontWeight.w600,
             color: _textDark,
@@ -347,7 +353,7 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
           controller: _businessNameController,
           style: Get.textTheme.bodyMedium?.copyWith(color: _textDark),
           decoration: InputDecoration(
-            hintText: 'SaaS',
+            hintText: AppStrings.businessNameDefault,
             hintStyle: Get.textTheme.bodyMedium?.copyWith(color: _textMuted),
             filled: true,
             fillColor: Colors.white,

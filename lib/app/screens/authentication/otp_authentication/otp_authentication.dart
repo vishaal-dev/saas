@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:saas/app/screens/authentication/widgets/auth_widgets.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 
 import 'views/otp_authentication_controller.dart';
 import 'views/otp_authentication_mobile_view.dart';
@@ -25,13 +26,13 @@ class OtpAuthentication extends GetView<OtpAuthenticationController> {
     return Scaffold(
       body: AuthScreenLayout(
         child: AuthFormCard(
-          title: 'Forgot Password?',
+          title: AppStrings.forgotPasswordTitle,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               AuthFormFieldSection(
-                label: 'Enter OTP',
+                label: AppStrings.enterOtpLabel,
                 spacingAfterLabel: 12,
                 child: AuthOtpInput(
                   length: OtpAuthenticationController.otpLength,
@@ -40,7 +41,7 @@ class OtpAuthentication extends GetView<OtpAuthenticationController> {
                   onChanged: controller.onOtpChanged,
                 ),
               ),
-              const SizedBox(height: AuthConstants.spacingAfterLabel),
+              const SizedBox(height: AppConstants.spacingAfterLabel),
               Center(
                 child: TextButton(
                   onPressed: controller.onResendOtp,
@@ -50,9 +51,9 @@ class OtpAuthentication extends GetView<OtpAuthenticationController> {
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
                   child: Text(
-                    'Resend OTP',
+                    AppStrings.resendOtpText,
                     style: Get.theme.textTheme.bodySmall?.copyWith(
-                      color: AuthConstants.titleColor,
+                      color: AppConstants.titleColor,
                       decoration: TextDecoration.underline,
                     ),
                   ),
@@ -61,28 +62,28 @@ class OtpAuthentication extends GetView<OtpAuthenticationController> {
               const SizedBox(height: 24),
               Obx(
                 () => AuthPrimaryButton(
-                  text: 'Verify',
+                  text: AppStrings.verifyText,
                   onPressed: controller.onVerify,
                   isEnabled: controller.isFormValid.value,
                 ),
               ),
-              const SizedBox(height: AuthConstants.spacingAfterLabel),
+              const SizedBox(height: AppConstants.spacingAfterLabel),
               SizedBox(
-                height: AuthConstants.buttonHeight,
+                height: AppConstants.buttonHeight,
                 child: OutlinedButton(
                   onPressed: controller.onBack,
                   style: OutlinedButton.styleFrom(
                     backgroundColor: Colors.transparent,
                     foregroundColor: const Color(0xFF475569),
-                    side: const BorderSide(color: AuthConstants.borderColor),
+                    side: const BorderSide(color: AppConstants.borderColor),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
-                        AuthConstants.fieldBorderRadius,
+                        AppConstants.fieldBorderRadius,
                       ),
                     ),
                   ),
                   child: Text(
-                    'Back',
+                    AppStrings.backText,
                     style: Get.theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
                       fontSize: 16,

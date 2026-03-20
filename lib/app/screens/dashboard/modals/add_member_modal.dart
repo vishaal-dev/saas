@@ -6,7 +6,7 @@ import '../../../../shared/widgets/app_close_button.dart';
 import '../../../../shared/widgets/plan_dropdown.dart';
 import '../../../../shared/widgets/app_modal_primary_button.dart';
 import '../../../../shared/widgets/success_toast.dart';
-import '../../authentication/widgets/auth_constants.dart';
+import '../../authentication/widgets/app_constants.dart';
 import '../../authentication/widgets/auth_form_field_section.dart';
 import '../../authentication/widgets/auth_text_field.dart';
 import 'add_member_modal_mobile_view.dart';
@@ -47,8 +47,9 @@ class _AddMemberModalState extends State<AddMemberModal> {
     super.initState();
     if (isRenewMode) {
       _fullNameController.text = widget.initialFullName ?? '';
-      _phoneController.text =
-          (widget.initialPhone ?? '').replaceFirst(RegExp(r'^\+91\s*'), '').trim();
+      _phoneController.text = (widget.initialPhone ?? '')
+          .replaceFirst(RegExp(r'^\+91\s*'), '')
+          .trim();
       _selectedPlan = widget.initialPlan;
     }
     _fullNameController.addListener(_onFormChanged);
@@ -87,11 +88,11 @@ class _AddMemberModalState extends State<AddMemberModal> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.light(
-              primary: AuthConstants.buttonEnabledColor,
+              primary: AppConstants.buttonEnabledColor,
               onPrimary: Colors.white,
               surface: Colors.white,
-              onSurface: AuthConstants.labelColor,
-              surfaceContainerHighest: AuthConstants.cardBackground,
+              onSurface: AppConstants.labelColor,
+              surfaceContainerHighest: AppConstants.cardBackground,
             ),
             dialogTheme: DialogThemeData(
               elevation: 16,
@@ -109,7 +110,7 @@ class _AddMemberModalState extends State<AddMemberModal> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),
               ),
-              headerBackgroundColor: AuthConstants.buttonEnabledColor,
+              headerBackgroundColor: AppConstants.buttonEnabledColor,
               headerForegroundColor: Colors.white,
               headerHeadlineStyle: Get.textTheme.headlineMedium?.copyWith(
                 color: Colors.white,
@@ -121,24 +122,24 @@ class _AddMemberModalState extends State<AddMemberModal> {
                 fontFamily: 'Inter',
               ),
               weekdayStyle: Get.textTheme.bodySmall?.copyWith(
-                color: AuthConstants.supportTextColor,
+                color: AppConstants.supportTextColor,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'Inter',
               ),
               dayStyle: Get.textTheme.bodyMedium?.copyWith(
-                color: AuthConstants.labelColor,
+                color: AppConstants.labelColor,
                 fontFamily: 'Inter',
               ),
               dayForegroundColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) return Colors.white;
                 if (states.contains(WidgetState.disabled)) {
-                  return AuthConstants.hintColor;
+                  return AppConstants.hintColor;
                 }
-                return AuthConstants.labelColor;
+                return AppConstants.labelColor;
               }),
               dayBackgroundColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) {
-                  return AuthConstants.buttonEnabledColor;
+                  return AppConstants.buttonEnabledColor;
                 }
                 return null;
               }),
@@ -146,29 +147,29 @@ class _AddMemberModalState extends State<AddMemberModal> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
               todayBorder: BorderSide(
-                color: AuthConstants.buttonEnabledColor,
+                color: AppConstants.buttonEnabledColor,
                 width: 1.5,
               ),
               yearStyle: Get.textTheme.bodyLarge?.copyWith(
-                color: AuthConstants.labelColor,
+                color: AppConstants.labelColor,
                 fontFamily: 'Inter',
               ),
               yearForegroundColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) return Colors.white;
-                return AuthConstants.labelColor;
+                return AppConstants.labelColor;
               }),
               yearBackgroundColor: WidgetStateProperty.resolveWith((states) {
                 if (states.contains(WidgetState.selected)) {
-                  return AuthConstants.buttonEnabledColor;
+                  return AppConstants.buttonEnabledColor;
                 }
                 return null;
               }),
               yearShape: WidgetStateProperty.all(
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
-              dividerColor: AuthConstants.borderColor,
+              dividerColor: AppConstants.borderColor,
               cancelButtonStyle: TextButton.styleFrom(
-                foregroundColor: AuthConstants.supportTextColor,
+                foregroundColor: AppConstants.supportTextColor,
                 textStyle: Get.textTheme.labelLarge?.copyWith(
                   fontFamily: 'Inter',
                   fontWeight: FontWeight.w600,
@@ -182,7 +183,7 @@ class _AddMemberModalState extends State<AddMemberModal> {
                 ),
               ),
               confirmButtonStyle: FilledButton.styleFrom(
-                backgroundColor: AuthConstants.buttonEnabledColor,
+                backgroundColor: AppConstants.buttonEnabledColor,
                 foregroundColor: Colors.white,
                 textStyle: Get.textTheme.labelLarge?.copyWith(
                   color: Colors.white,
@@ -305,15 +306,15 @@ class _AddMemberModalState extends State<AddMemberModal> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildSectionTitle('Member Details'),
-                    const SizedBox(height: AuthConstants.spacingAfterLabel),
+                    const SizedBox(height: AppConstants.spacingAfterLabel),
                     _buildMemberFields(),
                     const SizedBox(height: 24),
                     _buildSectionTitle('Subscription Details'),
-                    const SizedBox(height: AuthConstants.spacingAfterLabel),
+                    const SizedBox(height: AppConstants.spacingAfterLabel),
                     _buildSubscriptionFields(),
                     const SizedBox(height: 24),
                     _buildSectionTitle('Reminder Channels'),
-                    const SizedBox(height: AuthConstants.spacingAfterLabel),
+                    const SizedBox(height: AppConstants.spacingAfterLabel),
                     _buildReminderChannels(),
                   ],
                 ),
@@ -360,7 +361,7 @@ class _AddMemberModalState extends State<AddMemberModal> {
       title,
       style: Get.textTheme.titleSmall?.copyWith(
         fontWeight: FontWeight.bold,
-        color: AuthConstants.labelColor,
+        color: AppConstants.labelColor,
         fontSize: 16,
       ),
     );
@@ -386,11 +387,11 @@ class _AddMemberModalState extends State<AddMemberModal> {
             label: 'Phone Number',
             spacingAfterLabel: 8,
             child: SizedBox(
-              height: AuthConstants.fieldHeight,
+              height: AppConstants.fieldHeight,
               child: TextField(
                 controller: _phoneController,
                 style: Get.theme.textTheme.bodySmall?.copyWith(
-                  color: AuthConstants.textColor,
+                  color: AppConstants.textColor,
                 ),
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
@@ -402,7 +403,7 @@ class _AddMemberModalState extends State<AddMemberModal> {
                       child: Text(
                         '+91 ',
                         style: Get.theme.textTheme.labelMedium?.copyWith(
-                          color: AuthConstants.labelColor,
+                          color: AppConstants.labelColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -414,33 +415,33 @@ class _AddMemberModalState extends State<AddMemberModal> {
                   ),
                   hintText: '00000 00000',
                   hintStyle: Get.theme.textTheme.labelMedium?.copyWith(
-                    color: AuthConstants.hintColor,
+                    color: AppConstants.hintColor,
                     fontWeight: FontWeight.w400,
                   ),
                   filled: true,
-                  fillColor: AuthConstants.fieldFillColor,
+                  fillColor: AppConstants.fieldFillColor,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(
-                      AuthConstants.fieldBorderRadius,
+                      AppConstants.fieldBorderRadius,
                     ),
                     borderSide: const BorderSide(
-                      color: AuthConstants.borderColor,
+                      color: AppConstants.borderColor,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(
-                      AuthConstants.fieldBorderRadius,
+                      AppConstants.fieldBorderRadius,
                     ),
                     borderSide: const BorderSide(
-                      color: AuthConstants.borderColor,
+                      color: AppConstants.borderColor,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(
-                      AuthConstants.fieldBorderRadius,
+                      AppConstants.fieldBorderRadius,
                     ),
                     borderSide: const BorderSide(
-                      color: AuthConstants.focusedBorderColor,
+                      color: AppConstants.focusedBorderColor,
                     ),
                   ),
                   contentPadding: const EdgeInsets.symmetric(
@@ -493,34 +494,34 @@ class _AddMemberModalState extends State<AddMemberModal> {
               _requiredLabel('Start Date'),
               const SizedBox(height: 8),
               SizedBox(
-                height: AuthConstants.fieldHeight,
+                height: AppConstants.fieldHeight,
                 child: InkWell(
                   onTap: _pickStartDate,
                   borderRadius: BorderRadius.circular(
-                    AuthConstants.fieldBorderRadius,
+                    AppConstants.fieldBorderRadius,
                   ),
                   child: InputDecorator(
                     decoration: InputDecoration(
                       hintText: 'Select Date',
                       hintStyle: Get.theme.textTheme.labelMedium?.copyWith(
-                        color: AuthConstants.hintColor,
+                        color: AppConstants.hintColor,
                       ),
                       filled: true,
-                      fillColor: AuthConstants.fieldFillColor,
+                      fillColor: AppConstants.fieldFillColor,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
-                          AuthConstants.fieldBorderRadius,
+                          AppConstants.fieldBorderRadius,
                         ),
                         borderSide: const BorderSide(
-                          color: AuthConstants.borderColor,
+                          color: AppConstants.borderColor,
                         ),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(
-                          AuthConstants.fieldBorderRadius,
+                          AppConstants.fieldBorderRadius,
                         ),
                         borderSide: const BorderSide(
-                          color: AuthConstants.borderColor,
+                          color: AppConstants.borderColor,
                         ),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
@@ -530,7 +531,7 @@ class _AddMemberModalState extends State<AddMemberModal> {
                       suffixIcon: const Icon(
                         Icons.calendar_today_outlined,
                         size: 20,
-                        color: AuthConstants.hintColor,
+                        color: AppConstants.hintColor,
                       ),
                     ),
                     child: Text(
@@ -539,8 +540,8 @@ class _AddMemberModalState extends State<AddMemberModal> {
                           : 'Select Date',
                       style: Get.theme.textTheme.bodySmall?.copyWith(
                         color: _startDate != null
-                            ? AuthConstants.textColor
-                            : AuthConstants.hintColor,
+                            ? AppConstants.textColor
+                            : AppConstants.hintColor,
                       ),
                     ),
                   ),
@@ -557,7 +558,7 @@ class _AddMemberModalState extends State<AddMemberModal> {
               Text(
                 'Expiry Date',
                 style: Get.theme.textTheme.labelMedium?.copyWith(
-                  color: AuthConstants.labelColor,
+                  color: AppConstants.labelColor,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -567,15 +568,15 @@ class _AddMemberModalState extends State<AddMemberModal> {
                   final expiry = calculateExpiryDate(_selectedPlan, _startDate);
                   return Container(
                     width: double.infinity,
-                    height: AuthConstants.fieldHeight,
+                    height: AppConstants.fieldHeight,
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
-                      color: AuthConstants.cardBackground,
+                      color: AppConstants.cardBackground,
                       borderRadius: BorderRadius.circular(
-                        AuthConstants.fieldBorderRadius,
+                        AppConstants.fieldBorderRadius,
                       ),
-                      border: Border.all(color: AuthConstants.borderColor),
+                      border: Border.all(color: AppConstants.borderColor),
                     ),
                     child: Text(
                       expiry != null
@@ -583,8 +584,8 @@ class _AddMemberModalState extends State<AddMemberModal> {
                           : '—',
                       style: Get.theme.textTheme.bodySmall?.copyWith(
                         color: expiry != null
-                            ? AuthConstants.textColor
-                            : AuthConstants.hintColor,
+                            ? AppConstants.textColor
+                            : AppConstants.hintColor,
                       ),
                     ),
                   );
@@ -594,7 +595,7 @@ class _AddMemberModalState extends State<AddMemberModal> {
               Text(
                 'Calculated automatically',
                 style: Get.theme.textTheme.bodySmall?.copyWith(
-                  color: AuthConstants.supportTextColor,
+                  color: AppConstants.supportTextColor,
                   fontSize: 12,
                 ),
               ),
@@ -609,7 +610,7 @@ class _AddMemberModalState extends State<AddMemberModal> {
     return RichText(
       text: TextSpan(
         style: Get.textTheme.bodySmall?.copyWith(
-          color: AuthConstants.labelColor,
+          color: AppConstants.labelColor,
           fontSize: 14,
         ),
         children: [
@@ -660,12 +661,11 @@ class _AddMemberModalState extends State<AddMemberModal> {
                 }
                 return null;
               }),
-              checkColor: AuthConstants.labelColor,
-              side: WidgetStateBorderSide.resolveWith((states) =>
-                  const BorderSide(
-                    color: AuthConstants.borderColor,
-                    width: 1,
-                  )),
+              checkColor: AppConstants.labelColor,
+              side: WidgetStateBorderSide.resolveWith(
+                (states) =>
+                    const BorderSide(color: AppConstants.borderColor, width: 1),
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
               ),
@@ -676,7 +676,7 @@ class _AddMemberModalState extends State<AddMemberModal> {
           Text(
             label,
             style: Get.textTheme.bodyMedium?.copyWith(
-              color: AuthConstants.labelColor,
+              color: AppConstants.labelColor,
             ),
           ),
         ],
@@ -694,14 +694,14 @@ class _AddMemberModalState extends State<AddMemberModal> {
           child: TextButton(
             onPressed: () => Navigator.of(context).pop(),
             style: TextButton.styleFrom(
-              foregroundColor: AuthConstants.supportTextColor,
+              foregroundColor: AppConstants.supportTextColor,
               padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
               minimumSize: const Size(94, 44),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
                 side: const BorderSide(
                   width: 1,
-                  color: AuthConstants.borderColor,
+                  color: AppConstants.borderColor,
                 ),
               ),
             ),

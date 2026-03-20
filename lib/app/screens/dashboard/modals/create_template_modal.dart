@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../../../shared/widgets/success_toast.dart';
 import '../../../../shared/widgets/app_close_button.dart';
 import '../../../../shared/widgets/app_modal_primary_button.dart';
-import '../../authentication/widgets/auth_constants.dart';
+import '../../authentication/widgets/app_constants.dart';
 import 'create_template_modal_mobile_view.dart';
 import 'create_template_modal_tablet_view.dart';
 
@@ -74,7 +74,9 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
   @override
   void initState() {
     super.initState();
-    _messageController = TextEditingController(text: widget.initialMessageContent);
+    _messageController = TextEditingController(
+      text: widget.initialMessageContent,
+    );
     _selectedTrigger = widget.initialTrigger;
     _selectedTiming = widget.initialTiming;
     _selectedAudience = widget.initialAudience;
@@ -98,8 +100,7 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
     if (box == null || !box.hasSize) return;
 
     final overlayState = Overlay.of(context);
-    final overlayRender =
-        overlayState.context.findRenderObject() as RenderBox?;
+    final overlayRender = overlayState.context.findRenderObject() as RenderBox?;
     if (overlayRender == null) return;
 
     final topLeft = box.localToGlobal(Offset.zero, ancestor: overlayRender);
@@ -111,10 +112,11 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
     // menu opens under the dropdown, not on top of it.
     final overlayRect = Offset.zero & oSize;
     final anchorLeft = topLeft.dx.clamp(0.0, oSize.width);
-    final anchorTop =
-        (topLeft.dy + size.height + gap).clamp(0.0, oSize.height);
-    final anchorWidth =
-        size.width.clamp(1.0, (oSize.width - anchorLeft).clamp(1.0, oSize.width));
+    final anchorTop = (topLeft.dy + size.height + gap).clamp(0.0, oSize.height);
+    final anchorWidth = size.width.clamp(
+      1.0,
+      (oSize.width - anchorLeft).clamp(1.0, oSize.width),
+    );
     final anchorBelow = Rect.fromLTWH(anchorLeft, anchorTop, anchorWidth, 1);
     final position = RelativeRect.fromRect(anchorBelow, overlayRect);
 
@@ -128,7 +130,7 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
           child: Text(
             options[i],
             style: Get.theme.textTheme.bodyMedium?.copyWith(
-              color: AuthConstants.labelColor,
+              color: AppConstants.labelColor,
               fontSize: 14,
             ),
           ),
@@ -407,20 +409,21 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
                                                 width: double.infinity,
                                                 height: 120,
                                                 decoration: BoxDecoration(
-                                                  color: AuthConstants
+                                                  color: AppConstants
                                                       .fieldFillColor,
                                                   borderRadius:
                                                       BorderRadius.circular(10),
                                                 ),
                                                 child: CustomPaint(
                                                   painter: _DashedBorderPainter(
-                                                    color: AuthConstants
+                                                    color: AppConstants
                                                         .borderColor,
                                                     borderRadius: 10,
                                                   ),
                                                   child: Column(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment.center,
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
                                                       SvgPicture.asset(
                                                         'assets/icons/upload.svg',
@@ -428,10 +431,10 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
                                                         height: 32,
                                                         colorFilter:
                                                             ColorFilter.mode(
-                                                          AuthConstants
-                                                              .hintColor,
-                                                          BlendMode.srcIn,
-                                                        ),
+                                                              AppConstants
+                                                                  .hintColor,
+                                                              BlendMode.srcIn,
+                                                            ),
                                                       ),
                                                       const SizedBox(height: 8),
                                                       Text(
@@ -441,7 +444,7 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
                                                             .textTheme
                                                             .labelMedium
                                                             ?.copyWith(
-                                                              color: AuthConstants
+                                                              color: AppConstants
                                                                   .hintColor,
                                                               fontWeight:
                                                                   FontWeight
@@ -470,13 +473,13 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
                                             Container(
                                               height: 120,
                                               decoration: BoxDecoration(
-                                                color: AuthConstants
-                                                    .fieldFillColor,
+                                                color:
+                                                    AppConstants.fieldFillColor,
                                                 borderRadius:
                                                     BorderRadius.circular(10),
                                                 border: Border.all(
                                                   color:
-                                                      AuthConstants.borderColor,
+                                                      AppConstants.borderColor,
                                                 ),
                                               ),
                                               child: TextField(
@@ -487,7 +490,7 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
                                                     TextAlignVertical.top,
                                                 style: Get.textTheme.bodyMedium
                                                     ?.copyWith(
-                                                      color: AuthConstants
+                                                      color: AppConstants
                                                           .textColor,
                                                     ),
                                                 decoration: const InputDecoration(
@@ -495,7 +498,7 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
                                                       'Type your message here....',
                                                   hintStyle: TextStyle(
                                                     color:
-                                                        AuthConstants.hintColor,
+                                                        AppConstants.hintColor,
                                                     fontSize: 14,
                                                   ),
                                                   border: InputBorder.none,
@@ -566,14 +569,14 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
           child: TextButton(
             onPressed: () => Navigator.of(context).pop(),
             style: TextButton.styleFrom(
-              foregroundColor: AuthConstants.supportTextColor,
+              foregroundColor: AppConstants.supportTextColor,
               padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
               minimumSize: const Size(94, 44),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
                 side: const BorderSide(
                   width: 1,
-                  color: AuthConstants.borderColor,
+                  color: AppConstants.borderColor,
                 ),
               ),
             ),
@@ -600,7 +603,7 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
     return Text(
       title,
       style: Get.textTheme.labelMedium?.copyWith(
-        color: AuthConstants.labelColor,
+        color: AppConstants.labelColor,
         fontWeight: FontWeight.w600,
       ),
     );
@@ -610,7 +613,7 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
     return RichText(
       text: TextSpan(
         style: Get.textTheme.bodySmall?.copyWith(
-          color: AuthConstants.labelColor,
+          color: AppConstants.labelColor,
           fontSize: 14,
         ),
         children: [
@@ -641,14 +644,11 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
           borderRadius: BorderRadius.circular(10),
           child: Container(
             height: 44,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 10,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
-              color: AuthConstants.fieldFillColor,
+              color: AppConstants.fieldFillColor,
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: AuthConstants.borderColor),
+              border: Border.all(color: AppConstants.borderColor),
             ),
             child: Row(
               children: [
@@ -657,11 +657,11 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
                     value ?? hint,
                     style: value != null
                         ? Get.theme.textTheme.bodySmall?.copyWith(
-                            color: AuthConstants.labelColor,
+                            color: AppConstants.labelColor,
                             fontWeight: FontWeight.w600,
                           )
                         : Get.theme.textTheme.labelMedium?.copyWith(
-                            color: AuthConstants.hintColor,
+                            color: AppConstants.hintColor,
                             fontWeight: FontWeight.w500,
                           ),
                   ),
@@ -669,7 +669,7 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
                 Icon(
                   Icons.keyboard_arrow_down_rounded,
                   size: 20,
-                  color: AuthConstants.hintColor,
+                  color: AppConstants.hintColor,
                 ),
               ],
             ),
@@ -702,12 +702,11 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
                 }
                 return null;
               }),
-              checkColor: AuthConstants.labelColor,
-              side: WidgetStateBorderSide.resolveWith((states) =>
-                  const BorderSide(
-                    color: AuthConstants.borderColor,
-                    width: 1,
-                  )),
+              checkColor: AppConstants.labelColor,
+              side: WidgetStateBorderSide.resolveWith(
+                (states) =>
+                    const BorderSide(color: AppConstants.borderColor, width: 1),
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),
               ),
@@ -718,7 +717,7 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
           Text(
             label,
             style: Get.theme.textTheme.bodySmall?.copyWith(
-              color: AuthConstants.labelColor,
+              color: AppConstants.labelColor,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -734,10 +733,16 @@ class _DashedBorderPainter extends CustomPainter {
   final double borderRadius;
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = color..style = PaintingStyle.stroke..strokeWidth = 1.5;
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
     const dashWidth = 6.0;
     const dashSpace = 4.0;
-    final rrect = RRect.fromRectAndRadius(Rect.fromLTWH(1, 1, size.width - 2, size.height - 2), Radius.circular(borderRadius - 1));
+    final rrect = RRect.fromRectAndRadius(
+      Rect.fromLTWH(1, 1, size.width - 2, size.height - 2),
+      Radius.circular(borderRadius - 1),
+    );
     final path = Path()..addRRect(rrect);
     for (final metric in path.computeMetrics()) {
       double distance = 0;
@@ -748,6 +753,7 @@ class _DashedBorderPainter extends CustomPainter {
       }
     }
   }
+
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

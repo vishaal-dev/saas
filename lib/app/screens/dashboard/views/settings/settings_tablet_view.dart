@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 
 class SettingsTabletView extends StatefulWidget {
   const SettingsTabletView({super.key});
@@ -18,7 +19,8 @@ class _SettingsTabletViewState extends State<SettingsTabletView> {
   static const _cardShadow = Color(0x0F000000);
 
   int _selectedTabIndex = 0;
-  final _businessNameController = TextEditingController(text: 'SaaS');
+  final _businessNameController =
+      TextEditingController(text: AppStrings.businessNameDefault);
   late final String _initialBusinessName;
   final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
@@ -100,8 +102,12 @@ class _SettingsTabletViewState extends State<SettingsTabletView> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildSidebarTab('Profile', _selectedTabIndex == 0, () => setState(() => _selectedTabIndex = 0)),
-          _buildSidebarTab('Login & Security', _selectedTabIndex == 1, () => setState(() => _selectedTabIndex = 1)),
+          _buildSidebarTab(AppStrings.settingsProfileTabLabel,
+              _selectedTabIndex == 0, () => setState(() => _selectedTabIndex = 0)),
+          _buildSidebarTab(
+              AppStrings.settingsLoginSecurityTabLabel,
+              _selectedTabIndex == 1,
+              () => setState(() => _selectedTabIndex = 1)),
         ],
       ),
     );
@@ -158,7 +164,7 @@ class _SettingsTabletViewState extends State<SettingsTabletView> {
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
-              child: const Text('Cancel'),
+              child: const Text(AppStrings.cancel),
             ),
             const SizedBox(width: 12),
             FilledButton(
@@ -175,7 +181,7 @@ class _SettingsTabletViewState extends State<SettingsTabletView> {
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
-              child: const Text('Save'),
+              child: const Text(AppStrings.save),
             ),
           ],
         ),
@@ -189,29 +195,29 @@ class _SettingsTabletViewState extends State<SettingsTabletView> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          'Change Password',
+          AppStrings.changePasswordLabel,
           style: Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: _textDark),
         ),
         const SizedBox(height: 24),
         _buildPasswordField(
-          'Current Password',
-          'Enter Current Password',
+          AppStrings.currentPasswordLabel,
+          AppStrings.enterCurrentPasswordHint,
           _currentPasswordController,
           isObscure: !_currentPasswordVisible,
           onToggleVisibility: () => setState(() => _currentPasswordVisible = !_currentPasswordVisible),
         ),
         const SizedBox(height: 20),
         _buildPasswordField(
-          'New Password',
-          'Enter New Password',
+          AppStrings.newPasswordLabel,
+          AppStrings.enterNewPasswordHint,
           _newPasswordController,
           isObscure: !_newPasswordVisible,
           onToggleVisibility: () => setState(() => _newPasswordVisible = !_newPasswordVisible),
         ),
         const SizedBox(height: 20),
         _buildPasswordField(
-          'Confirm New Password',
-          'Confirm New Password',
+          AppStrings.confirmNewPasswordLabel,
+          AppStrings.confirmNewPasswordHint,
           _confirmPasswordController,
           isObscure: !_confirmPasswordVisible,
           onToggleVisibility: () => setState(() => _confirmPasswordVisible = !_confirmPasswordVisible),
@@ -232,7 +238,7 @@ class _SettingsTabletViewState extends State<SettingsTabletView> {
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
-              child: const Text('Cancel'),
+              child: const Text(AppStrings.cancel),
             ),
             const SizedBox(width: 12),
             FilledButton(
@@ -249,7 +255,7 @@ class _SettingsTabletViewState extends State<SettingsTabletView> {
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
-              child: const Text('Save'),
+              child: const Text(AppStrings.save),
             ),
           ],
         ),
@@ -305,7 +311,7 @@ class _SettingsTabletViewState extends State<SettingsTabletView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Business Logo',
+          AppStrings.businessLogoLabel,
           style: Get.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600, color: _textDark),
         ),
         const SizedBox(height: 12),
@@ -337,7 +343,7 @@ class _SettingsTabletViewState extends State<SettingsTabletView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Business Name',
+          AppStrings.businessNameLabel,
           style: Get.textTheme.titleSmall?.copyWith(
             fontWeight: FontWeight.w600,
             color: _textDark,
@@ -352,7 +358,7 @@ class _SettingsTabletViewState extends State<SettingsTabletView> {
                 controller: _businessNameController,
                 style: Get.textTheme.bodyMedium?.copyWith(color: _textDark),
                 decoration: InputDecoration(
-                  hintText: 'SaaS',
+                  hintText: AppStrings.businessNameDefault,
                   hintStyle: Get.textTheme.bodyMedium?.copyWith(color: _textMuted),
                   filled: true,
                   fillColor: Colors.white,

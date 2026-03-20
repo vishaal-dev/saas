@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:saas/shared/widgets/primary_action_button.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 
 import '../../../../../shared/widgets/success_toast.dart';
 import '../../dialogs/delete_plan_confirm_dialog.dart';
@@ -114,7 +115,7 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Subscriptions',
+                    AppStrings.subscriptionsTitle,
                     style:
                         (isMobile
                                 ? Get.textTheme.headlineSmall
@@ -126,7 +127,7 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Manage subscription plans and pricing',
+                    AppStrings.subscriptionsSubtitle,
                     style: Get.textTheme.bodyMedium?.copyWith(
                       color: _textMuted,
                       fontSize: isMobile ? 13 : 14,
@@ -137,7 +138,7 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
             ),
             if (!isMobile)
               PrimaryActionButton(
-                label: 'Create Plan',
+                label: AppStrings.createPlanLabel,
                 onPressed: () => _showCreatePlanDialog(context),
               ),
           ],
@@ -147,7 +148,7 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
           SizedBox(
             width: double.infinity,
             child: PrimaryActionButton(
-              label: 'Create Plan',
+              label: AppStrings.createPlanLabel,
               onPressed: () => _showCreatePlanDialog(context),
               useFixedSize: false,
             ),
@@ -179,20 +180,22 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
             decoration: const BoxDecoration(color: Color(0xFFEEF2FF)),
             children: [
               _tableCell(
-                'Plan Name',
+                AppStrings.planNameHeader,
                 isHeader: true,
                 align: Alignment.centerLeft,
                 isPlanNameColumn: true,
               ),
-              _tableCell('Duration', isHeader: true, align: Alignment.center),
-              _tableCell('Price', isHeader: true, align: Alignment.center),
+              _tableCell(AppStrings.tableHeaderDuration,
+                  isHeader: true, align: Alignment.center),
+              _tableCell(AppStrings.tableHeaderPrice,
+                  isHeader: true, align: Alignment.center),
               _tableCell(
-                'Active Members',
+                AppStrings.activeMembersHeader,
                 isHeader: true,
                 align: Alignment.center,
               ),
-              _tableCell('Status', isHeader: true, align: Alignment.center),
-              _tableCell('Action', isHeader: true, align: Alignment.center),
+              _tableCell(AppStrings.status, isHeader: true, align: Alignment.center),
+              _tableCell(AppStrings.actionHeader, isHeader: true, align: Alignment.center),
             ],
           ),
           ..._tableData.asMap().entries.map(
@@ -275,7 +278,7 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
         borderRadius: BorderRadius.circular(32),
       ),
       child: Text(
-        isActive ? 'Active' : 'Inactive',
+        isActive ? AppStrings.active : AppStrings.inactive,
         style: Get.textTheme.bodySmall?.copyWith(
           color: isActive ? const Color(0xFF166534) : _inactivePillText,
           fontWeight: FontWeight.w500,
@@ -349,7 +352,7 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
           setState(() => _tableData.removeAt(index));
           SuccessToast.showWithOverlay(
             overlayState,
-            title: 'Plan Deleted',
+            title: AppStrings.planDeletedTitle,
             iconColor: SuccessToast.iconColorRed,
           );
         },
@@ -375,7 +378,10 @@ class _SubscriptionsViewState extends State<SubscriptionsView> {
             ];
           });
           Navigator.of(context).pop();
-          SuccessToast.show(context, title: 'Plan Created Successfully!');
+          SuccessToast.show(
+            context,
+            title: AppStrings.planCreatedSuccessfullyTitle,
+          );
         },
       ),
     );

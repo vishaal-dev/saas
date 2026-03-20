@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../app/screens/authentication/widgets/auth_constants.dart';
+import '../../app/screens/authentication/widgets/app_constants.dart';
 
 /// Standard primary action button used across dashboard screens.
 class PrimaryActionButton extends StatelessWidget {
@@ -27,8 +27,8 @@ class PrimaryActionButton extends StatelessWidget {
 
     return Material(
       color: isEnabled
-          ? AuthConstants.buttonEnabledColor
-          : AuthConstants.buttonEnabledColor.withValues(alpha: 0.5),
+          ? AppConstants.buttonEnabledColor
+          : AppConstants.buttonEnabledColor.withValues(alpha: 0.5),
       borderRadius: BorderRadius.circular(_borderRadius),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -53,4 +53,3 @@ class PrimaryActionButton extends StatelessWidget {
     );
   }
 }
-

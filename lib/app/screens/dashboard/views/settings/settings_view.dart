@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../authentication/widgets/auth_constants.dart';
+import '../../../authentication/widgets/app_constants.dart';
 import '../../../authentication/widgets/auth_form_field_section.dart';
 import '../../../authentication/widgets/auth_password_field.dart';
 import '../../../authentication/widgets/auth_text_field.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 import 'settings_mobile_view.dart';
 import 'settings_tablet_view.dart';
 
@@ -59,18 +60,16 @@ class SettingsView extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          'Settings',
-          style: (isMobile
-                  ? Get.textTheme.headlineSmall
-                  : Get.textTheme.headlineMedium)
-              ?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: _textDark,
-          ),
+          AppStrings.settingsTitle,
+          style:
+              (isMobile
+                      ? Get.textTheme.headlineSmall
+                      : Get.textTheme.headlineMedium)
+                  ?.copyWith(fontWeight: FontWeight.bold, color: _textDark),
         ),
         const SizedBox(height: 4),
         Text(
-          'Manage your business, preferences, and account',
+          AppStrings.settingsSubtitle,
           style: Get.textTheme.bodyMedium?.copyWith(
             color: _textMuted,
             fontSize: isMobile ? 13 : 14,
@@ -104,7 +103,8 @@ class _SettingsContent extends StatefulWidget {
 
 class _SettingsContentState extends State<_SettingsContent> {
   int _selectedTabIndex = 0; // 0 = Profile, 1 = Login & Security
-  final _businessNameController = TextEditingController(text: 'SaaS');
+  final _businessNameController =
+      TextEditingController(text: AppStrings.businessNameDefault);
   final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -178,20 +178,18 @@ class _SettingsContentState extends State<_SettingsContent> {
       decoration: BoxDecoration(
         color: const Color(0xFFFAFAFA),
         borderRadius: const BorderRadius.horizontal(left: Radius.circular(12)),
-        border: Border(
-          right: BorderSide(color: widget.border),
-        ),
+        border: Border(right: BorderSide(color: widget.border)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           _buildSidebarTab(
-            'Profile',
+            AppStrings.settingsProfileTabLabel,
             isSelected: _selectedTabIndex == 0,
             onTap: () => setState(() => _selectedTabIndex = 0),
           ),
           _buildSidebarTab(
-            'Login & Security',
+            AppStrings.settingsLoginSecurityTabLabel,
             isSelected: _selectedTabIndex == 1,
             onTap: () => setState(() => _selectedTabIndex = 1),
           ),
@@ -200,8 +198,11 @@ class _SettingsContentState extends State<_SettingsContent> {
     );
   }
 
-  Widget _buildSidebarTab(String label,
-      {required bool isSelected, required VoidCallback onTap}) {
+  Widget _buildSidebarTab(
+    String label, {
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
     return Material(
       color: isSelected ? widget.tabActiveBg : Colors.transparent,
       borderRadius: BorderRadius.zero,
@@ -242,7 +243,7 @@ class _SettingsContentState extends State<_SettingsContent> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Business Logo',
+              AppStrings.businessLogoLabel,
               style: Get.textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.w600,
                 color: widget.textDark,
@@ -259,14 +260,17 @@ class _SettingsContentState extends State<_SettingsContent> {
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: widget.textDark,
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 12,
+                      ),
                       minimumSize: const Size(94, 44),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                         side: BorderSide(width: 1, color: widget.border),
                       ),
                     ),
-                    child: const Text('Cancel'),
+                    child: const Text(AppStrings.cancel),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -277,13 +281,16 @@ class _SettingsContentState extends State<_SettingsContent> {
                     style: FilledButton.styleFrom(
                       backgroundColor: widget.purple,
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
                       minimumSize: const Size(88, 44),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text('Save'),
+                    child: const Text(AppStrings.save),
                   ),
                 ),
               ],
@@ -328,11 +335,11 @@ class _SettingsContentState extends State<_SettingsContent> {
     return SizedBox(
       width: 280,
       child: AuthFormFieldSection(
-        label: 'Business Name',
+        label: AppStrings.businessNameLabel,
         spacingAfterLabel: 8,
         child: AuthTextField(
           controller: _businessNameController,
-          hint: 'SaaS',
+          hint: AppStrings.businessNameDefault,
         ),
       ),
     );
@@ -349,7 +356,7 @@ class _SettingsContentState extends State<_SettingsContent> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Change Password',
+              AppStrings.changePasswordLabel,
               style: Get.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: widget.textDark,
@@ -366,14 +373,17 @@ class _SettingsContentState extends State<_SettingsContent> {
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: widget.textDark,
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 12,
+                      ),
                       minimumSize: const Size(94, 44),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                         side: BorderSide(width: 1, color: widget.border),
                       ),
                     ),
-                    child: const Text('Cancel'),
+                    child: const Text(AppStrings.cancel),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -386,13 +396,16 @@ class _SettingsContentState extends State<_SettingsContent> {
                       foregroundColor: Colors.white,
                       disabledBackgroundColor: const Color(0xFFA5B4FC),
                       disabledForegroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
                       minimumSize: const Size(88, 44),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text('Save'),
+                    child: const Text(AppStrings.save),
                   ),
                 ),
               ],
@@ -403,14 +416,15 @@ class _SettingsContentState extends State<_SettingsContent> {
         SizedBox(
           width: 280,
           child: AuthFormFieldSection(
-            label: 'Current Password',
+            label: AppStrings.currentPasswordLabel,
             spacingAfterLabel: 8,
             child: AuthPasswordField(
               controller: _currentPasswordController,
               obscureText: !_currentPasswordVisible,
-              onToggleVisibility: () =>
-                  setState(() => _currentPasswordVisible = !_currentPasswordVisible),
-              hint: 'Enter Current Password',
+              onToggleVisibility: () => setState(
+                () => _currentPasswordVisible = !_currentPasswordVisible,
+              ),
+              hint: AppStrings.enterCurrentPasswordHint,
             ),
           ),
         ),
@@ -421,14 +435,15 @@ class _SettingsContentState extends State<_SettingsContent> {
             SizedBox(
               width: 280,
               child: AuthFormFieldSection(
-                label: 'New Password',
+                label: AppStrings.newPasswordLabel,
                 spacingAfterLabel: 8,
                 child: AuthPasswordField(
                   controller: _newPasswordController,
                   obscureText: !_newPasswordVisible,
-                  onToggleVisibility: () =>
-                      setState(() => _newPasswordVisible = !_newPasswordVisible),
-                  hint: 'Enter New Password',
+                  onToggleVisibility: () => setState(
+                    () => _newPasswordVisible = !_newPasswordVisible,
+                  ),
+                  hint: AppStrings.enterNewPasswordHint,
                 ),
               ),
             ),
@@ -436,14 +451,15 @@ class _SettingsContentState extends State<_SettingsContent> {
             SizedBox(
               width: 280,
               child: AuthFormFieldSection(
-                label: 'Confirm New Password',
+                label: AppStrings.confirmNewPasswordLabel,
                 spacingAfterLabel: 8,
                 child: AuthPasswordField(
                   controller: _confirmPasswordController,
                   obscureText: !_confirmPasswordVisible,
                   onToggleVisibility: () => setState(
-                      () => _confirmPasswordVisible = !_confirmPasswordVisible),
-                  hint: 'Confirm New Password',
+                    () => _confirmPasswordVisible = !_confirmPasswordVisible,
+                  ),
+                  hint: AppStrings.confirmNewPasswordHint,
                 ),
               ),
             ),
@@ -460,7 +476,8 @@ class _SettingsContentState extends State<_SettingsContent> {
   }
 
   void _onCancelProfile() {
-    _businessNameController.text = 'SaaS'; // reset to initial
+    _businessNameController.text =
+        AppStrings.businessNameDefault; // reset to initial
   }
 
   void _onSaveProfile() {
@@ -492,7 +509,11 @@ class _SettingsContentState extends State<_SettingsContent> {
               ),
             ],
           ),
-          child: const Icon(Icons.edit_outlined, size: 20, color: Color(0xFF64748B)),
+          child: const Icon(
+            Icons.edit_outlined,
+            size: 20,
+            color: Color(0xFF64748B),
+          ),
         ),
       ),
     );

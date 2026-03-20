@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../app/screens/authentication/widgets/auth_constants.dart';
+import '../../app/screens/authentication/widgets/app_constants.dart';
 
 /// Plan options for the dropdown.
 const List<String> kPlanOptions = ['Monthly', 'Quarterly', 'Yearly'];
@@ -32,8 +32,7 @@ class PlanDropdown extends StatelessWidget {
     if (box == null || !box.hasSize) return;
 
     final overlayState = Overlay.of(context);
-    final overlayRender =
-        overlayState.context.findRenderObject() as RenderBox?;
+    final overlayRender = overlayState.context.findRenderObject() as RenderBox?;
     if (overlayRender == null) return;
 
     final topLeft = box.localToGlobal(Offset.zero, ancestor: overlayRender);
@@ -43,20 +42,18 @@ class PlanDropdown extends StatelessWidget {
 
     final overlayRect = Offset.zero & oSize;
     final anchorLeft = topLeft.dx.clamp(0.0, oSize.width);
-    final anchorTop =
-        (topLeft.dy + size.height + gap).clamp(0.0, oSize.height);
-    final anchorWidth =
-        size.width.clamp(1.0, (oSize.width - anchorLeft).clamp(1.0, oSize.width));
+    final anchorTop = (topLeft.dy + size.height + gap).clamp(0.0, oSize.height);
+    final anchorWidth = size.width.clamp(
+      1.0,
+      (oSize.width - anchorLeft).clamp(1.0, oSize.width),
+    );
     final anchorBelow = Rect.fromLTWH(anchorLeft, anchorTop, anchorWidth, 1);
     final position = RelativeRect.fromRect(anchorBelow, overlayRect);
 
     final selected = await showMenu<String>(
       context: context,
       position: position,
-      constraints: BoxConstraints(
-        minWidth: size.width,
-        maxWidth: size.width,
-      ),
+      constraints: BoxConstraints(minWidth: size.width, maxWidth: size.width),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(_menuBorderRadius),
       ),
@@ -80,7 +77,7 @@ class PlanDropdown extends StatelessWidget {
       child: Text(
         plan,
         style: Get.theme.textTheme.bodyMedium?.copyWith(
-          color: AuthConstants.labelColor,
+          color: AppConstants.labelColor,
           fontSize: 14,
         ),
       ),
@@ -91,14 +88,14 @@ class PlanDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => _showPlanMenu(context),
-      borderRadius: BorderRadius.circular(AuthConstants.fieldBorderRadius),
+      borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
       child: Container(
-        height: AuthConstants.fieldHeight,
+        height: AppConstants.fieldHeight,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
-          color: AuthConstants.fieldFillColor,
-          borderRadius: BorderRadius.circular(AuthConstants.fieldBorderRadius),
-          border: Border.all(color: AuthConstants.borderColor),
+          color: AppConstants.fieldFillColor,
+          borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
+          border: Border.all(color: AppConstants.borderColor),
         ),
         child: Row(
           children: [
@@ -107,15 +104,15 @@ class PlanDropdown extends StatelessWidget {
                 value ?? hint,
                 style: Get.theme.textTheme.labelMedium?.copyWith(
                   color: value != null
-                      ? AuthConstants.labelColor
-                      : AuthConstants.hintColor,
+                      ? AppConstants.labelColor
+                      : AppConstants.hintColor,
                 ),
               ),
             ),
             Icon(
               Icons.keyboard_arrow_down_rounded,
               size: 20,
-              color: AuthConstants.hintColor,
+              color: AppConstants.hintColor,
             ),
           ],
         ),

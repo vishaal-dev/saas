@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 import 'reports_mobile_view.dart';
 
 class ReportsTabletView extends StatelessWidget {
@@ -51,7 +52,7 @@ class ReportsTabletView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text(
-              'Revenue Analysis',
+              AppStrings.revenueAnalysisTitle,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: _textDark,
@@ -86,7 +87,8 @@ class ReportsTabletView extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text('Monthly', style: TextStyle(color: _textDark, fontSize: 14)),
+          const Text(AppStrings.monthly,
+              style: TextStyle(color: _textDark, fontSize: 14)),
           const SizedBox(width: 8),
           SvgPicture.asset(
             'assets/icons/dropdown_down.svg',
@@ -119,12 +121,12 @@ class ReportsTabletView extends StatelessWidget {
           TableRow(
             decoration: const BoxDecoration(color: Color(0xFFF1F5F9)),
             children: [
-              _tableCell('Plan Name', isHeader: true),
-              _tableCell('Total Members', isHeader: true),
-              _tableCell('Renewals', isHeader: true),
-              _tableCell('Missed Renewals', isHeader: true),
-              _tableCell('Renewal Rate', isHeader: true),
-              _tableCell('Revenue', isHeader: true),
+              _tableCell(AppStrings.tableHeaderPlanName, isHeader: true),
+              _tableCell(AppStrings.tableHeaderTotalMembers, isHeader: true),
+              _tableCell(AppStrings.renewalsTitle, isHeader: true),
+              _tableCell(AppStrings.missedRenewalsTitle, isHeader: true),
+              _tableCell(AppStrings.renewalRateTitle, isHeader: true),
+              _tableCell(AppStrings.tableHeaderRevenue, isHeader: true),
             ],
           ),
           ...revenueData.map(
@@ -200,7 +202,7 @@ class _ExportButton extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 const Text(
-                  'Export',
+                  AppStrings.exportLabel,
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,

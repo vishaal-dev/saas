@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'auth_constants.dart';
+import 'app_constants.dart';
 
 /// Reusable label for form fields in authentication screens.
 class AuthFormFieldLabel extends StatelessWidget {
@@ -14,7 +14,7 @@ class AuthFormFieldLabel extends StatelessWidget {
     return Text(
       label,
       style: Get.theme.textTheme.labelMedium?.copyWith(
-        color: AuthConstants.labelColor,
+        color: AppConstants.labelColor,
         fontWeight: FontWeight.w600,
       ),
     );

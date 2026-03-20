@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../widgets/auth_widgets.dart';
+import 'package:saas/shared/constants/app_strings.dart';
 import 'login_controller.dart';
 
 class LoginMobileView extends GetView<LoginController> {
@@ -12,24 +13,24 @@ class LoginMobileView extends GetView<LoginController> {
       body: AuthScreenLayout(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         child: _AuthFormCardMobile(
-          title: 'Login',
+          title: AppStrings.loginTitle,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               AuthFormFieldSection(
-                label: 'User Name',
+                label: AppStrings.userNameLabel,
                 child: Obx(
                   () => AuthTextField(
                     controller: controller.usernameController,
-                    hint: 'Enter username',
+                    hint: AppStrings.enterUsernameHint,
                     isHovered: controller.isUsernameHovered.value,
                   ),
                 ),
               ),
               const SizedBox(height: 20),
               AuthFormFieldSection(
-                label: 'Password',
+                label: AppStrings.passwordLabel,
                 child: Obx(
                   () => AuthPasswordField(
                     controller: controller.passwordController,
@@ -45,38 +46,36 @@ class LoginMobileView extends GetView<LoginController> {
                 child: MouseRegion(
                   onEnter: (_) => controller.setForgotPasswordHovered(true),
                   onExit: (_) => controller.setForgotPasswordHovered(false),
-                  child: Obx(
-                    () {
-                      final hovered = controller.isForgotPasswordHovered.value;
-                      final color = hovered
-                          ? AuthConstants.titleColor
-                          : AuthConstants.hintColor;
-                      return TextButton(
-                        onPressed: controller.onForgotPassword,
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          minimumSize: Size.zero,
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  child: Obx(() {
+                    final hovered = controller.isForgotPasswordHovered.value;
+                    final color = hovered
+                        ? AppConstants.titleColor
+                        : AppConstants.hintColor;
+                    return TextButton(
+                      onPressed: controller.onForgotPassword,
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: Text(
+                        AppStrings.forgotPasswordTitle,
+                        style: Get.theme.textTheme.labelMedium!.copyWith(
+                          color: color,
+                          fontWeight: hovered ? FontWeight.w400 : null,
+                          decoration: TextDecoration.underline,
+                          decorationColor: color,
+                          decorationThickness: 1.2,
                         ),
-                        child: Text(
-                          'Forgot Password?',
-                          style: Get.theme.textTheme.labelMedium!.copyWith(
-                            color: color,
-                            fontWeight: hovered ? FontWeight.w400 : null,
-                            decoration: TextDecoration.underline,
-                            decorationColor: color,
-                            decorationThickness: 1.2,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  }),
                 ),
               ),
               const SizedBox(height: 32),
               Obx(
                 () => AuthPrimaryButton(
-                  text: 'Login',
+                  text: AppStrings.loginTitle,
                   onPressed: controller.onLogin,
                   isEnabled: controller.isFormValid.value,
                 ),
@@ -103,8 +102,8 @@ class _AuthFormCardMobile extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
       decoration: BoxDecoration(
-        color: AuthConstants.cardBackground,
-        borderRadius: BorderRadius.circular(AuthConstants.cardBorderRadius),
+        color: AppConstants.cardBackground,
+        borderRadius: BorderRadius.circular(AppConstants.cardBorderRadius),
         boxShadow: const [
           BoxShadow(
             color: Color(0x40000000),
@@ -120,19 +119,14 @@ class _AuthFormCardMobile extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/saas-logo.png',
-                height: 36,
-              ),
-            ],
+            children: [Image.asset('assets/images/saas-logo.png', height: 36)],
           ),
           const SizedBox(height: 32),
           Text(
             title,
             textAlign: TextAlign.center,
             style: Get.theme.textTheme.bodyLarge?.copyWith(
-              color: AuthConstants.titleColor,
+              color: AppConstants.titleColor,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
