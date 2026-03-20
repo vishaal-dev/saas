@@ -9,16 +9,14 @@ Future<DateTime?> showAppDatePicker({
   required DateTime lastDate,
   String? helpText,
 }) {
-  return showDatePicker(
+  // Use CalendarDatePicker to avoid numeric/text input mode.
+  final localizations = MaterialLocalizations.of(context);
+  return showDialog<DateTime?>(
     context: context,
-    initialDate: initialDate,
-    firstDate: firstDate,
-    lastDate: lastDate,
-    helpText: helpText,
-    initialEntryMode: DatePickerEntryMode.calendar,
-    builder: (context, child) {
+    builder: (dialogContext) {
+      DateTime selectedDate = initialDate;
       return Theme(
-        data: Theme.of(context).copyWith(
+        data: Theme.of(dialogContext).copyWith(
           colorScheme: const ColorScheme.light(
             primary: AppConstants.buttonEnabledColor,
             onPrimary: Colors.white,
@@ -82,51 +80,57 @@ Future<DateTime?> showAppDatePicker({
               color: AppConstants.buttonEnabledColor,
               width: 1.5,
             ),
-            yearStyle: Get.textTheme.bodyLarge?.copyWith(
-              color: AppConstants.labelColor,
-              fontFamily: 'Inter',
-            ),
-            yearForegroundColor: WidgetStateProperty.resolveWith((states) {
-              if (states.contains(WidgetState.selected)) return Colors.white;
-              return AppConstants.labelColor;
-            }),
-            yearBackgroundColor: WidgetStateProperty.resolveWith((states) {
-              if (states.contains(WidgetState.selected)) {
-                return AppConstants.buttonEnabledColor;
-              }
-              return null;
-            }),
-            yearShape: WidgetStateProperty.all(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            ),
             dividerColor: AppConstants.borderColor,
-            cancelButtonStyle: TextButton.styleFrom(
-              foregroundColor: AppConstants.supportTextColor,
-              textStyle: Get.textTheme.labelLarge?.copyWith(
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w600,
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            confirmButtonStyle: FilledButton.styleFrom(
-              backgroundColor: AppConstants.buttonEnabledColor,
-              foregroundColor: Colors.white,
-              textStyle: Get.textTheme.labelLarge?.copyWith(
-                color: Colors.white,
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w600,
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
           ),
         ),
-        child: child!,
+        child: StatefulBuilder(
+          builder: (stateContext, setState) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              title: helpText == null ? null : Text(helpText),
+              content: SizedBox(
+                width: 360,
+                child: CalendarDatePicker(
+                  // CalendarDatePicker takes `initialDate` (not `selectedDate`).
+                  initialDate: selectedDate,
+                  firstDate: firstDate,
+                  lastDate: lastDate,
+                  currentDate: DateTime.now(),
+                  onDateChanged: (DateTime value) {
+                    setState(() => selectedDate = value);
+                  },
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(stateContext).pop(null),
+                  child: Text(
+                    localizations.cancelButtonLabel,
+                    style: Get.textTheme.labelLarge?.copyWith(
+                      color: AppConstants.supportTextColor,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                FilledButton(
+                  onPressed: () =>
+                      Navigator.of(stateContext).pop(selectedDate),
+                  child: Text(
+                    localizations.okButtonLabel,
+                    style: Get.textTheme.labelLarge?.copyWith(
+                      color: Colors.white,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       );
     },
   );
