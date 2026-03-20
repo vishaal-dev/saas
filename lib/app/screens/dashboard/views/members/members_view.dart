@@ -161,7 +161,7 @@ class _MembersViewState extends State<MembersView> {
   }
 
   // Tablet mode gets the wider search box, while web/desktop should stay compact.
-  static const _searchFieldWidthWeb = 260.0;
+  static const _searchFieldWidthWeb = 360.0;
   static const _searchFieldWidthTablet = 900.0;
   static const _dropdownWidthTablet = 132.0;
   static const _dropdownHeightTablet = 40.0;
@@ -548,13 +548,21 @@ class _MembersViewState extends State<MembersView> {
                   isHeader: true,
                   align: Alignment.center,
                 ),
-                _tableCell(AppStrings.plan, isHeader: true, align: Alignment.center),
+                _tableCell(
+                  AppStrings.plan,
+                  isHeader: true,
+                  align: Alignment.center,
+                ),
                 _tableCell(
                   AppStrings.tableHeaderExpiryDate,
                   isHeader: true,
                   align: Alignment.center,
                 ),
-                _tableCell(AppStrings.status, isHeader: true, align: Alignment.center),
+                _tableCell(
+                  AppStrings.status,
+                  isHeader: true,
+                  align: Alignment.center,
+                ),
               ],
             ),
             ..._tableData.asMap().entries.map(
