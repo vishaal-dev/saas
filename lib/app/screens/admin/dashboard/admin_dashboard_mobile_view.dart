@@ -114,6 +114,9 @@ class AdminDashboardMobileView extends StatelessWidget {
       expiry: '09/10/2026',
     ),
   ];
+  static const _dashboardVisibleItems = 2;
+  static const _mobileBusinessCardHeight = 146.0;
+  static const _mobileBusinessCardSpacing = 12.0;
 
   @override
   Widget build(BuildContext context) {
@@ -187,9 +190,9 @@ class AdminDashboardMobileView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _buildHeader(),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
           _buildSummaryCards(),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
           _buildTableCard(),
         ],
       ),
@@ -343,9 +346,9 @@ class AdminDashboardMobileView extends StatelessWidget {
       crossAxisCount: 2,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      mainAxisSpacing: 12,
-      crossAxisSpacing: 12,
-      childAspectRatio: 1.3,
+      mainAxisSpacing: 10,
+      crossAxisSpacing: 10,
+      childAspectRatio: 1.55,
       children: [
         _buildStatCard('15', 'Total Business', _purple),
         _buildStatCard('12', 'Active', const Color(0xFF16A34A)),
@@ -357,7 +360,7 @@ class AdminDashboardMobileView extends StatelessWidget {
 
   Widget _buildStatCard(String value, String label, Color color) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -379,16 +382,20 @@ class AdminDashboardMobileView extends StatelessWidget {
             style: Get.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.w800,
               color: color,
+              fontSize: 20,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 2),
           Text(
             label,
             style: Get.textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.w600,
               color: const Color(0xFF475569),
+              fontSize: 11,
             ),
             textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
@@ -396,52 +403,71 @@ class AdminDashboardMobileView extends StatelessWidget {
   }
 
   Widget _buildTableCard() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: _border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    'Recently Added Business',
-                    style: Get.textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: _textDark,
-                    ),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'View All',
-                    style: Get.textTheme.bodyMedium?.copyWith(
-                      color: _purple,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: _border),
           ),
-          for (final row in _recentBusinessRows)
-            _buildMobileRow(
-              row.business,
-              row.owner,
-              row.plan,
-              row.status,
-              row.expiry,
-            ),
-        ],
-      ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Recently Added Business',
+                        style: Get.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: _textDark,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => onNavTap(1),
+                      child: Text(
+                        'View All',
+                        style: Get.textTheme.bodyMedium?.copyWith(
+                          color: _purple,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        ...() {
+          final rows = _recentBusinessRows
+              .take(_dashboardVisibleItems)
+              .toList(growable: false);
+          return [
+            for (int i = 0; i < rows.length; i++) ...[
+              SizedBox(
+                height: _mobileBusinessCardHeight,
+                child: _buildMobileRow(
+                  rows[i].business,
+                  rows[i].owner,
+                  rows[i].plan,
+                  rows[i].status,
+                  rows[i].expiry,
+                ),
+              ),
+              if (i < rows.length - 1)
+                const SizedBox(height: _mobileBusinessCardSpacing),
+            ],
+          ];
+        }(),
+      ],
     );
   }
 
@@ -453,60 +479,105 @@ class AdminDashboardMobileView extends StatelessWidget {
     String expiry,
   ) {
     return Container(
-      decoration: const BoxDecoration(
-        border: Border(top: BorderSide(color: _border)),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: _border),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            business,
-            style: Get.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: _textDark,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            owner,
-            style: Get.textTheme.bodySmall?.copyWith(color: _textMuted),
-          ),
-          const SizedBox(height: 12),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Plan: $plan',
-                style: Get.textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w500,
+              Expanded(
+                child: Text(
+                  business,
+                  style: Get.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: _textDark,
+                    fontSize: 16,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Text(
-                'Expiry: $expiry',
-                style: Get.textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w500,
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: _statusBadgeColor(status),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Text(
+                  status,
+                  style: Get.textTheme.labelMedium?.copyWith(
+                    color: _statusTextColor(status),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 11,
+                  ),
                 ),
               ),
             ],
           ),
+          const SizedBox(height: 4),
+          Text(
+            owner,
+            style: Get.textTheme.bodyMedium?.copyWith(
+              color: _textMuted,
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
           const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            decoration: BoxDecoration(
-              color: _statusBadgeColor(status),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Text(
-              status,
-              style: Get.textTheme.labelMedium?.copyWith(
-                color: _statusTextColor(status),
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+          const Divider(height: 1, thickness: 1, color: _border),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _infoColumn('Plan', plan),
+              _infoColumn('Expiry Date', expiry, alignRight: true),
+            ],
           ),
         ],
       ),
+    );
+  }
+
+  Widget _infoColumn(String label, String value, {bool alignRight = false}) {
+    return Column(
+      crossAxisAlignment: alignRight
+          ? CrossAxisAlignment.end
+          : CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: Get.textTheme.labelSmall?.copyWith(
+            color: _textMuted,
+            fontWeight: FontWeight.w500,
+            fontSize: 10,
+          ),
+        ),
+        const SizedBox(height: 2),
+        Text(
+          value,
+          style: Get.textTheme.titleMedium?.copyWith(
+            color: _textDark,
+            fontWeight: FontWeight.w800,
+            fontSize: 11,
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
     );
   }
 

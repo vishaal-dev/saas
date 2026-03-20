@@ -114,6 +114,7 @@ class AdminDashboardTabletView extends StatelessWidget {
       expiry: '09/10/2026',
     ),
   ];
+  static const _dashboardVisibleItems = 4;
 
   @override
   Widget build(BuildContext context) {
@@ -174,6 +175,7 @@ class AdminDashboardTabletView extends StatelessWidget {
           ? _buildDashboardBody()
           : AdminBusinessContent(
               isMobile: false,
+              isTablet: true,
               onAddBusinessTap: onAddBusinessTap,
               onEditBusinessTap: onEditBusinessTap,
             ),
@@ -181,7 +183,7 @@ class AdminDashboardTabletView extends StatelessWidget {
   }
 
   Widget _buildDashboardBody() {
-    return SingleChildScrollView(
+    return Padding(
       padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -190,7 +192,7 @@ class AdminDashboardTabletView extends StatelessWidget {
           const SizedBox(height: 24),
           _buildSummaryCards(),
           const SizedBox(height: 24),
-          _buildTableCard(),
+          Expanded(child: _buildTableCard()),
         ],
       ),
     );
@@ -387,142 +389,185 @@ class AdminDashboardTabletView extends StatelessWidget {
   }
 
   Widget _buildTableCard() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: _border),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Recently Added Business',
+                        style: Get.textTheme.titleMedium?.copyWith(
+                          color: _textDark,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    TextButton(
+                      onPressed: () => onNavTap(1),
+                      child: Text(
+                        'View All Business',
+                        style: Get.textTheme.labelMedium?.copyWith(
+                          color: _purple,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+        Expanded(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final visibleRows = _recentBusinessRows
+                  .take(_dashboardVisibleItems)
+                  .toList(growable: false);
+              const maxCardWidth = 500.0;
+              const spacing = 16.0;
+
+              final columns = (constraints.maxWidth / maxCardWidth)
+                  .floor()
+                  .clamp(1, visibleRows.length);
+              final rowCount = (visibleRows.length / columns).ceil();
+              final availableHeight = constraints.maxHeight - ((rowCount - 1) * spacing);
+              final dynamicCardHeight = (availableHeight / rowCount).clamp(170.0, 280.0);
+
+              return GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: visibleRows.length,
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: maxCardWidth,
+                  mainAxisSpacing: spacing,
+                  crossAxisSpacing: spacing,
+                  mainAxisExtent: dynamicCardHeight,
+                ),
+                itemBuilder: (context, index) {
+                  final row = visibleRows[index];
+                  return _buildRecentBusinessCard(
+                    business: row.business,
+                    owner: row.owner,
+                    plan: row.plan,
+                    status: row.status,
+                    expiry: row.expiry,
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRecentBusinessCard({
+    required String business,
+    required String owner,
+    required String plan,
+    required String status,
+    required String expiry,
+  }) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(color: _border),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
               children: [
                 Expanded(
                   child: Text(
-                    'Recently Added Business',
+                    business,
                     style: Get.textTheme.titleMedium?.copyWith(
                       color: _textDark,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const SizedBox(width: 12),
-                TextButton(
-                  onPressed: () {},
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: _statusBadgeColor(status),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                   child: Text(
-                    'View All Business',
+                    status,
                     style: Get.textTheme.labelMedium?.copyWith(
-                      color: _purple,
+                      color: _statusTextColor(status),
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
               ],
             ),
-          ),
-          LayoutBuilder(
-            builder: (context, constraints) {
-              return Table(
-                columnWidths: const {
-                  0: FlexColumnWidth(2),
-                  1: FlexColumnWidth(2),
-                  2: FlexColumnWidth(1),
-                  3: FlexColumnWidth(1),
-                  4: FlexColumnWidth(1.2),
-                },
-                children: [
-                  TableRow(
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFEEF2FF),
-                      border: Border(bottom: BorderSide(color: _border)),
-                    ),
-                    children: [
-                      _headerCell('Business'),
-                      _headerCell('Owner'),
-                      _headerCell('Plan'),
-                      _headerCell('Status', align: Alignment.center),
-                      _headerCell('Expiry', align: Alignment.center),
-                    ],
-                  ),
-                  for (final row in _recentBusinessRows)
-                    TableRow(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        border: Border(
-                          bottom: BorderSide(color: Colors.transparent),
-                        ),
-                      ),
-                      children: [
-                        _dataCell(row.business),
-                        _dataCell(row.owner),
-                        _dataCell(row.plan),
-                        _statusCell(row.status),
-                        _dataCell(row.expiry, align: Alignment.center),
-                      ],
-                    ),
-                ],
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _headerCell(String text, {Alignment align = Alignment.centerLeft}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-      child: Align(
-        alignment: align,
-        child: Text(
-          text,
-          style: Get.textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w600,
-            color: const Color(0xFF475569),
-          ),
+            const SizedBox(height: 10),
+            Text(
+              owner,
+              style: Get.textTheme.bodySmall?.copyWith(color: _textMuted),
+            ),
+            const Spacer(),
+            const Divider(height: 1, thickness: 1, color: _border),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _infoColumn('Plan', plan),
+                _infoColumn('Expiry', expiry, alignRight: true),
+              ],
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _dataCell(String text, {Alignment align = Alignment.centerLeft}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-      child: Align(
-        alignment: align,
-        child: Text(
-          text,
-          style: Get.textTheme.bodyMedium?.copyWith(color: _textDark),
-        ),
-      ),
-    );
-  }
-
-  Widget _statusCell(String status) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-      child: Container(
-        width: 92,
-        height: 30,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        decoration: BoxDecoration(
-          color: _statusBadgeColor(status),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          status,
-          style: Get.textTheme.labelMedium?.copyWith(
-            color: _statusTextColor(status),
+  Widget _infoColumn(String label, String value, {bool alignRight = false}) {
+    return Column(
+      crossAxisAlignment: alignRight
+          ? CrossAxisAlignment.end
+          : CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: Get.textTheme.labelSmall?.copyWith(
+            color: _textMuted,
             fontWeight: FontWeight.w500,
-            fontSize: 12,
           ),
         ),
-      ),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: Get.textTheme.bodySmall?.copyWith(
+            color: _textDark,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ],
     );
   }
 

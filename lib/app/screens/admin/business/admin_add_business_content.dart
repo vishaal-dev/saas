@@ -27,6 +27,8 @@ class AdminAddBusinessContent extends StatelessWidget {
   static const _textMuted = Color(0xFF64748B);
   static const _border = Color(0xFFE2E8F0);
   static const _bgFooter = Colors.white;
+  static const _planOptions = ['Monthly', 'Quarterly', 'Half Yearly', 'Yearly'];
+  static const _statusOptions = ['Active', 'Expiring', 'Expired'];
 
   @override
   Widget build(BuildContext context) {
@@ -110,13 +112,22 @@ class AdminAddBusinessContent extends StatelessWidget {
                 const SizedBox(height: 16),
                 _buildResponsiveGrid(
                   children: [
-                    _buildDropdownField(
-                      'Plan',
-                      planValue.isNotEmpty ? planValue : 'Choose a Plan',
+                    _buildSelectionDropdownField(
+                      label: 'Plan',
+                      placeholder: 'Choose a Plan',
+                      options: _planOptions,
+                      initialValue: planValue,
                     ),
-                    _buildDropdownField(
-                      'Status',
-                      statusValue.isNotEmpty ? statusValue : 'Select Status',
+                    _buildSelectionDropdownField(
+                      label: 'Status',
+                      placeholder: 'Select Status',
+                      options: _statusOptions,
+                      initialValue: statusValue,
+                      optionColors: const [
+                        Color(0xFF166534),
+                        Color(0xFF92400E),
+                        Color(0xFF991B1B),
+                      ],
                     ),
                     _buildDatePickerField(
                       context,
@@ -352,33 +363,76 @@ class AdminAddBusinessContent extends StatelessWidget {
     );
   }
 
-  Widget _buildDropdownField(String label, String hint) {
+  Widget _buildDropdownField(
+    String label,
+    String hint, {
+    bool useMembersStyle = false,
+  }) {
     final isPlaceholder = hint == 'Choose a Plan' ||
         hint == 'Select Status' ||
         hint == 'Select State';
+    final dropdownHeight = useMembersStyle && !isMobile ? 40.0 : 48.0;
     return _buildFieldWrapper(
       label,
       Container(
-        height: 48,
+        height: dropdownHeight,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(useMembersStyle ? 12 : 8),
           border: Border.all(color: _border),
+          boxShadow: useMembersStyle
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.03),
+                    blurRadius: 4,
+                    offset: const Offset(0, 1),
+                  ),
+                ]
+              : null,
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: EdgeInsets.symmetric(
+          horizontal: useMembersStyle && dropdownHeight <= 40 ? 12 : 16,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               hint,
-              style: Get.textTheme.bodyMedium?.copyWith(
+              style: (useMembersStyle
+                      ? Get.textTheme.labelMedium
+                      : Get.textTheme.bodyMedium)
+                  ?.copyWith(
                 color: isPlaceholder ? const Color(0xFF94A3B8) : _textDark,
-                fontSize: 13,
+                fontSize: useMembersStyle ? null : 13,
+                fontWeight: useMembersStyle ? FontWeight.w500 : null,
               ),
             ),
-            const Icon(Icons.keyboard_arrow_down, color: _textMuted, size: 20),
+            if (useMembersStyle) ...[
+              const SizedBox(width: 8),
+              SvgPicture.asset(AppIcons.dropdownDown, width: 24, height: 24),
+            ] else
+              const Icon(Icons.keyboard_arrow_down, color: _textMuted, size: 20),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildSelectionDropdownField({
+    required String label,
+    required String placeholder,
+    required List<String> options,
+    String? initialValue,
+    List<Color>? optionColors,
+  }) {
+    return _buildFieldWrapper(
+      label,
+      _FilterStyleDropdownField(
+        placeholder: placeholder,
+        options: options,
+        initialValue: initialValue,
+        optionColors: optionColors,
       ),
     );
   }
@@ -607,5 +661,147 @@ class AdminAddBusinessContent extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _FilterStyleDropdownField extends StatefulWidget {
+  const _FilterStyleDropdownField({
+    required this.placeholder,
+    required this.options,
+    this.initialValue,
+    this.optionColors,
+  });
+
+  final String placeholder;
+  final List<String> options;
+  final String? initialValue;
+  final List<Color>? optionColors;
+
+  @override
+  State<_FilterStyleDropdownField> createState() => _FilterStyleDropdownFieldState();
+}
+
+class _FilterStyleDropdownFieldState extends State<_FilterStyleDropdownField> {
+  static const _border = Color(0xFFE2E8F0);
+  static const _hint = Color(0xFF94A3B8);
+  static const _text = Color(0xFF0F172A);
+
+  final _dropdownKey = GlobalKey();
+  String? _selected;
+
+  @override
+  void initState() {
+    super.initState();
+    final value = widget.initialValue?.trim() ?? '';
+    _selected = value.isEmpty ? null : value;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final display = _selected ?? widget.placeholder;
+    final isPlaceholder = _selected == null;
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: _showMenu,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          key: _dropdownKey,
+          height: 40,
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: _border),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.03),
+                blurRadius: 4,
+                offset: const Offset(0, 1),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                display,
+                style: Get.textTheme.labelMedium?.copyWith(
+                  color: isPlaceholder ? _hint : _text,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(width: 8),
+              SvgPicture.asset(AppIcons.dropdownDown, width: 24, height: 24),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  double _menuWidth() {
+    final box = _dropdownKey.currentContext?.findRenderObject() as RenderBox?;
+    if (box != null && box.hasSize) return box.size.width;
+    return 169;
+  }
+
+  RelativeRect _menuPosition(BuildContext context) {
+    final box = _dropdownKey.currentContext?.findRenderObject() as RenderBox?;
+    final size = MediaQuery.sizeOf(context);
+    if (box == null || !box.hasSize) {
+      return RelativeRect.fromLTRB(24, 200, size.width - 200, size.height - 300);
+    }
+    final pos = box.localToGlobal(Offset.zero);
+    final top = pos.dy + box.size.height + 4;
+    return RelativeRect.fromLTRB(
+      pos.dx,
+      top,
+      size.width - pos.dx - box.size.width,
+      size.height - top,
+    );
+  }
+
+  Future<void> _showMenu() async {
+    final menuWidth = _menuWidth();
+    final result = await showMenu<String>(
+      context: context,
+      position: _menuPosition(context),
+      constraints: BoxConstraints.tightFor(width: menuWidth),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      color: Colors.white,
+      elevation: 8,
+      items: List.generate(widget.options.length, (i) {
+        final value = widget.options[i];
+        final isLast = i == widget.options.length - 1;
+        final color = widget.optionColors != null && i < widget.optionColors!.length
+            ? widget.optionColors![i]
+            : const Color(0xFF334155);
+        return PopupMenuItem<String>(
+          value: value,
+          child: Container(
+            width: menuWidth,
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              border: isLast
+                  ? null
+                  : const Border(bottom: BorderSide(color: _border, width: 1)),
+            ),
+            child: Text(
+              value,
+              style: Get.textTheme.bodyMedium?.copyWith(
+                color: color,
+                fontWeight: FontWeight.w500,
+                fontSize: 14,
+              ),
+            ),
+          ),
+        );
+      }),
+    );
+    if (result != null) {
+      setState(() => _selected = result);
+    }
   }
 }

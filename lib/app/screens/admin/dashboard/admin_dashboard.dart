@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:saas/shared/widgets/primary_action_button.dart';
 import 'package:saas/shared/constants/app_icons.dart';
+import 'package:saas/shared/widgets/hover_elevated_card.dart';
 
 import '../business/admin_business_content.dart';
 import 'admin_dashboard_mobile_view.dart';
@@ -34,6 +35,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   static const _expiringText = Color(0xFF92400E);
   static const _expiredBadge = Color(0xFFFEE2E2);
   static const _expiredText = Color(0xFF991B1B);
+  static const _dashboardVisibleRows = 6;
 
   static const _recentBusinessRows = [
     (
@@ -462,7 +464,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => setState(() {
+                    _selectedNavIndex = 1;
+                    _isAddingBusiness = false;
+                    _editingBusiness = null;
+                  }),
                   child: Text(
                     'View All Business',
                     style: Get.textTheme.bodyMedium?.copyWith(
@@ -474,44 +480,48 @@ class _AdminDashboardState extends State<AdminDashboard> {
               ],
             ),
           ),
-          Table(
-            columnWidths: const {
-              0: FlexColumnWidth(2),
-              1: FlexColumnWidth(2),
-              2: FlexColumnWidth(1),
-              3: FlexColumnWidth(1.2),
-              4: FlexColumnWidth(1),
-            },
-            children: [
-              TableRow(
-                decoration: const BoxDecoration(color: Color(0xFFEEF2FF)),
-                children: [
-                  _headerCell('Business'),
-                  _headerCell('Owner'),
-                  _headerCell('Plan'),
-                  _headerCell('Status', align: Alignment.center),
-                  _headerCell('Expiry', align: Alignment.center),
-                ],
-              ),
-              for (final row in _recentBusinessRows)
-                TableRow(
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: Colors.transparent),
-                    ),
-                  ),
-                  children: [
-                    _dataCell(row.business),
-                    _dataCell(row.owner),
-                    _dataCell(row.plan),
-                    _statusCell(row.status),
-                    _dataCell(row.expiry, align: Alignment.center),
-                  ],
-                ),
-            ],
-          ),
+          _buildRecentBusinessTable(),
         ],
       ),
+    );
+  }
+
+  Widget _buildRecentBusinessTable() {
+    return Table(
+      columnWidths: const {
+        0: FlexColumnWidth(2),
+        1: FlexColumnWidth(2),
+        2: FlexColumnWidth(1),
+        3: FlexColumnWidth(1.2),
+        4: FlexColumnWidth(1),
+      },
+      children: [
+        TableRow(
+          decoration: const BoxDecoration(color: Color(0xFFEEF2FF)),
+          children: [
+            _headerCell('Business'),
+            _headerCell('Owner'),
+            _headerCell('Plan'),
+            _headerCell('Status', align: Alignment.center),
+            _headerCell('Expiry', align: Alignment.center),
+          ],
+        ),
+        for (final row in _recentBusinessRows.take(_dashboardVisibleRows))
+          TableRow(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: _border.withValues(alpha: 0.9)),
+              ),
+            ),
+            children: [
+              _dataCell(row.business),
+              _dataCell(row.owner),
+              _dataCell(row.plan),
+              _statusCell(row.status),
+              _dataCell(row.expiry, align: Alignment.center),
+            ],
+          ),
+      ],
     );
   }
 
@@ -602,39 +612,43 @@ class _StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 32),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color, width: 1.2),
-        boxShadow: [
-          BoxShadow(
-            color: color.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            value,
-            style: Get.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.w800,
-              color: color,
+    return HoverElevatedCard(
+      accentColor: color,
+      borderRadius: 12,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 32),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: color, width: 1.2),
+          boxShadow: [
+            BoxShadow(
+              color: color.withValues(alpha: 0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            style: Get.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF475569),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              value,
+              style: Get.textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.w800,
+                color: color,
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 8),
+            Text(
+              label,
+              style: Get.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF475569),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
