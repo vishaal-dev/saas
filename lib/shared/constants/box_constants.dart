@@ -2,6 +2,7 @@ class BoxConstants {
   static const String userName = 'userName';
   static const String phoneNumber = 'phoneNumber';
   static const String isUserLoggedIn = 'isLoggedIn';
+  static const String loggedInEmail = 'loggedInEmail';
   static const String accessToken = 'accessToken';
   static const String refreshToken = 'refreshToken';
   static const String tokenExpiresAtMs = 'tokenExpiresAtMs';

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:saas/core/controllers/app_settings_controller.dart';
+import 'package:saas/core/di/get_injector.dart';
+import 'package:saas/core/services/auth_service.dart';
+import 'package:saas/routes/app_pages.dart';
 import 'package:saas/shared/widgets/primary_action_button.dart';
 import 'package:saas/shared/constants/app_icons.dart';
 import 'package:saas/shared/widgets/hover_elevated_card.dart';
@@ -36,6 +40,13 @@ class _AdminDashboardState extends State<AdminDashboard> {
   static const _expiredBadge = Color(0xFFFEE2E2);
   static const _expiredText = Color(0xFF991B1B);
   static const _dashboardVisibleRows = 6;
+
+  Future<void> _onLogout() async {
+    await Get.find<AuthService>().logout();
+    if (!mounted) return;
+    Get.find<AppSettingsController>().isUserLoggedIn.value = false;
+    appNav.changePage(AppRoutes.home);
+  }
 
   static const _recentBusinessRows = [
     (
@@ -126,7 +137,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           _isAddingBusiness = false;
           _editingBusiness = null;
         }),
-        onLogout: () {},
+        onLogout: _onLogout,
         onAddBusinessTap: () => setState(() {
           _editingBusiness = null;
           _isAddingBusiness = true;
@@ -152,7 +163,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           _isAddingBusiness = false;
           _editingBusiness = null;
         }),
-        onLogout: () {},
+        onLogout: _onLogout,
         onAddBusinessTap: () => setState(() {
           _editingBusiness = null;
           _isAddingBusiness = true;
@@ -255,7 +266,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(24),
         child: InkWell(
-          onTap: () {},
+          onTap: _onLogout,
           borderRadius: BorderRadius.circular(24),
           child: Container(
             width: double.infinity,

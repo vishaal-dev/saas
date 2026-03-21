@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:saas/core/controllers/app_settings_controller.dart';
 import 'package:saas/core/di/get_injector.dart';
 import 'package:saas/core/services/auth_service.dart';
+import 'package:saas/shared/utils/auth_landing.dart';
 import 'package:saas/shared/utils/auth_validators.dart';
 
 import '../../../../../routes/app_pages.dart';
@@ -122,7 +123,9 @@ class LoginController extends GetxController {
         const JsonEncoder.withIndent('  ').convert(response.toJson()),
       );
       Get.find<AppSettingsController>().isUserLoggedIn.value = true;
-      appNav.changePage(AppRoutes.dashboard);
+      appNav.changePage(
+        AuthLanding.path(persistedEmail: email),
+      );
     } catch (e) {
       Get.snackbar(
         'Login failed',

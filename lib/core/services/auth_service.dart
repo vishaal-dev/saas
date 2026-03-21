@@ -26,11 +26,14 @@ class AuthService extends GetxService {
     final result = await _repository.login(
       LoginRequest(email: email, password: password),
     );
-    await _persistSession(result);
+    await _persistSession(result, loginEmail: email);
     return result;
   }
 
-  Future<void> _persistSession(LoginResponse response) async {
+  Future<void> _persistSession(
+    LoginResponse response, {
+    required String loginEmail,
+  }) async {
     await _storage.write(BoxConstants.accessToken, response.accessToken);
     await _storage.write(BoxConstants.refreshToken, response.refreshToken);
     await _storage.write(BoxConstants.tokenScope, response.scope);
@@ -39,6 +42,10 @@ class AuthService extends GetxService {
         .millisecondsSinceEpoch;
     await _storage.write(BoxConstants.tokenExpiresAtMs, expiresAt);
     await _storage.write(BoxConstants.isUserLoggedIn, true);
+    await _storage.write(
+      BoxConstants.loggedInEmail,
+      loginEmail.trim().toLowerCase(),
+    );
   }
 
   /// Calls `POST /auth/revoke` when an access token exists, then clears local session.
@@ -71,10 +78,14 @@ class AuthService extends GetxService {
     await _storage.remove(BoxConstants.refreshToken);
     await _storage.remove(BoxConstants.tokenScope);
     await _storage.remove(BoxConstants.tokenExpiresAtMs);
+    await _storage.remove(BoxConstants.loggedInEmail);
     await _storage.write(BoxConstants.isUserLoggedIn, false);
   }
 
   String? get accessToken => _storage.read<String>(BoxConstants.accessToken);
+
+  /// Lowercased email from last successful login; used for admin vs member routing.
+  String? get loggedInEmail => _storage.read<String>(BoxConstants.loggedInEmail);
 
   /// POST `/auth/introspect` with the stored access token.
   Future<IntrospectResponse> introspect() async {

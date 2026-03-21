@@ -3,29 +3,38 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../core/di/get_injector.dart';
 import '../../../../core/services/auth_service.dart';
-import '../../../../navigation/navigation_mixins.dart';
 import '../../../../routes/app_pages.dart';
 import '../../../../shared/constants/box_constants.dart';
 import '../../../../shared/utils/app_exceptions.dart';
+import '../../../../shared/utils/auth_landing.dart';
 import '../../../../shared/utils/base_controller.dart';
+import '../../admin/dashboard/admin_dashboard.dart';
 import '../../authentication/login/login.dart';
 import '../../dashboard/views/dashboard/dashboard.dart';
 
 class BasePageController extends BaseController {
   BasePageController() {
-    final token = Get.find<AuthService>().accessToken;
+    final auth = Get.find<AuthService>();
+    final token = auth.accessToken;
     if (token != null && token.isNotEmpty) {
-      currentPage = const Dashboard();
-      appBarTitle = PageTitles.dashboard.obs;
-      appNav.currentPage.value = '';
-      appNav.pageStack.clear();
-      appNav.currentPage.value = AppRoutes.dashboard;
-      appNav.pageStack.add(AppRoutes.dashboard);
-      appNav.updateAppBarTitle(AppRoutes.dashboard);
+      final path = AuthLanding.path(persistedEmail: auth.loggedInEmail);
+      _setShellAndNavForPath(path);
     } else {
       currentPage = const Login();
       appBarTitle = ''.obs;
     }
+  }
+
+  void _setShellAndNavForPath(String path) {
+    currentPage = path == AppRoutes.adminDashboard
+        ? const AdminDashboard()
+        : const Dashboard();
+    appBarTitle = appNav.getTitleOfPath(path).obs;
+    appNav.currentPage.value = '';
+    appNav.pageStack.clear();
+    appNav.currentPage.value = path;
+    appNav.pageStack.add(path);
+    appNav.updateAppBarTitle(path);
   }
 
   GlobalKey<ScaffoldState>? _scaffoldKey;
@@ -61,7 +70,9 @@ class BasePageController extends BaseController {
           if (intro.active) {
             appSettingsController.isUserLoggedIn.value = true;
             boxDb.writeBoolValue(key: BoxConstants.isUserLoggedIn, value: true);
-            _applyLandingPath(AppRoutes.dashboard);
+            _applyLandingPath(
+              AuthLanding.path(intro: intro, persistedEmail: auth.loggedInEmail),
+            );
             return;
           }
           await auth.clearLocalSessionOnly();
@@ -73,13 +84,17 @@ class BasePageController extends BaseController {
           } else {
             appSettingsController.isUserLoggedIn.value = true;
             boxDb.writeBoolValue(key: BoxConstants.isUserLoggedIn, value: true);
-            _applyLandingPath(AppRoutes.dashboard);
+            _applyLandingPath(
+              AuthLanding.path(persistedEmail: auth.loggedInEmail),
+            );
             return;
           }
         } catch (_) {
           appSettingsController.isUserLoggedIn.value = true;
           boxDb.writeBoolValue(key: BoxConstants.isUserLoggedIn, value: true);
-          _applyLandingPath(AppRoutes.dashboard);
+          _applyLandingPath(
+            AuthLanding.path(persistedEmail: auth.loggedInEmail),
+          );
           return;
         }
       } else {
