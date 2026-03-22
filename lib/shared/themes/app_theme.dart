@@ -85,6 +85,13 @@ class AppTheme {
       primary: Colors.black,
       seedColor: Colors.black,
     ),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      surfaceTintColor: Colors.transparent,
+    ),
     textTheme: Typography.material2021().black
         .apply(fontFamily: _inter)
         .merge(_lightTextTheme()),
@@ -101,6 +108,13 @@ class AppTheme {
     colorScheme: ColorScheme.fromSeed(
       primary: Colors.white,
       seedColor: Colors.white,
+    ),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.black,
+      foregroundColor: Colors.white,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      surfaceTintColor: Colors.transparent,
     ),
     textTheme: Typography.material2021().white
         .apply(fontFamily: _inter)

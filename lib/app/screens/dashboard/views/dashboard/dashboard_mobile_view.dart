@@ -16,7 +16,7 @@ import '../reminders/reminders_view.dart';
 import '../renewals/renewals_view.dart';
 import '../reports/reports_view.dart';
 import '../settings/settings_view.dart';
-import '../subscriptions/subscriptions_view.dart';
+import 'package:saas/app/subscriptions/subscriptions_view.dart';
 import 'package:saas/shared/constants/app_icons.dart';
 
 /// Mobile layout: compact app bar + drawer, single-column scroll.

@@ -48,6 +48,8 @@ class AddMemberModalMobileView extends StatelessWidget {
   final String title;
   final String primaryButtonLabel;
 
+  static const _filledFieldColor = Color(0xFFF8FAFC);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,6 +95,9 @@ class AddMemberModalMobileView extends StatelessWidget {
               child: AuthTextField(
                 controller: fullNameController,
                 hint: 'E.g. John Doe',
+                fillColor: fullNameController.text.trim().isNotEmpty
+                    ? _filledFieldColor
+                    : Colors.white,
                 dismissKeyboardOnTapOutside: false,
               ),
             ),
@@ -106,7 +111,7 @@ class AddMemberModalMobileView extends StatelessWidget {
                   controller: phoneController,
                   onTapOutside: (_) {},
                   style: Get.theme.textTheme.bodySmall?.copyWith(
-                    color: AppConstants.textColor,
+                    color: AppConstants.labelColor,
                   ),
                   cursorColor: Colors.black,
                   decoration: InputDecoration(
@@ -117,9 +122,8 @@ class AddMemberModalMobileView extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           '+91 ',
-                          style: Get.theme.textTheme.labelMedium?.copyWith(
+                          style: Get.theme.textTheme.bodySmall?.copyWith(
                             color: AppConstants.labelColor,
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -129,12 +133,13 @@ class AddMemberModalMobileView extends StatelessWidget {
                       minHeight: 0,
                     ),
                     hintText: '00000 00000',
-                    hintStyle: Get.theme.textTheme.labelMedium?.copyWith(
+                    hintStyle: Get.theme.textTheme.bodySmall?.copyWith(
                       color: AppConstants.hintColor,
-                      fontWeight: FontWeight.w400,
                     ),
                     filled: true,
-                    fillColor: AppConstants.fieldFillColor,
+                    fillColor: phoneController.text.trim().isNotEmpty
+                        ? _filledFieldColor
+                        : Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(
                         AppConstants.fieldBorderRadius,
@@ -174,6 +179,9 @@ class AddMemberModalMobileView extends StatelessWidget {
               child: AuthTextField(
                 controller: emailController,
                 hint: 'E.g. John.doe@gmail.com',
+                fillColor: emailController.text.trim().isNotEmpty
+                    ? _filledFieldColor
+                    : Colors.white,
                 dismissKeyboardOnTapOutside: false,
               ),
             ),
@@ -188,13 +196,7 @@ class AddMemberModalMobileView extends StatelessWidget {
             const SizedBox(height: 8),
             _buildStartDatePicker(),
             const SizedBox(height: 16),
-            Text(
-              'Expiry Date',
-              style: Get.theme.textTheme.labelMedium?.copyWith(
-                color: AppConstants.labelColor,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            _fieldHeader('Expiry Date'),
             const SizedBox(height: 8),
             _buildExpiryDisplay(),
             const SizedBox(height: 24),
@@ -231,10 +233,9 @@ class AddMemberModalMobileView extends StatelessWidget {
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
-      style: Get.textTheme.titleSmall?.copyWith(
-        fontWeight: FontWeight.bold,
+      style: Get.textTheme.bodySmall?.copyWith(
+        fontWeight: FontWeight.w600,
         color: AppConstants.labelColor,
-        fontSize: 14,
       ),
     );
   }
@@ -244,6 +245,7 @@ class AddMemberModalMobileView extends StatelessWidget {
       value: selectedPlan,
       onChanged: onPlanChanged,
       hint: 'Choose a Plan',
+      fillColor: Colors.white,
     );
   }
 
@@ -253,39 +255,43 @@ class AddMemberModalMobileView extends StatelessWidget {
       child: InkWell(
         onTap: onPickStartDate,
         borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
-        child: InputDecorator(
-          decoration: InputDecoration(
-            hintText: 'Select Date',
-            filled: true,
-            fillColor: AppConstants.fieldFillColor,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                AppConstants.fieldBorderRadius,
-              ),
-              borderSide: const BorderSide(color: AppConstants.borderColor),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          decoration: BoxDecoration(
+            color: startDate != null ? _filledFieldColor : Colors.white,
+            borderRadius: BorderRadius.circular(
+              AppConstants.fieldBorderRadius,
             ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                AppConstants.fieldBorderRadius,
-              ),
-              borderSide: const BorderSide(color: AppConstants.borderColor),
-            ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-            suffixIcon: const Icon(
-              Icons.calendar_today_outlined,
-              size: 18,
-              color: AppConstants.hintColor,
-            ),
+            border: Border.all(color: AppConstants.borderColor),
           ),
-          child: Text(
-            startDate != null
-                ? '${startDate!.day}/${startDate!.month}/${startDate!.year}'
-                : 'Select Date',
-            style: Get.theme.textTheme.bodySmall?.copyWith(
-              color: startDate != null
-                  ? AppConstants.textColor
-                  : AppConstants.hintColor,
-            ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Text(
+                  startDate != null
+                      ? '${startDate!.day}/${startDate!.month}/${startDate!.year}'
+                      : 'Select Date',
+                  style: Get.theme.textTheme.labelMedium?.copyWith(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    height: 1,
+                    color: startDate != null
+                        ? AppConstants.textColor
+                        : AppConstants.hintColor,
+                  ),
+                ),
+              ),
+              SvgPicture.asset(
+                AppIcons.calendarDays,
+                width: 18,
+                height: 18,
+                colorFilter: const ColorFilter.mode(
+                  AppConstants.hintColor,
+                  BlendMode.srcIn,
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -294,22 +300,27 @@ class AddMemberModalMobileView extends StatelessWidget {
 
   Widget _buildExpiryDisplay() {
     final expiry = calculateExpiryDate(selectedPlan, startDate);
-    return Container(
-      width: double.infinity,
-      height: AppConstants.fieldHeight,
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      alignment: Alignment.centerLeft,
-      decoration: BoxDecoration(
-        color: AppConstants.cardBackground,
-        borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
-        border: Border.all(color: AppConstants.borderColor),
+    return CustomPaint(
+      foregroundPainter: _DashedBorderPainter(
+        color: const Color(0xFFCBD5E1),
+        borderRadius: AppConstants.fieldBorderRadius,
       ),
-      child: Text(
-        expiry != null ? '${expiry.day}/${expiry.month}/${expiry.year}' : '—',
-        style: Get.theme.textTheme.bodySmall?.copyWith(
-          color: expiry != null
-              ? AppConstants.textColor
-              : AppConstants.hintColor,
+      child: Container(
+        width: double.infinity,
+        height: AppConstants.fieldHeight,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          color: const Color(0xFFF8FAFC),
+          borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
+        ),
+        child: Text(
+          expiry != null ? '${expiry.day}/${expiry.month}/${expiry.year}' : '—',
+          style: Get.theme.textTheme.bodySmall?.copyWith(
+            color: expiry != null
+                ? AppConstants.textColor
+                : AppConstants.hintColor,
+          ),
         ),
       ),
     );
@@ -318,27 +329,39 @@ class AddMemberModalMobileView extends StatelessWidget {
   Widget _requiredLabel(String text) {
     return RichText(
       text: TextSpan(
-        style: Get.textTheme.bodySmall?.copyWith(
+        style: Get.theme.textTheme.labelMedium?.copyWith(
           color: AppConstants.labelColor,
-          fontSize: 14,
+          fontWeight: FontWeight.w600,
         ),
         children: [
           TextSpan(text: text),
           const TextSpan(
             text: '*',
-            style: TextStyle(color: Colors.red, fontSize: 14),
+            style: TextStyle(color: Colors.red),
           ),
         ],
       ),
     );
   }
 
+  Widget _fieldHeader(String text) {
+    return Text(
+      text,
+      style: Get.theme.textTheme.labelMedium?.copyWith(
+        color: AppConstants.labelColor,
+        fontWeight: FontWeight.w600,
+      ),
+    );
+  }
+
   Widget _buildReminderChannels() {
-    return Column(
+    return Row(
       children: [
-        _buildCheckbox('WhatsApp', whatsApp, onWhatsAppChanged),
-        const SizedBox(height: 12),
-        _buildCheckbox('Email', email, onEmailChanged),
+        Expanded(
+          child: _buildCheckbox('WhatsApp', whatsApp, onWhatsAppChanged),
+        ),
+        const SizedBox(width: 16),
+        Expanded(child: _buildCheckbox('Email', email, onEmailChanged)),
       ],
     );
   }
@@ -378,8 +401,9 @@ class AddMemberModalMobileView extends StatelessWidget {
           const SizedBox(width: 12),
           Text(
             label,
-            style: Get.textTheme.bodyMedium?.copyWith(
+            style: Get.textTheme.labelMedium?.copyWith(
               color: AppConstants.labelColor,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],
@@ -418,4 +442,38 @@ class AddMemberModalMobileView extends StatelessWidget {
       ],
     );
   }
+}
+
+class _DashedBorderPainter extends CustomPainter {
+  _DashedBorderPainter({required this.color, required this.borderRadius});
+
+  final Color color;
+  final double borderRadius;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+    const dashWidth = 6.0;
+    const dashSpace = 4.0;
+    final rrect = RRect.fromRectAndRadius(
+      Rect.fromLTWH(1, 1, size.width - 2, size.height - 2),
+      Radius.circular(borderRadius - 1),
+    );
+    final path = Path()..addRRect(rrect);
+    double distance = 0;
+    for (final metric in path.computeMetrics()) {
+      while (distance < metric.length) {
+        final end = (distance + dashWidth).clamp(0.0, metric.length);
+        canvas.drawPath(metric.extractPath(distance, end), paint);
+        distance = end + dashSpace;
+      }
+      distance = 0;
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

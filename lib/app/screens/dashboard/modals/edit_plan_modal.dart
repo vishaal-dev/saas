@@ -57,9 +57,13 @@ class _EditPlanModalState extends State<EditPlanModal> {
     super.initState();
     _planNameController = TextEditingController(text: widget.plan.planName);
     _priceController = TextEditingController(text: widget.plan.price);
+    _planNameController.addListener(_onFormChanged);
+    _priceController.addListener(_onFormChanged);
     _selectedDuration = _durationFromString(widget.plan.duration);
     _selectedStatus = widget.plan.isActive ? 'Active' : 'Inactive';
   }
+
+  void _onFormChanged() => setState(() {});
 
   PlanDuration? _durationFromString(String s) {
     switch (s) {
@@ -78,6 +82,8 @@ class _EditPlanModalState extends State<EditPlanModal> {
 
   @override
   void dispose() {
+    _planNameController.removeListener(_onFormChanged);
+    _priceController.removeListener(_onFormChanged);
     _planNameController.dispose();
     _priceController.dispose();
     super.dispose();

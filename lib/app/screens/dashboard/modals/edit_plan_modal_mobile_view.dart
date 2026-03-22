@@ -40,6 +40,8 @@ class EditPlanModalMobileView extends StatelessWidget {
   static const _inputBorderColor = Color(0xFFE2E8F0);
   static const _labelColor = Color(0xFF0F172A);
   static const _hintColor = Color(0xFF94A3B8);
+  static const _filledFieldColor = Color(0xFFF8FAFC);
+  static const _dropdownPlaceholderColor = Color(0xFF64748B);
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +92,10 @@ class EditPlanModalMobileView extends StatelessWidget {
                   color: _labelColor,
                   fontSize: 14,
                 ),
-                decoration: _inputDecoration('Enter Plan Name'),
+                decoration: _inputDecoration(
+                  'Enter Plan Name',
+                  hasValue: planNameController.text.trim().isNotEmpty,
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -104,7 +109,10 @@ class EditPlanModalMobileView extends StatelessWidget {
                   color: _labelColor,
                   fontSize: 14,
                 ),
-                decoration: _inputDecoration('Enter Plan Price'),
+                decoration: _inputDecoration(
+                  'Enter Plan Price',
+                  hasValue: priceController.text.trim().isNotEmpty,
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -117,7 +125,9 @@ class EditPlanModalMobileView extends StatelessWidget {
                   height: 44,
                   padding: const EdgeInsets.symmetric(horizontal: 14),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: selectedStatus != null
+                        ? _filledFieldColor
+                        : Colors.white,
                     borderRadius: BorderRadius.circular(_inputBorderRadius),
                     border: Border.all(color: _inputBorderColor),
                   ),
@@ -126,11 +136,13 @@ class EditPlanModalMobileView extends StatelessWidget {
                       Expanded(
                         child: Text(
                           selectedStatus ?? 'Select Plan Status',
-                          style: Get.theme.textTheme.bodyMedium?.copyWith(
-                            fontSize: 14,
+                          style: Get.theme.textTheme.labelMedium?.copyWith(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            height: 1,
                             color: selectedStatus != null
-                                ? _labelColor
-                                : _hintColor,
+                                ? AppConstants.textColor
+                                : _dropdownPlaceholderColor,
                           ),
                         ),
                       ),
@@ -188,15 +200,17 @@ class EditPlanModalMobileView extends StatelessWidget {
     );
   }
 
-  InputDecoration _inputDecoration(String hint) {
+  InputDecoration _inputDecoration(String hint, {required bool hasValue}) {
     return InputDecoration(
       hintText: hint,
-      hintStyle: Get.theme.textTheme.bodyMedium?.copyWith(
+      hintStyle: Get.theme.textTheme.labelMedium?.copyWith(
         color: _hintColor,
-        fontSize: 14,
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+        height: 1,
       ),
       filled: true,
-      fillColor: Colors.white,
+      fillColor: hasValue ? _filledFieldColor : Colors.white,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(_inputBorderRadius),
         borderSide: const BorderSide(color: _inputBorderColor),
@@ -291,20 +305,25 @@ class EditPlanModalMobileView extends StatelessWidget {
         onTap: onPickCustomDates,
         child: Container(
           height: 44,
-          padding: const EdgeInsets.symmetric(horizontal: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: dateText != null ? _filledFieldColor : Colors.white,
             borderRadius: BorderRadius.circular(_inputBorderRadius),
             border: Border.all(color: _inputBorderColor),
           ),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
                 child: Text(
                   dateText ?? 'Select Dates',
-                  style: Get.theme.textTheme.bodyMedium?.copyWith(
-                    fontSize: 14,
-                    color: dateText != null ? _labelColor : _hintColor,
+                  style: Get.theme.textTheme.labelMedium?.copyWith(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    height: 1,
+                    color: dateText != null
+                        ? AppConstants.textColor
+                        : _dropdownPlaceholderColor,
                   ),
                 ),
               ),

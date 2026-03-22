@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../shared/widgets/success_toast.dart';
@@ -116,12 +115,19 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
       items.add(
         PopupMenuItem<String>(
           value: options[i],
+          height: 52,
           padding: _itemPadding,
-          child: Text(
-            options[i],
-            style: Get.theme.textTheme.bodyMedium?.copyWith(
-              color: AppConstants.labelColor,
-              fontSize: 14,
+          child: Container(
+            color: Colors.white,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              options[i],
+              style: Get.theme.textTheme.labelMedium?.copyWith(
+                color: const Color(0xFF64748B),
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                height: 1,
+              ),
             ),
           ),
         ),

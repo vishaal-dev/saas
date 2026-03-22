@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:saas/shared/constants/app_strings.dart';
-import 'subscriptions_mobile_view.dart';
 import 'package:saas/shared/constants/app_icons.dart';
+
+import 'subscription_plan_row.dart';
 
 class SubscriptionsTabletView extends StatelessWidget {
   const SubscriptionsTabletView({
@@ -78,7 +79,7 @@ class SubscriptionsTabletView extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: content is String
             ? Text(
-                content as String,
+                content,
                 style: Get.textTheme.bodySmall?.copyWith(
                   fontWeight: isHeader ? FontWeight.w600 : FontWeight.normal,
                   color: _textDark,

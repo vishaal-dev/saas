@@ -47,6 +47,9 @@ class CreateTemplateModalMobileView extends StatelessWidget {
   final VoidCallback onCreate;
   final bool isCreateEnabled;
 
+  static const _filledFieldColor = Color(0xFFF8FAFC);
+  static const _dropdownPlaceholderColor = Color(0xFF64748B);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,15 +165,15 @@ class CreateTemplateModalMobileView extends StatelessWidget {
   Widget _buildLabel(String text) {
     return RichText(
       text: TextSpan(
-        style: Get.textTheme.bodySmall?.copyWith(
+        style: Get.theme.textTheme.labelMedium?.copyWith(
           color: AppConstants.labelColor,
-          fontSize: 14,
+          fontWeight: FontWeight.w600,
         ),
         children: [
           TextSpan(text: text),
           const TextSpan(
             text: '*',
-            style: TextStyle(color: Colors.red, fontSize: 14),
+            style: TextStyle(color: Colors.red),
           ),
         ],
       ),
@@ -190,7 +193,7 @@ class CreateTemplateModalMobileView extends StatelessWidget {
             height: AppConstants.fieldHeight,
             padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
-              color: AppConstants.fieldFillColor,
+              color: text.contains('Select') ? Colors.white : _filledFieldColor,
               borderRadius: BorderRadius.circular(
                 AppConstants.fieldBorderRadius,
               ),
@@ -201,13 +204,13 @@ class CreateTemplateModalMobileView extends StatelessWidget {
                 Expanded(
                   child: Text(
                     text,
-                    style: Get.theme.textTheme.bodySmall?.copyWith(
+                    style: Get.theme.textTheme.labelMedium?.copyWith(
                       color: text.contains('Select')
-                          ? AppConstants.hintColor
-                          : AppConstants.labelColor,
-                      fontWeight: text.contains('Select')
-                          ? FontWeight.w500
-                          : FontWeight.w600,
+                          ? _dropdownPlaceholderColor
+                          : AppConstants.textColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      height: 1,
                     ),
                   ),
                 ),
@@ -270,11 +273,13 @@ class CreateTemplateModalMobileView extends StatelessWidget {
   Widget _buildMessageContentField() {
     return Container(
       height: 120,
-      decoration: BoxDecoration(
-        color: AppConstants.fieldFillColor,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppConstants.borderColor),
-      ),
+        decoration: BoxDecoration(
+          color: messageController.text.trim().isNotEmpty
+              ? _filledFieldColor
+              : Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: AppConstants.borderColor),
+        ),
       child: TextField(
         controller: messageController,
         onTapOutside: (_) {},
@@ -287,8 +292,10 @@ class CreateTemplateModalMobileView extends StatelessWidget {
         decoration: InputDecoration(
           hintText: 'Type your message here....',
           hintStyle: Get.theme.textTheme.labelMedium?.copyWith(
-            color: AppConstants.hintColor,
+            color: _dropdownPlaceholderColor,
+            fontSize: 12,
             fontWeight: FontWeight.w500,
+            height: 1,
           ),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.all(12),
@@ -313,8 +320,9 @@ class CreateTemplateModalMobileView extends StatelessWidget {
               value: value,
               onChanged: (v) => onChanged(v ?? false),
               fillColor: WidgetStateProperty.resolveWith((states) {
-                if (states.contains(WidgetState.selected))
+                if (states.contains(WidgetState.selected)) {
                   return Colors.transparent;
+                }
                 return null;
               }),
               checkColor: AppConstants.labelColor,

@@ -27,6 +27,8 @@ class DashboardController extends GetxController {
   }
 
   void onAddMember() {}
-  void onViewAllRenewals() {}
+  void onViewAllRenewals() {
+    selectedNavIndex.value = 3;
+  }
   void onSendRemindersNow() {}
 }

@@ -78,6 +78,7 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
     _messageController = TextEditingController(
       text: widget.initialMessageContent,
     );
+    _messageController.addListener(_onFormChanged);
     _selectedTrigger = widget.initialTrigger;
     _selectedTiming = widget.initialTiming;
     _selectedAudience = widget.initialAudience;
@@ -86,8 +87,11 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
     if (widget.initialEmail != null) _email = widget.initialEmail!;
   }
 
+  void _onFormChanged() => setState(() {});
+
   @override
   void dispose() {
+    _messageController.removeListener(_onFormChanged);
     _messageController.dispose();
     super.dispose();
   }
@@ -127,12 +131,19 @@ class _CreateTemplateModalState extends State<CreateTemplateModal> {
       items.add(
         PopupMenuItem<String>(
           value: options[i],
+          height: 52,
           padding: _itemPadding,
-          child: Text(
-            options[i],
-            style: Get.theme.textTheme.bodyMedium?.copyWith(
-              color: AppConstants.labelColor,
-              fontSize: 14,
+          child: Container(
+            color: Colors.white,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              options[i],
+              style: Get.theme.textTheme.labelMedium?.copyWith(
+                color: const Color(0xFF64748B),
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                height: 1,
+              ),
             ),
           ),
         ),

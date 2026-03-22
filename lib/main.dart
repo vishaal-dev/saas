@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:saas/network/services/api_end_points.dart';
 import 'package:saas/shared/themes/design.dart';
 import 'app.dart';
 import 'core/controllers/app_settings_controller.dart';
@@ -12,6 +13,10 @@ import 'core/url_strategy_stub.dart'
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  const apiBase = String.fromEnvironment('API_BASE_URL');
+  if (apiBase.isNotEmpty) {
+    ApiEndPoints.baseUrl = apiBase;
+  }
   url_strategy.setUpUrlStrategy();
   setupBaseAppServices();
   runApp(const MyApp());

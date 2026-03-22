@@ -14,11 +14,13 @@ class PlanDropdown extends StatelessWidget {
     required this.value,
     required this.onChanged,
     this.hint = 'Choose a Plan',
+    this.fillColor = AppConstants.fieldFillColor,
   });
 
   final String? value;
   final ValueChanged<String?> onChanged;
   final String hint;
+  final Color fillColor;
 
   static const double _menuBorderRadius = 12;
   static const double _menuElevation = 8;
@@ -26,6 +28,15 @@ class PlanDropdown extends StatelessWidget {
     horizontal: 16,
     vertical: 16,
   );
+
+  TextStyle? _dropdownTextStyle(Color color) {
+    return Get.theme.textTheme.labelMedium?.copyWith(
+      color: color,
+      fontSize: 12,
+      fontWeight: FontWeight.w500,
+      height: 1,
+    );
+  }
 
   Future<void> _showPlanMenu(BuildContext context) async {
     final box = context.findRenderObject() as RenderBox?;
@@ -73,12 +84,14 @@ class PlanDropdown extends StatelessWidget {
   PopupMenuItem<String> _buildMenuItem(String plan) {
     return PopupMenuItem<String>(
       value: plan,
+      height: 52,
       padding: _itemPadding,
-      child: Text(
-        plan,
-        style: Get.theme.textTheme.bodyMedium?.copyWith(
-          color: AppConstants.labelColor,
-          fontSize: 14,
+      child: Container(
+        color: Colors.white,
+        alignment: Alignment.centerLeft,
+        child: Text(
+          plan,
+          style: _dropdownTextStyle(const Color(0xFF64748B)),
         ),
       ),
     );
@@ -93,7 +106,7 @@ class PlanDropdown extends StatelessWidget {
         height: AppConstants.fieldHeight,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
-          color: AppConstants.fieldFillColor,
+          color: fillColor,
           borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
           border: Border.all(color: AppConstants.borderColor),
         ),
@@ -102,10 +115,10 @@ class PlanDropdown extends StatelessWidget {
             Expanded(
               child: Text(
                 value ?? hint,
-                style: Get.theme.textTheme.labelMedium?.copyWith(
-                  color: value != null
-                      ? AppConstants.labelColor
-                      : AppConstants.hintColor,
+                style: _dropdownTextStyle(
+                  value != null
+                      ? AppConstants.textColor
+                      : const Color(0xFF64748B),
                 ),
               ),
             ),

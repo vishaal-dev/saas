@@ -12,7 +12,7 @@ import 'views/reminders/reminders_view.dart';
 import 'views/renewals/renewals_view.dart';
 import 'views/reports/reports_view.dart';
 import 'views/settings/settings_view.dart';
-import 'views/subscriptions/subscriptions_view.dart';
+import 'package:saas/app/subscriptions/subscriptions_view.dart';
 import 'package:saas/shared/constants/app_strings.dart';
 import 'package:saas/shared/constants/app_icons.dart';
 

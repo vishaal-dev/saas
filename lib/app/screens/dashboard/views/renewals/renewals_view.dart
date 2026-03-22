@@ -534,8 +534,10 @@ class _RenewalsViewState extends State<RenewalsView> {
         final isLast = entry.key == _planOptions.length - 1;
         return PopupMenuItem<String>(
           value: value,
+          height: 52,
           child: Container(
             width: menuWidth,
+            color: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
               border: isLast
@@ -549,9 +551,11 @@ class _RenewalsViewState extends State<RenewalsView> {
             ),
             child: Text(
               value,
-              style: Get.textTheme.bodyMedium?.copyWith(
-                color: AppConstants.slate700Color,
-                fontSize: 14,
+              style: Get.textTheme.labelMedium?.copyWith(
+                color: const Color(0xFF64748B),
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                height: 1,
               ),
             ),
           ),

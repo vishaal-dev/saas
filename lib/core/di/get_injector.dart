@@ -66,6 +66,12 @@ Future<void> setupGlobalServices() async {
       permanent: true,
     );
   }
+  if (!Get.isRegistered<SubscriptionRepository>()) {
+    Get.put<SubscriptionRepository>(
+      SubscriptionRepo(services: SubscriptionServices()),
+      permanent: true,
+    );
+  }
   if (!Get.isRegistered<AuthService>()) {
     Get.put<AuthService>(
       AuthService(Get.find<AuthRepository>()),

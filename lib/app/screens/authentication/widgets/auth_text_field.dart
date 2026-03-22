@@ -10,6 +10,7 @@ class AuthTextField extends StatelessWidget {
     required this.controller,
     required this.hint,
     this.isHovered = false,
+    this.fillColor = AppConstants.fieldFillColor,
     this.dismissKeyboardOnTapOutside = true,
     this.errorText,
     this.keyboardType,
@@ -22,6 +23,7 @@ class AuthTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
   final bool isHovered;
+  final Color fillColor;
   final bool dismissKeyboardOnTapOutside;
   final String? errorText;
   final TextInputType? keyboardType;
@@ -50,7 +52,10 @@ class AuthTextField extends StatelessWidget {
         errorText: errorText,
         errorMaxLines: 3,
         isDense: true,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 14,
+        ),
         constraints: BoxConstraints(minHeight: AppConstants.fieldHeight),
         hintText: hint,
         hintStyle: Get.theme.textTheme.labelMedium!.copyWith(
@@ -58,8 +63,8 @@ class AuthTextField extends StatelessWidget {
           fontWeight: FontWeight.w400,
         ),
         filled: true,
-        fillColor: AppConstants.fieldFillColor,
-        hoverColor: AppConstants.fieldFillColor,
+        fillColor: fillColor,
+        hoverColor: fillColor,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
           borderSide: const BorderSide(color: AppConstants.borderColor),
@@ -74,9 +79,7 @@ class AuthTextField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
-          borderSide: const BorderSide(
-            color: AppConstants.focusedBorderColor,
-          ),
+          borderSide: const BorderSide(color: AppConstants.focusedBorderColor),
         ),
       ),
     );

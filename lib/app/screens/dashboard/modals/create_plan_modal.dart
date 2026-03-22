@@ -102,24 +102,38 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
       items: [
         PopupMenuItem<String>(
           value: 'Active',
+          height: 52,
           padding: _statusItemPadding,
-          child: Text(
-            'Active',
-            style: Get.theme.textTheme.bodyMedium?.copyWith(
-              color: AppConstants.labelColor,
-              fontSize: 14,
+          child: Container(
+            color: Colors.white,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Active',
+              style: Get.theme.textTheme.labelMedium?.copyWith(
+                color: const Color(0xFF64748B),
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                height: 1,
+              ),
             ),
           ),
         ),
         const PopupMenuDivider(height: 1),
         PopupMenuItem<String>(
           value: 'Inactive',
+          height: 52,
           padding: _statusItemPadding,
-          child: Text(
-            'Inactive',
-            style: Get.theme.textTheme.bodyMedium?.copyWith(
-              color: AppConstants.labelColor,
-              fontSize: 14,
+          child: Container(
+            color: Colors.white,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Inactive',
+              style: Get.theme.textTheme.labelMedium?.copyWith(
+                color: const Color(0xFF64748B),
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                height: 1,
+              ),
             ),
           ),
         ),

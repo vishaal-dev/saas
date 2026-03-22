@@ -11,12 +11,30 @@ class AuthFormFieldLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final labelStyle = Get.theme.textTheme.labelMedium?.copyWith(
+      color: AppConstants.labelColor,
+      fontWeight: FontWeight.w600,
+    );
+
+    if (label.endsWith('*')) {
+      final text = label.substring(0, label.length - 1);
+      return RichText(
+        text: TextSpan(
+          style: labelStyle,
+          children: [
+            TextSpan(text: text),
+            const TextSpan(
+              text: '*',
+              style: TextStyle(color: Colors.red),
+            ),
+          ],
+        ),
+      );
+    }
+
     return Text(
       label,
-      style: Get.theme.textTheme.labelMedium?.copyWith(
-        color: AppConstants.labelColor,
-        fontWeight: FontWeight.w600,
-      ),
+      style: labelStyle,
     );
   }
 }

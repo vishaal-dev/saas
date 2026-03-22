@@ -11,10 +11,19 @@ Future<DateTime?> showAppDatePicker({
 }) {
   // Use CalendarDatePicker to avoid numeric/text input mode.
   final localizations = MaterialLocalizations.of(context);
+  final today = DateUtils.dateOnly(DateTime.now());
+  final normalizedFirstDate = DateUtils.dateOnly(firstDate);
+  final effectiveFirstDate = normalizedFirstDate.compareTo(today) < 0
+      ? today
+      : normalizedFirstDate;
+  final effectiveInitialDate = initialDate.isBefore(effectiveFirstDate)
+      ? effectiveFirstDate
+      : DateUtils.dateOnly(initialDate);
+
   return showDialog<DateTime?>(
     context: context,
     builder: (dialogContext) {
-      DateTime selectedDate = initialDate;
+      DateTime selectedDate = effectiveInitialDate;
       return Theme(
         data: Theme.of(dialogContext).copyWith(
           colorScheme: const ColorScheme.light(
@@ -95,9 +104,9 @@ Future<DateTime?> showAppDatePicker({
                 child: CalendarDatePicker(
                   // CalendarDatePicker takes `initialDate` (not `selectedDate`).
                   initialDate: selectedDate,
-                  firstDate: firstDate,
+                  firstDate: effectiveFirstDate,
                   lastDate: lastDate,
-                  currentDate: DateTime.now(),
+                  currentDate: today,
                   onDateChanged: (DateTime value) {
                     setState(() => selectedDate = value);
                   },

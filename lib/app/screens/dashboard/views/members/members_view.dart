@@ -31,19 +31,24 @@ class _MembersViewState extends State<MembersView> {
   static const _iconCircleRed = AppConstants.expiredBadgeColor;
   static const _iconCircleGreen = AppConstants.activeBadgeColor;
 
-  final _planDropdownKey = GlobalKey();
-  final _statusDropdownKey = GlobalKey();
-
   String? _selectedPlan;
   String? _selectedStatus;
 
   static const _planOptions = AppStrings.commonPlanOptions;
   static const _statusOptions = AppStrings.membersStatusOptions;
-  static const _statusColors = [
-    AppConstants.activeBadgeTextColor,
-    AppConstants.expiringBadgeTextColor,
-    AppConstants.expiredBadgeTextColor,
-  ];
+
+  Color _statusColor(String value) {
+    switch (value) {
+      case AppStrings.active:
+        return const Color(0xFF166534);
+      case AppStrings.expiring:
+        return const Color(0xFF92400E);
+      case AppStrings.expired:
+        return const Color(0xFF991B1B);
+      default:
+        return AppConstants.textColor;
+    }
+  }
 
   static final _tableData = [
     MemberRow(
@@ -213,20 +218,20 @@ class _MembersViewState extends State<MembersView> {
             children: [
               Expanded(
                 child: _buildFilterDropdown(
-                  key: _statusDropdownKey,
                   label: AppStrings.status,
                   selected: _selectedStatus,
-                  onTap: _showStatusMenu,
+                  options: _statusOptions,
+                  onSelected: (value) => setState(() => _selectedStatus = value),
                   width: 169,
                 ),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: _buildFilterDropdown(
-                  key: _planDropdownKey,
                   label: AppStrings.plan,
                   selected: _selectedPlan,
-                  onTap: _showPlanMenu,
+                  options: _planOptions,
+                  onSelected: (value) => setState(() => _selectedPlan = value),
                   width: 169,
                 ),
               ),
@@ -300,19 +305,19 @@ class _MembersViewState extends State<MembersView> {
         if (!isTablet) const Spacer(),
         const SizedBox(width: 20),
         _buildFilterDropdown(
-          key: _statusDropdownKey,
           label: AppStrings.status,
           selected: _selectedStatus,
-          onTap: _showStatusMenu,
+          options: _statusOptions,
+          onSelected: (value) => setState(() => _selectedStatus = value),
           width: isTablet ? _dropdownWidthTablet : 169,
           height: isTablet ? _dropdownHeightTablet : null,
         ),
         const SizedBox(width: 16),
         _buildFilterDropdown(
-          key: _planDropdownKey,
           label: AppStrings.plan,
           selected: _selectedPlan,
-          onTap: _showPlanMenu,
+          options: _planOptions,
+          onSelected: (value) => setState(() => _selectedPlan = value),
           width: isTablet ? _dropdownWidthTablet : 169,
           height: isTablet ? _dropdownHeightTablet : null,
         ),
@@ -331,134 +336,65 @@ class _MembersViewState extends State<MembersView> {
     );
   }
 
-  double _dropdownTriggerWidth(GlobalKey key) {
-    final box = key.currentContext?.findRenderObject() as RenderBox?;
-    if (box != null && box.hasSize) return box.size.width;
-    return 169;
-  }
-
-  RelativeRect _dropdownPosition(GlobalKey key) {
-    final box = key.currentContext?.findRenderObject() as RenderBox?;
-    final size = MediaQuery.sizeOf(context);
-    if (box == null || !box.hasSize) {
-      return RelativeRect.fromLTRB(
-        24,
-        200,
-        size.width - 200,
-        size.height - 300,
-      );
-    }
-    final pos = box.localToGlobal(Offset.zero);
-    final top = pos.dy + box.size.height + 4;
-    return RelativeRect.fromLTRB(
-      pos.dx,
-      top,
-      size.width - pos.dx - box.size.width,
-      size.height - top,
-    );
-  }
-
-  Future<void> _showPlanMenu() async {
-    final menuWidth = _dropdownTriggerWidth(_planDropdownKey);
-    final result = await showMenu<String>(
-      context: context,
-      position: _dropdownPosition(_planDropdownKey),
-      constraints: BoxConstraints.tightFor(width: menuWidth),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      color: Colors.white,
-      elevation: 8,
-      items: _planOptions.asMap().entries.map((entry) {
-        final value = entry.value;
-        final isLast = entry.key == _planOptions.length - 1;
-        return PopupMenuItem<String>(
-          value: value,
-          child: Container(
-            width: menuWidth,
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            decoration: BoxDecoration(
-              border: isLast
-                  ? null
-                  : const Border(
-                      bottom: BorderSide(
-                        color: AppConstants.borderColor,
-                        width: 1,
-                      ),
-                    ),
-            ),
-            child: Text(
-              value,
-              style: Get.textTheme.bodyMedium?.copyWith(
-                color: AppConstants.slate700Color,
-                fontSize: 14,
-              ),
-            ),
-          ),
-        );
-      }).toList(),
-    );
-    if (result != null) setState(() => _selectedPlan = result);
-  }
-
-  Future<void> _showStatusMenu() async {
-    final menuWidth = _dropdownTriggerWidth(_statusDropdownKey);
-    final result = await showMenu<String>(
-      context: context,
-      position: _dropdownPosition(_statusDropdownKey),
-      constraints: BoxConstraints.tightFor(width: menuWidth),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      color: Colors.white,
-      elevation: 8,
-      items: List.generate(_statusOptions.length, (i) {
-        final value = _statusOptions[i];
-        final color = _statusColors[i];
-        final isLast = i == _statusOptions.length - 1;
-        return PopupMenuItem<String>(
-          value: value,
-          child: Container(
-            width: menuWidth,
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            decoration: BoxDecoration(
-              border: isLast
-                  ? null
-                  : const Border(
-                      bottom: BorderSide(
-                        color: AppConstants.borderColor,
-                        width: 1,
-                      ),
-                    ),
-            ),
-            child: Text(
-              value,
-              style: Get.textTheme.bodyMedium?.copyWith(
-                color: color,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        );
-      }),
-    );
-    if (result != null) setState(() => _selectedStatus = result);
-  }
-
   Widget _buildFilterDropdown({
-    required GlobalKey key,
     required String label,
     required String? selected,
-    required VoidCallback onTap,
+    required List<String> options,
+    required ValueChanged<String> onSelected,
     double? width,
     double? height,
   }) {
     final display = selected ?? label;
     final h = height ?? 44;
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
+    final menuWidth = width ?? 169;
+    final isStatusDropdown = label == AppStrings.status;
+    return PopupMenuButton<String>(
+      onSelected: onSelected,
+      color: Colors.white,
+      elevation: 8,
+      position: PopupMenuPosition.under,
+      offset: const Offset(0, 4),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      constraints: BoxConstraints.tightFor(width: menuWidth),
+      itemBuilder: (context) => options.asMap().entries.map((entry) {
+        final value = entry.value;
+        final isLast = entry.key == options.length - 1;
+        return PopupMenuItem<String>(
+          value: value,
+          height: 52,
+          child: Container(
+            width: menuWidth,
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: isLast
+                  ? null
+                  : const Border(
+                      bottom: BorderSide(
+                        color: AppConstants.borderColor,
+                        width: 1,
+                      ),
+                    ),
+            ),
+            child: Text(
+              value,
+              style: Get.textTheme.labelMedium?.copyWith(
+                color: isStatusDropdown
+                    ? _statusColor(value)
+                    : const Color(0xFF64748B),
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                height: 1,
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+      child: Material(
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(12),
         child: Container(
-          key: key,
           width: width,
           height: h,
           padding: EdgeInsets.symmetric(horizontal: h <= 40 ? 12 : 16),
@@ -482,7 +418,9 @@ class _MembersViewState extends State<MembersView> {
                 display,
                 style: Get.textTheme.labelMedium?.copyWith(
                   color: selected != null
-                      ? AppConstants.textColor
+                      ? (isStatusDropdown
+                            ? _statusColor(selected)
+                            : AppConstants.textColor)
                       : AppConstants.hintColor,
                   fontWeight: FontWeight.w500,
                 ),

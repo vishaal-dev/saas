@@ -1,24 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:saas/shared/constants/app_strings.dart';
 import 'package:saas/shared/constants/app_icons.dart';
 
-class SubscriptionPlanRow {
-  final String planName;
-  final String duration;
-  final String price;
-  final String activeMembers;
-  final bool isActive;
-
-  SubscriptionPlanRow({
-    required this.planName,
-    required this.duration,
-    required this.price,
-    required this.activeMembers,
-    this.isActive = true,
-  });
-}
+import 'subscription_plan_row.dart';
 
 class SubscriptionsMobileView extends StatelessWidget {
   const SubscriptionsMobileView({

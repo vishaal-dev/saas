@@ -223,6 +223,8 @@ abstract final class AppStrings {
   static const String subscriptionsTitle = 'Subscriptions';
   static const String subscriptionsSubtitle =
       'Manage subscription plans and pricing';
+  static const String subscriptionsEmptyState =
+      'No subscription plans yet. Pull to refresh or tap Retry after an error.';
   static const String createPlanLabel = 'Create Plan';
   static const String planNameHeader = 'Plan Name';
   static const String durationHeader = 'Duration';
