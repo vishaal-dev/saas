@@ -163,7 +163,7 @@ class Dashboard extends GetView<DashboardController> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(
-                              'assets/images/saas-logo.png',
+                              'assets/images/recrip.png',
                               height: 36,
                             ),
                           ],

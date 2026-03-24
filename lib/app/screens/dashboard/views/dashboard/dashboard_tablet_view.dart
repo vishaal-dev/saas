@@ -120,7 +120,7 @@ class DashboardTabletView extends StatelessWidget {
         title: Center(
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            children: [Image.asset('assets/images/saas-logo.png', height: 36)],
+            children: [Image.asset('assets/images/recrip.png', height: 36)],
           ),
         ),
         actions: [

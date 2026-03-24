@@ -81,12 +81,26 @@ class AddMemberModalMobileView extends StatelessWidget {
           child: Divider(thickness: 1, color: Color(0xFFCBD5E1), height: 1),
         ),
       ),
-      body: SingleChildScrollView(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      body: NotificationListener<ScrollStartNotification>(
+        onNotification: (_) {
+          void clearSelectionKeepCursor(TextEditingController c) {
+            final sel = c.selection;
+            if (!sel.isValid || sel.isCollapsed) return;
+            final offset = sel.extentOffset.clamp(0, c.text.length);
+            c.selection = TextSelection.collapsed(offset: offset);
+          }
+
+          clearSelectionKeepCursor(fullNameController);
+          clearSelectionKeepCursor(phoneController);
+          clearSelectionKeepCursor(emailController);
+          return false;
+        },
+        child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
             _buildSectionTitle('Member Details'),
             const SizedBox(height: 16),
             AuthFormFieldSection(
@@ -204,7 +218,8 @@ class AddMemberModalMobileView extends StatelessWidget {
             const SizedBox(height: 16),
             _buildReminderChannels(),
             const SizedBox(height: 140),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: SafeArea(

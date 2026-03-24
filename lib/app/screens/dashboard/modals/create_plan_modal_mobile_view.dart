@@ -73,12 +73,25 @@ class CreatePlanModalMobileView extends StatelessWidget {
           child: Divider(thickness: 1, color: Color(0xFFCBD5E1), height: 1),
         ),
       ),
-      body: SingleChildScrollView(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      body: NotificationListener<ScrollStartNotification>(
+        onNotification: (_) {
+          void clearSelectionKeepCursor(TextEditingController c) {
+            final sel = c.selection;
+            if (!sel.isValid || sel.isCollapsed) return;
+            final offset = sel.extentOffset.clamp(0, c.text.length);
+            c.selection = TextSelection.collapsed(offset: offset);
+          }
+
+          clearSelectionKeepCursor(planNameController);
+          clearSelectionKeepCursor(priceController);
+          return false;
+        },
+        child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
             _buildSectionTitle('Plan Details'),
             const SizedBox(height: 16),
             AuthFormFieldSection(
@@ -164,7 +177,8 @@ class CreatePlanModalMobileView extends StatelessWidget {
             const SizedBox(height: 16),
             _buildCustomDurationField(),
             const SizedBox(height: 140),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: SafeArea(

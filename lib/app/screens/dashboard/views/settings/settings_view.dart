@@ -320,7 +320,7 @@ class _SettingsContentState extends State<_SettingsContent> {
           padding: const EdgeInsets.all(12),
           child: Center(
             child: Image.asset(
-              'assets/images/saas-logo.png',
+              'assets/images/recrip.png',
               height: 40,
               fit: BoxFit.contain,
             ),

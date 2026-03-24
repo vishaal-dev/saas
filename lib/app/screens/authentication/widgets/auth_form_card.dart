@@ -39,7 +39,7 @@ class AuthFormCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/saas-logo.png',
+                'assets/images/recrip.png',
                 height: AppConstants.logoHeight,
               ),
             ],

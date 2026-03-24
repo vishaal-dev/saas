@@ -119,7 +119,7 @@ class DashboardMobileView extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [Image.asset('assets/images/saas-logo.png', height: 36)],
+            children: [Image.asset('assets/images/recrip.png', height: 36)],
           ),
         ),
         actions: [
@@ -207,7 +207,7 @@ class DashboardMobileView extends StatelessWidget {
                     iconColor: _sidebarIconColor,
                   ),
                   const Spacer(),
-                  Image.asset('assets/images/saas-logo.png', height: 36),
+                  Image.asset('assets/images/recrip.png', height: 36),
                   const Spacer(),
                   CircleAvatar(
                     radius: 18,

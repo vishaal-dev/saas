@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:saas/app/screens/authentication/widgets/app_constants.dart';
 import 'package:saas/shared/constants/app_icons.dart';
 import 'package:saas/shared/constants/app_strings.dart';
 import 'package:saas/shared/widgets/app_close_button.dart';
@@ -52,6 +53,51 @@ class MembersMobileView extends StatelessWidget {
       children: tableData
           .map((member) => _buildMemberCard(context, member))
           .toList(),
+    );
+  }
+
+  /// Canonical mobile search field used by Members screen.
+  static Widget buildSearchField() {
+    return Container(
+      height: 44,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: AppConstants.borderColor, width: 1),
+      ),
+      child: TextField(
+        cursorColor: Colors.black,
+        style: Get.textTheme.bodyMedium?.copyWith(
+          color: AppConstants.textColor,
+          fontSize: 14,
+        ),
+        decoration: InputDecoration(
+          hintText: AppStrings.searchByNameOrPhoneShort,
+          hintStyle: const TextStyle(
+            color: AppConstants.hintColor,
+            fontSize: 14,
+          ),
+          prefixIcon: Padding(
+            padding: const EdgeInsets.only(left: 14, right: 10),
+            child: SvgPicture.asset(
+              AppIcons.search,
+              width: 20,
+              height: 20,
+              colorFilter: const ColorFilter.mode(
+                AppConstants.slateMutedColor,
+                BlendMode.srcIn,
+              ),
+            ),
+          ),
+          prefixIconConstraints: const BoxConstraints(
+            minWidth: 44,
+            minHeight: 24,
+          ),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.fromLTRB(0, 14, 16, 14),
+          isDense: true,
+        ),
+      ),
     );
   }
 

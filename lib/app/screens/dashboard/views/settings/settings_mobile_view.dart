@@ -383,7 +383,7 @@ class _SettingsMobileViewState extends State<SettingsMobileView> {
               padding: const EdgeInsets.all(8),
               child: Center(
                 child: Image.asset(
-                  'assets/images/saas-logo.png',
+                  'assets/images/recrip.png',
                   height: 32,
                   fit: BoxFit.contain,
                 ),

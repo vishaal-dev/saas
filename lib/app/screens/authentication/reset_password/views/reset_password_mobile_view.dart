@@ -89,7 +89,7 @@ class _AuthFormCardMobile extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [Image.asset('assets/images/saas-logo.png', height: 36)],
+            children: [Image.asset('assets/images/recrip.png', height: 36)],
           ),
           const SizedBox(height: 32),
           Text(

@@ -169,43 +169,7 @@ class MembersView extends GetView<MembersController> {
     if (isMobile) {
       return Column(
         children: [
-          Container(
-            height: 44,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(22),
-              border: Border.all(color: AppConstants.borderColor, width: 1),
-            ),
-            child: TextField(
-              style: const TextStyle(fontSize: 14, color: Colors.black),
-              cursorColor: Colors.black,
-              decoration: InputDecoration(
-                hintText: AppStrings.searchByNameOrPhoneShort,
-                hintStyle: const TextStyle(
-                  color: AppConstants.hintColor,
-                  fontSize: 13,
-                ),
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 8),
-                  child: SvgPicture.asset(
-                    AppIcons.search,
-                    width: 18,
-                    height: 18,
-                    colorFilter: const ColorFilter.mode(
-                      AppConstants.slateMutedColor,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ),
-                prefixIconConstraints: const BoxConstraints(
-                  minWidth: 40,
-                  minHeight: 24,
-                ),
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(vertical: 11),
-              ),
-            ),
-          ),
+          MembersMobileView.buildSearchField(),
           const SizedBox(height: 12),
           Row(
             children: [

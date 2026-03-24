@@ -82,12 +82,21 @@ class CreateTemplateModalMobileView extends StatelessWidget {
           child: Divider(thickness: 1, color: Color(0xFFCBD5E1), height: 1),
         ),
       ),
-      body: SingleChildScrollView(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      body: NotificationListener<ScrollStartNotification>(
+        onNotification: (_) {
+          final sel = messageController.selection;
+          if (sel.isValid && !sel.isCollapsed) {
+            final offset = sel.extentOffset.clamp(0, messageController.text.length);
+            messageController.selection = TextSelection.collapsed(offset: offset);
+          }
+          return false;
+        },
+        child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
             _buildSectionTitle('Message Rule Details'),
             const SizedBox(height: 16),
             _buildLabel('Trigger'),
@@ -124,7 +133,8 @@ class CreateTemplateModalMobileView extends StatelessWidget {
             const SizedBox(height: 16),
             _buildReminderChannels(),
             const SizedBox(height: 140),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: SafeArea(

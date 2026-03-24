@@ -36,9 +36,23 @@ class HelpSupportModalMobileView extends StatelessWidget {
             _buildHeader(),
             const Divider(thickness: 1, color: Color(0xFFCBD5E1), height: 1),
             Flexible(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(20),
-                child: Column(
+              child: NotificationListener<ScrollStartNotification>(
+                onNotification: (_) {
+                  final sel = messageController.selection;
+                  if (sel.isValid && !sel.isCollapsed) {
+                    final offset = sel.extentOffset.clamp(
+                      0,
+                      messageController.text.length,
+                    );
+                    messageController.selection = TextSelection.collapsed(
+                      offset: offset,
+                    );
+                  }
+                  return false;
+                },
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -102,6 +116,7 @@ class HelpSupportModalMobileView extends StatelessWidget {
                       ),
                     ),
                   ],
+                  ),
                 ),
               ),
             ),
