@@ -57,7 +57,15 @@ class ViewMemberModal extends StatelessWidget {
         statusColor: member.statusColor,
         onClose: () => Navigator.of(context).pop(),
         onRenew: () {
-          SuccessToast.show(context, title: 'Renewal started', popRoute: false);
+          Navigator.of(context).pop();
+          openModalWithTransition(
+            context,
+            AddMemberModal(
+              initialFullName: member.name,
+              initialPhone: member.phone,
+              initialPlan: member.plan,
+            ),
+          );
         },
         onSendReminder: () {
           SuccessToast.show(
@@ -273,8 +281,15 @@ class ViewMemberModal extends StatelessWidget {
                   ),
                 );
               } else {
-                // TODO: handle Renew
                 Navigator.of(context).pop();
+                openModalWithTransition(
+                  context,
+                  AddMemberModal(
+                    initialFullName: member.name,
+                    initialPhone: member.phone,
+                    initialPlan: member.plan,
+                  ),
+                );
               }
             },
             borderRadius: BorderRadius.circular(28),

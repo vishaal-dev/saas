@@ -101,37 +101,42 @@ class PlanDropdown extends StatelessWidget {
       data: popupMenuInteractionTheme(context),
       child: Builder(
         builder: (menuContext) {
-          return InkWell(
-            onTap: () => _showPlanMenu(menuContext),
-            borderRadius: BorderRadius.circular(AppConstants.fieldBorderRadius),
-            child: Container(
-              height: AppConstants.fieldHeight,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-              decoration: BoxDecoration(
-                color: fillColor,
-                borderRadius: BorderRadius.circular(
-                  AppConstants.fieldBorderRadius,
+          final borderRadius = BorderRadius.circular(
+            AppConstants.fieldBorderRadius,
+          );
+          return Material(
+            color: fillColor,
+            borderRadius: borderRadius,
+            child: InkWell(
+              onTap: () => _showPlanMenu(menuContext),
+              hoverColor: AppConstants.lightGrayFillColor,
+              borderRadius: borderRadius,
+              child: Ink(
+                height: AppConstants.fieldHeight,
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                decoration: BoxDecoration(
+                  borderRadius: borderRadius,
+                  border: Border.all(color: AppConstants.borderColor),
                 ),
-                border: Border.all(color: AppConstants.borderColor),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      value ?? hint,
-                      style: _dropdownTextStyle(
-                        value != null
-                            ? AppConstants.textColor
-                            : const Color(0xFF64748B),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        value ?? hint,
+                        style: _dropdownTextStyle(
+                          value != null
+                              ? AppConstants.textColor
+                              : const Color(0xFF64748B),
+                        ),
                       ),
                     ),
-                  ),
-                  Icon(
-                    Icons.keyboard_arrow_down_rounded,
-                    size: 20,
-                    color: AppConstants.hintColor,
-                  ),
-                ],
+                    Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      size: 20,
+                      color: AppConstants.hintColor,
+                    ),
+                  ],
+                ),
               ),
             ),
           );

@@ -45,6 +45,7 @@ class _AddMemberModalState extends State<AddMemberModal> {
   bool get isRenewMode =>
       widget.initialFullName != null || widget.initialPhone != null;
   bool get isEditMode => widget.isEditMode;
+  bool get _isNameEditable => !(isRenewMode || isEditMode);
 
   @override
   void initState() {
@@ -135,6 +136,7 @@ class _AddMemberModalState extends State<AddMemberModal> {
         onCancel: () => Navigator.of(context).pop(),
         onSave: _onSave,
         isSaveEnabled: _isSaveEnabled,
+        isNameEditable: _isNameEditable,
         title: isEditMode
             ? 'Edit Member'
             : isRenewMode
@@ -164,6 +166,7 @@ class _AddMemberModalState extends State<AddMemberModal> {
         onCancel: () => Navigator.of(context).pop(),
         onSave: _onSave,
         isSaveEnabled: _isSaveEnabled,
+        isNameEditable: _isNameEditable,
         title: isEditMode
             ? 'Edit Member'
             : isRenewMode
@@ -277,12 +280,13 @@ class _AddMemberModalState extends State<AddMemberModal> {
       children: [
         Expanded(
           child: AuthFormFieldSection(
-            label: 'Full Name*',
+            label: 'Full Name',
             spacingAfterLabel: 8,
             child: SizedBox(
               height: AppConstants.fieldHeight,
               child: TextField(
                 controller: _fullNameController,
+                readOnly: !_isNameEditable,
                 style: Get.theme.textTheme.bodySmall?.copyWith(
                   color: AppConstants.textColor,
                 ),
@@ -405,7 +409,7 @@ class _AddMemberModalState extends State<AddMemberModal> {
         const SizedBox(width: 16),
         Expanded(
           child: AuthFormFieldSection(
-            label: 'Email Address*',
+            label: 'Email Address',
             spacingAfterLabel: 8,
             child: SizedBox(
               height: AppConstants.fieldHeight,
@@ -488,53 +492,61 @@ class _AddMemberModalState extends State<AddMemberModal> {
               const SizedBox(height: 8),
               SizedBox(
                 height: AppConstants.fieldHeight,
-                child: InkWell(
-                  onTap: _pickStartDate,
+                child: Material(
+                  color: AppConstants.fieldFillColor,
                   borderRadius: BorderRadius.circular(
                     AppConstants.fieldBorderRadius,
                   ),
-                  child: InputDecorator(
-                    decoration: InputDecoration(
-                      hintText: 'Select Date',
-                      hintStyle: Get.theme.textTheme.labelMedium?.copyWith(
-                        color: AppConstants.hintColor,
-                      ),
-                      filled: true,
-                      fillColor: AppConstants.fieldFillColor,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          AppConstants.fieldBorderRadius,
-                        ),
-                        borderSide: const BorderSide(
-                          color: AppConstants.borderColor,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          AppConstants.fieldBorderRadius,
-                        ),
-                        borderSide: const BorderSide(
-                          color: AppConstants.borderColor,
-                        ),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 10,
-                      ),
-                      suffixIcon: const Icon(
-                        Icons.calendar_today_outlined,
-                        size: 20,
-                        color: AppConstants.hintColor,
-                      ),
+                  child: InkWell(
+                    onTap: _pickStartDate,
+                    hoverColor: AppConstants.lightGrayFillColor,
+                    borderRadius: BorderRadius.circular(
+                      AppConstants.fieldBorderRadius,
                     ),
-                    child: Text(
-                      _startDate != null
-                          ? '${_startDate!.day}/${_startDate!.month}/${_startDate!.year}'
-                          : 'Select Date',
-                      style: Get.theme.textTheme.bodySmall?.copyWith(
-                        color: _startDate != null
-                            ? AppConstants.textColor
-                            : AppConstants.hintColor,
+                    child: InputDecorator(
+                      decoration: InputDecoration(
+                        hintText: 'Select Date',
+                        hintStyle: Get.theme.textTheme.labelMedium?.copyWith(
+                          color: AppConstants.hintColor,
+                        ),
+                        filled: true,
+                        fillColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                            AppConstants.fieldBorderRadius,
+                          ),
+                          borderSide: const BorderSide(
+                            color: AppConstants.borderColor,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                            AppConstants.fieldBorderRadius,
+                          ),
+                          borderSide: const BorderSide(
+                            color: AppConstants.borderColor,
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 10,
+                        ),
+                        suffixIcon: const Icon(
+                          Icons.calendar_today_outlined,
+                          size: 20,
+                          color: AppConstants.hintColor,
+                        ),
+                      ),
+                      child: Text(
+                        _startDate != null
+                            ? '${_startDate!.day}/${_startDate!.month}/${_startDate!.year}'
+                            : 'Select Date',
+                        style: Get.theme.textTheme.bodySmall?.copyWith(
+                          color: _startDate != null
+                              ? AppConstants.textColor
+                              : AppConstants.hintColor,
+                        ),
                       ),
                     ),
                   ),
@@ -559,38 +571,35 @@ class _AddMemberModalState extends State<AddMemberModal> {
               Builder(
                 builder: (_) {
                   final expiry = calculateExpiryDate(_selectedPlan, _startDate);
-                  return Container(
-                    width: double.infinity,
-                    height: AppConstants.fieldHeight,
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      color: AppConstants.cardBackground,
-                      borderRadius: BorderRadius.circular(
-                        AppConstants.fieldBorderRadius,
-                      ),
-                      border: Border.all(color: AppConstants.borderColor),
+                  return CustomPaint(
+                    foregroundPainter: _DashedBorderPainter(
+                      color: const Color(0xFFCBD5E1),
+                      borderRadius: AppConstants.fieldBorderRadius,
                     ),
-                    child: Text(
-                      expiry != null
-                          ? '${expiry.day}/${expiry.month}/${expiry.year}'
-                          : '—',
-                      style: Get.theme.textTheme.bodySmall?.copyWith(
-                        color: expiry != null
-                            ? AppConstants.textColor
-                            : AppConstants.hintColor,
+                    child: Container(
+                      width: double.infinity,
+                      height: AppConstants.fieldHeight,
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      alignment: Alignment.centerLeft,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF8FAFC),
+                        borderRadius: BorderRadius.circular(
+                          AppConstants.fieldBorderRadius,
+                        ),
+                      ),
+                      child: Text(
+                        expiry != null
+                            ? '${expiry.day}/${expiry.month}/${expiry.year}'
+                            : '—',
+                        style: Get.theme.textTheme.bodySmall?.copyWith(
+                          color: expiry != null
+                              ? AppConstants.textColor
+                              : AppConstants.hintColor,
+                        ),
                       ),
                     ),
                   );
                 },
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Calculated automatically',
-                style: Get.theme.textTheme.bodySmall?.copyWith(
-                  color: AppConstants.supportTextColor,
-                  fontSize: 12,
-                ),
               ),
             ],
           ),
@@ -600,19 +609,11 @@ class _AddMemberModalState extends State<AddMemberModal> {
   }
 
   Widget _requiredLabel(String text) {
-    return RichText(
-      text: TextSpan(
-        style: Get.textTheme.bodySmall?.copyWith(
-          color: AppConstants.labelColor,
-          fontSize: 14,
-        ),
-        children: [
-          TextSpan(text: text),
-          const TextSpan(
-            text: '*',
-            style: TextStyle(color: Colors.red, fontSize: 14),
-          ),
-        ],
+    return Text(
+      text,
+      style: Get.textTheme.bodySmall?.copyWith(
+        color: AppConstants.labelColor,
+        fontSize: 14,
       ),
     );
   }
@@ -716,4 +717,38 @@ class _AddMemberModalState extends State<AddMemberModal> {
       ],
     );
   }
+}
+
+class _DashedBorderPainter extends CustomPainter {
+  _DashedBorderPainter({required this.color, required this.borderRadius});
+
+  final Color color;
+  final double borderRadius;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+    const dashWidth = 6.0;
+    const dashSpace = 4.0;
+    final rrect = RRect.fromRectAndRadius(
+      Rect.fromLTWH(1, 1, size.width - 2, size.height - 2),
+      Radius.circular(borderRadius - 1),
+    );
+    final path = Path()..addRRect(rrect);
+    double distance = 0;
+    for (final metric in path.computeMetrics()) {
+      while (distance < metric.length) {
+        final end = (distance + dashWidth).clamp(0.0, metric.length);
+        canvas.drawPath(metric.extractPath(distance, end), paint);
+        distance = end + dashSpace;
+      }
+      distance = 0;
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

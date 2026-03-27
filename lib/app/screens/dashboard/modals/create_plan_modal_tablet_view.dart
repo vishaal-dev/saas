@@ -152,7 +152,7 @@ class CreatePlanModalTabletView extends StatelessWidget {
         Expanded(
           flex: 2,
           child: AuthFormFieldSection(
-            label: 'Plan Name*',
+            label: 'Plan Name',
             spacingAfterLabel: 8,
             child: TextField(
               controller: planNameController,
@@ -252,7 +252,7 @@ class CreatePlanModalTabletView extends StatelessWidget {
         SizedBox(
           width: 280,
           child: AuthFormFieldSection(
-            label: 'Custom Date*',
+            label: 'Custom Date',
             spacingAfterLabel: 8,
             child: InkWell(
               onTap: onPickCustomDates,
@@ -293,7 +293,7 @@ class CreatePlanModalTabletView extends StatelessWidget {
         const SizedBox(width: 16),
         Expanded(
           child: AuthFormFieldSection(
-            label: 'Status*',
+            label: 'Status',
             spacingAfterLabel: 8,
             child: Builder(
               builder: (statusContext) => InkWell(

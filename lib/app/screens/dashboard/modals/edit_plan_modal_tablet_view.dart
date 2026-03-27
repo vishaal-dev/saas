@@ -153,10 +153,12 @@ class EditPlanModalTabletView extends StatelessWidget {
         Expanded(
           flex: 2,
           child: AuthFormFieldSection(
-            label: 'Plan Name*',
+            label: 'Plan Name',
             spacingAfterLabel: 8,
             child: TextField(
               controller: planNameController,
+              enabled: false,
+              readOnly: true,
               style: Get.textTheme.bodyMedium?.copyWith(
                 color: _labelColor,
                 fontSize: 14,
@@ -251,7 +253,7 @@ class EditPlanModalTabletView extends StatelessWidget {
         SizedBox(
           width: 280,
           child: AuthFormFieldSection(
-            label: 'Custom Duration*',
+            label: 'Custom Duration',
             spacingAfterLabel: 8,
             child: InkWell(
               onTap: onPickCustomDates,
@@ -292,7 +294,7 @@ class EditPlanModalTabletView extends StatelessWidget {
         const SizedBox(width: 16),
         Expanded(
           child: AuthFormFieldSection(
-            label: 'Status*',
+            label: 'Status',
             spacingAfterLabel: 8,
             child: InkWell(
               onTap: onStatusTap,

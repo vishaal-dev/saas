@@ -7,6 +7,7 @@ import 'package:saas/shared/constants/app_strings.dart';
 import '../../../../../shared/widgets/primary_action_button.dart';
 import '../../../../../shared/widgets/success_toast.dart';
 import '../../../../../shared/widgets/app_close_button.dart';
+import '../../../../../shared/widgets/send_reminders_button.dart';
 import 'dashboard_controller.dart';
 import '../../modals/add_member_modal.dart';
 import '../../modals/help_support_modal.dart';
@@ -532,37 +533,9 @@ class DashboardTabletView extends StatelessWidget {
                   const SizedBox(height: 20),
                   Align(
                     alignment: Alignment.centerRight,
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () => Get.find<DashboardController>()
-                            .onSendRemindersNow(),
-                        borderRadius: BorderRadius.circular(10),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                          decoration: BoxDecoration(
-                            color: _purpleLight,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.06),
-                                blurRadius: 4,
-                                offset: const Offset(0, 1),
-                              ),
-                            ],
-                          ),
-                          child: Text(
-                            AppStrings.sendRemindersNow,
-                            style: Get.theme.textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: _purple,
-                            ),
-                          ),
-                        ),
-                      ),
+                    child: SendRemindersButton(
+                      onTap: () =>
+                          Get.find<DashboardController>().onSendRemindersNow(),
                     ),
                   ),
                 ],
@@ -627,6 +600,7 @@ class DashboardTabletView extends StatelessWidget {
               ],
             ),
           ),
+          const Divider(height: 1, thickness: 1, color: Color(0xFFE2E8F0)),
           LayoutBuilder(
             builder: (context, constraints) {
               return Table(

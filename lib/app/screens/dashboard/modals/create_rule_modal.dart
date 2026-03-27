@@ -484,19 +484,11 @@ class _CreateRuleModalState extends State<CreateRuleModal> {
   }
 
   Widget _requiredLabel(String text) {
-    return RichText(
-      text: TextSpan(
-        style: Get.textTheme.bodySmall?.copyWith(
-          color: AppConstants.labelColor,
-          fontSize: 14,
-        ),
-        children: [
-          TextSpan(text: text),
-          const TextSpan(
-            text: '*',
-            style: TextStyle(color: Colors.red, fontSize: 14),
-          ),
-        ],
+    return Text(
+      text,
+      style: Get.textTheme.bodySmall?.copyWith(
+        color: AppConstants.labelColor,
+        fontSize: 14,
       ),
     );
   }

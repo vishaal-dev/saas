@@ -27,6 +27,7 @@ class AddMemberModalTabletView extends StatelessWidget {
     required this.onCancel,
     required this.onSave,
     required this.isSaveEnabled,
+    required this.isNameEditable,
     this.title = 'Add Member',
     this.primaryButtonLabel = 'Save Member',
   });
@@ -45,6 +46,7 @@ class AddMemberModalTabletView extends StatelessWidget {
   final VoidCallback onCancel;
   final VoidCallback onSave;
   final bool isSaveEnabled;
+  final bool isNameEditable;
   final String title;
   final String primaryButtonLabel;
 
@@ -138,11 +140,12 @@ class AddMemberModalTabletView extends StatelessWidget {
       children: [
         Expanded(
           child: AuthFormFieldSection(
-            label: 'Full Name*',
+            label: 'Full Name',
             spacingAfterLabel: 8,
             child: AuthTextField(
               controller: fullNameController,
               hint: 'E.g. John Doe',
+              readOnly: !isNameEditable,
             ),
           ),
         ),
@@ -221,7 +224,7 @@ class AddMemberModalTabletView extends StatelessWidget {
         const SizedBox(width: 16),
         Expanded(
           child: AuthFormFieldSection(
-            label: 'Email Address*',
+            label: 'Email Address',
             spacingAfterLabel: 8,
             child: AuthTextField(
               controller: emailController,
@@ -360,19 +363,11 @@ class AddMemberModalTabletView extends StatelessWidget {
   }
 
   Widget _requiredLabel(String text) {
-    return RichText(
-      text: TextSpan(
-        style: Get.textTheme.bodySmall?.copyWith(
-          color: AppConstants.labelColor,
-          fontSize: 14,
-        ),
-        children: [
-          TextSpan(text: text),
-          const TextSpan(
-            text: '*',
-            style: TextStyle(color: Colors.red, fontSize: 14),
-          ),
-        ],
+    return Text(
+      text,
+      style: Get.textTheme.bodySmall?.copyWith(
+        color: AppConstants.labelColor,
+        fontSize: 14,
       ),
     );
   }

@@ -56,7 +56,7 @@ abstract final class AppStrings {
       'Track and manage upcoming and missed renewals';
   static const List<String> renewalsStatusTabs = [
     'All',
-    'Expiring Soon',
+    'Expiring',
     'Expired',
     'Renewed',
   ];

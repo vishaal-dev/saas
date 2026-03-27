@@ -366,10 +366,13 @@ class MembersMobileView extends StatelessWidget {
                         label: 'Renew',
                         onTap: () {
                           Navigator.of(dialogContext).pop();
-                          SuccessToast.show(
+                          openModalWithTransition(
                             context,
-                            title: 'Renewal started',
-                            popRoute: false,
+                            AddMemberModal(
+                              initialFullName: member.name,
+                              initialPhone: member.phone,
+                              initialPlan: member.plan,
+                            ),
                           );
                         },
                       ),

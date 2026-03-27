@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:saas/shared/widgets/hover_elevated_card.dart';
 import 'package:saas/shared/widgets/primary_action_button.dart';
+import 'package:saas/shared/widgets/send_reminders_button.dart';
 import '../../../../../shared/widgets/success_toast.dart';
 import 'package:saas/shared/constants/app_strings.dart';
 import 'dashboard_controller.dart';
@@ -525,9 +526,19 @@ class Dashboard extends GetView<DashboardController> {
           )
           .toList();
 
-      return HoverElevatedCard(
-        accentColor: _purple,
-        borderRadius: 12,
+      return Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.06),
+              blurRadius: 12,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
         child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -562,6 +573,7 @@ class Dashboard extends GetView<DashboardController> {
               ],
             ),
           ),
+          const Divider(height: 1, thickness: 1, color: Color(0xFFE2E8F0)),
           Table(
             columnWidths: const {
               0: FlexColumnWidth(2),
@@ -825,9 +837,19 @@ class Dashboard extends GetView<DashboardController> {
   }
 
   Widget _buildAiInsightsCard() {
-    return HoverElevatedCard(
-      accentColor: _purple,
-      borderRadius: 16,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFC7D2FE), width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 12,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
         child: Column(
@@ -874,37 +896,7 @@ class Dashboard extends GetView<DashboardController> {
             const SizedBox(height: 20),
             Align(
               alignment: Alignment.centerRight,
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: controller.onSendRemindersNow,
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFEEEDFB),
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.06),
-                          blurRadius: 4,
-                          offset: const Offset(0, 1),
-                        ),
-                      ],
-                    ),
-                    child: Text(
-                      AppStrings.sendRemindersNow,
-                      style: Get.theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: _purple,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              child: SendRemindersButton(onTap: controller.onSendRemindersNow),
             ),
           ],
         ),
@@ -920,9 +912,19 @@ class Dashboard extends GetView<DashboardController> {
     // ₹18,624 recovered, ₹2,540 lost → blue ~88%, red ~12%
     final recoveredFraction = 18624 / (18624 + 2540);
     final lostFraction = 2540 / (18624 + 2540);
-    return HoverElevatedCard(
-      accentColor: _purple,
-      borderRadius: 14,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 12,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 300),
         child: Padding(

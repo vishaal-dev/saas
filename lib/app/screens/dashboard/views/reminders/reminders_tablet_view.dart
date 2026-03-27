@@ -125,51 +125,48 @@ class RemindersTabletView extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        AppStrings.messageTemplatesTitle,
-                        style: Get.textTheme.bodyMedium?.copyWith(
-                          color: _textDark,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        AppStrings.messageTemplatesSubtitle,
-                        style: Get.textTheme.bodySmall?.copyWith(
-                          color: _textMuted,
-                        ),
-                      ),
-                    ],
+                  Text(
+                    AppStrings.messageTemplatesTitle,
+                    style: Get.textTheme.bodyMedium?.copyWith(
+                      color: _textDark,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                  SizedBox(
-                    width: 168,
-                    height: 44,
-                    child: OutlinedButton(
-                      onPressed: () => openModalWithTransition(
-                        context,
-                        const CreateTemplateModal(),
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: _textDark,
-                        backgroundColor: Colors.white,
-                        padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
-                        side: const BorderSide(
-                          color: Color(0xFFE2E8F0),
-                          width: 1,
+                  const SizedBox(height: 16),
+                  Text(
+                    AppStrings.messageTemplatesSubtitle,
+                    style: Get.textTheme.bodySmall?.copyWith(
+                      color: _textMuted,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: SizedBox(
+                      width: 168,
+                      height: 44,
+                      child: OutlinedButton(
+                        onPressed: () => openModalWithTransition(
+                          context,
+                          const CreateTemplateModal(),
                         ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: _textDark,
+                          backgroundColor: Colors.white,
+                          padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+                          side: const BorderSide(
+                            color: Color(0xFFE2E8F0),
+                            width: 1,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
+                        child: const Text(AppStrings.createTemplateLabel),
                       ),
-                      child: const Text(AppStrings.createTemplateLabel),
                     ),
                   ),
                 ],
@@ -240,20 +237,26 @@ class RemindersTabletView extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SvgPicture.asset(
-          AppIcons.whatsappLogo,
-          width: 20,
-          height: 20,
-          colorFilter: ColorFilter.mode(_whatsAppGreen, BlendMode.srcIn),
-        ),
-        const SizedBox(width: 8),
-        SvgPicture.asset(
-          AppIcons.email,
-          width: 20,
-          height: 20,
-          colorFilter: ColorFilter.mode(_emailBlue, BlendMode.srcIn),
-        ),
+        _channelCircle(assetPath: AppIcons.whatsappLogo, color: _whatsAppGreen),
+        const SizedBox(width: 4),
+        _channelCircle(assetPath: AppIcons.email, color: _emailBlue),
       ],
+    );
+  }
+
+  Widget _channelCircle({required String assetPath, required Color color}) {
+    return Container(
+      width: 32,
+      height: 32,
+      decoration: const BoxDecoration(color: Color(0xFFEEF2FF), shape: BoxShape.circle),
+      alignment: Alignment.center,
+      padding: const EdgeInsets.all(6),
+      child: SvgPicture.asset(
+        assetPath,
+        width: 18,
+        height: 18,
+        colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+      ),
     );
   }
 

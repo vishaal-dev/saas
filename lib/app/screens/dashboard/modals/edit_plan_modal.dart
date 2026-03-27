@@ -312,10 +312,12 @@ class _EditPlanModalState extends State<EditPlanModal> {
         Expanded(
           flex: 2,
           child: AuthFormFieldSection(
-            label: 'Plan Name*',
+            label: 'Plan Name',
             spacingAfterLabel: 8,
             child: TextField(
               controller: _planNameController,
+              enabled: false,
+              readOnly: true,
               style: Get.textTheme.bodyMedium?.copyWith(
                 color: _labelColor,
                 fontSize: 14,
@@ -342,7 +344,7 @@ class _EditPlanModalState extends State<EditPlanModal> {
         const SizedBox(width: 16),
         Expanded(
           child: AuthFormFieldSection(
-            label: 'Status*',
+            label: 'Status',
             spacingAfterLabel: 8,
             child: InkWell(
               onTap: () {
@@ -463,7 +465,7 @@ class _EditPlanModalState extends State<EditPlanModal> {
     return SizedBox(
       width: _customDurationFieldWidth,
       child: AuthFormFieldSection(
-        label: 'Custom Duration*',
+        label: 'Custom Duration',
         spacingAfterLabel: 8,
         child: Material(
           color: Colors.transparent,

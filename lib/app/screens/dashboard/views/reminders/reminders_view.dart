@@ -204,52 +204,49 @@ class RemindersView extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        AppStrings.messageTemplatesTitle,
-                        style: Get.textTheme.bodyMedium?.copyWith(
-                          color: _textDark,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        AppStrings.messageTemplatesSubtitle,
-                        style: Get.textTheme.bodySmall?.copyWith(
-                          color: _textMuted,
-                        ),
-                      ),
-                    ],
+                  Text(
+                    AppStrings.messageTemplatesTitle,
+                    style: Get.textTheme.bodyMedium?.copyWith(
+                      color: _textDark,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                  SizedBox(
-                    width: 168,
-                    height: 44,
-                    child: OutlinedButton(
-                      onPressed: () => openModalWithTransition(
-                        context,
-                        const CreateTemplateModal(),
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: _textDarkTable,
-                        backgroundColor: Colors.white,
-                        padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
-                        minimumSize: const Size(168, 44),
-                        side: const BorderSide(
-                          color: Color(0xFFE2E8F0),
-                          width: 1,
+                  const SizedBox(height: 16),
+                  Text(
+                    AppStrings.messageTemplatesSubtitle,
+                    style: Get.textTheme.bodySmall?.copyWith(
+                      color: _textMuted,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: SizedBox(
+                      width: 168,
+                      height: 44,
+                      child: OutlinedButton(
+                        onPressed: () => openModalWithTransition(
+                          context,
+                          const CreateTemplateModal(),
                         ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: _textDarkTable,
+                          backgroundColor: Colors.white,
+                          padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+                          minimumSize: const Size(168, 44),
+                          side: const BorderSide(
+                            color: Color(0xFFE2E8F0),
+                            width: 1,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
+                        child: const Text(AppStrings.createTemplateLabel),
                       ),
-                      child: const Text(AppStrings.createTemplateLabel),
                     ),
                   ),
                 ],
@@ -358,10 +355,7 @@ class RemindersView extends StatelessWidget {
     return Container(
       width: 32,
       height: 32,
-      decoration: BoxDecoration(
-        color: Color(0xFFEEF2FF),
-        shape: BoxShape.circle,
-      ),
+      decoration: const BoxDecoration(color: Color(0xFFEEF2FF), shape: BoxShape.circle),
       alignment: Alignment.center,
       padding: const EdgeInsets.all(6),
       child: SvgPicture.asset(

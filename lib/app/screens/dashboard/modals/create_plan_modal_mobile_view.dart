@@ -95,7 +95,7 @@ class CreatePlanModalMobileView extends StatelessWidget {
             _buildSectionTitle('Plan Details'),
             const SizedBox(height: 16),
             AuthFormFieldSection(
-              label: 'Plan Name*',
+              label: 'Plan Name',
               spacingAfterLabel: 8,
               child: TextField(
                 controller: planNameController,
@@ -131,7 +131,7 @@ class CreatePlanModalMobileView extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             AuthFormFieldSection(
-              label: 'Status*',
+              label: 'Status',
               spacingAfterLabel: 8,
               child: Builder(
                 builder: (statusContext) => InkWell(
@@ -318,7 +318,7 @@ class CreatePlanModalMobileView extends StatelessWidget {
         ? _formatDate(customStartDate!)
         : null;
     return AuthFormFieldSection(
-      label: 'Custom Date*',
+      label: 'Custom Date',
       spacingAfterLabel: 8,
       child: InkWell(
         onTap: onPickCustomDates,

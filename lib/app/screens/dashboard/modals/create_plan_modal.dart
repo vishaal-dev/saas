@@ -353,7 +353,7 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
         Expanded(
           flex: 2,
           child: AuthFormFieldSection(
-            label: 'Plan Name*',
+            label: 'Plan Name',
             spacingAfterLabel: 8,
             child: TextField(
               controller: _planNameController,
@@ -385,7 +385,7 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
         const SizedBox(width: 16),
         Expanded(
           child: AuthFormFieldSection(
-            label: 'Status*',
+            label: 'Status',
             spacingAfterLabel: 8,
             child: Builder(
               builder: (context) {
@@ -511,7 +511,7 @@ class _CreatePlanModalState extends State<CreatePlanModal> {
     return SizedBox(
       width: _customDurationFieldWidth,
       child: AuthFormFieldSection(
-        label: 'Custom Date*',
+        label: 'Custom Date',
         spacingAfterLabel: 8,
         child: Material(
           color: Colors.transparent,

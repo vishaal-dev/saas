@@ -319,20 +319,26 @@ class RemindersMobileView extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SvgPicture.asset(
-          AppIcons.whatsappLogo,
-          width: 18,
-          height: 18,
-          colorFilter: ColorFilter.mode(_whatsAppGreen, BlendMode.srcIn),
-        ),
-        const SizedBox(width: 8),
-        SvgPicture.asset(
-          AppIcons.email,
-          width: 18,
-          height: 18,
-          colorFilter: ColorFilter.mode(_emailBlue, BlendMode.srcIn),
-        ),
+        _channelCircle(assetPath: AppIcons.whatsappLogo, color: _whatsAppGreen),
+        const SizedBox(width: 4),
+        _channelCircle(assetPath: AppIcons.email, color: _emailBlue),
       ],
+    );
+  }
+
+  Widget _channelCircle({required String assetPath, required Color color}) {
+    return Container(
+      width: 28,
+      height: 28,
+      decoration: const BoxDecoration(color: Color(0xFFEEF2FF), shape: BoxShape.circle),
+      alignment: Alignment.center,
+      padding: const EdgeInsets.all(5),
+      child: SvgPicture.asset(
+        assetPath,
+        width: 16,
+        height: 16,
+        colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+      ),
     );
   }
 

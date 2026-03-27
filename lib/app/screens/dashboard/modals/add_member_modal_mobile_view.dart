@@ -27,6 +27,7 @@ class AddMemberModalMobileView extends StatelessWidget {
     required this.onCancel,
     required this.onSave,
     required this.isSaveEnabled,
+    required this.isNameEditable,
     this.title = 'Add Member',
     this.primaryButtonLabel = 'Save Member',
   });
@@ -45,6 +46,7 @@ class AddMemberModalMobileView extends StatelessWidget {
   final VoidCallback onCancel;
   final VoidCallback onSave;
   final bool isSaveEnabled;
+  final bool isNameEditable;
   final String title;
   final String primaryButtonLabel;
 
@@ -104,11 +106,12 @@ class AddMemberModalMobileView extends StatelessWidget {
             _buildSectionTitle('Member Details'),
             const SizedBox(height: 16),
             AuthFormFieldSection(
-              label: 'Full Name*',
+              label: 'Full Name',
               spacingAfterLabel: 8,
               child: AuthTextField(
                 controller: fullNameController,
                 hint: 'E.g. John Doe',
+                readOnly: !isNameEditable,
                 fillColor: fullNameController.text.trim().isNotEmpty
                     ? _filledFieldColor
                     : Colors.white,
@@ -188,7 +191,7 @@ class AddMemberModalMobileView extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             AuthFormFieldSection(
-              label: 'Email Address*',
+              label: 'Email Address',
               spacingAfterLabel: 8,
               child: AuthTextField(
                 controller: emailController,
@@ -256,9 +259,25 @@ class AddMemberModalMobileView extends StatelessWidget {
   }
 
   Widget _buildPlanDropdown() {
+    void clearSelectionKeepCursor(TextEditingController c) {
+      final sel = c.selection;
+      if (!sel.isValid) return;
+      final offset = sel.extentOffset.clamp(0, c.text.length);
+      c.selection = TextSelection.collapsed(offset: offset);
+    }
+
     return PlanDropdown(
       value: selectedPlan,
-      onChanged: onPlanChanged,
+      onChanged: (v) {
+        onPlanChanged(v);
+        // When the popup closes on mobile, Flutter may restore focus to the
+        // previously focused field. Explicitly clear selection and unfocus so
+        // the email field does not come back in "select all" state.
+        clearSelectionKeepCursor(fullNameController);
+        clearSelectionKeepCursor(phoneController);
+        clearSelectionKeepCursor(emailController);
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       hint: 'Choose a Plan',
       fillColor: Colors.white,
     );
@@ -342,19 +361,11 @@ class AddMemberModalMobileView extends StatelessWidget {
   }
 
   Widget _requiredLabel(String text) {
-    return RichText(
-      text: TextSpan(
-        style: Get.theme.textTheme.labelMedium?.copyWith(
-          color: AppConstants.labelColor,
-          fontWeight: FontWeight.w600,
-        ),
-        children: [
-          TextSpan(text: text),
-          const TextSpan(
-            text: '*',
-            style: TextStyle(color: Colors.red),
-          ),
-        ],
+    return Text(
+      text,
+      style: Get.theme.textTheme.labelMedium?.copyWith(
+        color: AppConstants.labelColor,
+        fontWeight: FontWeight.w600,
       ),
     );
   }

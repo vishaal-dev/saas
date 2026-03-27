@@ -152,19 +152,11 @@ class CreateRuleModalMobileView extends StatelessWidget {
   }
 
   Widget _buildLabel(String text) {
-    return RichText(
-      text: TextSpan(
-        style: Get.theme.textTheme.labelMedium?.copyWith(
-          color: AppConstants.labelColor,
-          fontWeight: FontWeight.w600,
-        ),
-        children: [
-          TextSpan(text: text),
-          const TextSpan(
-            text: '*',
-            style: TextStyle(color: Colors.red),
-          ),
-        ],
+    return Text(
+      text,
+      style: Get.theme.textTheme.labelMedium?.copyWith(
+        color: AppConstants.labelColor,
+        fontWeight: FontWeight.w600,
       ),
     );
   }
