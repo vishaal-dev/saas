@@ -128,34 +128,25 @@ class RemindersMobileView extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Text(
-                          AppStrings.messageTemplatesTitle,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: _textDark,
-                            fontSize: 15,
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        Text(
-                          AppStrings.messageTemplatesSubtitle,
-                          style: TextStyle(color: _textMuted, fontSize: 13),
-                        ),
-                      ],
+                  const Text(
+                    AppStrings.messageTemplatesTitle,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: _textDark,
+                      fontSize: 15,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(height: 16),
+                  const Text(
+                    AppStrings.messageTemplatesSubtitle,
+                    style: TextStyle(color: _textMuted, fontSize: 13),
+                  ),
+                  const SizedBox(height: 12),
                   SizedBox(
-                    width: 168,
+                    width: double.infinity,
                     height: 44,
                     child: OutlinedButton(
                       onPressed: () => openModalWithTransition(
@@ -176,10 +167,7 @@ class RemindersMobileView extends StatelessWidget {
                       ),
                       child: const Text(
                         AppStrings.createTemplateLabel,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
                       ),
                     ),
                   ),
@@ -330,7 +318,10 @@ class RemindersMobileView extends StatelessWidget {
     return Container(
       width: 28,
       height: 28,
-      decoration: const BoxDecoration(color: Color(0xFFEEF2FF), shape: BoxShape.circle),
+      decoration: const BoxDecoration(
+        color: Color(0xFFEEF2FF),
+        shape: BoxShape.circle,
+      ),
       alignment: Alignment.center,
       padding: const EdgeInsets.all(5),
       child: SvgPicture.asset(

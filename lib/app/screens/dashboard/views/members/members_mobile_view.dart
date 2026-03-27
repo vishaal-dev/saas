@@ -97,7 +97,7 @@ class MembersMobileView extends StatelessWidget {
             minHeight: 24,
           ),
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.fromLTRB(0, 14, 16, 14),
+          contentPadding: const EdgeInsets.fromLTRB(0, 14, 16, 12),
           isDense: true,
         ),
       ),
