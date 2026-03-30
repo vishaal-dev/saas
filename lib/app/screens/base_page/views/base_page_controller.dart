@@ -9,7 +9,7 @@ import '../../../../shared/utils/app_exceptions.dart';
 import '../../../../shared/utils/auth_landing.dart';
 import '../../../../shared/utils/base_controller.dart';
 import '../../admin/dashboard/admin_dashboard.dart';
-import '../../authentication/login/login.dart';
+import '../../landing_page/landing_page.dart';
 import '../../dashboard/views/dashboard/dashboard.dart';
 
 class BasePageController extends BaseController {
@@ -20,7 +20,7 @@ class BasePageController extends BaseController {
       final path = AuthLanding.path(persistedEmail: auth.loggedInEmail);
       _setShellAndNavForPath(path);
     } else {
-      currentPage = const Login();
+      currentPage = const LandingPage();
       appBarTitle = ''.obs;
     }
   }
