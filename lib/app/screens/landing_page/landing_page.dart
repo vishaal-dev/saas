@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:saas/app/screens/authentication/widgets/auth_widgets.dart';
 import 'package:saas/app/screens/landing_page/landing_page_controller.dart';
@@ -170,7 +171,7 @@ class _HeroSection extends StatelessWidget {
                           ),
                           const SizedBox(height: 18),
                           Text(
-                            'Recrip helps businesses automate renewals, track customers, and recover missed payments — all from one powerful dashboard.',
+                            'Recrip helps businesses automate renewals, track customers, and recover missed payments â€” all from one powerful dashboard.',
                             textAlign: TextAlign.left,
                             style: descriptionStyle,
                           ),
@@ -204,11 +205,9 @@ class _HeroSection extends StatelessWidget {
     );
   }
 }
+
 class _HeroTextBlock extends StatelessWidget {
-  const _HeroTextBlock({
-    required this.line1Size,
-    required this.line2Size,
-  });
+  const _HeroTextBlock({required this.line1Size, required this.line2Size});
 
   final double line1Size;
   final double line2Size;
@@ -221,28 +220,29 @@ class _HeroTextBlock extends StatelessWidget {
         Text(
           'Never Lose\nRevenue from',
           textAlign: TextAlign.left,
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            fontSize: line1Size,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontSize: 60,
             fontWeight: FontWeight.w900,
-            color: const Color(0xFF111827),
-            height: 1.08,
+            color: AppConstants.textColor,
+            height: 1.2,
           ),
         ),
         const SizedBox(height: 6),
         Text(
           'Expired\nSubscriptions',
           textAlign: TextAlign.left,
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            fontSize: line2Size,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontSize: 60,
             fontWeight: FontWeight.w900,
-            color: const Color(0xFF5C5BFF),
-            height: 1.05,
+            color: const Color(0xFF4F46E5),
+            height: 1.2,
           ),
         ),
       ],
     );
   }
 }
+
 class _TopNav extends StatelessWidget {
   const _TopNav({
     required this.compact,
@@ -402,16 +402,10 @@ class _LandingHeroLoginCard extends StatelessWidget {
           cardColor: Colors.white,
           boxShadow: const [
             BoxShadow(
-              color: Color(0x120F172A),
-              offset: Offset(0, 8),
-              blurRadius: 18,
+              color: Color(0x40000000),
+              offset: Offset(0, 20),
+              blurRadius: 19.5,
               spreadRadius: 0,
-            ),
-            BoxShadow(
-              color: Color(0x220F172A),
-              offset: Offset(0, 24),
-              blurRadius: 42,
-              spreadRadius: -8,
             ),
           ],
           customHeader: Column(
@@ -580,23 +574,38 @@ class _FeatureSection extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(padding, 42, padding, 48),
       child: Column(
         children: [
-          Text(
-            'Everything you need to\nscale faster',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              fontSize: mobile ? 28 : 36,
-              fontWeight: FontWeight.w800,
-              color: const Color(0xFF111827),
-              height: 1.15,
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Everything you need to\n',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w900,
+                    color: AppConstants.textColor,
+                    height: 1.15,
+                  ),
+                ),
+                TextSpan(
+                  text: 'scale faster',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w900,
+                    color: const Color(0xFF4F46E5),
+                    height: 1.15,
+                  ),
+                ),
+              ],
             ),
+            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 10),
           Text(
-            'Stop manually tracking renewals. Recrip automates the boring stuff so you can focus on growth.',
+            'Stop manually tracking spreadsheets. Recrip automates the boring stuff so you\ncan focus on growth.',
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontSize: 15,
-              color: const Color(0xFF6B7280),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: AppConstants.supportTextColor,
+              fontWeight: FontWeight.w600,
               height: 1.5,
             ),
           ),
@@ -661,15 +670,32 @@ class _FeatureCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: feature.color,
               borderRadius: BorderRadius.circular(12),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x40383737),
+                  offset: Offset(0, 13),
+                  blurRadius: 11.1,
+                  spreadRadius: 0,
+                ),
+              ],
             ),
-            child: Icon(feature.icon, size: 24, color: Colors.white),
+            child: Padding(
+              padding: const EdgeInsets.all(18),
+              child: SvgPicture.asset(
+                feature.iconAsset,
+                colorFilter: const ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.srcIn,
+                ),
+              ),
+            ),
           ),
           const SizedBox(height: 14),
           Text(
             feature.title,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: AppConstants.textColor,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(color: AppConstants.textColor),
           ),
           const SizedBox(height: 8),
           Text(
@@ -685,17 +711,24 @@ class _FeatureCard extends StatelessWidget {
   }
 }
 
-class _TeamSection extends StatelessWidget {
+class _TeamSection extends StatefulWidget {
   const _TeamSection({required this.padding, required this.mobile});
 
   final double padding;
   final bool mobile;
 
   @override
+  State<_TeamSection> createState() => _TeamSectionState();
+}
+
+class _TeamSectionState extends State<_TeamSection> {
+  _PreviewTab _selectedTab = _PreviewTab.dashboard;
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.fromLTRB(padding, 22, padding, 46),
+      padding: EdgeInsets.fromLTRB(widget.padding, 22, widget.padding, 46),
       child: LayoutBuilder(
         builder: (context, constraints) {
           final stacked = constraints.maxWidth < 980;
@@ -713,16 +746,28 @@ class _TeamSection extends StatelessWidget {
                         (Theme.of(context).textTheme.headlineMedium ??
                                 const TextStyle())
                             .copyWith(
-                              fontSize: mobile ? 30 : 40,
+                              fontSize: widget.mobile ? 30 : 40,
                               fontWeight: FontWeight.w800,
                               color: const Color(0xFF111827),
                               height: 1.12,
                             ),
-                    children: const [
-                      TextSpan(text: 'Built for '),
+                    children: [
                       TextSpan(
-                        text: 'Modern Teams',
-                        style: TextStyle(color: Color(0xFF5C5BFF)),
+                        text: 'Built for ',
+                        style: Get.textTheme.bodyLarge?.copyWith(
+                          fontSize: 40,
+                          fontWeight: FontWeight.w900,
+                          color: AppConstants.textColor,
+                        ),
+                      ),
+                       TextSpan(
+                        text: 'Modern\nTeams',
+                        style: Get.textTheme.bodyLarge?.copyWith(
+                          fontSize: 40,
+                          fontWeight: FontWeight.w900,
+                          color: Color(0xFF4F46E5),
+                          height: 0.95,
+                        ),
                       ),
                     ],
                   ),
@@ -738,13 +783,29 @@ class _TeamSection extends StatelessWidget {
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: const [
-                      _SideNavItem(label: 'Dashboard', selected: true),
-                      _SideNavItem(label: 'Members', selected: false),
-                      _SideNavItem(label: 'Subscriptions', selected: false),
+                    children: [
+                      _SideNavItem(
+                        label: 'Dashboard',
+                        selected: _selectedTab == _PreviewTab.dashboard,
+                        onTap: () => setState(
+                          () => _selectedTab = _PreviewTab.dashboard,
+                        ),
+                      ),
+                      _SideNavItem(
+                        label: 'Members',
+                        selected: _selectedTab == _PreviewTab.members,
+                        onTap: () =>
+                            setState(() => _selectedTab = _PreviewTab.members),
+                      ),
+                      const _SideNavItem(
+                        label: 'Subscriptions',
+                        selected: false,
+                      ),
                       _SideNavItem(
                         label: 'Renewals',
-                        selected: false,
+                        selected: _selectedTab == _PreviewTab.renewals,
+                        onTap: () =>
+                            setState(() => _selectedTab = _PreviewTab.renewals),
                         isLast: true,
                       ),
                     ],
@@ -761,19 +822,19 @@ class _TeamSection extends StatelessWidget {
               ],
             ),
           );
-          const rightChild = _DashboardMock();
+          final rightChild = _DashboardMock(selectedTab: _selectedTab);
           return Flex(
             direction: stacked ? Axis.vertical : Axis.horizontal,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (stacked) leftChild else Expanded(flex: 4, child: leftChild),
               if (stacked)
-                const Padding(
-                  padding: EdgeInsets.only(top: 12),
+                Padding(
+                  padding: const EdgeInsets.only(top: 12),
                   child: rightChild,
                 )
               else
-                const Expanded(flex: 7, child: rightChild),
+                Expanded(flex: 7, child: rightChild),
             ],
           );
         },
@@ -787,11 +848,13 @@ class _SideNavItem extends StatelessWidget {
     required this.label,
     required this.selected,
     this.isLast = false,
+    this.onTap,
   });
 
   final String label;
   final bool selected;
   final bool isLast;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -800,29 +863,33 @@ class _SideNavItem extends StatelessWidget {
       child: Material(
         color: selected ? Colors.white : Colors.transparent,
         borderRadius: BorderRadius.circular(10),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-          child: Row(
-            children: [
-              Icon(
-                Icons.circle,
-                size: 8,
-                color: selected
-                    ? const Color(0xFF5C5BFF)
-                    : const Color(0xFFD1D5DB),
-              ),
-              const SizedBox(width: 10),
-              Text(
-                label,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(10),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.circle,
+                  size: 8,
                   color: selected
                       ? const Color(0xFF5C5BFF)
-                      : const Color(0xFF6B7280),
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
+                      : const Color(0xFFD1D5DB),
                 ),
-              ),
-            ],
+                const SizedBox(width: 10),
+                Text(
+                  label,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: selected
+                        ? const Color(0xFF5C5BFF)
+                        : const Color(0xFF6B7280),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -830,129 +897,121 @@ class _SideNavItem extends StatelessWidget {
   }
 }
 
+enum _PreviewTab { dashboard, members, renewals }
+
 class _DashboardMock extends StatelessWidget {
-  const _DashboardMock();
+  const _DashboardMock({required this.selectedTab});
+
+  final _PreviewTab selectedTab;
 
   @override
   Widget build(BuildContext context) {
+    final orderedCards = [
+      for (final tab in _PreviewTab.values)
+        if (tab != selectedTab) tab,
+      selectedTab,
+    ];
+
     return Container(
+      width: 792,
+      height: 392,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: const Color(0xFF0F1835),
         borderRadius: BorderRadius.circular(26),
       ),
-      child: Container(
-        padding: const EdgeInsets.all(16),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          for (var index = 0; index < orderedCards.length; index++)
+            _PreviewCard(
+              tab: orderedCards[index],
+              layerIndex: index,
+              isFront: orderedCards[index] == selectedTab,
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PreviewCard extends StatelessWidget {
+  const _PreviewCard({
+    required this.tab,
+    required this.layerIndex,
+    required this.isFront,
+  });
+
+  final _PreviewTab tab;
+  final int layerIndex;
+  final bool isFront;
+
+  @override
+  Widget build(BuildContext context) {
+    final specs = [
+      const _PreviewSpec(top: 46, right: 8, width: 232, height: 250),
+      const _PreviewSpec(top: 18, right: 58, width: 314, height: 288),
+      const _PreviewSpec(top: -2, right: 154, width: 592, height: 328),
+    ];
+    final spec = specs[layerIndex];
+
+    return Positioned(
+      top: spec.top,
+      right: spec.right,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 220),
+        curve: Curves.easeOut,
+        width: spec.width,
+        height: spec.height,
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-        ),
-        child: Column(
-          children: [
-            Row(
-              children: const [
-                Expanded(
-                  child: _StatChip('Revenue', '+18%', Color(0xFFDCFCE7)),
-                ),
-                SizedBox(width: 12),
-                Expanded(
-                  child: _StatChip('Renewals', '124', Color(0xFFE0E7FF)),
-                ),
-                SizedBox(width: 12),
-                Expanded(child: _StatChip('Alerts', '8', Color(0xFFFDE68A))),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Container(
-              height: 150,
-              decoration: BoxDecoration(
-                color: const Color(0xFFF8FAFF),
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: const Color(0xFFE6EAF6)),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 6,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Column(
-                        children: List.generate(
-                          6,
-                          (index) => Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Row(
-                              children: [
-                                _line(70, const Color(0xFFD7DDFF)),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: _line(
-                                    double.infinity,
-                                    index.isEven
-                                        ? const Color(0xFFE5E7EB)
-                                        : const Color(0xFFEEF2FF),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 92,
-                          height: 92,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: SweepGradient(
-                              colors: [
-                                Color(0xFF5C5BFF),
-                                Color(0xFFB4BDFF),
-                                Color(0xFFE5E7EB),
-                                Color(0xFF5C5BFF),
-                              ],
-                            ),
-                          ),
-                          child: Center(
-                            child: Container(
-                              width: 52,
-                              height: 52,
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 14),
-                        _line(88, const Color(0xFFD7DDFF)),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+          borderRadius: BorderRadius.circular(22),
+          border: Border.all(
+            color: isFront ? const Color(0x150F172A) : Colors.transparent,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: isFront
+                  ? const Color(0x300F172A)
+                  : const Color(0x1A0F172A),
+              blurRadius: isFront ? 28 : 18,
+              offset: Offset(0, isFront ? 12 : 8),
             ),
           ],
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Image.asset(
+          _previewImageFor(tab),
+          fit: BoxFit.cover,
+          alignment: Alignment.topLeft,
         ),
       ),
     );
   }
+}
 
-  Widget _line(double width, Color color) {
-    return Container(
-      width: width,
-      height: 10,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(99),
-      ),
-    );
+class _PreviewSpec {
+  const _PreviewSpec({
+    required this.top,
+    required this.right,
+    required this.width,
+    required this.height,
+  });
+
+  final double top;
+  final double right;
+  final double width;
+  final double height;
+}
+
+String _previewImageFor(_PreviewTab tab) {
+  switch (tab) {
+    case _PreviewTab.dashboard:
+      return 'assets/images/Dashboard.png';
+    case _PreviewTab.members:
+      return 'assets/images/Members.png';
+    case _PreviewTab.renewals:
+      return 'assets/images/Renewals.png';
   }
 }
 
@@ -1006,14 +1065,28 @@ class _StepSection extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(padding, 30, padding, 58),
       child: Column(
         children: [
-          Text(
-            'Get started in 3 simple steps',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              fontSize: mobile ? 28 : 34,
-              fontWeight: FontWeight.w800,
-              color: const Color(0xFF5C5BFF),
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Get started in ',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w900,
+                    color: AppConstants.textColor,
+                  ),
+                ),
+                TextSpan(
+                  text: '3 simple steps',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w900,
+                    color: const Color(0xFF4F46E5),
+                  ),
+                ),
+              ],
             ),
+            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 28),
           Wrap(
@@ -1329,7 +1402,7 @@ class _FaqSection extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Most powerful subscription renewal management platform — built for businesses that hate leaking revenue.',
+                      'Most powerful subscription renewal management platform â€” built for businesses that hate leaking revenue.',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: const Color(0xFF6B7280),
                         height: 1.5,
@@ -1337,7 +1410,7 @@ class _FaqSection extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      '© 2026 Recrip. All rights reserved.',
+                      'Â© 2026 Recrip. All rights reserved.',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: const Color(0xFF9CA3AF),
                       ),
@@ -1511,38 +1584,38 @@ const features = [
   _Feature(
     'Smart Renewal Alerts',
     'Automatically remind customers via WhatsApp, SMS, and email before they expire.',
-    Icons.notifications_active_rounded,
-    Color(0xFF7293FF),
+    AppIcons.bell,
+    Color(0xFF2B7FFF),
   ),
   _Feature(
     'Payment Recovery',
     'Recover missed payments and reduce churn effortlessly with automated retries.',
-    Icons.payments_rounded,
-    Color(0xFF7CC7FF),
+    AppIcons.creditCard,
+    Color(0xFF5FC7FF),
   ),
   _Feature(
     'Analytics Dashboard',
     'Track revenue, renewals, and customer behavior with deep visual insights.',
-    Icons.analytics_rounded,
-    Color(0xFF9D7CFF),
+    AppIcons.chartPie,
+    Color(0xFF8E51FF),
   ),
   _Feature(
     'Customer Management',
     'All your subscription data in one place. Search, filter, and manage with ease.',
-    Icons.people_alt_rounded,
-    Color(0xFFE873FF),
+    AppIcons.usersRound,
+    Color(0xFFE12AFB),
   ),
   _Feature(
     'Auto Renewals',
     'Set it once and let Recrip handle the rest. Seamless recurring billing.',
-    Icons.autorenew_rounded,
-    Color(0xFF26C281),
+    AppIcons.renew,
+    Color(0xFF00BC7D),
   ),
   _Feature(
     'Business Insights',
     'Track revenue, renewals, and customer behavior with deep visual insights.',
-    Icons.bar_chart_rounded,
-    Color(0xFFFFB547),
+    AppIcons.globe,
+    Color(0xFFFE9A00),
   ),
 ];
 
@@ -1580,15 +1653,17 @@ const faqs = [
 ];
 
 class _Feature {
-  const _Feature(this.title, this.description, this.icon, this.color);
+  const _Feature(this.title, this.description, this.iconAsset, this.color);
+
   final String title;
   final String description;
-  final IconData icon;
+  final String iconAsset;
   final Color color;
 }
 
 class _Step {
   const _Step(this.title, this.description, this.icon);
+
   final String title;
   final String description;
   final IconData icon;
@@ -1596,8 +1671,7 @@ class _Step {
 
 class _Faq {
   const _Faq(this.question, this.answer);
+
   final String question;
   final String answer;
 }
-
-
