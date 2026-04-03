@@ -29,7 +29,7 @@ Future<void> setupGlobalServices() async {
   if (!di.isRegistered<LogX>()) {
     di.registerLazySingleton<LogX>(
       () => LogX(
-        appTitle: 'Split App',
+        appTitle: 'Recrip',
         is24HourFormat: true,
         useBoxyFormat: true,
         includeTimestamps: true,

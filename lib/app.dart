@@ -6,10 +6,10 @@ import 'core/di/get_injector.dart';
 import 'core/locale/localization_services.dart';
 import 'routes/app_pages.dart';
 
-class Saas extends StatelessWidget {
+class RecripApp extends StatelessWidget {
   final String title;
 
-  const Saas({super.key, required this.title});
+  const RecripApp({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
