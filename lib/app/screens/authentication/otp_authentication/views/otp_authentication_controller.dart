@@ -76,6 +76,16 @@ class OtpAuthenticationController extends GetxController {
   }
 
   void onBack() {
-    Get.back();
+    if (appNav.canPop()) {
+      appNav.popPage();
+      return;
+    }
+
+    if (Get.key.currentState?.canPop() ?? false) {
+      Get.back();
+      return;
+    }
+
+    appNav.changePage(AppRoutes.forgotPassword);
   }
 }

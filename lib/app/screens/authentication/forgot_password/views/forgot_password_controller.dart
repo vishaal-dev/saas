@@ -37,6 +37,6 @@ class ForgotPasswordController extends GetxController {
   }
 
   void onBack() {
-    Get.back();
+    appNav.popPage();
   }
 }

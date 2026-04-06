@@ -65,7 +65,7 @@ class ForgotPassword extends GetView<ForgotPasswordController> {
               SizedBox(
                 height: AppConstants.buttonHeight,
                 child: OutlinedButton(
-                  onPressed: controller.onBack,
+                  onPressed: (){controller.onBack();},
                   style: OutlinedButton.styleFrom(
                     backgroundColor: Colors.transparent,
                     foregroundColor: const Color(0xFF475569),
