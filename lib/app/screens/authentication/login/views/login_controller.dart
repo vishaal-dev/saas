@@ -11,6 +11,23 @@ import 'package:saas/shared/utils/auth_validators.dart';
 import '../../../../../routes/app_pages.dart';
 
 class LoginController extends GetxController {
+  /// Tag for hero login on landing (desktop / tablet / mobile). Keeps this
+  /// instance separate from the untagged controller used on [Login].
+  static const String heroLoginTag = 'landingPageHero';
+
+  /// Ensures the tagged hero [LoginController] exists for landing pages.
+  static void registerHeroIfNeeded() {
+    if (!Get.isRegistered<LoginController>(tag: heroLoginTag)) {
+      Get.put(LoginController(), tag: heroLoginTag, permanent: false);
+    }
+  }
+
+  static void deleteHeroIfRegistered() {
+    if (Get.isRegistered<LoginController>(tag: heroLoginTag)) {
+      Get.delete<LoginController>(tag: heroLoginTag);
+    }
+  }
+
   late final AuthService _authService;
 
   // UI state

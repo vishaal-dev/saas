@@ -24,6 +24,7 @@ class AppIcons {
   static const String globe = 'assets/icons/globe.svg';
   static const String headset = 'assets/icons/headset.svg';
   static const String logOut = 'assets/icons/log-out.svg';
+  static const String menu = 'assets/icons/menu.svg';
   static const String renew = 'assets/icons/renew.svg';
   static const String search = 'assets/icons/search.svg';
   static const String settings = 'assets/icons/settings.svg';

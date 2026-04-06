@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:saas/app/screens/authentication/widgets/auth_widgets.dart';
-import 'package:saas/app/screens/landing_page/landing_page_controller.dart';
+import 'package:saas/app/screens/landing_page/landing_hero_login_form.dart';
 import 'package:saas/core/di/get_injector.dart';
 import 'package:saas/routes/app_pages.dart';
 import 'package:saas/shared/constants/app_icons.dart';
-import 'package:saas/shared/constants/app_strings.dart';
 
 class LandingPageTabletView extends StatefulWidget {
   const LandingPageTabletView({super.key});
-
-  static const String heroControllerTag = 'landingPageHero';
 
   @override
   State<LandingPageTabletView> createState() => _LandingPageTabletViewState();
@@ -325,10 +321,6 @@ class _TabletHeroLoginCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<LandingPageController>(
-      tag: LandingPageTabletView.heroControllerTag,
-    );
-
     return Center(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 520),
@@ -366,70 +358,7 @@ class _TabletHeroLoginCard extends StatelessWidget {
               ),
             ],
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AuthFormFieldSection(
-                label: AppStrings.userNameLabel,
-                child: Obx(
-                  () => AuthTextField(
-                    controller: controller.emailController,
-                    focusNode: controller.emailFocusNode,
-                    hint: AppStrings.enterUsernameHint,
-                    isHovered: controller.isUsernameHovered.value,
-                    errorText: controller.emailError.value,
-                    keyboardType: TextInputType.emailAddress,
-                    autocorrect: false,
-                    textInputAction: TextInputAction.next,
-                    onSubmitted: (_) =>
-                        controller.passwordFocusNode.requestFocus(),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              AuthFormFieldSection(
-                label: AppStrings.passwordLabel,
-                child: Obx(
-                  () => AuthPasswordField(
-                    controller: controller.passwordController,
-                    focusNode: controller.passwordFocusNode,
-                    obscureText: !controller.isPasswordVisible.value,
-                    onToggleVisibility: controller.togglePasswordVisibility,
-                    hint: AppStrings.enterPasswordHint,
-                    isHovered: controller.isPasswordHovered.value,
-                    errorText: controller.passwordError.value,
-                    textInputAction: TextInputAction.done,
-                    onSubmitted: (_) => controller.onLogin(),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: controller.onForgotPassword,
-                  child: Text(
-                    AppStrings.forgotPasswordTitle,
-                    style: Get.theme.textTheme.labelMedium?.copyWith(
-                      color: const Color(0xFF64748B),
-                      decoration: TextDecoration.underline,
-                      decorationColor: const Color(0xFF64748B),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Obx(
-                () => AuthPrimaryButton(
-                  text: AppStrings.loginTitle,
-                  onPressed: controller.onLogin,
-                  isEnabled: controller.isFormValid.value,
-                  isLoading: controller.isSubmitting.value,
-                  enabledBackgroundColor: const Color(0xFFC8CEFF),
-                ),
-              ),
-            ],
-          ),
+          child: const LandingHeroLoginForm(),
         ),
       ),
     );

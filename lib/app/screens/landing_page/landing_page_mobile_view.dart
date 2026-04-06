@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:saas/app/screens/authentication/widgets/auth_widgets.dart';
-import 'package:saas/app/screens/landing_page/landing_page_controller.dart';
+import 'package:saas/app/screens/landing_page/landing_hero_login_form.dart';
 import 'package:saas/core/di/get_injector.dart';
 import 'package:saas/routes/app_pages.dart';
 import 'package:saas/shared/constants/app_icons.dart';
-import 'package:saas/shared/constants/app_strings.dart';
 
 class LandingPageMobileView extends StatefulWidget {
   const LandingPageMobileView({super.key});
-
-  static const String heroControllerTag = 'landingPageHero';
 
   @override
   State<LandingPageMobileView> createState() => _LandingPageMobileViewState();
@@ -153,48 +149,59 @@ class _MobileTopBar extends StatelessWidget {
 
   final VoidCallback onMenuTap;
 
+  static const Color _barBg = Color(0xFFFDFDFE);
+  static const Color _menuIcon = Color(0xFF1E293B);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(bottom: BorderSide(color: Color(0xFFE7EBF3))),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Image.asset(
-              AppIcons.recripLogo,
-              height: 30,
-              fit: BoxFit.contain,
-              alignment: Alignment.centerLeft,
+    return Material(
+      color: _barBg,
+      elevation: 0,
+      shadowColor: Colors.transparent,
+      child: SafeArea(
+        bottom: false,
+        child: Container(
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            border: Border(bottom: BorderSide(color: Color(0xFFE7EBF3))),
+          ),
+          child: SizedBox(
+            height: 52,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(
+                    onPressed: onMenuTap,
+                    padding: const EdgeInsets.only(left: 8, right: 16),
+                    constraints: const BoxConstraints(
+                      minWidth: 48,
+                      minHeight: 48,
+                    ),
+                    icon: SvgPicture.asset(
+                      AppIcons.menu,
+                      width: 26,
+                      height: 26,
+                      colorFilter: const ColorFilter.mode(
+                        _menuIcon,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Image.asset(
+                    AppIcons.recripLogo,
+                    height: 28,
+                    fit: BoxFit.contain,
+                    filterQuality: FilterQuality.high,
+                  ),
+                ),
+              ],
             ),
           ),
-          FilledButton(
-            onPressed: () => appNav.changePage(AppRoutes.login),
-            style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF5C5BFF),
-              foregroundColor: Colors.white,
-              minimumSize: const Size(104, 40),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            child: const Text(
-              'Start',
-              style: TextStyle(fontWeight: FontWeight.w700),
-            ),
-          ),
-          const SizedBox(width: 6),
-          IconButton(
-            onPressed: onMenuTap,
-            icon: const Icon(Icons.menu_rounded),
-            color: const Color(0xFF334155),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -334,10 +341,6 @@ class _MobileHeroLoginCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<LandingPageController>(
-      tag: LandingPageMobileView.heroControllerTag,
-    );
-
     return AuthFormCard(
       compact: true,
       showLogo: false,
@@ -357,84 +360,22 @@ class _MobileHeroLoginCard extends StatelessWidget {
             'Already with Us?',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w800,
-              color: const Color(0xFF0F172A),
-            ),
+                  fontWeight: FontWeight.w800,
+                  color: const Color(0xFF0F172A),
+                ),
           ),
           const SizedBox(height: 4),
           Text(
             'Login',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w800,
-              color: const Color(0xFF5C5BFF),
-            ),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          AuthFormFieldSection(
-            label: AppStrings.userNameLabel,
-            child: Obx(
-              () => AuthTextField(
-                controller: controller.emailController,
-                focusNode: controller.emailFocusNode,
-                hint: AppStrings.enterUsernameHint,
-                isHovered: controller.isUsernameHovered.value,
-                errorText: controller.emailError.value,
-                keyboardType: TextInputType.emailAddress,
-                autocorrect: false,
-                textInputAction: TextInputAction.next,
-                onSubmitted: (_) => controller.passwordFocusNode.requestFocus(),
-              ),
-            ),
-          ),
-          const SizedBox(height: 18),
-          AuthFormFieldSection(
-            label: AppStrings.passwordLabel,
-            child: Obx(
-              () => AuthPasswordField(
-                controller: controller.passwordController,
-                focusNode: controller.passwordFocusNode,
-                obscureText: !controller.isPasswordVisible.value,
-                onToggleVisibility: controller.togglePasswordVisibility,
-                hint: AppStrings.enterPasswordHint,
-                isHovered: controller.isPasswordHovered.value,
-                errorText: controller.passwordError.value,
-                textInputAction: TextInputAction.done,
-                onSubmitted: (_) => controller.onLogin(),
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Align(
-            alignment: Alignment.centerRight,
-            child: TextButton(
-              onPressed: controller.onForgotPassword,
-              child: Text(
-                AppStrings.forgotPasswordTitle,
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: const Color(0xFF64748B),
-                  decoration: TextDecoration.underline,
-                  decorationColor: const Color(0xFF64748B),
+                  fontWeight: FontWeight.w800,
+                  color: const Color(0xFF5C5BFF),
                 ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 12),
-          Obx(
-            () => AuthPrimaryButton(
-              text: AppStrings.loginTitle,
-              onPressed: controller.onLogin,
-              isEnabled: controller.isFormValid.value,
-              isLoading: controller.isSubmitting.value,
-              enabledBackgroundColor: const Color(0xFFC8CEFF),
-            ),
           ),
         ],
       ),
+      child: const LandingHeroLoginForm(),
     );
   }
 }

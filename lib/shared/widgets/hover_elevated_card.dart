@@ -9,12 +9,29 @@ class HoverElevatedCard extends StatefulWidget {
     required this.accentColor,
     this.borderRadius = 12,
     this.hoverScale = 1.018,
+    this.idleBorderColor,
+    this.idleBorderWidth = 1,
+    this.useSolidAccentBorderOnHover = false,
+    this.hoverBorderWidth = 1.2,
   });
 
   final Widget child;
   final Color accentColor;
   final double borderRadius;
   final double hoverScale;
+
+  /// When set, used as the border color while not hovered. Defaults to a soft gray.
+  final Color? idleBorderColor;
+
+  /// Border width while not hovered.
+  final double idleBorderWidth;
+
+  /// When true, hover uses a solid [accentColor] border at [hoverBorderWidth].
+  /// When false (default), hover uses a translucent accent border at width 1.
+  final bool useSolidAccentBorderOnHover;
+
+  /// Border width on hover when [useSolidAccentBorderOnHover] is true.
+  final double hoverBorderWidth;
 
   @override
   State<HoverElevatedCard> createState() => _HoverElevatedCardState();
@@ -28,6 +45,25 @@ class _HoverElevatedCardState extends State<HoverElevatedCard> {
 
   @override
   Widget build(BuildContext context) {
+    final idleBorderColor =
+        widget.idleBorderColor ??
+        const Color(0xFFE5E7EB).withValues(alpha: 0.65);
+
+    final Color borderColor;
+    final double borderWidth;
+    if (_hover) {
+      if (widget.useSolidAccentBorderOnHover) {
+        borderColor = widget.accentColor;
+        borderWidth = widget.hoverBorderWidth;
+      } else {
+        borderColor = widget.accentColor.withValues(alpha: 0.22);
+        borderWidth = 1;
+      }
+    } else {
+      borderColor = idleBorderColor;
+      borderWidth = widget.idleBorderWidth;
+    }
+
     return MouseRegion(
       onEnter: (_) => setState(() => _hover = true),
       onExit: (_) => setState(() => _hover = false),
@@ -44,10 +80,8 @@ class _HoverElevatedCardState extends State<HoverElevatedCard> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(widget.borderRadius),
             border: Border.all(
-              color: _hover
-                  ? widget.accentColor.withValues(alpha: 0.22)
-                  : const Color(0xFFE5E7EB).withValues(alpha: 0.65),
-              width: 1,
+              color: borderColor,
+              width: borderWidth,
             ),
             boxShadow: _hover
                 ? [

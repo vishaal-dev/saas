@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:saas/app/screens/authentication/login/views/login_controller.dart';
 import 'package:saas/app/screens/authentication/widgets/auth_widgets.dart';
-import 'package:saas/app/screens/landing_page/landing_page_controller.dart';
+import 'package:saas/app/screens/landing_page/landing_hero_login_form.dart';
 import 'package:saas/app/screens/landing_page/landing_page_mobile_view.dart';
 import 'package:saas/app/screens/landing_page/landing_page_tablet_view.dart';
 import 'package:saas/core/di/get_injector.dart';
 import 'package:saas/routes/app_pages.dart';
 import 'package:saas/shared/constants/app_icons.dart';
-import 'package:saas/shared/constants/app_strings.dart';
+import 'package:saas/shared/widgets/hover_elevated_card.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
 
-  /// GetX tag for [LandingPageController] (hero login only).
-  static const String heroControllerTag = 'landingPageHero';
   static const double tabletBreakpoint = 1100.0;
   static const double mobileBreakpoint = 760.0;
 
@@ -32,24 +31,12 @@ class _LandingPageState extends State<LandingPage> {
   @override
   void initState() {
     super.initState();
-    if (!Get.isRegistered<LandingPageController>(
-      tag: LandingPage.heroControllerTag,
-    )) {
-      Get.put(
-        LandingPageController(),
-        tag: LandingPage.heroControllerTag,
-        permanent: false,
-      );
-    }
+    LoginController.registerHeroIfNeeded();
   }
 
   @override
   void dispose() {
-    if (Get.isRegistered<LandingPageController>(
-      tag: LandingPage.heroControllerTag,
-    )) {
-      Get.delete<LandingPageController>(tag: LandingPage.heroControllerTag);
-    }
+    LoginController.deleteHeroIfRegistered();
     super.dispose();
   }
 
@@ -98,9 +85,7 @@ class _LandingPageState extends State<LandingPage> {
             padding: EdgeInsets.fromLTRB(pad, 18, pad, 14),
             decoration: const BoxDecoration(
               color: Colors.white,
-              border: Border(
-                bottom: BorderSide(color: Color(0xFFE7EBF3)),
-              ),
+              border: Border(bottom: BorderSide(color: Color(0xFFE7EBF3))),
             ),
             child: _TopNav(
               compact: mobile,
@@ -116,7 +101,11 @@ class _LandingPageState extends State<LandingPage> {
               child: Column(
                 children: [
                   _HeroSection(padding: pad),
-                  _FeatureSection(key: _featuresKey, padding: pad, mobile: mobile),
+                  _FeatureSection(
+                    key: _featuresKey,
+                    padding: pad,
+                    mobile: mobile,
+                  ),
                   _TeamSection(padding: pad, mobile: mobile),
                   _StepSection(key: _stepsKey, padding: pad, mobile: mobile),
                   _CtaSection(key: _pricingKey, padding: pad),
@@ -193,7 +182,7 @@ class _HeroSection extends StatelessWidget {
                           ),
                           const SizedBox(height: 18),
                           Text(
-                            'Recrip helps businesses automate renewals, track customers, and recover missed payments â€” all from one powerful dashboard.',
+                            'Recrip helps businesses automate renewals, track customers, and recover missed payments — all from one powerful dashboard.',
                             textAlign: TextAlign.left,
                             style: descriptionStyle,
                           ),
@@ -444,16 +433,12 @@ class _TopNavState extends State<_TopNav> {
   }
 }
 
-/// Hero login panel: same fields and actions as [Login] desktop form, compact [AuthFormCard].
+/// Hero login panel: [LoginController] + same form UX as [Login] desktop.
 class _LandingHeroLoginCard extends StatelessWidget {
   const _LandingHeroLoginCard();
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<LandingPageController>(
-      tag: LandingPage.heroControllerTag,
-    );
-
     return Align(
       child: ConstrainedBox(
         constraints: const BoxConstraints.tightFor(width: 379, height: 430),
@@ -495,93 +480,7 @@ class _LandingHeroLoginCard extends StatelessWidget {
               ),
             ],
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AuthFormFieldSection(
-                label: AppStrings.userNameLabel,
-                child: MouseRegion(
-                  onEnter: (_) => controller.setUsernameHovered(true),
-                  onExit: (_) => controller.setUsernameHovered(false),
-                  child: Obx(
-                    () => AuthTextField(
-                      controller: controller.emailController,
-                      focusNode: controller.emailFocusNode,
-                      hint: AppStrings.enterUsernameHint,
-                      isHovered: controller.isUsernameHovered.value,
-                      errorText: controller.emailError.value,
-                      keyboardType: TextInputType.emailAddress,
-                      autocorrect: false,
-                      textInputAction: TextInputAction.next,
-                      onSubmitted: (_) =>
-                          controller.passwordFocusNode.requestFocus(),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              AuthFormFieldSection(
-                label: AppStrings.passwordLabel,
-                child: MouseRegion(
-                  onEnter: (_) => controller.setPasswordHovered(true),
-                  onExit: (_) => controller.setPasswordHovered(false),
-                  child: Obx(
-                    () => AuthPasswordField(
-                      controller: controller.passwordController,
-                      focusNode: controller.passwordFocusNode,
-                      obscureText: !controller.isPasswordVisible.value,
-                      onToggleVisibility: controller.togglePasswordVisibility,
-                      hint: AppStrings.enterPasswordHint,
-                      isHovered: controller.isPasswordHovered.value,
-                      errorText: controller.passwordError.value,
-                      textInputAction: TextInputAction.done,
-                      onSubmitted: (_) => controller.onLogin(),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: AppConstants.spacingAfterLabel),
-              Align(
-                alignment: Alignment.centerRight,
-                child: MouseRegion(
-                  onEnter: (_) => controller.setForgotPasswordHovered(true),
-                  onExit: (_) => controller.setForgotPasswordHovered(false),
-                  child: Obx(() {
-                    final hovered = controller.isForgotPasswordHovered.value;
-                    final color = hovered
-                        ? AppConstants.titleColor
-                        : AppConstants.hintColor;
-                    return TextButton(
-                      onPressed: controller.onForgotPassword,
-                      child: Text(
-                        AppStrings.forgotPasswordTitle,
-                        style: Get.theme.textTheme.labelMedium!.copyWith(
-                          color: color,
-                          fontWeight: hovered ? FontWeight.w400 : null,
-                          decoration: TextDecoration.underline,
-                          decorationColor: color,
-                          decorationThickness: 1.2,
-                        ),
-                      ),
-                    );
-                  }),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Obx(
-                () => AuthPrimaryButton(
-                  text: AppStrings.loginTitle,
-                  onPressed: controller.onLogin,
-                  isEnabled: controller.isFormValid.value,
-                  isLoading: controller.isSubmitting.value,
-                  enabledBackgroundColor: const Color(0xFFC8CEFF),
-                ),
-              ),
-              // const SizedBox(height: 28),
-              // AuthSupportFooter(onReachOut: controller.onReachOutTap),
-            ],
-          ),
+          child: const LandingHeroLoginForm(),
         ),
       ),
     );
@@ -606,9 +505,7 @@ class _MockField extends StatelessWidget {
           ).textTheme.bodySmall?.copyWith(color: const Color(0xFF9CA3AF)),
           filled: true,
           fillColor: Colors.white,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 14,
-          ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 14),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: const BorderSide(color: Color(0xFFD6DAF4)),
@@ -712,67 +609,67 @@ class _FeatureCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 384,
       height: 240,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFE6EAF6), width: 1),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x060F172A),
-            blurRadius: 20,
-            offset: Offset(0, 8),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 66,
-            height: 66,
-            decoration: BoxDecoration(
-              color: feature.color,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x40383737),
-                  offset: Offset(0, 13),
-                  blurRadius: 11.1,
-                  spreadRadius: 0,
+      child: HoverElevatedCard(
+        accentColor: feature.color,
+        borderRadius: 20,
+        idleBorderColor: const Color(0xFFE6EAF6),
+        idleBorderWidth: 1,
+        useSolidAccentBorderOnHover: true,
+        hoverBorderWidth: 1.2,
+        child: SizedBox.expand(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 66,
+                  height: 66,
+                  decoration: BoxDecoration(
+                    color: feature.color,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color(0x40383737),
+                        offset: Offset(0, 13),
+                        blurRadius: 11.1,
+                        spreadRadius: 0,
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(18),
+                    child: SvgPicture.asset(
+                      feature.iconAsset,
+                      colorFilter: const ColorFilter.mode(
+                        Colors.white,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 14),
+                Text(
+                  feature.title,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyLarge?.copyWith(color: AppConstants.textColor),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  feature.description,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: AppConstants.supportTextColor,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ],
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(18),
-              child: SvgPicture.asset(
-                feature.iconAsset,
-                colorFilter: const ColorFilter.mode(
-                  Colors.white,
-                  BlendMode.srcIn,
-                ),
-              ),
-            ),
           ),
-          const SizedBox(height: 14),
-          Text(
-            feature.title,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyLarge?.copyWith(color: AppConstants.textColor),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            feature.description,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppConstants.supportTextColor,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -960,7 +857,9 @@ class _SideNavItem extends StatelessWidget {
                   width: 24,
                   height: 24,
                   colorFilter: ColorFilter.mode(
-                    selected ? const Color(0xFF4F46E5) : const Color(0xFF64748B),
+                    selected
+                        ? const Color(0xFF4F46E5)
+                        : const Color(0xFF64748B),
                     BlendMode.srcIn,
                   ),
                 ),
@@ -1470,7 +1369,7 @@ class _LeadCard extends StatelessWidget {
     return Container(
       width: 689,
       height: 431,
-      padding: const EdgeInsets.only(top:32, left: 48, right: 48,bottom: 32),
+      padding: const EdgeInsets.only(top: 32, left: 48, right: 48, bottom: 32),
       decoration: BoxDecoration(
         color: const Color(0xFF16224A),
         borderRadius: BorderRadius.circular(50),
@@ -1625,11 +1524,7 @@ class _FooterSection extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              AppIcons.recripLogo,
-              height: 36,
-              fit: BoxFit.contain,
-            ),
+            Image.asset(AppIcons.recripLogo, height: 36, fit: BoxFit.contain),
             const SizedBox(height: 8),
             Text(
               'Most powerful subscription renewal management platform. Built for business that want to scale without losing revenue.',
@@ -1748,7 +1643,7 @@ class _QuestionCard extends StatelessWidget {
     return Container(
       width: 652,
       height: 413,
-      padding: const EdgeInsets.only(left: 24,right: 24,top: 24, bottom: 32),
+      padding: const EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 32),
       decoration: BoxDecoration(
         color: Color(0xFFF8FAFC),
         borderRadius: BorderRadius.circular(20),
@@ -1918,4 +1813,3 @@ class _Faq {
   final String question;
   final String answer;
 }
-
