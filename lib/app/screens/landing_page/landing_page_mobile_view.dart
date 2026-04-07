@@ -1,3 +1,5 @@
+import 'dart:ui' show ImageFilter;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:saas/app/screens/authentication/widgets/auth_widgets.dart';
@@ -360,18 +362,18 @@ class _MobileHeroLoginCard extends StatelessWidget {
             'Already with Us?',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w800,
-                  color: const Color(0xFF0F172A),
-                ),
+              fontWeight: FontWeight.w800,
+              color: const Color(0xFF0F172A),
+            ),
           ),
           const SizedBox(height: 4),
           Text(
             'Login',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w800,
-                  color: const Color(0xFF5C5BFF),
-                ),
+              fontWeight: FontWeight.w800,
+              color: const Color(0xFF5C5BFF),
+            ),
           ),
         ],
       ),
@@ -562,100 +564,273 @@ class _MobilePreviewSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 18),
-          SizedBox(
-            height: 48,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: _MobilePreviewTab.values.length,
-              separatorBuilder: (_, _) => const SizedBox(width: 10),
-              itemBuilder: (context, index) {
-                final tab = _MobilePreviewTab.values[index];
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF8FAFC),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: const Color(0xFFCBD5E1)),
+            ),
+            child: Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              children: _MobilePreviewTab.values.map((tab) {
                 final selected = tab == selectedTab;
-                return InkWell(
-                  onTap: () => onPreviewSelected(tab),
-                  borderRadius: BorderRadius.circular(14),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: selected
-                          ? const Color(0xFF4F46E5)
-                          : const Color(0xFFF8FAFC),
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(
+                return SizedBox(
+                  width:
+                      ((MediaQuery.sizeOf(context).width - (padding * 2) - 24) /
+                              2)
+                          .clamp(120.0, 220.0),
+                  child: InkWell(
+                    onTap: () => onPreviewSelected(tab),
+                    borderRadius: BorderRadius.circular(12),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 220),
+                      curve: Curves.easeOutCubic,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 10,
+                      ),
+                      decoration: BoxDecoration(
                         color: selected
                             ? const Color(0xFF4F46E5)
-                            : const Color(0xFFCBD5E1),
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                    ),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          _mobilePreviewIcon(tab),
-                          width: 16,
-                          height: 16,
-                          colorFilter: ColorFilter.mode(
-                            selected ? Colors.white : const Color(0xFF64748B),
-                            BlendMode.srcIn,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            _mobilePreviewIcon(tab),
+                            width: 15,
+                            height: 15,
+                            colorFilter: ColorFilter.mode(
+                              selected ? Colors.white : const Color(0xFF64748B),
+                              BlendMode.srcIn,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          _mobilePreviewLabel(tab),
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(
-                                color: selected
-                                    ? Colors.white
-                                    : const Color(0xFF334155),
-                                fontWeight: FontWeight.w700,
-                              ),
-                        ),
-                      ],
+                          const SizedBox(width: 7),
+                          Flexible(
+                            child: Text(
+                              _mobilePreviewLabel(tab),
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(
+                                    color: selected
+                                        ? Colors.white
+                                        : const Color(0xFF334155),
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );
-              },
+              }).toList(),
             ),
           ),
           const SizedBox(height: 18),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF5F4FF),
-              borderRadius: BorderRadius.circular(22),
-            ),
-            child: Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: const Color(0xFFE2E8F0)),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x140F172A),
-                    blurRadius: 22,
-                    offset: Offset(0, 12),
-                  ),
-                ],
-              ),
-              child: AspectRatio(
-                aspectRatio: 0.95,
-                child: Image.asset(
-                  _mobilePreviewImage(selectedTab),
-                  fit: BoxFit.cover,
-                  alignment: Alignment.topLeft,
-                ),
-              ),
-            ),
+          GestureDetector(
+            onHorizontalDragEnd: (details) {
+              const minSwipeVelocity = 140.0;
+              final velocity = details.primaryVelocity ?? 0;
+              if (velocity.abs() < minSwipeVelocity) return;
+              if (velocity < 0) {
+                onPreviewSelected(_nextMobilePreviewTab(selectedTab));
+              } else {
+                onPreviewSelected(_previousMobilePreviewTab(selectedTab));
+              }
+            },
+            child: _MobileDashboardMock(selectedTab: selectedTab),
           ),
         ],
       ),
     );
   }
+}
+
+_MobilePreviewTab _nextMobilePreviewTab(_MobilePreviewTab tab) {
+  final tabs = _MobilePreviewTab.values;
+  final current = tabs.indexOf(tab);
+  final next = (current + 1) % tabs.length;
+  return tabs[next];
+}
+
+_MobilePreviewTab _previousMobilePreviewTab(_MobilePreviewTab tab) {
+  final tabs = _MobilePreviewTab.values;
+  final current = tabs.indexOf(tab);
+  final previous = (current - 1 + tabs.length) % tabs.length;
+  return tabs[previous];
+}
+
+class _MobileDashboardMock extends StatelessWidget {
+  const _MobileDashboardMock({required this.selectedTab});
+
+  final _MobilePreviewTab selectedTab;
+  static const double _aspect = 392 / 792;
+  static const double _innerPadding = 8;
+
+  @override
+  Widget build(BuildContext context) {
+    // Keep all 4 tabs in the stack; selected tab stays on top/front.
+    final orderedCards = [
+      for (final tab in _MobilePreviewTab.values)
+        if (tab != selectedTab) tab,
+      selectedTab,
+    ];
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final w = constraints.maxWidth.isFinite && constraints.maxWidth > 0
+            ? constraints.maxWidth
+            : 360.0;
+        final h = w * _aspect;
+
+        return SizedBox(
+          width: w,
+          height: h,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(22),
+            child: ColoredBox(
+              color: const Color(0xFF0F1835),
+              child: Padding(
+                padding: const EdgeInsets.all(_innerPadding),
+                child: LayoutBuilder(
+                  builder: (context, inner) {
+                    final iw = inner.maxWidth;
+                    final ih = inner.maxHeight;
+                    return Stack(
+                      clipBehavior: Clip.hardEdge,
+                      fit: StackFit.expand,
+                      children: [
+                        for (
+                          var index = 0;
+                          index < orderedCards.length;
+                          index++
+                        )
+                          _MobilePreviewCard(
+                            key: ValueKey<_MobilePreviewTab>(
+                              orderedCards[index],
+                            ),
+                            tab: orderedCards[index],
+                            layerIndex: index,
+                            layerCount: orderedCards.length,
+                            isFront: orderedCards[index] == selectedTab,
+                            stackW: iw,
+                            stackH: ih,
+                          ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _MobilePreviewCard extends StatelessWidget {
+  const _MobilePreviewCard({
+    super.key,
+    required this.tab,
+    required this.layerIndex,
+    required this.layerCount,
+    required this.isFront,
+    required this.stackW,
+    required this.stackH,
+  });
+
+  final _MobilePreviewTab tab;
+  final int layerIndex;
+  final int layerCount;
+  final bool isFront;
+  final double stackW;
+  final double stackH;
+
+  @override
+  Widget build(BuildContext context) {
+    final w = stackW;
+    final h = stackH;
+
+    final cardW = (w * 0.60).clamp(0.0, 220.0);
+    final cardH = h * 0.88;
+    final top = (h - cardH) / 2;
+    final baseLeft = w * 0.04;
+    // Half-overlap rule: each next/lower card starts from half of the card above.
+    final stepOffset = cardW * 0.20;
+    final stepsFromFront = (layerCount - 1) - layerIndex;
+    final left = baseLeft + (stepOffset * stepsFromFront);
+    final depthScale = (1.0 - (0.04 * stepsFromFront)).clamp(0.84, 1.0);
+
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 420),
+      curve: Curves.easeInOutCubic,
+      left: left,
+      top: top,
+      width: cardW,
+      height: cardH,
+      child: AnimatedScale(
+        duration: const Duration(milliseconds: 420),
+        curve: Curves.easeInOutCubic,
+        scale: depthScale,
+        alignment: Alignment.center,
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 320),
+          curve: Curves.easeOutCubic,
+          opacity: isFront ? 1.0 : 0.92,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 320),
+            curve: Curves.easeOutCubic,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(
+                color: isFront ? const Color(0x150F172A) : Colors.transparent,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: isFront
+                      ? const Color(0x300F172A)
+                      : const Color(0x1A0F172A),
+                  blurRadius: isFront ? 24 : 16,
+                  offset: Offset(0, isFront ? 10 : 7),
+                ),
+              ],
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: _mobileStackPreviewImage(tab: tab, isFront: isFront),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _mobileStackPreviewImage({
+  required _MobilePreviewTab tab,
+  required bool isFront,
+}) {
+  final path = _mobilePreviewImage(tab);
+  Widget img = Image.asset(
+    path,
+    fit: BoxFit.contain,
+    alignment: Alignment.center,
+    filterQuality: isFront ? FilterQuality.high : FilterQuality.medium,
+    isAntiAlias: true,
+  );
+  if (!isFront) {
+    img = ImageFiltered(
+      imageFilter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+      child: img,
+    );
+  }
+  return img;
 }
 
 class _MobileStepSection extends StatelessWidget {

@@ -1,3 +1,5 @@
+import 'dart:ui' show ImageFilter;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:saas/app/screens/authentication/widgets/auth_widgets.dart';
@@ -112,19 +114,13 @@ class _LandingPageTabletViewState extends State<LandingPageTabletView> {
       backgroundColor: const Color(0xFFF5F7FF),
       body: Column(
         children: [
-          _TabletTopBar(
-            padding: padding,
-            onMenuTap: _openNavSheet,
-          ),
+          _TabletTopBar(padding: padding, onMenuTap: _openNavSheet),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   _TabletHeroSection(padding: padding),
-                  _TabletFeatureSection(
-                    key: _featuresKey,
-                    padding: padding,
-                  ),
+                  _TabletFeatureSection(key: _featuresKey, padding: padding),
                   _TabletPreviewSection(
                     key: _previewKey,
                     padding: padding,
@@ -222,16 +218,16 @@ class _TabletHeroSection extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            top: 406,
-            right: -80,
+            top: 388,
+            right: -60,
             child: Container(
-              width: 750,
-              height: 320,
+              width: 640,
+              height: 260,
               decoration: const BoxDecoration(
                 color: Color(0xFF111C3B),
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(120),
-                  bottomLeft: Radius.circular(120),
+                  topLeft: Radius.circular(100),
+                  bottomLeft: Radius.circular(100),
                 ),
               ),
             ),
@@ -562,88 +558,86 @@ class _TabletPreviewSection extends StatelessWidget {
           const SizedBox(height: 22),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Row(
-              children: _TabletPreviewTab.values.map((tab) {
-                final selected = selectedTab == tab;
-                return Padding(
-                  padding: const EdgeInsets.only(right: 12),
-                  child: InkWell(
-                    onTap: () => onPreviewSelected(tab),
-                    borderRadius: BorderRadius.circular(16),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 18,
-                        vertical: 14,
-                      ),
-                      decoration: BoxDecoration(
-                        color: selected
-                            ? const Color(0xFF4F46E5)
-                            : const Color(0xFFF8FAFC),
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
+            child: Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF8FAFC),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: const Color(0xFFCBD5E1)),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: _TabletPreviewTab.values.map((tab) {
+                  final selected = selectedTab == tab;
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 6),
+                    child: InkWell(
+                      onTap: () => onPreviewSelected(tab),
+                      borderRadius: BorderRadius.circular(12),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
                           color: selected
                               ? const Color(0xFF4F46E5)
-                              : const Color(0xFFCBD5E1),
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SvgPicture.asset(
+                              _previewIconFor(tab),
+                              width: 16,
+                              height: 16,
+                              colorFilter: ColorFilter.mode(
+                                selected
+                                    ? Colors.white
+                                    : const Color(0xFF64748B),
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              _previewLabelFor(tab),
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    fontSize: 13,
+                                    color: selected
+                                        ? Colors.white
+                                        : const Color(0xFF334155),
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                            ),
+                          ],
                         ),
                       ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            _previewIconFor(tab),
-                            width: 18,
-                            height: 18,
-                            colorFilter: ColorFilter.mode(
-                              selected ? Colors.white : const Color(0xFF64748B),
-                              BlendMode.srcIn,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            _previewLabelFor(tab),
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: selected
-                                  ? Colors.white
-                                  : const Color(0xFF334155),
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+                }).toList(),
+              ),
             ),
           ),
           const SizedBox(height: 24),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(18),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF5F4FF),
-              borderRadius: BorderRadius.circular(28),
-            ),
-            child: Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(22),
-                border: Border.all(color: const Color(0xFFE2E8F0)),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x190F172A),
-                    blurRadius: 28,
-                    offset: Offset(0, 14),
-                  ),
-                ],
-              ),
-              child: AspectRatio(
-                aspectRatio: 1.28,
-                child: Image.asset(
-                  _previewImageFor(selectedTab),
-                  fit: BoxFit.cover,
-                  alignment: Alignment.topLeft,
+          Center(
+            child: GestureDetector(
+              onHorizontalDragEnd: (details) {
+                const minSwipeVelocity = 140.0;
+                final velocity = details.primaryVelocity ?? 0;
+                if (velocity.abs() < minSwipeVelocity) return;
+                if (velocity < 0) {
+                  onPreviewSelected(_nextTabletPreviewTab(selectedTab));
+                } else {
+                  onPreviewSelected(_previousTabletPreviewTab(selectedTab));
+                }
+              },
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 760),
+                child: _TabletDashboardMock(
+                  selectedTab: _tabletPreviewTabForStack(selectedTab),
                 ),
               ),
             ),
@@ -652,6 +646,199 @@ class _TabletPreviewSection extends StatelessWidget {
       ),
     );
   }
+}
+
+_TabletPreviewTab _tabletPreviewTabForStack(_TabletPreviewTab tab) {
+  if (tab == _TabletPreviewTab.subscriptions) {
+    return _TabletPreviewTab.members;
+  }
+  return tab;
+}
+
+_TabletPreviewTab _nextTabletPreviewTab(_TabletPreviewTab tab) {
+  final tabs = _TabletPreviewTab.values;
+  final current = tabs.indexOf(tab);
+  final next = (current + 1) % tabs.length;
+  return tabs[next];
+}
+
+_TabletPreviewTab _previousTabletPreviewTab(_TabletPreviewTab tab) {
+  final tabs = _TabletPreviewTab.values;
+  final current = tabs.indexOf(tab);
+  final previous = (current - 1 + tabs.length) % tabs.length;
+  return tabs[previous];
+}
+
+class _TabletDashboardMock extends StatelessWidget {
+  const _TabletDashboardMock({required this.selectedTab});
+
+  final _TabletPreviewTab selectedTab;
+
+  /// Tablet mock is smaller than web, but same styling.
+  static const double _aspect = 392 / 792;
+  static const double _innerPadding = 10;
+
+  @override
+  Widget build(BuildContext context) {
+    // Keep all 4 preview images in the stack; selected tab is always front.
+    final orderedCards = [
+      for (final tab in _TabletPreviewTab.values)
+        if (tab != selectedTab) tab,
+      selectedTab,
+    ];
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final w = constraints.maxWidth.isFinite && constraints.maxWidth > 0
+            ? constraints.maxWidth
+            : 760.0;
+        final aspectH = w * _aspect;
+        final maxH = constraints.maxHeight;
+        final h = maxH.isFinite && maxH > 0
+            ? aspectH.clamp(0.0, maxH)
+            : aspectH;
+
+        return SizedBox(
+          width: w,
+          height: h,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(26),
+            child: ColoredBox(
+              color: const Color(0xFF0F1835),
+              child: Padding(
+                padding: const EdgeInsets.all(_innerPadding),
+                child: LayoutBuilder(
+                  builder: (context, inner) {
+                    final iw = inner.maxWidth;
+                    final ih = inner.maxHeight;
+                    return Stack(
+                      clipBehavior: Clip.hardEdge,
+                      fit: StackFit.expand,
+                      children: [
+                        for (
+                          var index = 0;
+                          index < orderedCards.length;
+                          index++
+                        )
+                          _TabletPreviewCard(
+                            key: ValueKey<_TabletPreviewTab>(orderedCards[index]),
+                            tab: orderedCards[index],
+                            layerIndex: index,
+                            layerCount: orderedCards.length,
+                            isFront: orderedCards[index] == selectedTab,
+                            stackW: iw,
+                            stackH: ih,
+                          ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _TabletPreviewCard extends StatelessWidget {
+  const _TabletPreviewCard({
+    super.key,
+    required this.tab,
+    required this.layerIndex,
+    required this.layerCount,
+    required this.isFront,
+    required this.stackW,
+    required this.stackH,
+  });
+
+  final _TabletPreviewTab tab;
+  final int layerIndex;
+  final int layerCount;
+  final bool isFront;
+  final double stackW;
+  final double stackH;
+
+  @override
+  Widget build(BuildContext context) {
+    final w = stackW;
+    final h = stackH;
+
+    // Tablet needs a slightly smaller "front" card so the stacked layers are
+    // clearly visible (same look as web, but scaled down).
+    final cardW = (w * 0.68).clamp(0.0, 520.0);
+    final cardH = h * 0.88;
+    final top = (h - cardH) / 2;
+    final baseLeft = w * 0.04;
+    final stepOffset = w * 0.10;
+    final stepsFromFront = (layerCount - 1) - layerIndex;
+    final left = baseLeft + (stepOffset * stepsFromFront);
+    final depthScale = (1.0 - (0.04 * stepsFromFront)).clamp(0.84, 1.0);
+
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 420),
+      curve: Curves.easeInOutCubic,
+      left: left,
+      top: top,
+      width: cardW,
+      height: cardH,
+      child: AnimatedScale(
+        duration: const Duration(milliseconds: 420),
+        curve: Curves.easeInOutCubic,
+        scale: depthScale,
+        alignment: Alignment.center,
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 320),
+          curve: Curves.easeOutCubic,
+          opacity: isFront ? 1.0 : 0.92,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 320),
+            curve: Curves.easeOutCubic,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(
+                color: isFront ? const Color(0x150F172A) : Colors.transparent,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: isFront
+                      ? const Color(0x300F172A)
+                      : const Color(0x1A0F172A),
+                  blurRadius: isFront ? 28 : 18,
+                  offset: Offset(0, isFront ? 12 : 8),
+                ),
+              ],
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: _tabletStackPreviewImage(tab: tab, isFront: isFront),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _tabletStackPreviewImage({
+  required _TabletPreviewTab tab,
+  required bool isFront,
+}) {
+  final path = _previewImageFor(tab);
+  Widget img = Image.asset(
+    path,
+    fit: BoxFit.cover,
+    alignment: Alignment.topLeft,
+    filterQuality: isFront ? FilterQuality.high : FilterQuality.medium,
+    isAntiAlias: true,
+  );
+  if (!isFront) {
+    img = ImageFiltered(
+      imageFilter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+      child: img,
+    );
+  }
+  return img;
 }
 
 class _TabletStepSection extends StatelessWidget {
@@ -1127,9 +1314,9 @@ class _TabletInputField extends StatelessWidget {
         textAlignVertical: TextAlignVertical.top,
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: const Color(0xFF9CA3AF),
-          ),
+          hintStyle: Theme.of(
+            context,
+          ).textTheme.bodySmall?.copyWith(color: const Color(0xFF9CA3AF)),
           filled: true,
           fillColor: Colors.white,
           contentPadding: EdgeInsets.fromLTRB(

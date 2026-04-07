@@ -1,3 +1,5 @@
+import 'dart:ui' show ImageFilter;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -940,8 +942,10 @@ class _DashboardMock extends StatelessWidget {
                           index++
                         )
                           _PreviewCard(
+                            key: ValueKey<_PreviewTab>(orderedCards[index]),
                             tab: orderedCards[index],
                             layerIndex: index,
+                            layerCount: orderedCards.length,
                             isFront: orderedCards[index] == selectedTab,
                             stackW: iw,
                             stackH: ih,
@@ -961,8 +965,10 @@ class _DashboardMock extends StatelessWidget {
 
 class _PreviewCard extends StatelessWidget {
   const _PreviewCard({
+    super.key,
     required this.tab,
     required this.layerIndex,
+    required this.layerCount,
     required this.isFront,
     required this.stackW,
     required this.stackH,
@@ -970,6 +976,8 @@ class _PreviewCard extends StatelessWidget {
 
   final _PreviewTab tab;
   final int layerIndex;
+  /// Total cards in the stack ([_PreviewTab] count — always > 0).
+  final int layerCount;
   final bool isFront;
   final double stackW;
   final double stackH;
@@ -980,47 +988,53 @@ class _PreviewCard extends StatelessWidget {
     final h = stackH;
 
     // Same-size cards, stacked like physical paper: front is leftmost & on top;
-    // middle & back shift right so their right edges peek out (reference UI).
+    // cards behind shift right so their right edges peek out (reference UI).
     final cardW = (w - (w * 0.012) - 8).clamp(0.0, 766.0);
     final cardH = h * 0.91;
     final top = (h - cardH) / 2;
     final baseLeft = w * 0.012;
-    final staggerMid = w * 0.12;
     final staggerBack = w * 0.24;
 
+    // Support any layer count (4 tabs → 4 cards). Previously only 0..2 were
+    // handled, so layer 3 (the selected screen) vanished and a blurred card
+    // was drawn on top instead.
     final double left;
     final double depthScale;
-    switch (layerIndex) {
-      case 0:
-        left = baseLeft + staggerBack;
-        depthScale = 0.87;
-      case 1:
-        left = baseLeft + staggerMid;
-        depthScale = 0.93;
-      case 2:
-        left = baseLeft;
-        depthScale = 1.0;
-      default:
-        return const SizedBox.shrink();
+    if (layerCount <= 1) {
+      left = baseLeft;
+      depthScale = 1.0;
+    } else {
+      final t = layerIndex / (layerCount - 1); // 0 = farthest back, 1 = front
+      left = baseLeft + staggerBack * (1 - t);
+      depthScale = 0.87 + 0.13 * t;
     }
 
-    return Positioned(
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 420),
+      curve: Curves.easeInOutCubic,
       left: left,
       top: top,
       width: cardW,
       height: cardH,
-      child: Transform.scale(
+      child: AnimatedScale(
+        duration: const Duration(milliseconds: 420),
+        curve: Curves.easeInOutCubic,
         scale: depthScale,
         alignment: Alignment.center,
-        child: _previewCardBody(context),
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 320),
+          curve: Curves.easeOutCubic,
+          opacity: isFront ? 1.0 : 0.92,
+          child: _previewCardBody(context),
+        ),
       ),
     );
   }
 
   Widget _previewCardBody(BuildContext context) {
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 220),
-      curve: Curves.easeOut,
+      duration: const Duration(milliseconds: 320),
+      curve: Curves.easeOutCubic,
       width: double.infinity,
       height: double.infinity,
       decoration: BoxDecoration(
@@ -1038,13 +1052,28 @@ class _PreviewCard extends StatelessWidget {
         ],
       ),
       clipBehavior: Clip.antiAlias,
-      child: Image.asset(
-        _previewImageFor(tab),
-        fit: BoxFit.cover,
-        alignment: Alignment.topLeft,
-      ),
+      child: _stackPreviewImage(tab: tab, isFront: isFront),
     );
   }
+}
+
+/// Foreground card stays sharp; cards behind use a light blur (depth is from [Transform.scale] on the card).
+Widget _stackPreviewImage({required _PreviewTab tab, required bool isFront}) {
+  final path = _previewImageFor(tab);
+  Widget img = Image.asset(
+    path,
+    fit: BoxFit.cover,
+    alignment: Alignment.topLeft,
+    filterQuality: isFront ? FilterQuality.high : FilterQuality.medium,
+    isAntiAlias: true,
+  );
+  if (!isFront) {
+    img = ImageFiltered(
+      imageFilter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+      child: img,
+    );
+  }
+  return img;
 }
 
 String _previewImageFor(_PreviewTab tab) {
