@@ -24,6 +24,7 @@
   <meta property="og:url" content="https://recrip.com/">
   <meta property="og:title" content="Recrip – Memberships, renewals & reminders">
   <meta property="og:description" content="Manage members, plans, renewals, and reminders in one dashboard. Built for subscription teams.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -33,11 +34,46 @@
 
   <!-- Tab / PWA icon: sync with assets/images/recrip-icon.png -->
   <link rel="icon" type="image/png" href="recrip-icon.png"/>
+  <link rel="preload" as="image" href="assets/images/recrip.png" type="image/png" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/images/Dashboard.webp" type="image/webp">
+  <link rel="preload" as="image" href="assets/images/Members.webp" type="image/webp">
+  <link rel="preload" as="image" href="assets/images/Renewals.webp" type="image/webp">
 
   <title>Recrip – Memberships, renewals & reminders</title>
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #f5f7ff;
+      height: 100%;
+    }
+    #boot {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      color: #334155;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+    #boot .dot {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      border: 3px solid #cbd5e1;
+      border-top-color: #4f46e5;
+      animation: spin 0.9s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+  <div id="boot">
+    <div class="dot"></div>
+    <div>Loading Recrip...</div>
+  </div>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

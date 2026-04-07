@@ -53,3 +53,26 @@ Example: if your username is `vishal` and the repo is `saas`, open:
   App: `https://username.github.io/saas/` → shows your Flutter app (with trailing slash).
 
 - **Wait 1–2 minutes** after the workflow succeeds; then refresh the app URL.
+
+---
+
+## Fast Production Web Build
+
+Use this command for the fastest production web output:
+
+```bash
+flutter build web \
+  --release \
+  --base-href "/" \
+  --web-renderer html \
+  --pwa-strategy=offline-first \
+  --optimization-level=4 \
+  --no-source-maps \
+  --no-wasm-dry-run \
+  --dart-define=ENVIRONMENT=production
+```
+
+Notes:
+- We ship optimized `*.webp` landing preview images.
+- Critical landing images are preloaded and pre-cached in app startup.
+- `web/_headers` is included in CI build output for hosts that support static header rules.

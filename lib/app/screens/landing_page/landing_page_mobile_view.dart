@@ -23,6 +23,17 @@ class _LandingPageMobileViewState extends State<LandingPageMobileView> {
   _MobileNavTab _activeNavTab = _MobileNavTab.features;
   _MobilePreviewTab _selectedPreviewTab = _MobilePreviewTab.dashboard;
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      for (final imagePath in _mobileCriticalImages) {
+        precacheImage(AssetImage(imagePath), context);
+      }
+    });
+  }
+
   Future<void> _scrollTo(GlobalKey key) async {
     final targetContext = key.currentContext;
     if (targetContext == null) return;
@@ -308,31 +319,6 @@ class _MobileHeroSection extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _HeroMetric extends StatelessWidget {
-  const _HeroMetric({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: const Color(0xFFDCE3F3)),
-      ),
-      child: Text(
-        label,
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-          color: const Color(0xFF475569),
-          fontWeight: FontWeight.w700,
-        ),
       ),
     );
   }
@@ -644,7 +630,9 @@ class _MobilePreviewSection extends StatelessWidget {
                 onPreviewSelected(_previousMobilePreviewTab(selectedTab));
               }
             },
-            child: _MobileDashboardMock(selectedTab: selectedTab),
+            child: RepaintBoundary(
+              child: _MobileDashboardMock(selectedTab: selectedTab),
+            ),
           ),
         ],
       ),
@@ -763,7 +751,7 @@ class _MobilePreviewCard extends StatelessWidget {
     final top = (h - cardH) / 2;
     final baseLeft = w * 0.04;
     // Half-overlap rule: each next/lower card starts from half of the card above.
-    final stepOffset = cardW * 0.20;
+    final stepOffset = cardW * 0.50;
     final stepsFromFront = (layerCount - 1) - layerIndex;
     final left = baseLeft + (stepOffset * stepsFromFront);
     final depthScale = (1.0 - (0.04 * stepsFromFront)).clamp(0.84, 1.0);
@@ -821,6 +809,7 @@ Widget _mobileStackPreviewImage({
     path,
     fit: BoxFit.contain,
     alignment: Alignment.center,
+    cacheWidth: isFront ? 760 : 560,
     filterQuality: isFront ? FilterQuality.high : FilterQuality.medium,
     isAntiAlias: true,
   );
@@ -832,6 +821,13 @@ Widget _mobileStackPreviewImage({
   }
   return img;
 }
+
+const _mobileCriticalImages = <String>[
+  AppIcons.recripLogo,
+  'assets/images/Dashboard.webp',
+  'assets/images/Members.webp',
+  'assets/images/Renewals.webp',
+];
 
 class _MobileStepSection extends StatelessWidget {
   const _MobileStepSection({required this.padding});
@@ -1437,13 +1433,13 @@ class _MobileFooterSection extends StatelessWidget {
 String _mobilePreviewImage(_MobilePreviewTab tab) {
   switch (tab) {
     case _MobilePreviewTab.dashboard:
-      return 'assets/images/Dashboard.png';
+      return 'assets/images/Dashboard.webp';
     case _MobilePreviewTab.members:
-      return 'assets/images/Members.png';
+      return 'assets/images/Members.webp';
     case _MobilePreviewTab.subscriptions:
-      return 'assets/images/Members.png';
+      return 'assets/images/Members.webp';
     case _MobilePreviewTab.renewals:
-      return 'assets/images/Renewals.png';
+      return 'assets/images/Renewals.webp';
   }
 }
 

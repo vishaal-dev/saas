@@ -23,6 +23,17 @@ class _LandingPageTabletViewState extends State<LandingPageTabletView> {
   _TabletNavTab _activeNavTab = _TabletNavTab.features;
   _TabletPreviewTab _selectedPreviewTab = _TabletPreviewTab.dashboard;
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      for (final imagePath in _tabletCriticalImages) {
+        precacheImage(AssetImage(imagePath), context);
+      }
+    });
+  }
+
   Future<void> _scrollTo(GlobalKey key) async {
     final context = key.currentContext;
     if (context == null) return;
@@ -636,8 +647,10 @@ class _TabletPreviewSection extends StatelessWidget {
               },
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 760),
-                child: _TabletDashboardMock(
-                  selectedTab: _tabletPreviewTabForStack(selectedTab),
+                child: RepaintBoundary(
+                  child: _TabletDashboardMock(
+                    selectedTab: _tabletPreviewTabForStack(selectedTab),
+                  ),
                 ),
               ),
             ),
@@ -829,6 +842,7 @@ Widget _tabletStackPreviewImage({
     path,
     fit: BoxFit.cover,
     alignment: Alignment.topLeft,
+    cacheWidth: isFront ? 1100 : 820,
     filterQuality: isFront ? FilterQuality.high : FilterQuality.medium,
     isAntiAlias: true,
   );
@@ -840,6 +854,13 @@ Widget _tabletStackPreviewImage({
   }
   return img;
 }
+
+const _tabletCriticalImages = <String>[
+  AppIcons.recripLogo,
+  'assets/images/Dashboard.webp',
+  'assets/images/Members.webp',
+  'assets/images/Renewals.webp',
+];
 
 class _TabletStepSection extends StatelessWidget {
   const _TabletStepSection({required this.padding});
@@ -1456,13 +1477,13 @@ class _TabletFooterSection extends StatelessWidget {
 String _previewImageFor(_TabletPreviewTab tab) {
   switch (tab) {
     case _TabletPreviewTab.dashboard:
-      return 'assets/images/Dashboard.png';
+      return 'assets/images/Dashboard.webp';
     case _TabletPreviewTab.members:
-      return 'assets/images/Members.png';
+      return 'assets/images/Members.webp';
     case _TabletPreviewTab.subscriptions:
-      return 'assets/images/Members.png';
+      return 'assets/images/Members.webp';
     case _TabletPreviewTab.renewals:
-      return 'assets/images/Renewals.png';
+      return 'assets/images/Renewals.webp';
   }
 }
 

@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:saas/shared/themes/design.dart';
@@ -158,24 +160,32 @@ class _MyAppState extends State<MyApp> {
 Future<bool> checkNetworkAndServices() async {
   try {
     // Initialize the application.
-    await initializeApp();
+    await initializeApp().timeout(const Duration(seconds: 8));
     // Check if network is connected
     final networkChecker = Get.find<NetworkChecker>();
-    await networkChecker.getConnectionStatus();
+    await networkChecker
+        .getConnectionStatus()
+        .timeout(
+          const Duration(seconds: 2),
+          onTimeout: () => <ConnectivityResult>[],
+        );
 
-    if (!networkChecker.isConnected.value) {
-      print("No internet connection");
+    if (!networkChecker.isConnected.value && !kIsWeb) {
+      log("No internet connection");
       //TODO show toast
       return false;
     }
     // Check if AppSettingsController is initialized
     final appSettingsController = Get.find<AppSettingsController>();
     await appSettingsController
-        .initializeSettings(); // Initialize your AppSettingsController
+        .initializeSettings()
+        .timeout(const Duration(seconds: 5), onTimeout: () {});
 
-    return networkChecker.isConnected.value;
+    return kIsWeb ? true : networkChecker.isConnected.value;
   } catch (e) {
     log('Error during initialization: $e');
+    // Keep web startup resilient to transient boot-time failures.
+    if (kIsWeb) return true;
     return false;
   }
 }

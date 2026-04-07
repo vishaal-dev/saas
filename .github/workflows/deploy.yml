@@ -81,10 +81,21 @@ jobs:
         flutter build web \
           --release \
           --base-href "/" \
+          --web-renderer html \
+          --pwa-strategy=offline-first \
           --optimization-level=4 \
           --no-source-maps \
           --no-wasm-dry-run \
           --dart-define=ENVIRONMENT=production
+
+    - name: 🧩 Include optional hosting headers config
+      run: |
+        if [ -f "web/_headers" ]; then
+          cp web/_headers build/web/_headers
+          echo "Copied web/_headers into build output"
+        else
+          echo "No web/_headers file found, skipping"
+        fi
           
     - name: 📊 Analyze build output
       run: |

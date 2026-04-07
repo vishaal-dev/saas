@@ -34,6 +34,12 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {
     super.initState();
     LoginController.registerHeroIfNeeded();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      for (final imagePath in _landingCriticalImages) {
+        precacheImage(AssetImage(imagePath), context);
+      }
+    });
   }
 
   @override
@@ -578,11 +584,6 @@ class _FeatureSection extends StatelessWidget {
           const SizedBox(height: 30),
           LayoutBuilder(
             builder: (context, constraints) {
-              final count = constraints.maxWidth > 980
-                  ? 3
-                  : constraints.maxWidth > 640
-                  ? 2
-                  : 1;
               return Wrap(
                 spacing: 18,
                 runSpacing: 18,
@@ -797,8 +798,8 @@ class _TeamSectionState extends State<_TeamSection> {
               ],
             ),
           );
-          final rightChild = _DashboardMock(
-            selectedTab: _previewTabForStack(_selectedTab),
+          final rightChild = RepaintBoundary(
+            child: _DashboardMock(selectedTab: _previewTabForStack(_selectedTab)),
           );
           // Do not use CrossAxisAlignment.stretch here: this Row lives in a
           // scrollable Column with unbounded height; stretch + Expanded yields
@@ -1064,6 +1065,7 @@ Widget _stackPreviewImage({required _PreviewTab tab, required bool isFront}) {
     path,
     fit: BoxFit.cover,
     alignment: Alignment.topLeft,
+    cacheWidth: isFront ? 1500 : 1100,
     filterQuality: isFront ? FilterQuality.high : FilterQuality.medium,
     isAntiAlias: true,
   );
@@ -1076,53 +1078,23 @@ Widget _stackPreviewImage({required _PreviewTab tab, required bool isFront}) {
   return img;
 }
 
+const _landingCriticalImages = <String>[
+  AppIcons.recripLogo,
+  'assets/images/Dashboard.webp',
+  'assets/images/Members.webp',
+  'assets/images/Renewals.webp',
+];
+
 String _previewImageFor(_PreviewTab tab) {
   switch (tab) {
     case _PreviewTab.dashboard:
-      return 'assets/images/Dashboard.png';
+      return 'assets/images/Dashboard.webp';
     case _PreviewTab.members:
-      return 'assets/images/Members.png';
+      return 'assets/images/Members.webp';
     case _PreviewTab.subscriptions:
-      return 'assets/images/Members.png';
+      return 'assets/images/Members.webp';
     case _PreviewTab.renewals:
-      return 'assets/images/Renewals.png';
-  }
-}
-
-class _StatChip extends StatelessWidget {
-  const _StatChip(this.label, this.value, this.color);
-
-  final String label;
-  final String value;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w900,
-              color: Color(0xFF111827),
-            ),
-          ),
-        ],
-      ),
-    );
+      return 'assets/images/Renewals.webp';
   }
 }
 
