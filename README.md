@@ -64,11 +64,9 @@ Use this command for the fastest production web output:
 flutter build web \
   --release \
   --base-href "/" \
-  --web-renderer html \
   --pwa-strategy=offline-first \
   --optimization-level=4 \
   --no-source-maps \
-  --no-wasm-dry-run \
   --dart-define=ENVIRONMENT=production
 ```
 
@@ -76,3 +74,19 @@ Notes:
 - We ship optimized `*.webp` landing preview images.
 - Critical landing images are preloaded and pre-cached in app startup.
 - `web/_headers` is included in CI build output for hosts that support static header rules.
+
+---
+
+## Deploying on Railway
+
+Railway auto-detection (Railpack) does not recognize Flutter web projects directly.
+This repo now includes:
+
+- `Dockerfile` (build Flutter web in a build stage)
+- `Caddyfile` (serve SPA + cache headers + compression)
+- `railway.toml` (forces Dockerfile builder)
+
+To deploy:
+- Push to `main`
+- In Railway service settings, use repo root as the source
+- Keep default port behavior (Caddy uses Railway `PORT` automatically)
